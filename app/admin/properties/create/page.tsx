@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -65,7 +66,7 @@ export default function AddPropertyWizardPage() {
           const data = await res.json();
           newUrls.push(data.url);
         } else {
-          alert(`Failed to upload ${file.name}. Please try again.`);
+          toast.error(`Failed to upload ${file.name}. Please try again.`);
         }
       }
       if (newUrls.length > 0) {
@@ -73,7 +74,7 @@ export default function AddPropertyWizardPage() {
       }
     } catch (err) {
       console.error(err);
-      alert('Error uploading image.');
+      toast.error('Error uploading image.');
     } finally {
       setUploading(false);
     }
@@ -115,15 +116,15 @@ export default function AddPropertyWizardPage() {
       });
 
       if (res.ok) {
-        alert('Property created successfully!');
+        toast.success('Property created successfully!');
         router.push('/admin/dashboard');
       } else {
         const data = await res.json();
-        alert(data.error || 'Failed to create property.');
+        toast.error(data.error || 'Failed to create property.');
       }
     } catch (err) {
       console.error(err);
-      alert('Error creating property.');
+      toast.error('Error creating property.');
     } finally {
       setSaving(false);
     }

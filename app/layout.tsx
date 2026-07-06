@@ -23,6 +23,8 @@ export const metadata: Metadata = {
   description: "Discover and book unique farmhouses across India.",
 };
 
+import { Toaster } from 'react-hot-toast';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -46,6 +48,7 @@ export default function RootLayout({
             {children}
           </div>
           <Footer />
+          <Toaster position="bottom-right" />
         </Providers>
       </body>
     </html>

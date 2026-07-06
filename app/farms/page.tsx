@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
@@ -98,7 +99,7 @@ function StaysList() {
     e.preventDefault();
     e.stopPropagation();
     if (!session?.user) {
-      alert('Please sign in to save farmhouses to your favorites.');
+      toast.error('Please sign in to save farmhouses to your favorites.');
       router.push('/login');
       return;
     }
@@ -114,11 +115,11 @@ function StaysList() {
         setFavorites(data.favorites);
       } else {
         const errorData = await res.json();
-        alert(errorData.error || 'Failed to toggle favorite.');
+        toast.error(errorData.error || 'Failed to toggle favorite.');
       }
     } catch (err) {
       console.error('Error toggling favorite:', err);
-      alert('Failed to update favorites.');
+      toast.error('Failed to update favorites.');
     }
   };
 

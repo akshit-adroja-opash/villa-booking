@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
@@ -281,28 +282,28 @@ export default function FarmDetailPage() {
 
   const handleBooking = async () => {
     if (!session?.user) {
-      alert('Please sign in to complete your booking.');
+      toast.error('Please sign in to complete your booking.');
       router.push('/login');
       return;
     }
 
     if (!startDate || !endDate) {
-      alert('Please select check-in and checkout dates.');
+      toast.error('Please select check-in and checkout dates.');
       return;
     }
 
     if (guestSelection === 0) {
-      alert('Please select the number of guests.');
+      toast.error('Please select the number of guests.');
       return;
     }
 
     if (isInvalidDates) {
-      alert('Checkout date must be after check-in date.');
+      toast.error('Checkout date must be after check-in date.');
       return;
     }
 
     if (hasConflict) {
-      alert('This farmhouse is already booked for the selected dates. Please choose different dates.');
+      toast.error('This farmhouse is already booked for the selected dates. Please choose different dates.');
       return;
     }
 
@@ -356,15 +357,15 @@ export default function FarmDetailPage() {
       });
 
       if (res.ok) {
-        alert('Booking Confirmed Successfully!');
+        toast.success('Booking Confirmed Successfully!');
         router.push('/dashboard/bookings');
       } else {
         const errorData = await res.json();
-        alert(errorData.error || 'Failed to place booking.');
+        toast.error(errorData.error || 'Failed to place booking.');
       }
     } catch (err) {
       console.error(err);
-      alert('Error confirming booking.');
+      toast.error('Error confirming booking.');
     } finally {
       setBookingLoading(false);
     }

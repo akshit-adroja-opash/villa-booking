@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 
 import React, { useState, useEffect } from 'react';
 import { 
@@ -90,7 +91,7 @@ export default function UserManagementPage() {
       });
 
       if (registerRes.ok) {
-        alert('User created successfully!');
+        toast.success('User created successfully!');
         setShowModal(false);
         setNewUserName('');
         setNewUserEmail('');
@@ -99,18 +100,18 @@ export default function UserManagementPage() {
         fetchUsers();
       } else {
         const errData = await registerRes.json();
-        alert(errData.error || 'Failed to register user.');
+        toast.error(errData.error || 'Failed to register user.');
       }
     } catch (err) {
       console.error('Error creating user:', err);
-      alert('Error connecting to registration API.');
+      toast.error('Error connecting to registration API.');
     }
   };
 
   const handleDeleteUser = async (id: string) => {
     if (id.startsWith('mock-')) {
       setUsers(users.filter(u => u._id !== id));
-      alert('Mock user removed successfully!');
+      toast.success('Mock user removed successfully!');
       return;
     }
 
@@ -124,10 +125,10 @@ export default function UserManagementPage() {
       });
 
       if (res.ok) {
-        alert('User deleted successfully!');
+        toast.success('User deleted successfully!');
         fetchUsers();
       } else {
-        alert('Failed to delete user.');
+        toast.error('Failed to delete user.');
       }
     } catch (err) {
       console.error('Error deleting user:', err);

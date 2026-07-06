@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
@@ -143,7 +144,7 @@ export default function BookingsDashboardPage() {
 
     const printWindow = window.open('', '_blank');
     if (!printWindow) {
-      alert('Please allow popups to download your receipt.');
+      toast.error('Please allow popups to download your receipt.');
       return;
     }
 

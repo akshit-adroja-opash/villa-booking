@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
@@ -100,14 +101,14 @@ export default function SettingsPage() {
             image: updated.image || image
           });
         }
-        alert('Profile changes saved successfully!');
+        toast.success('Profile changes saved successfully!');
       } else {
         const errData = await res.json();
-        alert(errData.error || 'Failed to save changes.');
+        toast.error(errData.error || 'Failed to save changes.');
       }
     } catch (err) {
       console.error(err);
-      alert('Error connecting to database to save profile.');
+      toast.error('Error connecting to database to save profile.');
     } finally {
       setSaving(false);
     }
@@ -147,13 +148,13 @@ export default function SettingsPage() {
             image: data.url
           });
         }
-        alert('Profile picture updated successfully!');
+        toast.success('Profile picture updated successfully!');
       } else {
-        alert('Failed to update profile picture URL in database.');
+        toast.error('Failed to update profile picture URL in database.');
       }
     } catch (err) {
       console.error(err);
-      alert('Error uploading image.');
+      toast.error('Error uploading image.');
     } finally {
       setSaving(false);
     }

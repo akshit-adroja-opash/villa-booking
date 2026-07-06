@@ -1,4 +1,5 @@
 'use client';
+import toast from 'react-hot-toast';
 
 import React from 'react';
 import Link from 'next/link';
@@ -24,7 +25,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   React.useEffect(() => {
     if (status === 'loading') return;
     if (!session || adminUser?.role !== 'admin') {
-      alert('Access Denied: Admins Only');
+      toast.error('Access Denied: Admins Only');
       router.push('/');
     }
   }, [adminUser?.role, session, status, router]);
