@@ -35,10 +35,6 @@ function StaysList() {
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState<string[]>([]);
 
-  const [farms, setFarms] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [favorites, setFavorites] = useState<string[]>([]);
-
 
   useEffect(() => {
     async function fetchFarms() {
