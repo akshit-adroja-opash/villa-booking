@@ -180,59 +180,60 @@ export default function AdminPropertiesPage() {
           />
         </div>
 
-        {/* Listings Cards Grid */}
-        <section className="grid gap-6 lg:grid-cols-2">
+        {/* Listings List Layout */}
+        <section className="flex flex-col gap-6">
           {filteredFarms.map((farm) => (
-            <article key={farm._id} className="overflow-hidden rounded-2xl border border-[#bfc9c3]/20 bg-white shadow-sm shadow-[#064e3b]/3 hover:shadow-md transition-shadow">
-              <div className="grid sm:grid-cols-[220px_1fr]">
-                <div className="aspect-[4/3] bg-gray-100 sm:aspect-auto">
-                  {farm.images?.[0] ? (
-                    <img src={farm.images[0]} alt={farm.title} className="h-full w-full object-cover" />
-                  ) : (
-                    <div className="flex h-full min-h-44 items-center justify-center text-gray-400">
-                      <Home className="h-8 w-8" />
-                    </div>
-                  )}
-                </div>
-                <div className="flex flex-col gap-4 p-6">
-                  <div>
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="inline-block px-2.5 py-0.5 text-[10px] font-bold bg-[#e6f4ea] text-[#0f766e] border border-[#a7f3d0]/30 rounded-full lowercase">
-                        {farm.category || 'Farmhouse'}
-                      </span>
-                    </div>
-                    <h3 className="mt-3 font-serif text-xl font-bold text-[#1a1b22]">{farm.title}</h3>
-                    <p className="mt-1 flex items-center gap-1 text-xs font-bold text-gray-400 uppercase tracking-wide">
-                      <MapPin className="h-3.5 w-3.5 text-gray-400" />
-                      {farm.location || 'Location unavailable'}
-                    </p>
+            <article key={farm._id} className="flex flex-col sm:flex-row items-center gap-6 py-4 border-b border-gray-100 last:border-0">
+              {/* Image */}
+              <div className="shrink-0 w-full sm:w-64 h-40 rounded-2xl overflow-hidden bg-gray-100">
+                {farm.images?.[0] ? (
+                  <img src={farm.images[0]} alt={farm.title} className="h-full w-full object-cover" />
+                ) : (
+                  <div className="flex h-full items-center justify-center text-gray-400">
+                    <Home className="h-8 w-8" />
                   </div>
-
-                  <div className="grid grid-cols-3 gap-2 text-[11px] font-bold text-gray-500">
-                    <span className="flex items-center justify-center gap-1 rounded-xl bg-gray-50 px-2 py-2">
-                      <Users className="h-4 w-4 text-gray-400" />
+                )}
+              </div>
+              
+              {/* Content */}
+              <div className="flex flex-1 flex-col sm:flex-row sm:items-center justify-between w-full">
+                
+                <div className="flex flex-col gap-2">
+                  <h3 className="font-serif text-xl font-bold text-[#1a1b22]">{farm.title}</h3>
+                  <p className="text-sm font-medium text-gray-500">{farm.location || 'Location unavailable'}</p>
+                  
+                  <div className="flex items-center gap-4 text-sm font-medium text-gray-500 mt-1">
+                    <span className="flex items-center gap-1.5">
+                      <Users className="h-4 w-4" />
                       {farm.guests || 0} guests
                     </span>
-                    <span className="flex items-center justify-center gap-1 rounded-xl bg-gray-50 px-2 py-2">
-                      <Home className="h-4 w-4 text-gray-400" />
+                    <span className="flex items-center gap-1.5">
+                      <BedDouble className="h-4 w-4" />
                       {farm.bedrooms || 0} beds
                     </span>
-                    <span className="flex items-center justify-center gap-1 rounded-xl bg-gray-50 px-2 py-2">
-                      <Bath className="h-4 w-4 text-gray-400" />
-                      {farm.baths || 0} baths
+                  </div>
+                  
+                  <div className="flex items-center gap-4 mt-3">
+                    <p className="text-lg font-bold text-[#1a1b22]">
+                      ₹{(farm.pricePerNight || 0).toLocaleString('en-IN')}
+                    </p>
+                    <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#e6f4ea] text-[#0f766e] text-xs font-bold">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#0f766e]"></span>
+                      Active
                     </span>
                   </div>
-
-                  <div className="mt-auto flex items-center justify-between gap-4 pt-2">
-                    <p className="font-serif text-lg font-bold text-[#003527]">
-                      ₹{(farm.pricePerNight || 0).toLocaleString('en-IN')}
-                      <span className="font-sans text-xs font-semibold text-gray-400"> / night</span>
-                    </p>
-                    <Link href={`/properties/${farm._id}`} className="rounded-xl border border-[#00a877] px-4 py-2 text-xs font-bold text-[#00a877] hover:bg-[#e6f4ea]/30 transition-colors">
-                      View Listing
-                    </Link>
-                  </div>
                 </div>
+
+                {/* Action Button */}
+                <div className="mt-6 sm:mt-0 sm:ml-4">
+                  <Link 
+                    href={`/farms/${farm._id}`} 
+                    className="flex items-center justify-center w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#00a877] hover:bg-[#009669] text-white text-sm font-bold transition-colors"
+                  >
+                    View Listing
+                  </Link>
+                </div>
+                
               </div>
             </article>
           ))}

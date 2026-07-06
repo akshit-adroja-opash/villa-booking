@@ -11,53 +11,7 @@ import {
   ChevronDown 
 } from 'lucide-react';
 
-const MOCK_DASHBOARD_BOOKINGS = [
-  {
-    _id: 'mock-1',
-    startDate: '2024-12-20',
-    endDate: '2024-12-23',
-    totalPrice: 10500,
-    paymentStatus: 'Paid',
-    farmId: { title: 'Sunrise Valley Farm', location: 'Solan, Himachal Pradesh' },
-    userId: { name: 'Arjun Mehta' }
-  },
-  {
-    _id: 'mock-2',
-    startDate: '2025-01-10',
-    endDate: '2025-01-14',
-    totalPrice: 22000,
-    paymentStatus: 'Paid',
-    farmId: { title: 'Hilltop Haven', location: 'Manali, Himachal Pradesh' },
-    userId: { name: 'Arjun Mehta' }
-  },
-  {
-    _id: 'mock-3',
-    startDate: '2025-02-14',
-    endDate: '2025-02-17',
-    totalPrice: 18000,
-    paymentStatus: 'Pending',
-    farmId: { title: 'Coastal Retreat', location: 'Goa, Goa' },
-    userId: { name: 'Sarah Williams' }
-  },
-  {
-    _id: 'mock-4',
-    startDate: '2024-10-05',
-    endDate: '2024-10-08',
-    totalPrice: 11400,
-    paymentStatus: 'completed',
-    farmId: { title: 'Tea Garden Estate', location: 'Munnar, Kerala' },
-    userId: { name: 'Sarah Williams' }
-  },
-  {
-    _id: 'mock-5',
-    startDate: '2024-08-01',
-    endDate: '2024-08-03',
-    totalPrice: 5600,
-    paymentStatus: 'completed',
-    farmId: { title: 'Green Meadow Retreat', location: 'Ooty, Tamil Nadu' },
-    userId: { name: 'Mike Chen' }
-  }
-];
+
 
 const LogoMoneyIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -122,30 +76,13 @@ export default function AdminDashboard() {
     loadDashboardData();
   }, []);
 
-  // Merge real DB bookings with fallback mocks for visualization completeness
-  const allBookings = useMemo(() => {
-    const merged = [...bookings];
-    MOCK_DASHBOARD_BOOKINGS.forEach(mock => {
-      const alreadyExists = merged.some(
-        b => b._id === mock._id || 
-        (b.farmId?.title === mock.farmId.title && b.startDate.substring(0, 10) === mock.startDate)
-      );
-      if (!alreadyExists) {
-        merged.push(mock);
-      }
-    });
-    return merged;
-  }, [bookings]);
-
-  // Database-driven metrics calculation with fallback support
+  // Database-driven metrics calculation
   const dbRevenue = bookings.reduce((sum, b) => sum + (b.totalPrice || 0), 0);
-  const displayRevenue = dbRevenue > 0 
-    ? `₹${(dbRevenue / 1000).toFixed(0)}K` 
-    : `₹${(allBookings.reduce((sum, b) => sum + (b.totalPrice || 0), 0) / 1000).toFixed(0)}K`;
+  const displayRevenue = `₹${(dbRevenue / 1000).toFixed(0)}K`;
 
-  const displayBookingsCount = bookings.length > 0 ? String(bookings.length) : String(allBookings.length);
+  const displayBookingsCount = String(bookings.length);
 
-  const displayActiveUsers = users.length > 0 ? String(users.length) : '37';
+  const displayActiveUsers = String(users.length);
 
   // Dynamic Occupancy based on ongoing stays vs total listings
   const displayOccupancy = useMemo(() => {
@@ -164,7 +101,7 @@ export default function AdminDashboard() {
   // Dynamic monthly revenue calculation (for line graph)
   const monthlyRevenue = useMemo(() => {
     const monthlyMap = Array(12).fill(0);
-    allBookings.forEach(b => {
+    bookings.forEach(b => {
       const date = new Date(b.startDate);
       if (!isNaN(date.getTime())) {
         const month = date.getMonth(); // 0 - 11
@@ -172,7 +109,7 @@ export default function AdminDashboard() {
       }
     });
     return monthlyMap;
-  }, [allBookings]);
+  }, [bookings]);
 
   const maxRevenue = useMemo(() => {
     return Math.max(...monthlyRevenue, 1);
@@ -210,7 +147,7 @@ export default function AdminDashboard() {
     const counts: Record<string, number> = {};
     let total = 0;
     
-    allBookings.forEach(b => {
+    bookings.forEach(b => {
       const location = b.farmId?.location || 'Other';
       const city = location.split(',')?.[0]?.trim() || 'Other';
       counts[city] = (counts[city] || 0) + 1;
@@ -218,13 +155,7 @@ export default function AdminDashboard() {
     });
 
     if (total === 0) {
-      return [
-        { name: 'Manali', percentage: 35 },
-        { name: 'Goa', percentage: 25 },
-        { name: 'Rishikesh', percentage: 20 },
-        { name: 'Munnar', percentage: 12 },
-        { name: 'Other', percentage: 8 }
-      ];
+      return []; // Return empty if no bookings
     }
 
     const sorted = Object.entries(counts)
@@ -244,7 +175,7 @@ export default function AdminDashboard() {
     }
 
     return sorted;
-  }, [allBookings]);
+  }, [bookings]);
 
   // Compute donut segments for SVG circle elements
   const donutSegments = useMemo(() => {
@@ -323,7 +254,7 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="text-2xl font-bold text-[#1a1b22] tracking-tight">{displayActiveUsers}</h3>
-                <p className="text-xs text-[#707974] font-semibold mt-1">Active Users</p>
+                <p className="text-xs text-[#707974] font-semibold mt-1">Total Guests</p>
               </div>
               <LogoUsersIcon />
             </div>
@@ -466,7 +397,11 @@ export default function AdminDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#bfc9c3]/10 text-sm font-semibold text-[#1a1b22]">
-                {allBookings.slice(0, 5).map((booking, index) => {
+                {bookings.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="px-6 py-8 text-center text-gray-500 font-medium">No recent bookings</td>
+                  </tr>
+                ) : bookings.slice(0, 5).map((booking, index) => {
                   const farmTitle = booking.farmId?.title || 'Farmhouse stay';
                   const guestName = booking.userId?.name || 'Guest';
                   

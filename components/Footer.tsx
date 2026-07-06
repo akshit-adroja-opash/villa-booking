@@ -27,7 +27,9 @@ export default function Footer() {
   // Wait, let's allow it to render everywhere, but in pages where it's not needed, we don't render it.
   // Let's remove the restriction so it can be rendered on admin dashboard page!
   const isAuthPage = pathname === '/login' || pathname === '/register';
-  if (isAuthPage) {
+  const isAdminPage = pathname.startsWith('/admin');
+
+  if (isAuthPage || isAdminPage) {
     return null;
   }
 

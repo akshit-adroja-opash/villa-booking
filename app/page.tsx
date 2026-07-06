@@ -28,6 +28,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [searchLocation, setSearchLocation] = useState('');
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [reviews, setReviews] = useState<any[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -68,6 +69,48 @@ export default function Home() {
       }
     }
     fetchFarms();
+  }, []);
+
+  useEffect(() => {
+    async function fetchReviews() {
+      try {
+        const res = await fetch('/api/reviews');
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.length > 0) {
+            setReviews(data);
+          } else {
+            // Fallback for an empty database
+            setReviews([
+              {
+                name: 'Priya Sharma',
+                role: 'Family Vacation',
+                text: 'Our stay was absolutely memorable. The farmhouse was exactly as described, and the direct support from the owners was wonderful!',
+                img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
+                rating: 5
+              },
+              {
+                name: 'Rajesh Kumar',
+                role: 'Weekend Getaway',
+                text: 'A beautifully maintained private estate. Booking directly with them was seamless, and the on-site staff made sure everything was perfect.',
+                img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
+                rating: 5
+              },
+              {
+                name: 'Ankit Verma',
+                role: 'Corporate Retreat',
+                text: "We hosted our team retreat here. The privacy, premium amenities, and excellent hospitality make their properties our top choice.",
+                img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80',
+                rating: 5
+              }
+            ]);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch reviews:', err);
+      }
+    }
+    fetchReviews();
   }, []);
 
   useEffect(() => {
@@ -263,30 +306,11 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Priya Sharma',
-                role: 'Family Vacation',
-                text: 'Our stay was absolutely memorable. The farmhouse was exactly as described, and the direct support from the owners was wonderful!',
-                img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80'
-              },
-              {
-                name: 'Rajesh Kumar',
-                role: 'Weekend Getaway',
-                text: 'A beautifully maintained private estate. Booking directly with them was seamless, and the on-site staff made sure everything was perfect.',
-                img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80'
-              },
-              {
-                name: 'Ankit Verma',
-                role: 'Corporate Retreat',
-                text: "We hosted our team retreat here. The privacy, premium amenities, and excellent hospitality make their properties our top choice.",
-                img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80'
-              }
-            ].map((test, idx) => (
-              <div key={idx} className="bg-white rounded-2xl p-8 border border-[#bfc9c3]/15 shadow-sm flex flex-col justify-between">
+            {reviews.slice(0, 3).map((test, idx) => (
+              <div key={test._id || idx} className="bg-white rounded-2xl p-8 border border-[#bfc9c3]/15 shadow-sm flex flex-col justify-between">
                 <div>
                   <div className="flex gap-0.5 text-yellow-500 mb-4">
-                    {[...Array(5)].map((_, i) => (
+                    {[...Array(test.rating || 5)].map((_, i) => (
                       <Star key={i} className="h-4 w-4 fill-yellow-500" />
                     ))}
                   </div>
