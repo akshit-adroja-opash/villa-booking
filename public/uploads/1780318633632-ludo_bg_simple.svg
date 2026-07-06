@@ -1,0 +1,17 @@
+<svg width="100%" viewBox="0 0 390 630" xmlns="http://www.w3.org/2000/svg" role="img" style="">
+<title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Ludo Fire simple background</title>
+<desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Deep navy to midnight blue with blue center glow</desc>
+<defs>
+  <radialGradient id="bg" cx="50%" cy="42%" r="75%">
+    <stop offset="0%" stop-color="#1a2e8a"/>
+    <stop offset="55%" stop-color="#0d1a6e"/>
+    <stop offset="100%" stop-color="#060a2a"/>
+  </radialGradient>
+  <radialGradient id="cGlow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#3355ff" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#3355ff" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<rect width="340" height="620" fill="url(#bg)" rx="28" style="stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<ellipse cx="170" cy="310" rx="210" ry="200" fill="url(#cGlow)" style="stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+</svg>
