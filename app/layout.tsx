@@ -19,8 +19,8 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "AgriStay - Premium Farmhouse Bookings",
-  description: "Discover and book unique farmhouses across India.",
+  title: "The Estate - Exclusive Sanctuaries",
+  description: "Discover our curated portfolio of private estates, where uncompromising luxury meets absolute tranquility.",
 };
 
 import { Toaster } from 'react-hot-toast';
