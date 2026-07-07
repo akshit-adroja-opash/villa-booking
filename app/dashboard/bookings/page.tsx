@@ -148,6 +148,9 @@ export default function BookingsDashboardPage() {
       return;
     }
 
+    const basePrice = Math.round(booking.totalPrice / 1.18);
+    const gst = booking.totalPrice - basePrice;
+
     const receiptHtml = `
       <html>
         <head>
@@ -161,7 +164,7 @@ export default function BookingsDashboardPage() {
               background-color: #fdfbf7;
             }
             .container {
-              max-width: 700px;
+              max-width: 750px;
               margin: 0 auto;
               background: white;
               border: 1px solid #bfc9c3;
@@ -172,7 +175,7 @@ export default function BookingsDashboardPage() {
             .header {
               display: flex;
               justify-content: space-between;
-              align-items: center;
+              align-items: flex-start;
               border-bottom: 2px solid #00a877;
               padding-bottom: 20px;
               margin-bottom: 30px;
@@ -191,6 +194,7 @@ export default function BookingsDashboardPage() {
               color: #707974;
               text-transform: uppercase;
               letter-spacing: 0.05em;
+              text-align: right;
             }
             .grid {
               display: grid;
@@ -210,7 +214,7 @@ export default function BookingsDashboardPage() {
               letter-spacing: 0.1em;
               color: #707974;
               font-weight: bold;
-              margin-bottom: 6px;
+              margin-bottom: 10px;
             }
             .value {
               font-size: 14px;
@@ -221,7 +225,7 @@ export default function BookingsDashboardPage() {
               width: 100%;
               border-collapse: collapse;
               margin-top: 20px;
-              margin-bottom: 30px;
+              margin-bottom: 20px;
             }
             .table th {
               background-color: #e6f4ea;
@@ -239,20 +243,33 @@ export default function BookingsDashboardPage() {
               border-bottom: 1px solid rgba(191, 201, 195, 0.25);
               color: #404944;
               font-weight: 500;
+              vertical-align: top;
+            }
+            .summary-box {
+              width: 320px;
+              margin-left: auto;
+              margin-top: 10px;
+              padding-top: 15px;
+            }
+            .summary-row {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 8px;
+              font-size: 14px;
+              color: #707974;
             }
             .total-box {
               display: flex;
-              justify-content: flex-end;
+              justify-content: space-between;
               align-items: center;
-              gap: 15px;
-              margin-top: 20px;
-              padding-top: 20px;
+              margin-top: 15px;
+              padding-top: 15px;
               border-top: 1px solid rgba(191, 201, 195, 0.4);
             }
             .total-label {
               font-size: 14px;
               font-weight: bold;
-              color: #707974;
+              color: #1a1b22;
             }
             .total-value {
               font-size: 24px;
@@ -273,7 +290,14 @@ export default function BookingsDashboardPage() {
         <body>
           <div class="container">
             <div class="header">
-              <div class="logo">🏡 AgriStay</div>
+              <div>
+                <div class="logo">🏡 AgriStay</div>
+                <div style="margin-top: 8px; font-size: 12px; color: #707974; line-height: 1.5;">
+                  123 Eco Farm Road, Green Valley District<br>
+                  Maharashtra, IN 400001<br>
+                  GSTIN: 27AABCA1234D1Z5
+                </div>
+              </div>
               <div class="title">Official Receipt</div>
             </div>
 
@@ -283,15 +307,20 @@ export default function BookingsDashboardPage() {
                 <div class="value" style="font-size: 16px; font-weight: 700; color: #003527; margin-bottom: 4px;">
                   ${session?.user?.name || 'Valued Guest'}
                 </div>
-                <div class="value" style="font-weight: 500; color: #707974;">
-                  ${session?.user?.email || ''}
+                <div class="value" style="font-weight: 500; color: #707974; font-size: 13px; line-height: 1.5;">
+                  ${session?.user?.email || ''}<br>
+                  Ph: +91-9876543210
                 </div>
               </div>
               <div class="card">
-                <div class="label">Booking details</div>
-                <div class="value"><strong>Invoice No:</strong> AGR-${booking._id.slice(-6).toUpperCase()}</div>
-                <div class="value"><strong>Status:</strong> Paid / Confirmed</div>
-                <div class="value"><strong>Date Issued:</strong> ${new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+                <div class="label">Booking & Payment Details</div>
+                <div class="value" style="font-size: 13px; line-height: 1.6; font-weight: 500;">
+                  <strong>Invoice No:</strong> AGR-${booking._id.slice(-6).toUpperCase()}<br>
+                  <strong>Transaction ID:</strong> TXN-${booking._id.slice(0, 8).toUpperCase()}<br>
+                  <strong>Payment Method:</strong> Online Payment<br>
+                  <strong>Date Issued:</strong> ${new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}<br>
+                  <strong>Status:</strong> Paid / Confirmed
+                </div>
               </div>
             </div>
 
@@ -299,6 +328,7 @@ export default function BookingsDashboardPage() {
               <thead>
                 <tr>
                   <th>Stay Description</th>
+                  <th>Guests</th>
                   <th>Check-In</th>
                   <th>Check-Out</th>
                   <th style="text-align: right;">Amount</th>
@@ -306,7 +336,11 @@ export default function BookingsDashboardPage() {
               </thead>
               <tbody>
                 <tr>
-                  <td><strong>${farm.title}</strong><br><span style="font-size: 11px; color: #707974;">Farmhouse Eco-Stay Retreat</span></td>
+                  <td>
+                    <strong style="color: #1a1b22; font-size: 15px;">${farm.title}</strong><br>
+                    <span style="font-size: 12px; color: #707974;">${farm.location || 'Eco-Stay Retreat'}</span>
+                  </td>
+                  <td>${farm.guests || 2} Adults</td>
                   <td>${new Date(booking.startDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
                   <td>${new Date(booking.endDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
                   <td style="text-align: right; font-weight: bold; color: #1a1b22;">₹${booking.totalPrice.toLocaleString('en-IN')}</td>
@@ -314,9 +348,23 @@ export default function BookingsDashboardPage() {
               </tbody>
             </table>
 
-            <div class="total-box">
-              <span class="total-label">Total Amount Paid:</span>
-              <span class="total-value">₹${booking.totalPrice.toLocaleString('en-IN')}</span>
+            <div class="summary-box">
+              <div class="summary-row">
+                <span>Base Price:</span>
+                <span style="font-weight: 600; color: #404944;">₹${basePrice.toLocaleString('en-IN')}</span>
+              </div>
+              <div class="summary-row">
+                <span>Taxes (GST 18%):</span>
+                <span style="font-weight: 600; color: #404944;">₹${gst.toLocaleString('en-IN')}</span>
+              </div>
+              <div class="summary-row">
+                <span>Service Fees:</span>
+                <span style="font-weight: 600; color: #404944;">₹0</span>
+              </div>
+              <div class="total-box">
+                <span class="total-label">Total Amount Paid:</span>
+                <span class="total-value">₹${booking.totalPrice.toLocaleString('en-IN')}</span>
+              </div>
             </div>
 
             <div class="footer">
