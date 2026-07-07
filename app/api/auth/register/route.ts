@@ -4,8 +4,8 @@ import User from '@/models/User';
 import bcrypt from 'bcryptjs';
 
 export async function POST(req: Request) {
-  await connectDB();
   try {
+    await connectDB();
     const { name, email, password } = await req.json();
     const userExists = await User.findOne({ email });
     if (userExists) return NextResponse.json({ error: 'User already exists' }, { status: 400 });
