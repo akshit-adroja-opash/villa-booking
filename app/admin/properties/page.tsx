@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Bath, BedDouble, Home, MapPin, Plus, Search, Users } from 'lucide-react';
+import { Bath, BedDouble, Home, MapPin, Plus, Search, Users, ShieldCheck } from 'lucide-react';
 
 type Farm = {
   _id: string;
@@ -126,117 +126,134 @@ export default function AdminPropertiesPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center bg-[#fdfbf7]">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#00a877] border-t-transparent"></div>
+      <div className="flex min-h-[60vh] items-center justify-center bg-[#FAF9F6]">
+        <div className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full"></div>
       </div>
     );
   }
 
   return (
-    <main className="p-6 md:p-10 bg-[#fdfbf7]">
+    <main className="p-6 md:p-10 bg-[#FAF9F6]">
       <div className="mx-auto max-w-[1280px] space-y-8">
         
         {/* Header Block */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="font-serif text-3xl font-bold tracking-tight text-[#1a1b22]">
-              Properties
+            <h1 className="font-serif text-3xl font-normal tracking-tight text-[#1B2A22]">
+              Estates Collection
             </h1>
-            <p className="mt-1 text-sm text-[#707974] font-medium">
-              Review listings, capacity, amenities, and nightly rates.
+            <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-2">
+              Manage Portfolio & Rates
             </p>
           </div>
           <Link
             href="/admin/properties/create"
-            className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-3 rounded-xl text-sm font-bold shadow-md shadow-[#00a877]/10 transition-all active:scale-[0.98] self-start sm:self-auto"
+            className="flex items-center justify-center gap-2 bg-[#1B2A22] hover:bg-[#2c4236] text-white px-5 py-3 text-[10px] uppercase tracking-widest font-bold transition-all active:scale-[0.98] self-start sm:self-auto"
           >
             <Plus className="h-4 w-4" />
-            <span>New Property</span>
+            <span>Add Estate</span>
           </Link>
         </div>
 
         {/* Stats Grid */}
         <div className="grid gap-6 md:grid-cols-3">
           {[
-            { label: 'Live Listings', value: farms.length.toString() },
-            { label: 'Average Nightly Rate', value: `₹${averageRate.toLocaleString('en-IN')}` },
-            { label: 'Total Guest Capacity', value: farms.reduce((sum, farm) => sum + (farm.guests || 0), 0).toString() },
+            { label: 'Active Listings', value: farms.length.toString(), color: '#1B2A22' },
+            { label: 'Average Nightly Rate', value: `₹${averageRate.toLocaleString('en-IN')}`, color: '#1B2A22' },
+            { label: 'Total Capacity', value: farms.reduce((sum, farm) => sum + (farm.guests || 0), 0).toString(), color: '#D4AF37' },
           ].map((stat) => (
-            <div key={stat.label} className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-6 shadow-sm">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#707974]">{stat.label}</p>
-              <p className="mt-2 font-serif text-2xl font-bold text-[#1a1b22]">{stat.value}</p>
+            <div key={stat.label} className="bg-white border border-[#1B2A22]/10 p-6">
+              <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mb-2">{stat.label}</p>
+              <p className="font-serif text-3xl" style={{ color: stat.color }}>{stat.value}</p>
             </div>
           ))}
         </div>
 
         {/* Search Input bar */}
-        <div className="flex w-full max-w-md items-center gap-3 bg-white border border-[#bfc9c3]/40 rounded-xl px-4 py-3 shadow-sm shadow-[#064e3b]/3 focus-within:border-[#00a877] transition-all">
-          <Search className="h-4.5 w-4.5 text-gray-400" />
+        <div className="flex w-full max-w-md items-center gap-3 bg-white border border-[#1B2A22]/10 px-4 py-3 focus-within:border-[#D4AF37] transition-all">
+          <Search className="h-4 w-4 text-[#1B2A22]/40" />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search properties by name, location..."
-            className="w-full bg-transparent text-sm font-semibold outline-none border-none p-0 focus:ring-0"
+            placeholder="Search portfolio..."
+            className="w-full bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
           />
         </div>
 
         {/* Listings List Layout */}
         <section className="flex flex-col gap-6">
-          {filteredFarms.map((farm) => (
-            <article key={farm._id} className="flex flex-col sm:flex-row items-center gap-6 py-4 border-b border-gray-100 last:border-0">
-              {/* Image */}
-              <div className="shrink-0 w-full sm:w-64 h-40 rounded-2xl overflow-hidden bg-gray-100">
-                {farm.images?.[0] ? (
-                  <img src={farm.images[0]} alt={farm.title} className="h-full w-full object-cover" />
-                ) : (
-                  <div className="flex h-full items-center justify-center text-gray-400">
-                    <Home className="h-8 w-8" />
-                  </div>
-                )}
-              </div>
-              
-              {/* Content */}
-              <div className="flex flex-1 flex-col sm:flex-row sm:items-center justify-between w-full">
-                
-                <div className="flex flex-col gap-2">
-                  <h3 className="font-serif text-xl font-bold text-[#1a1b22]">{farm.title}</h3>
-                  <p className="text-sm font-medium text-gray-500">{farm.location || 'Location unavailable'}</p>
-                  
-                  <div className="flex items-center gap-4 text-sm font-medium text-gray-500 mt-1">
-                    <span className="flex items-center gap-1.5">
-                      <Users className="h-4 w-4" />
-                      {farm.guests || 0} guests
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <BedDouble className="h-4 w-4" />
-                      {farm.bedrooms || 0} beds
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center gap-4 mt-3">
-                    <p className="text-lg font-bold text-[#1a1b22]">
-                      ₹{(farm.pricePerNight || 0).toLocaleString('en-IN')}
-                    </p>
-                    <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#e6f4ea] text-[#0f766e] text-xs font-bold">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#0f766e]"></span>
-                      Active
-                    </span>
+          {filteredFarms.length === 0 ? (
+            <div className="bg-white border border-[#1B2A22]/10 p-10 text-center">
+              <p className="text-[#1B2A22]/50 font-serif italic text-lg">No estates found in the portfolio.</p>
+            </div>
+          ) : (
+            filteredFarms.map((farm) => (
+              <article key={farm._id} className="flex flex-col sm:flex-row items-center gap-8 p-4 bg-white border border-[#1B2A22]/10 hover:border-[#D4AF37]/50 transition-colors group">
+                {/* Image */}
+                <div className="shrink-0 w-full sm:w-72 h-48 overflow-hidden bg-gray-100 relative">
+                  {farm.images?.[0] ? (
+                    <img 
+                      src={farm.images[0]} 
+                      alt={farm.title} 
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center bg-[#1B2A22]/5 text-[#1B2A22]/20">
+                      <Home className="h-8 w-8" />
+                    </div>
+                  )}
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-[9px] uppercase tracking-widest font-bold text-[#1B2A22]">
+                    Active
                   </div>
                 </div>
+                
+                {/* Content */}
+                <div className="flex flex-1 flex-col sm:flex-row sm:items-center justify-between w-full">
+                  
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center gap-2 text-[9px] uppercase tracking-[0.2em] font-bold text-[#D4AF37]">
+                      <MapPin className="h-3 w-3" />
+                      <span>{farm.location || 'Exclusive Location'}</span>
+                    </div>
+                    
+                    <h3 className="font-serif text-2xl font-normal text-[#1B2A22]">{farm.title}</h3>
+                    
+                    <div className="flex items-center gap-6 text-[11px] font-bold uppercase tracking-widest text-[#1B2A22]/60 mt-2">
+                      <span className="flex items-center gap-1.5">
+                        <Users className="h-3.5 w-3.5 text-[#1B2A22]/40" />
+                        {farm.guests || 0} Guests
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <BedDouble className="h-3.5 w-3.5 text-[#1B2A22]/40" />
+                        {farm.bedrooms || 0} Beds
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <ShieldCheck className="h-3.5 w-3.5 text-[#1B2A22]/40" />
+                        Verified
+                      </span>
+                    </div>
+                    
+                    <div className="mt-4">
+                      <p className="text-xl font-serif text-[#1B2A22]">
+                        ₹{(farm.pricePerNight || 0).toLocaleString('en-IN')} <span className="text-[10px] uppercase tracking-widest font-bold text-[#1B2A22]/40 font-sans">/ night</span>
+                      </p>
+                    </div>
+                  </div>
 
-                {/* Action Button */}
-                <div className="mt-6 sm:mt-0 sm:ml-4">
-                  <Link 
-                    href={`/farms/${farm._id}`} 
-                    className="flex items-center justify-center w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#00a877] hover:bg-[#009669] text-white text-sm font-bold transition-colors"
-                  >
-                    View Listing
-                  </Link>
+                  {/* Action Button */}
+                  <div className="mt-6 sm:mt-0 sm:ml-4 sm:pr-4">
+                    <Link 
+                      href={`/farms/${farm._id}`} 
+                      className="inline-block border border-[#1B2A22] hover:bg-[#1B2A22] hover:text-white px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-[#1B2A22] transition-colors"
+                    >
+                      View Details
+                    </Link>
+                  </div>
+                  
                 </div>
-                
-              </div>
-            </article>
-          ))}
+              </article>
+            ))
+          )}
         </section>
 
       </div>
