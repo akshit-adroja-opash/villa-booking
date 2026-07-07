@@ -176,7 +176,7 @@ export default function AdminFinancialsPage() {
                     <td className="px-6 py-5">
                       <span className={`inline-block px-3 py-1 text-[9px] font-bold uppercase tracking-widest border ${
                         booking.paymentStatus === 'Paid'
-                          ? 'bg-[#1B2A22] text-white border-[#1B2A22]'
+                          ? 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20'
                           : 'bg-transparent text-[#D4AF37] border-[#D4AF37]'
                       }`}>
                         {booking.paymentStatus === 'Paid' ? 'Paid' : 'Pending'}

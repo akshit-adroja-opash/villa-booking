@@ -265,7 +265,7 @@ export default function Home() {
                       
                       <div className="flex gap-6 mb-8 text-[#1B2A22]/70 text-sm font-medium">
                         <span className="flex items-center gap-2"><Wind className="h-4 w-4 text-[#D4AF37]"/> {farm.guests || 6} Guests</span>
-                        <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#D4AF37]"/> Private</span>
+                        <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#00a877]"/> Private</span>
                       </div>
 
                       <p className="text-[#1B2A22]/60 leading-relaxed mb-10 font-serif text-lg italic border-l-2 border-[#D4AF37]/30 pl-6">
@@ -311,7 +311,7 @@ export default function Home() {
               <p className="text-white/60 text-sm leading-relaxed max-w-xs font-medium">Personalized menus crafted by renowned private chefs using organic, locally-sourced ingredients.</p>
             </div>
             <div className="flex flex-col items-center">
-              <div className="h-16 w-16 rounded-full border border-[#D4AF37]/30 flex items-center justify-center mb-6 text-[#D4AF37]">
+              <div className="h-16 w-16 rounded-full border border-[#00a877]/30 flex items-center justify-center mb-6 text-[#00a877]">
                 <ShieldCheck className="h-6 w-6" />
               </div>
               <h3 className="font-serif text-xl mb-3">Absolute Discretion</h3>

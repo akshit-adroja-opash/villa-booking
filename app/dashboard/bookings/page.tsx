@@ -597,7 +597,7 @@ export default function BookingsDashboardPage() {
                           <span
                             className={`inline-block px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest border ${
                               booking.paymentStatus === 'Paid'
-                                ? 'border-[#1B2A22]/20 text-[#1B2A22] bg-[#1B2A22]/5'
+                                ? 'border-[#00a877]/20 text-[#00a877] bg-[#e6f4ea]'
                                 : 'border-[#D4AF37]/50 text-[#D4AF37] bg-[#D4AF37]/5'
                             }`}
                           >

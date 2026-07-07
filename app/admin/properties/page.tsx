@@ -202,7 +202,8 @@ export default function AdminPropertiesPage() {
                       <Home className="h-8 w-8" />
                     </div>
                   )}
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-[9px] uppercase tracking-widest font-bold text-[#1B2A22]">
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-[9px] uppercase tracking-widest font-bold text-[#00a877] border border-[#00a877]/20 flex items-center gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#00a877]"></span>
                     Active
                   </div>
                 </div>
@@ -227,8 +228,8 @@ export default function AdminPropertiesPage() {
                         <BedDouble className="h-3.5 w-3.5 text-[#1B2A22]/40" />
                         {farm.bedrooms || 0} Beds
                       </span>
-                      <span className="flex items-center gap-1.5">
-                        <ShieldCheck className="h-3.5 w-3.5 text-[#1B2A22]/40" />
+                      <span className="flex items-center gap-1.5 text-[#00a877]">
+                        <ShieldCheck className="h-3.5 w-3.5 text-[#00a877]" />
                         Verified
                       </span>
                     </div>

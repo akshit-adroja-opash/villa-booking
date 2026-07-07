@@ -167,7 +167,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
                   type="checkbox" 
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="h-3.5 w-3.5 cursor-pointer accent-[#D4AF37]"
+                  className="h-3.5 w-3.5 cursor-pointer accent-[#00a877]"
                 />
                 <span>Remember me</span>
               </label>
@@ -180,7 +180,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
             <button 
               type="submit" 
               disabled={loading}
-              className="w-full h-14 bg-[#1B2A22] hover:bg-[#2c4236] text-white text-[11px] uppercase tracking-[0.2em] font-bold transition-all active:scale-[0.99] disabled:opacity-50 mt-4"
+              className="w-full h-14 bg-[#1B2A22] hover:bg-[#00a877] text-white text-[11px] uppercase tracking-[0.2em] font-bold transition-all active:scale-[0.99] disabled:opacity-50 mt-4"
             >
               {loading ? 'Authenticating...' : 'Enter Portal'}
             </button>
@@ -247,7 +247,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
             <button 
               type="submit" 
               disabled={loading}
-              className="w-full h-14 bg-[#1B2A22] hover:bg-[#2c4236] text-white text-[11px] uppercase tracking-[0.2em] font-bold transition-all active:scale-[0.99] disabled:opacity-50 mt-4"
+              className="w-full h-14 bg-[#1B2A22] hover:bg-[#00a877] text-white text-[11px] uppercase tracking-[0.2em] font-bold transition-all active:scale-[0.99] disabled:opacity-50 mt-4"
             >
               {loading ? 'Creating Account...' : 'Register'}
             </button>

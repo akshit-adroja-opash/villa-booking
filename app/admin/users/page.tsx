@@ -149,11 +149,11 @@ export default function UserManagementPage() {
   const getRoleBadgeStyle = (role: string) => {
     switch (role) {
       case 'admin':
-        return 'bg-[#1B2A22]/5 text-[#1B2A22] border-[#1B2A22]/20';
+        return 'bg-[#1B2A22] text-[#D4AF37] border-[#1B2A22]';
       case 'owner':
         return 'bg-[#D4AF37]/5 text-[#D4AF37] border-[#D4AF37]/30';
       default:
-        return 'bg-[#FAF9F6] text-[#1B2A22]/60 border-[#1B2A22]/10';
+        return 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20';
     }
   };
 
@@ -199,7 +199,7 @@ export default function UserManagementPage() {
             <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-2">Curators</p>
           </div>
           <div className="bg-white border border-[#1B2A22]/10 p-6">
-            <h4 className="font-serif text-3xl text-[#1B2A22]">{totalCustomers}</h4>
+            <h4 className="font-serif text-3xl text-[#00a877]">{totalCustomers}</h4>
             <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-2">Patrons / Guests</p>
           </div>
         </div>

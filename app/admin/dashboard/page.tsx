@@ -207,8 +207,11 @@ export default function AdminDashboard() {
           <h1 className="font-serif text-3xl font-normal tracking-tight text-[#1B2A22]">
             Dashboard
           </h1>
-          <p className="text-[10px] uppercase tracking-widest text-[#1B2A22]/60 font-bold mt-2">
-            Estate Portfolio Overview
+          <p className="flex items-center gap-2 mt-2">
+            <TrendingUp className="h-3.5 w-3.5 text-[#00a877]" />
+            <span className="text-[10px] uppercase tracking-widest text-[#00a877] font-bold">
+              Estate Portfolio Overview
+            </span>
           </p>
         </div>
 
@@ -430,9 +433,9 @@ export default function AdminDashboard() {
                       <td className="px-6 py-4 text-[#1B2A22]/50">{dateRangeDisplay}</td>
                       <td className="px-6 py-4 font-serif">₹{amount.toLocaleString('en-IN')}</td>
                       <td className="px-6 py-4">
-                        <span className={`inline-block px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest ${
+                        <span className={`inline-block px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest border ${
                           status.toLowerCase() === 'paid' || status.toLowerCase() === 'confirmed' || status.toLowerCase() === 'completed'
-                            ? 'bg-[#1B2A22]/5 text-[#1B2A22] border border-[#1B2A22]/20'
+                            ? 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20'
                             : status.toLowerCase() === 'pending'
                               ? 'bg-[#D4AF37]/5 text-[#D4AF37] border border-[#D4AF37]/30'
                               : 'bg-[#1B2A22]/5 text-[#1B2A22]/50 border border-[#1B2A22]/20'

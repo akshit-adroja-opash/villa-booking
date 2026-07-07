@@ -481,7 +481,7 @@ export default function FarmDetailPage() {
               <button 
                 onClick={handleBooking}
                 disabled={bookingLoading || hasConflict || isInvalidDates || !startDate || !endDate || guestSelection === 0}
-                className="w-full bg-[#D4AF37] hover:bg-[#c29f31] py-5 text-[11px] uppercase tracking-[0.1em] font-bold text-white transition-colors active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+                className="w-full bg-[#D4AF37] hover:bg-[#00a877] py-5 text-[11px] uppercase tracking-[0.1em] font-bold text-white transition-colors active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed mb-4"
               >
                 {bookingLoading ? 'Reserving...' : hasConflict ? 'Dates Unavailable' : 'Request Reservation'}
               </button>

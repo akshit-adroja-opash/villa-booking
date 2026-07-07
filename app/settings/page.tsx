@@ -212,7 +212,7 @@ export default function SettingsPage() {
               <button 
                 type="button"
                 onClick={() => document.getElementById('avatar-input')?.click()}
-                className="absolute -bottom-3 -right-3 h-8 w-8 bg-white border border-[#1B2A22]/10 flex items-center justify-center hover:bg-[#1B2A22] hover:text-[#D4AF37] text-[#1B2A22] transition-colors cursor-pointer shadow-sm"
+                className="absolute -bottom-3 -right-3 h-8 w-8 bg-white border border-[#1B2A22]/10 flex items-center justify-center hover:bg-[#00a877] hover:border-[#00a877] hover:text-white text-[#1B2A22] transition-colors cursor-pointer shadow-sm"
               >
                 <Camera className="h-3 w-3" />
               </button>
@@ -221,7 +221,13 @@ export default function SettingsPage() {
             <div className="space-y-2">
               <h2 className="font-serif text-3xl font-normal text-[#1B2A22]">{name || 'Guest User'}</h2>
               <div className="flex items-center gap-3">
-                <span className="inline-block px-3 py-1 text-[9px] font-bold bg-[#1B2A22] text-[#D4AF37] uppercase tracking-widest border border-[#1B2A22]">
+                <span className={`inline-block px-3 py-1 text-[9px] font-bold uppercase tracking-widest border ${
+                  role === 'admin' 
+                    ? 'bg-[#1B2A22] text-[#D4AF37] border-[#1B2A22]'
+                    : role === 'owner'
+                      ? 'bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/30'
+                      : 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20'
+                }`}>
                   {role}
                 </span>
                 <span className="text-[10px] uppercase tracking-widest text-[#1B2A22]/40 font-bold">
@@ -353,7 +359,7 @@ export default function SettingsPage() {
               <div className="flex items-center gap-4 pt-6">
                 <button
                   type="submit"
-                  className="bg-[#1B2A22] hover:bg-[#2c4236] text-[#D4AF37] px-8 py-3 text-[10px] font-bold uppercase tracking-widest transition-colors cursor-pointer"
+                  className="bg-[#00a877] hover:bg-[#009669] text-white px-8 py-3 text-[10px] font-bold uppercase tracking-widest transition-colors cursor-pointer shadow-md shadow-[#00a877]/10"
                 >
                   Save Changes
                 </button>
