@@ -149,56 +149,56 @@ export default function AdminReservationsPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center bg-[#fdfbf7]">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#00a877] border-t-transparent"></div>
+      <div className="flex min-h-[60vh] items-center justify-center bg-[#FAF9F6]">
+        <div className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full"></div>
       </div>
     );
   }
 
   return (
-    <main className="p-6 md:p-10 bg-[#fdfbf7]">
+    <main className="p-6 md:p-10 bg-[#FAF9F6]">
       <div className="mx-auto max-w-[1280px] space-y-8">
         
         {/* Title Block */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="font-serif text-3xl font-bold tracking-tight text-[#1a1b22]">
+            <h1 className="font-serif text-3xl font-normal tracking-tight text-[#1B2A22]">
               Reservations
             </h1>
-            <p className="mt-1 text-sm text-[#707974] font-medium">
-              Track every guest stay, payment state, and booking window.
+            <p className="mt-2 text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60">
+              Track Guest Stays & Payment State
             </p>
           </div>
-          <button className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-3 rounded-xl text-sm font-bold shadow-md shadow-[#00a877]/10 transition-all active:scale-[0.98] self-start sm:self-auto">
-            <Download className="h-4.5 w-4.5" />
-            <span>Export</span>
+          <button className="flex items-center justify-center gap-2 bg-[#1B2A22] hover:bg-[#2c4236] text-white px-5 py-3 text-[10px] uppercase tracking-widest font-bold transition-all active:scale-[0.98] self-start sm:self-auto">
+            <Download className="h-4 w-4" />
+            <span>Export Manifest</span>
           </button>
         </div>
 
         {/* Stats Grid */}
         <div className="grid gap-6 md:grid-cols-3">
           {[
-            { label: 'Total Reservations', value: bookings.length.toString() },
-            { label: 'Confirmed', value: confirmedBookings.toString() },
-            { label: 'Booked Revenue', value: `₹${totalRevenue.toLocaleString('en-IN')}` },
+            { label: 'Total Reservations', value: bookings.length.toString(), color: '#1B2A22' },
+            { label: 'Confirmed', value: confirmedBookings.toString(), color: '#1B2A22' },
+            { label: 'Booked Revenue', value: `₹${totalRevenue.toLocaleString('en-IN')}`, color: '#D4AF37' },
           ].map((stat) => (
-            <div key={stat.label} className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-6 shadow-sm">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#707974]">{stat.label}</p>
-              <p className="mt-2 font-serif text-2xl font-bold text-[#1a1b22]">{stat.value}</p>
+            <div key={stat.label} className="bg-white border border-[#1B2A22]/10 p-6">
+              <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mb-2">{stat.label}</p>
+              <p className="font-serif text-3xl" style={{ color: stat.color }}>{stat.value}</p>
             </div>
           ))}
         </div>
 
         {/* Search Row */}
-        <div className="bg-white border border-[#bfc9c3]/20 rounded-2xl overflow-hidden shadow-sm shadow-[#064e3b]/3">
-          <div className="flex flex-col gap-4 border-b border-[#bfc9c3]/15 p-6 md:flex-row md:items-center md:justify-between">
-            <div className="flex w-full max-w-md items-center gap-3 bg-white border border-[#bfc9c3]/40 rounded-xl px-4 py-3 shadow-sm focus-within:border-[#00a877] transition-all">
-              <Search className="h-4.5 w-4.5 text-gray-400" />
+        <div className="bg-white border border-[#1B2A22]/10">
+          <div className="flex flex-col gap-4 border-b border-[#1B2A22]/10 p-6 md:flex-row md:items-center md:justify-between">
+            <div className="flex w-full max-w-md items-center gap-3 bg-[#FAF9F6] border border-[#1B2A22]/10 px-4 py-3 focus-within:border-[#D4AF37] transition-all">
+              <Search className="h-4 w-4 text-[#1B2A22]/40" />
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search reservations..."
-                className="w-full bg-transparent text-sm font-semibold outline-none border-none p-0 focus:ring-0"
+                className="w-full bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
               />
             </div>
           </div>
@@ -207,65 +207,73 @@ export default function AdminReservationsPage() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[860px] text-left border-collapse">
               <thead>
-                <tr className="border-b border-[#bfc9c3]/15 bg-gray-50 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                  <th className="px-6 py-4">Guest</th>
-                  <th className="px-6 py-4">Property</th>
-                  <th className="px-6 py-4">Dates</th>
-                  <th className="px-6 py-4">Total</th>
-                  <th className="px-6 py-4">Status</th>
-                  <th className="px-6 py-4 text-right">Actions</th>
+                <tr className="border-b border-[#1B2A22]/10 bg-[#FAF9F6] text-[9px] font-bold text-[#1B2A22]/50 uppercase tracking-[0.15em]">
+                  <th className="px-6 py-5">Patron</th>
+                  <th className="px-6 py-5">Estate</th>
+                  <th className="px-6 py-5">Dates</th>
+                  <th className="px-6 py-5">Total</th>
+                  <th className="px-6 py-5">Status</th>
+                  <th className="px-6 py-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#bfc9c3]/10 text-sm font-semibold text-[#1a1b22]">
-                {filteredBookings.map((booking) => (
-                  <tr key={booking._id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#e6f4ea] text-[#00a877] font-bold">
-                          {getInitials(booking.userId?.name)}
-                        </div>
-                        <div>
-                          <p className="font-bold text-[#1a1b22]">{booking.userId?.name || 'Guest'}</p>
-                          <p className="text-[10px] text-gray-400 mt-0.5">{booking.userId?.email || 'No email'}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <p className="font-bold text-[#1a1b22]">{booking.farmId?.title || 'Property'}</p>
-                      <p className="text-[10px] text-gray-400 mt-0.5">{booking.farmId?.location || 'Location unavailable'}</p>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-start gap-2">
-                        <CalendarDays className="mt-0.5 h-4.5 w-4.5 text-gray-400" />
-                        <div>
-                          <p className="text-sm font-bold text-[#1a1b22]">{formatDateRange(booking.startDate, booking.endDate)}</p>
-                          <p className="text-[10px] text-gray-400 mt-0.5">{getNights(booking.startDate, booking.endDate)}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 font-bold text-[#003527]">₹{(booking.totalPrice || 0).toLocaleString('en-IN')}</td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-block px-2.5 py-0.5 text-[10px] font-bold rounded-full lowercase ${
-                        booking.paymentStatus === 'Paid'
-                          ? 'bg-[#e6f4ea] text-[#0f766e]'
-                          : 'bg-amber-50 text-amber-700'
-                      }`}>
-                        {booking.paymentStatus === 'Paid' ? 'confirmed' : 'pending'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <button className="p-2 text-gray-400 hover:text-[#00a877] rounded-lg transition-colors">
-                        <MoreVertical className="h-4.5 w-4.5" />
-                      </button>
+              <tbody className="divide-y divide-[#1B2A22]/5 text-[13px] font-semibold text-[#1B2A22]">
+                {filteredBookings.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="px-6 py-12 text-center text-[#1B2A22]/40 font-serif italic text-lg">
+                      No reservations found.
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  filteredBookings.map((booking) => (
+                    <tr key={booking._id} className="hover:bg-[#FAF9F6]/50 transition-colors group">
+                      <td className="px-6 py-5">
+                        <div className="flex items-center gap-4">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/20 text-[11px] font-bold">
+                            {getInitials(booking.userId?.name)}
+                          </div>
+                          <div>
+                            <p className="font-serif text-base text-[#1B2A22]">{booking.userId?.name || 'Guest'}</p>
+                            <p className="text-[10px] uppercase tracking-widest text-[#1B2A22]/50 mt-0.5">{booking.userId?.email || 'No email'}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-5">
+                        <p className="font-serif text-base text-[#1B2A22]">{booking.farmId?.title || 'Property'}</p>
+                        <p className="text-[10px] uppercase tracking-widest text-[#1B2A22]/50 mt-0.5">{booking.farmId?.location || 'Location unavailable'}</p>
+                      </td>
+                      <td className="px-6 py-5">
+                        <div className="flex items-start gap-3">
+                          <CalendarDays className="mt-0.5 h-4 w-4 text-[#D4AF37]" />
+                          <div>
+                            <p className="text-[13px] font-bold text-[#1B2A22]">{formatDateRange(booking.startDate, booking.endDate)}</p>
+                            <p className="text-[10px] uppercase tracking-widest text-[#1B2A22]/50 mt-0.5">{getNights(booking.startDate, booking.endDate)}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-5 font-serif text-lg text-[#1B2A22]">₹{(booking.totalPrice || 0).toLocaleString('en-IN')}</td>
+                      <td className="px-6 py-5">
+                        <span className={`inline-block px-3 py-1 text-[9px] font-bold uppercase tracking-widest border ${
+                          booking.paymentStatus === 'Paid'
+                            ? 'bg-[#1B2A22] text-white border-[#1B2A22]'
+                            : 'bg-transparent text-[#D4AF37] border-[#D4AF37]'
+                        }`}>
+                          {booking.paymentStatus === 'Paid' ? 'Confirmed' : 'Pending'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-5 text-right">
+                        <button className="p-2 text-[#1B2A22]/30 hover:text-[#D4AF37] transition-colors">
+                          <MoreVertical className="h-5 w-5" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
 
-          <div className="border-t border-[#bfc9c3]/15 p-6 text-xs text-[#707974] font-semibold bg-gray-50">
-            Showing {filteredBookings.length} of {bookings.length} reservations. {upcomingBookings} upcoming.
+          <div className="border-t border-[#1B2A22]/10 p-6 text-[10px] uppercase tracking-widest font-bold text-[#1B2A22]/50 bg-[#FAF9F6]">
+            Showing {filteredBookings.length} of {bookings.length} reservations • {upcomingBookings} upcoming
           </div>
         </div>
       </div>
