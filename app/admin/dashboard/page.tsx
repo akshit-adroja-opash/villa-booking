@@ -11,33 +11,31 @@ import {
   ChevronDown 
 } from 'lucide-react';
 
-
-
 const LogoMoneyIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="24" height="24" rx="6" fill="#fef3c7" />
-    <path d="M12 6V18M9 8H13.5C14.88 8 16 9.12 16 10.5C16 11.88 14.88 13 13.5 13H10.5C9.12 13 8 14.12 8 15.5C8 16.88 9.12 18 10.5 18H15" stroke="#d97706" strokeWidth="2" strokeLinecap="round" />
+    <rect width="24" height="24" rx="6" fill="#D4AF37" fillOpacity="0.1" />
+    <path d="M12 6V18M9 8H13.5C14.88 8 16 9.12 16 10.5C16 11.88 14.88 13 13.5 13H10.5C9.12 13 8 14.12 8 15.5C8 16.88 9.12 18 10.5 18H15" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 
 const LogoBookingsIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="24" height="24" rx="6" fill="#fecdd3" />
-    <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M9 11H15M9 15H13" stroke="#e11d48" strokeWidth="2" strokeLinecap="round" />
+    <rect width="24" height="24" rx="6" fill="#1B2A22" fillOpacity="0.05" />
+    <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M9 11H15M9 15H13" stroke="#1B2A22" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.6" />
   </svg>
 );
 
 const LogoUsersIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="24" height="24" rx="6" fill="#dbeafe" />
-    <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7ZM23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89317 18.7122 8.75608 18.1676 9.45768C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" />
+    <rect width="24" height="24" rx="6" fill="#1B2A22" fillOpacity="0.05" />
+    <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7ZM23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89317 18.7122 8.75608 18.1676 9.45768C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="#1B2A22" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.6" />
   </svg>
 );
 
 const LogoOccupancyIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="24" height="24" rx="6" fill="#d1fae5" />
-    <path d="M4 15V9C4 7.89543 4.89543 7 6 7H18C19.1046 7 20 7.89543 20 9V15M4 15H20M4 15V19M20 15V19M9 7V5C9 4.44772 9.44772 4 10 4H14C14.5523 4 15 4.44772 15 5V7M7 11H17" stroke="#059669" strokeWidth="2" strokeLinecap="round" />
+    <rect width="24" height="24" rx="6" fill="#1B2A22" fillOpacity="0.05" />
+    <path d="M4 15V9C4 7.89543 4.89543 7 6 7H18C19.1046 7 20 7.89543 20 9V15M4 15H20M4 15V19M20 15V19M9 7V5C9 4.44772 9.44772 4 10 4H14C14.5523 4 15 4.44772 15 5V7M7 11H17" stroke="#1B2A22" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.6" />
   </svg>
 );
 
@@ -179,7 +177,7 @@ export default function AdminDashboard() {
 
   // Compute donut segments for SVG circle elements
   const donutSegments = useMemo(() => {
-    const colors = ['#00a877', '#f59e0b', '#3b82f6', '#a855f7', '#ec4899'];
+    const colors = ['#1B2A22', '#D4AF37', '#2c4236', '#c29f31', '#111827'];
     let currentOffset = 0;
     
     const totalPercentage = popularDestinations.reduce((sum, d) => sum + d.percentage, 0);
@@ -201,16 +199,16 @@ export default function AdminDashboard() {
   }, [popularDestinations]);
 
   return (
-    <main className="p-6 md:p-10 bg-[#fdfbf7]">
+    <main className="p-6 md:p-10 bg-[#FAF9F6]">
       <div className="mx-auto max-w-[1280px] space-y-8">
         
         {/* Title Block */}
         <div>
-          <h1 className="font-serif text-3xl font-bold tracking-tight text-[#1a1b22]">
-            Admin Dashboard
+          <h1 className="font-serif text-3xl font-normal tracking-tight text-[#1B2A22]">
+            Dashboard
           </h1>
-          <p className="text-sm text-[#707974] font-medium mt-1">
-            Overview of your AgriStay platform.
+          <p className="text-[10px] uppercase tracking-widest text-[#1B2A22]/60 font-bold mt-2">
+            Estate Portfolio Overview
           </p>
         </div>
 
@@ -218,64 +216,64 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           
           {/* Revenue */}
-          <div className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-6 shadow-sm shadow-[#064e3b]/3 relative flex flex-col justify-between h-[130px]">
+          <div className="bg-white border border-[#1B2A22]/10 p-6 relative flex flex-col justify-between h-[130px]">
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-2xl font-bold text-[#1a1b22] tracking-tight">{displayRevenue}</h3>
-                <p className="text-xs text-[#707974] font-semibold mt-1">Total Revenue</p>
+                <h3 className="font-serif text-3xl text-[#1B2A22]">{displayRevenue}</h3>
+                <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-1">Total Revenue</p>
               </div>
               <LogoMoneyIcon />
             </div>
             <div className="flex justify-end">
-              <span className="text-[11px] font-bold text-[#00a877] bg-[#e6f4ea] px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-bold text-[#D4AF37] bg-[#D4AF37]/10 px-2 py-0.5 uppercase tracking-wider">
                 +24%
               </span>
             </div>
           </div>
 
           {/* Bookings */}
-          <div className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-6 shadow-sm shadow-[#064e3b]/3 relative flex flex-col justify-between h-[130px]">
+          <div className="bg-white border border-[#1B2A22]/10 p-6 relative flex flex-col justify-between h-[130px]">
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-2xl font-bold text-[#1a1b22] tracking-tight">{displayBookingsCount}</h3>
-                <p className="text-xs text-[#707974] font-semibold mt-1">Total Bookings</p>
+                <h3 className="font-serif text-3xl text-[#1B2A22]">{displayBookingsCount}</h3>
+                <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-1">Reservations</p>
               </div>
               <LogoBookingsIcon />
             </div>
             <div className="flex justify-end">
-              <span className="text-[11px] font-bold text-[#00a877] bg-[#e6f4ea] px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-bold text-[#1B2A22] bg-[#1B2A22]/10 px-2 py-0.5 uppercase tracking-wider">
                 +18%
               </span>
             </div>
           </div>
 
           {/* Active Users */}
-          <div className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-6 shadow-sm shadow-[#064e3b]/3 relative flex flex-col justify-between h-[130px]">
+          <div className="bg-white border border-[#1B2A22]/10 p-6 relative flex flex-col justify-between h-[130px]">
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-2xl font-bold text-[#1a1b22] tracking-tight">{displayActiveUsers}</h3>
-                <p className="text-xs text-[#707974] font-semibold mt-1">Total Guests</p>
+                <h3 className="font-serif text-3xl text-[#1B2A22]">{displayActiveUsers}</h3>
+                <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-1">Patrons</p>
               </div>
               <LogoUsersIcon />
             </div>
             <div className="flex justify-end">
-              <span className="text-[11px] font-bold text-[#00a877] bg-[#e6f4ea] px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-bold text-[#1B2A22] bg-[#1B2A22]/10 px-2 py-0.5 uppercase tracking-wider">
                 +32%
               </span>
             </div>
           </div>
 
           {/* Occupancy */}
-          <div className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-6 shadow-sm shadow-[#064e3b]/3 relative flex flex-col justify-between h-[130px]">
+          <div className="bg-white border border-[#1B2A22]/10 p-6 relative flex flex-col justify-between h-[130px]">
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-2xl font-bold text-[#1a1b22] tracking-tight">{displayOccupancy}</h3>
-                <p className="text-xs text-[#707974] font-semibold mt-1">Avg Occupancy</p>
+                <h3 className="font-serif text-3xl text-[#1B2A22]">{displayOccupancy}</h3>
+                <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-1">Avg Occupancy</p>
               </div>
               <LogoOccupancyIcon />
             </div>
             <div className="flex justify-end">
-              <span className="text-[11px] font-bold text-[#00a877] bg-[#e6f4ea] px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-bold text-[#1B2A22] bg-[#1B2A22]/10 px-2 py-0.5 uppercase tracking-wider">
                 +5%
               </span>
             </div>
@@ -287,23 +285,23 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           
           {/* Revenue Trends Chart (3/5) */}
-          <div className="lg:col-span-3 bg-white border border-[#bfc9c3]/20 rounded-2xl p-6 shadow-sm shadow-[#064e3b]/3">
-            <h3 className="font-serif text-lg font-bold text-[#1a1b22] mb-6">Revenue Trends</h3>
+          <div className="lg:col-span-3 bg-white border border-[#1B2A22]/10 p-6">
+            <h3 className="font-serif text-lg font-normal text-[#1B2A22] mb-6">Revenue Trends</h3>
             <div className="relative w-full h-[220px] pt-4">
               
               {/* SVG Line Graph */}
               <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 500 200">
                 <defs>
                   <linearGradient id="chartGrad" x1="0%" x2="0%" y1="0%" y2="100%">
-                    <stop offset="0%" stopColor="#00a877" stopOpacity="0.15" />
-                    <stop offset="100%" stopColor="#00a877" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#1B2A22" stopOpacity="0.1" />
+                    <stop offset="100%" stopColor="#1B2A22" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 
                 {/* Horizontal Guide Lines */}
-                <line x1="0" y1="50" x2="500" y2="50" stroke="#f1f5f9" strokeWidth="1" />
-                <line x1="0" y1="100" x2="500" y2="100" stroke="#f1f5f9" strokeWidth="1" />
-                <line x1="0" y1="150" x2="500" y2="150" stroke="#f1f5f9" strokeWidth="1" />
+                <line x1="0" y1="50" x2="500" y2="50" stroke="#FAF9F6" strokeWidth="1" />
+                <line x1="0" y1="100" x2="500" y2="100" stroke="#FAF9F6" strokeWidth="1" />
+                <line x1="0" y1="150" x2="500" y2="150" stroke="#FAF9F6" strokeWidth="1" />
                 
                 {/* Wavy Graph Path */}
                 {chartPathData.fillD && (
@@ -316,7 +314,7 @@ export default function AdminDashboard() {
                   <path 
                     d={chartPathData.lineD} 
                     fill="none" 
-                    stroke="#00a877" 
+                    stroke="#1B2A22" 
                     strokeWidth="2.5" 
                     strokeLinecap="round" 
                   />
@@ -324,7 +322,7 @@ export default function AdminDashboard() {
               </svg>
 
               {/* Month Labels */}
-              <div className="flex justify-between items-center text-[10px] font-bold text-gray-400 uppercase tracking-wider mt-4 px-1">
+              <div className="flex justify-between items-center text-[9px] font-bold text-[#1B2A22]/40 uppercase tracking-widest mt-4 px-1">
                 <span>Jan</span>
                 <span>Feb</span>
                 <span>Mar</span>
@@ -342,8 +340,8 @@ export default function AdminDashboard() {
           </div>
 
           {/* Popular Destinations Donut (2/5) */}
-          <div className="lg:col-span-2 bg-white border border-[#bfc9c3]/20 rounded-2xl p-6 shadow-sm shadow-[#064e3b]/3 flex flex-col justify-between">
-            <h3 className="font-serif text-lg font-bold text-[#1a1b22] mb-4">Popular Destinations</h3>
+          <div className="lg:col-span-2 bg-white border border-[#1B2A22]/10 p-6 flex flex-col justify-between">
+            <h3 className="font-serif text-lg font-normal text-[#1B2A22] mb-4">Locations</h3>
             
             {/* Donut SVG Rendering */}
             <div className="relative flex items-center justify-center h-[160px]">
@@ -365,10 +363,10 @@ export default function AdminDashboard() {
             </div>
 
             {/* Legend Block */}
-            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] font-bold text-gray-500 mt-4">
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[9px] uppercase tracking-widest font-bold text-[#1B2A22]/60 mt-4">
               {donutSegments.map((segment, idx) => (
                 <div key={idx} className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full" style={{ backgroundColor: segment.color }}></span>
+                  <span className="h-2 w-2" style={{ backgroundColor: segment.color }}></span>
                   <span>{segment.name} ({segment.percentage}%)</span>
                 </div>
               ))}
@@ -379,30 +377,30 @@ export default function AdminDashboard() {
         </div>
 
         {/* Recent Bookings Table View Layout */}
-        <div className="bg-white border border-[#bfc9c3]/20 rounded-2xl overflow-hidden shadow-sm shadow-[#064e3b]/3">
-          <div className="p-6 border-b border-[#bfc9c3]/15">
-            <h3 className="font-serif text-lg font-bold text-[#1a1b22]">Recent Bookings</h3>
+        <div className="bg-white border border-[#1B2A22]/10 overflow-hidden">
+          <div className="p-6 border-b border-[#1B2A22]/10">
+            <h3 className="font-serif text-lg font-normal text-[#1B2A22]">Recent Reservations</h3>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[700px]">
               <thead>
-                <tr className="border-b border-[#bfc9c3]/15 bg-gray-50 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                  <th className="px-6 py-4">ID</th>
-                  <th className="px-6 py-4">Property</th>
-                  <th className="px-6 py-4">Guest</th>
+                <tr className="border-b border-[#1B2A22]/10 bg-[#FAF9F6] text-[9px] font-bold text-[#1B2A22]/50 uppercase tracking-[0.2em]">
+                  <th className="px-6 py-4">Ref</th>
+                  <th className="px-6 py-4">Estate</th>
+                  <th className="px-6 py-4">Patron</th>
                   <th className="px-6 py-4">Dates</th>
                   <th className="px-6 py-4">Amount</th>
                   <th className="px-6 py-4">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#bfc9c3]/10 text-sm font-semibold text-[#1a1b22]">
+              <tbody className="divide-y divide-[#1B2A22]/5 text-[13px] font-semibold text-[#1B2A22]">
                 {bookings.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-6 py-8 text-center text-gray-500 font-medium">No recent bookings</td>
+                    <td colSpan={6} className="px-6 py-8 text-center text-[#1B2A22]/50 font-serif italic">No recent reservations.</td>
                   </tr>
                 ) : bookings.slice(0, 5).map((booking, index) => {
-                  const farmTitle = booking.farmId?.title || 'Farmhouse stay';
+                  const farmTitle = booking.farmId?.title || 'Estate stay';
                   const guestName = booking.userId?.name || 'Guest';
                   
                   let dateRangeDisplay = 'N/A';
@@ -422,22 +420,22 @@ export default function AdminDashboard() {
                   
                   const status = booking.paymentStatus || 'Pending';
                   const amount = booking.totalPrice || 0;
-                  const idDisplay = String(index + 1).padStart(2, '0');
+                  const idDisplay = booking._id?.slice(-6).toUpperCase() || String(index + 1).padStart(2, '0');
                   
                   return (
-                    <tr key={booking._id} className="hover:bg-gray-50/50 transition-colors">
-                      <td className="px-6 py-4 text-gray-400 font-bold">{idDisplay}</td>
-                      <td className="px-6 py-4">{farmTitle}</td>
-                      <td className="px-6 py-4 text-gray-600">{guestName}</td>
-                      <td className="px-6 py-4 text-gray-500 font-medium">{dateRangeDisplay}</td>
-                      <td className="px-6 py-4">₹{amount.toLocaleString('en-IN')}</td>
+                    <tr key={booking._id} className="hover:bg-[#FAF9F6] transition-colors">
+                      <td className="px-6 py-4 text-[#1B2A22]/50">{idDisplay}</td>
+                      <td className="px-6 py-4 font-serif">{farmTitle}</td>
+                      <td className="px-6 py-4 text-[#1B2A22]/70">{guestName}</td>
+                      <td className="px-6 py-4 text-[#1B2A22]/50">{dateRangeDisplay}</td>
+                      <td className="px-6 py-4 font-serif">₹{amount.toLocaleString('en-IN')}</td>
                       <td className="px-6 py-4">
-                        <span className={`inline-block px-2.5 py-0.5 text-[10px] font-bold rounded-full lowercase ${
+                        <span className={`inline-block px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest ${
                           status.toLowerCase() === 'paid' || status.toLowerCase() === 'confirmed' || status.toLowerCase() === 'completed'
-                            ? 'bg-[#e6f4ea] text-[#0f766e]'
+                            ? 'bg-[#1B2A22]/5 text-[#1B2A22] border border-[#1B2A22]/20'
                             : status.toLowerCase() === 'pending'
-                              ? 'bg-amber-50 text-amber-700'
-                              : 'bg-blue-50 text-blue-700'
+                              ? 'bg-[#D4AF37]/5 text-[#D4AF37] border border-[#D4AF37]/30'
+                              : 'bg-[#1B2A22]/5 text-[#1B2A22]/50 border border-[#1B2A22]/20'
                         }`}>
                           {status.toLowerCase() === 'paid' ? 'confirmed' : status.toLowerCase()}
                         </span>

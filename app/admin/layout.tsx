@@ -32,8 +32,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (status === 'loading') {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#fdfbf7]">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#00a877] border-t-transparent"></div>
+      <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#D4AF37] border-t-transparent"></div>
       </div>
     );
   }
@@ -59,7 +59,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   return (
-    <div className="min-h-screen bg-[#fdfbf7] flex flex-col font-sans antialiased text-[#1a1b22]">
+    <div className="min-h-screen bg-[#FAF9F6] flex flex-col font-sans antialiased text-[#1B2A22]">
       {/* Global Navbar */}
       <Navbar />
 
@@ -67,11 +67,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="flex flex-1 pt-16">
         
         {/* Left Sidebar */}
-        <aside className="fixed top-16 left-0 z-40 hidden h-[calc(100vh-64px)] w-64 flex-col border-r border-[#bfc9c3]/20 bg-white p-4 shadow-sm md:flex">
+        <aside className="fixed top-16 left-0 z-40 hidden h-[calc(100vh-64px)] w-64 flex-col border-r border-[#1B2A22]/10 bg-white p-4 shadow-sm md:flex">
           
           {/* Sidebar Title */}
-          <div className="px-3 py-4 mb-2">
-            <h2 className="text-lg font-bold text-[#1a1b22]">Admin Panel</h2>
+          <div className="px-3 py-6 mb-2">
+            <h2 className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37]">Admin Portal</h2>
           </div>
 
           {/* Menu Items */}
@@ -83,19 +83,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <li key={item.label}>
                     <Link
                       href={item.href}
-                      className={`flex items-center justify-between rounded-xl px-4 py-3 transition-all duration-200 ${
+                      className={`flex items-center justify-between rounded-none px-4 py-3 transition-all duration-200 border-l-2 ${
                         isActive
-                          ? 'bg-[#e6f4ea] text-[#00a877] font-semibold'
-                          : 'text-[#404944] hover:bg-gray-50'
+                          ? 'bg-[#FAF9F6] text-[#1B2A22] font-bold border-[#D4AF37]'
+                          : 'text-[#1B2A22]/60 hover:bg-[#FAF9F6] border-transparent font-semibold'
                       }`}
                     >
-                      <div className="flex items-center gap-3">
-                        <item.icon className={`h-5 w-5 ${isActive ? 'text-[#00a877]' : 'text-gray-400'}`} />
-                        <span className="text-sm font-semibold">{item.label}</span>
+                      <div className="flex items-center gap-4">
+                        <item.icon className={`h-4 w-4 ${isActive ? 'text-[#D4AF37]' : 'text-[#1B2A22]/40'}`} />
+                        <span className="text-[11px] uppercase tracking-widest">{item.label}</span>
                       </div>
                       
                       {item.badge && (
-                        <span className="text-[10px] font-bold bg-red-50 text-red-500 rounded-full px-2 py-0.5 border border-red-100">
+                        <span className="text-[10px] font-bold bg-[#D4AF37]/10 text-[#D4AF37] rounded-full px-2 py-0.5 border border-[#D4AF37]/20">
                           {item.badge}
                         </span>
                       )}
