@@ -6,13 +6,13 @@ import { signIn } from 'next-auth/react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
 const Logo = () => (
-  <div className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight text-[#003527]">
-    <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="100" height="100" rx="24" fill="#00a877" />
-      <path d="M50 22L20 48H32V78H46V60H54V78H68V48H80L50 22Z" fill="#ffffff" />
-      <circle cx="50" cy="36" r="5" fill="#fef08a" />
+  <div className="flex flex-col items-center gap-2 mb-6 text-[#1B2A22]">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-[#D4AF37]">
+      <path d="M50 15L85 45L75 85H25L15 45L50 15Z" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"/>
+      <path d="M50 35V85" stroke="currentColor" strokeWidth="4"/>
+      <path d="M30 60H70" stroke="currentColor" strokeWidth="4"/>
     </svg>
-    <span className="font-serif text-[#003527]">AgriStay</span>
+    <span className="font-serif text-3xl font-normal tracking-wide uppercase mt-2">The Estate</span>
   </div>
 );
 
@@ -90,37 +90,42 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-tr from-[#e6f4ea] to-[#fdfbf7] items-center justify-center p-6 text-[#1a1b22] font-sans antialiased">
+    <div className="flex flex-col min-h-screen bg-[#FAF9F6] items-center justify-center p-6 text-[#1B2A22] font-sans antialiased relative overflow-hidden">
       
-      {/* Header Logo & Welcomes */}
-      <div className="flex flex-col items-center text-center space-y-3 mb-6">
-        <Logo />
-        <div className="space-y-1">
-          <h2 className="text-2xl font-bold tracking-tight text-[#003527]">
-            {mode === 'signin' ? 'Welcome back' : 'Create an account'}
-          </h2>
-          <p className="text-sm text-gray-500 font-medium">
-            {mode === 'signin' ? 'Sign in to your account to continue' : 'Sign up to find your perfect stay'}
-          </p>
-        </div>
-      </div>
+      {/* Decorative subtle element */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D4AF37]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#1B2A22]/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 pointer-events-none"></div>
 
       {/* Main Card */}
-      <div className="w-full max-w-[460px] bg-white rounded-2xl border border-[#bfc9c3]/20 p-8 shadow-xl shadow-[#064e3b]/5 mb-6">
+      <div className="w-full max-w-[480px] bg-white rounded-none border border-[#1B2A22]/10 p-10 md:p-14 shadow-2xl relative z-10">
+        
+        {/* Header Logo & Welcomes */}
+        <div className="flex flex-col items-center text-center mb-10">
+          <Logo />
+          <div className="space-y-2 mt-4">
+            <h2 className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37]">
+              {mode === 'signin' ? 'Client Portal' : 'Join The Portfolio'}
+            </h2>
+            <p className="text-sm text-[#1B2A22]/60 font-serif italic">
+              {mode === 'signin' ? 'Sign in to your private account to continue.' : 'Register to curate your exclusive retreats.'}
+            </p>
+          </div>
+        </div>
+
         {/* Dynamic Forms */}
         {mode === 'signin' ? (
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-6">
             {/* Email Address */}
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider" htmlFor="login-email">
+            <div className="space-y-2">
+              <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]" htmlFor="login-email">
                 Email Address
               </label>
-              <div className="relative flex items-center bg-[#f4f6f8] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white transition-all">
-                <Mail className="absolute left-4 h-5 w-5 text-gray-400" />
+              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                <Mail className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                 <input 
-                  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold outline-none border-none"
+                  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
                   id="login-email" 
-                  placeholder="owner@agristay.com" 
+                  placeholder="patron@theestate.com" 
                   type="email"
                   required
                   value={loginEmail}
@@ -130,14 +135,14 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
             </div>
 
             {/* Password */}
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider" htmlFor="login-pass">
+            <div className="space-y-2">
+              <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]" htmlFor="login-pass">
                 Password
               </label>
-              <div className="relative flex items-center bg-[#f4f6f8] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white transition-all">
-                <Lock className="absolute left-4 h-5 w-5 text-gray-400" />
+              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                <Lock className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                 <input 
-                  className="w-full h-12 pl-12 pr-12 bg-transparent text-sm font-semibold outline-none border-none"
+                  className="w-full h-12 pl-12 pr-12 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
                   id="login-pass" 
                   placeholder="•••••" 
                   type={showPassword ? 'text' : 'password'}
@@ -148,25 +153,25 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 p-1 hover:bg-gray-100 rounded-full"
+                  className="absolute right-4 p-1 hover:bg-[#1B2A22]/5 rounded-full transition-colors"
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4 text-gray-400" /> : <Eye className="h-4 w-4 text-gray-400" />}
+                  {showPassword ? <EyeOff className="h-4 w-4 text-[#1B2A22]/50" /> : <Eye className="h-4 w-4 text-[#1B2A22]/50" />}
                 </button>
               </div>
             </div>
 
             {/* Checks & Remembers */}
-            <div className="flex justify-between items-center text-xs font-semibold">
-              <label className="flex items-center gap-2 cursor-pointer text-gray-500">
+            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-wider text-[#1B2A22]/60 mt-4 mb-2">
+              <label className="flex items-center gap-2 cursor-pointer hover:text-[#1B2A22] transition-colors">
                 <input 
                   type="checkbox" 
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="h-4 w-4 cursor-pointer accent-[#00a877] border-gray-300 rounded"
+                  className="h-3.5 w-3.5 cursor-pointer accent-[#D4AF37]"
                 />
                 <span>Remember me</span>
               </label>
-              <a href="#" className="text-[#00a877] hover:underline">
+              <a href="#" className="hover:text-[#D4AF37] transition-colors">
                 Forgot password?
               </a>
             </div>
@@ -175,21 +180,21 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
             <button 
               type="submit" 
               disabled={loading}
-              className="w-full h-12 bg-[#00a877] hover:bg-[#009669] text-white rounded-xl text-sm font-bold transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-md shadow-[#00a877]/10 disabled:opacity-75"
+              className="w-full h-14 bg-[#1B2A22] hover:bg-[#2c4236] text-white text-[11px] uppercase tracking-[0.2em] font-bold transition-all active:scale-[0.99] disabled:opacity-50 mt-4"
             >
-              <span>{loading ? 'Signing In...' : 'Sign In'}</span>
+              {loading ? 'Authenticating...' : 'Enter Portal'}
             </button>
           </form>
         ) : (
-          <form onSubmit={handleRegister} className="space-y-5">
+          <form onSubmit={handleRegister} className="space-y-6">
             {/* Full Name */}
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider" htmlFor="reg-name">
+            <div className="space-y-2">
+              <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]" htmlFor="reg-name">
                 Full Name
               </label>
-              <div className="relative flex items-center bg-[#f4f6f8] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white transition-all">
+              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
                 <input 
-                  className="w-full h-12 px-4 bg-transparent text-sm font-semibold outline-none border-none"
+                  className="w-full h-12 px-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
                   id="reg-name" 
                   placeholder="Julianne Smith" 
                   type="text"
@@ -201,16 +206,16 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
             </div>
 
             {/* Email Address */}
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider" htmlFor="reg-email">
+            <div className="space-y-2">
+              <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]" htmlFor="reg-email">
                 Email Address
               </label>
-              <div className="relative flex items-center bg-[#f4f6f8] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white transition-all">
-                <Mail className="absolute left-4 h-5 w-5 text-gray-400" />
+              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                <Mail className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                 <input 
-                  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold outline-none border-none"
+                  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
                   id="reg-email" 
-                  placeholder="name@example.com" 
+                  placeholder="patron@theestate.com" 
                   type="email"
                   required
                   value={regEmail}
@@ -220,14 +225,14 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
             </div>
 
             {/* Password */}
-            <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider" htmlFor="reg-pass">
+            <div className="space-y-2">
+              <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]" htmlFor="reg-pass">
                 Password
               </label>
-              <div className="relative flex items-center bg-[#f4f6f8] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white transition-all">
-                <Lock className="absolute left-4 h-5 w-5 text-gray-400" />
+              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                <Lock className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                 <input 
-                  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold outline-none border-none"
+                  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
                   id="reg-pass" 
                   placeholder="At least 8 characters" 
                   type="password"
@@ -242,33 +247,33 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
             <button 
               type="submit" 
               disabled={loading}
-              className="w-full h-12 bg-[#00a877] hover:bg-[#009669] text-white rounded-xl text-sm font-bold transition-all active:scale-[0.98] disabled:opacity-75"
+              className="w-full h-14 bg-[#1B2A22] hover:bg-[#2c4236] text-white text-[11px] uppercase tracking-[0.2em] font-bold transition-all active:scale-[0.99] disabled:opacity-50 mt-4"
             >
-              {loading ? 'Creating Account...' : 'Create Account'}
+              {loading ? 'Creating Account...' : 'Register'}
             </button>
           </form>
         )}
 
         {/* Toggle Mode */}
-        <div className="mt-6 text-center text-xs font-semibold text-gray-500">
+        <div className="mt-10 text-center text-[10px] font-bold uppercase tracking-widest text-[#1B2A22]/50 border-t border-[#1B2A22]/10 pt-6">
           {mode === 'signin' ? (
             <p>
-              Don&apos;t have an account?{' '}
+              Not a member yet?{' '}
               <button 
                 onClick={() => setMode('signup')}
-                className="text-[#00a877] hover:underline font-bold"
+                className="text-[#D4AF37] hover:text-[#c29f31] transition-colors ml-1"
               >
-                Sign up
+                Inquire here
               </button>
             </p>
           ) : (
             <p>
-              Already have an account?{' '}
+              Already a patron?{' '}
               <button 
                 onClick={() => setMode('signin')}
-                className="text-[#00a877] hover:underline font-bold"
+                className="text-[#D4AF37] hover:text-[#c29f31] transition-colors ml-1"
               >
-                Sign in
+                Sign In
               </button>
             </p>
           )}
