@@ -10,21 +10,17 @@ import {
   X, 
   ShieldAlert, 
   ChevronDown, 
-  Home, 
-  Compass,
-  LayoutGrid,
-  BookOpen,
-  Settings,
-  TrendingUp,
-  HelpCircle,
-  LogOut
+  LogOut,
+  Diamond,
+  CalendarDays,
+  Settings
 } from 'lucide-react';
 
-const Logo = ({ className = "h-8 w-8 text-primary" }: { className?: string }) => (
-  <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <rect width="100" height="100" rx="24" fill="#003527" />
-    <path d="M50 22L20 48H32V78H46V60H54V78H68V48H80L50 22Z" fill="#ffffff" />
-    <circle cx="50" cy="36" r="5" fill="#10b981" />
+const Logo = ({ className = "h-8 w-8" }: { className?: string }) => (
+  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <path d="M50 15L85 45L75 85H25L15 45L50 15Z" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"/>
+    <path d="M50 35V85" stroke="currentColor" strokeWidth="4"/>
+    <path d="M30 60H70" stroke="currentColor" strokeWidth="4"/>
   </svg>
 );
 
@@ -33,7 +29,16 @@ export default function Navbar() {
   const { data: session } = useSession() || {};
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -45,7 +50,6 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Do not render navbar on auth forms
   if (pathname === '/login' || pathname === '/register') {
     return null;
   }
@@ -53,218 +57,116 @@ export default function Navbar() {
   const isAdmin = session?.user && (session.user as any).role === 'admin';
   const role = (session?.user as any)?.role || 'customer';
   
-  // Custom fallback names/emails matching our mock logins for visual accuracy
-  const displayName = session?.user?.name || (role === 'admin' ? 'AgriStay Admin' : 'Arjun Mehta');
-  const displayEmail = session?.user?.email || (role === 'admin' ? 'admin@agristay.com' : 'arjun@agristay.com');
+  const displayName = session?.user?.name || (role === 'admin' ? 'Admin' : 'Guest');
+  const displayEmail = session?.user?.email || (role === 'admin' ? 'admin@theestate.com' : 'guest@example.com');
   const displayImage = session?.user?.image || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&h=80&q=80';
 
+  const isHome = pathname === '/';
+  const navBg = scrolled ? 'bg-[#FAF9F6]/95 backdrop-blur-md border-b border-[#1B2A22]/10 shadow-sm' : (isHome ? 'bg-transparent' : 'bg-[#FAF9F6] border-b border-[#1B2A22]/5');
+  const textColor = (isHome && !scrolled) ? 'text-white' : 'text-[#1B2A22]';
+
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-[#bfc9c3]/20 h-16 flex items-center">
-      <div className="flex justify-between items-center w-full px-6 md:px-16 h-full relative">
+    <header className={`fixed top-0 left-0 w-full z-50 h-20 flex items-center transition-all duration-500 ${navBg}`}>
+      <div className="flex justify-between items-center w-full px-8 md:px-16 h-full">
         
         {/* Brand Logo */}
-        <Link className="flex items-center gap-2 font-serif text-2xl font-bold tracking-tight text-[#003527]" href="/">
-          <Logo />
-          <span className="font-serif tracking-tight text-[#003527]">AgriStay</span>
+        <Link className={`flex items-center gap-3 tracking-tight ${textColor} hover:opacity-80 transition-opacity`} href="/">
+          <Logo className={`h-7 w-7 ${textColor}`} />
+          <span className="font-serif text-2xl font-normal tracking-wide uppercase">The Estate</span>
         </Link>
 
-        <div className="flex items-center gap-4 md:gap-8">
+        <div className="flex items-center gap-8 md:gap-12">
           {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-4">
-          <Link 
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
-              pathname === '/' 
-                ? 'bg-[#e6f4ea] text-[#003527]' 
-                : 'text-[#404944] hover:text-[#003527] hover:bg-gray-50'
-            }`} 
-            href="/"
-          >
-            <Home className="h-4 w-4" />
-            <span>Home</span>
-          </Link>
-          <Link 
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
-              pathname === '/farms' || pathname === '/properties'
-                ? 'bg-[#e6f4ea] text-[#003527]' 
-                : 'text-[#404944] hover:text-[#003527] hover:bg-gray-50'
-            }`} 
-            href="/farms"
-          >
-            <Compass className="h-4 w-4" />
-            <span>Farmhouses</span>
-          </Link>
-          {!isAdmin && (
+          <nav className="hidden md:flex items-center gap-8">
             <Link 
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
-                pathname?.startsWith('/dashboard')
-                  ? 'bg-[#e6f4ea] text-[#003527]' 
-                  : 'text-[#404944] hover:text-[#003527] hover:bg-gray-50'
+              className={`text-[13px] uppercase tracking-widest font-semibold transition-all hover:text-[#D4AF37] ${
+                pathname === '/' ? (isHome && !scrolled ? 'text-white border-b border-white' : 'text-[#1B2A22] border-b border-[#1B2A22]') : `${textColor} opacity-80 hover:opacity-100`
               }`} 
-              href={session ? "/dashboard/bookings" : "/login"}
+              href="/"
             >
-              <span>Bookings</span>
+              Home
             </Link>
-          )}
-          {isAdmin && (
             <Link 
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
-                pathname?.startsWith('/admin')
-                  ? 'bg-[#e6f4ea] text-[#003527] border border-[#a7f3d0]'
-                  : 'text-[#404944] hover:text-[#003527] hover:bg-gray-50'
+              className={`text-[13px] uppercase tracking-widest font-semibold transition-all hover:text-[#D4AF37] ${
+                pathname === '/farms' || pathname === '/properties' ? (isHome && !scrolled ? 'text-white border-b border-white' : 'text-[#1B2A22] border-b border-[#1B2A22]') : `${textColor} opacity-80 hover:opacity-100`
               }`} 
-              href="/admin/dashboard"
+              href="/farms"
             >
-              <ShieldAlert className="h-4 w-4" />
-              <span>Admin Panel</span>
+              The Collection
             </Link>
-          )}
-        </nav>
+          </nav>
 
-        {/* Actions (User profile pill) */}
-        <div className="flex items-center gap-4">
-          
-          {/* User Profile / Login */}
-          {session ? (
-            <div className="relative border-l border-gray-200 pl-4" ref={dropdownRef}>
-              
-              {/* Profile Pill Trigger */}
-              <button 
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-2 group focus:outline-none"
-              >
-                <div className="h-9 w-9 overflow-hidden rounded-full border border-gray-200 shadow-sm">
-                  <img 
-                    src={displayImage} 
-                    alt={displayName} 
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <span className="hidden sm:inline text-sm font-semibold text-[#1a1b22] group-hover:text-[#003527] transition-colors">
-                  {displayName.split(' ')[0]}
-                </span>
-                <ChevronDown className={`h-4 w-4 text-[#404944] transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {/* High-Fidelity Dropdown Menu */}
-              {dropdownOpen && (
-                <div className="absolute right-0 top-12 mt-2 w-64 bg-white border border-[#bfc9c3]/20 rounded-2xl shadow-xl shadow-[#064e3b]/5 p-4 z-50 animate-fade-in text-left">
-                  
-                  {/* Dropdown Header Info */}
-                  <div className="pb-3 border-b border-gray-100 mb-2">
-                    <h4 className="text-sm font-bold text-[#1a1b22]">{displayName}</h4>
-                    <p className="text-[11px] text-gray-400 font-semibold truncate mt-0.5">{displayEmail}</p>
-                    <span className="inline-block mt-2 px-2.5 py-0.5 text-[10px] font-bold bg-[#e6f4ea] text-[#0f766e] border border-[#a7f3d0]/30 rounded-full lowercase">
-                      {role}
-                    </span>
+          {/* Actions */}
+          <div className="flex items-center gap-6">
+            {session ? (
+              <div className="relative" ref={dropdownRef}>
+                <button 
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className={`flex items-center gap-2 group focus:outline-none ${textColor}`}
+                >
+                  <span className="hidden sm:inline text-xs font-semibold uppercase tracking-wider opacity-90 group-hover:opacity-100 transition-opacity">
+                    {displayName.split(' ')[0]}
+                  </span>
+                  <div className="h-8 w-8 overflow-hidden rounded-full border border-current/20">
+                    <img src={displayImage} alt={displayName} className="h-full w-full object-cover" />
                   </div>
+                </button>
 
-                  {/* Dropdown List Items */}
-                  <div className="space-y-1">
-                    {!isAdmin && (
-                      <Link 
-                        href="/dashboard/bookings"
-                        onClick={() => setDropdownOpen(false)}
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-[#404944] hover:bg-gray-50 transition-colors"
-                      >
-                        <BookOpen className="h-4.5 w-4.5 text-gray-400 stroke-[1.8]" />
-                        <span>My Bookings</span>
+                {dropdownOpen && (
+                  <div className="absolute right-0 top-12 mt-2 w-56 bg-[#FAF9F6] border border-[#1B2A22]/10 shadow-2xl p-2 z-50 animate-fade-in">
+                    <div className="px-3 pb-3 pt-2 border-b border-[#1B2A22]/5 mb-2">
+                      <h4 className="text-sm font-serif font-bold text-[#1B2A22]">{displayName}</h4>
+                      <p className="text-[11px] text-[#1B2A22]/60 mt-0.5">{displayEmail}</p>
+                    </div>
+                    <div className="space-y-1">
+                      {isAdmin ? (
+                        <Link href="/admin/dashboard" onClick={() => setDropdownOpen(false)} className="flex items-center gap-3 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[#1B2A22] hover:bg-[#1B2A22]/5 transition-colors">
+                          <ShieldAlert className="h-4 w-4" /> Admin Panel
+                        </Link>
+                      ) : (
+                        <Link href="/dashboard/bookings" onClick={() => setDropdownOpen(false)} className="flex items-center gap-3 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[#1B2A22] hover:bg-[#1B2A22]/5 transition-colors">
+                          <CalendarDays className="h-4 w-4" /> My Reservations
+                        </Link>
+                      )}
+                      <Link href="/settings" onClick={() => setDropdownOpen(false)} className="flex items-center gap-3 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[#1B2A22] hover:bg-[#1B2A22]/5 transition-colors">
+                        <Settings className="h-4 w-4" /> Settings
                       </Link>
-                    )}
-
-                    <Link 
-                      href="/settings"
-                      onClick={() => setDropdownOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-[#404944] hover:bg-gray-50 transition-colors"
-                    >
-                      <Settings className="h-4.5 w-4.5 text-gray-400 stroke-[1.8]" />
-                      <span>Settings</span>
-                    </Link>
-
-                    <Link 
-                      href="/support"
-                      onClick={() => setDropdownOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-[#404944] hover:bg-gray-50 transition-colors"
-                    >
-                      <HelpCircle className="h-4.5 w-4.5 text-gray-400 stroke-[1.8]" />
-                      <span>Help & Support</span>
-                    </Link>
-
-                    <button 
-                      onClick={() => { setDropdownOpen(false); signOut({ callbackUrl: '/' }); }}
-                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold text-red-500 hover:bg-red-50/50 transition-colors text-left"
-                    >
-                      <LogOut className="h-4.5 w-4.5 text-red-500 stroke-[2]" />
-                      <span>Logout</span>
-                    </button>
+                      <button onClick={() => { setDropdownOpen(false); signOut({ callbackUrl: '/' }); }} className="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-red-800 hover:bg-red-50 transition-colors text-left">
+                        <LogOut className="h-4 w-4" /> Logout
+                      </button>
+                    </div>
                   </div>
-
-                </div>
-              )}
-
-            </div>
-          ) : (
-            <div className="flex items-center gap-3 border-l border-gray-200 pl-4">
+                )}
+              </div>
+            ) : (
               <Link 
                 href="/login" 
-                className="flex items-center gap-2 cursor-pointer group"
+                className={`text-[12px] uppercase tracking-widest font-bold px-5 py-2.5 rounded-sm border transition-all ${
+                  (isHome && !scrolled) ? 'border-white text-white hover:bg-white hover:text-[#1B2A22]' : 'border-[#1B2A22] text-[#1B2A22] hover:bg-[#1B2A22] hover:text-[#FAF9F6]'
+                }`}
               >
-                <div className="h-9 w-9 overflow-hidden rounded-full border border-gray-200 shadow-sm bg-gray-50 flex items-center justify-center text-gray-500">
-                  <User className="h-4.5 w-4.5" />
-                </div>
-                <span className="hidden sm:inline text-sm font-semibold text-[#1a1b22] group-hover:text-[#003527] transition-colors">
-                  Sign In
-                </span>
+                Sign In
               </Link>
-            </div>
-          )}
+            )}
 
-          {/* Mobile menu trigger */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 text-[#404944] hover:bg-gray-100 rounded-full transition-colors"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
-        </div>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className={`md:hidden p-2 ${textColor}`}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="absolute top-20 left-0 w-full bg-white border-b border-gray-200 shadow-lg md:hidden flex flex-col py-4 px-6 gap-4 z-40">
-          <Link 
-            className="text-sm font-semibold text-[#404944] hover:text-[#003527] py-1" 
-            href="/" 
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Home
-          </Link>
-          <Link 
-            className="text-sm font-semibold text-[#404944] hover:text-[#003527] py-1" 
-            href="/farms" 
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Farmhouses
-          </Link>
-          {!isAdmin && (
-            <Link 
-              className="text-sm font-semibold text-[#404944] hover:text-[#003527] py-1" 
-              href={session ? "/dashboard/bookings" : "/login"} 
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Bookings
-            </Link>
-          )}
-          {isAdmin && (
-            <Link 
-              className="text-sm font-bold text-[#064e3b] py-1 flex items-center gap-1" 
-              href="/admin/dashboard" 
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <ShieldAlert className="h-4 w-4" /> Admin Panel
-            </Link>
-          )}
+        <div className="absolute top-20 left-0 w-full bg-[#FAF9F6] border-b border-[#1B2A22]/10 md:hidden flex flex-col py-6 px-8 gap-6 z-40 shadow-2xl text-center">
+          <Link className="text-sm uppercase tracking-widest font-semibold text-[#1B2A22]" href="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+          <Link className="text-sm uppercase tracking-widest font-semibold text-[#1B2A22]" href="/farms" onClick={() => setMobileMenuOpen(false)}>The Collection</Link>
+          {!isAdmin && <Link className="text-sm uppercase tracking-widest font-semibold text-[#1B2A22]" href={session ? "/dashboard/bookings" : "/login"} onClick={() => setMobileMenuOpen(false)}>Reservations</Link>}
+          {isAdmin && <Link className="text-sm uppercase tracking-widest font-bold text-[#D4AF37]" href="/admin/dashboard" onClick={() => setMobileMenuOpen(false)}>Admin Panel</Link>}
         </div>
       )}
     </header>

@@ -10,22 +10,17 @@ import {
   Clock 
 } from 'lucide-react';
 
-const Logo = () => (
-  <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="24" fill="#00a877" />
-    <path d="M50 22L20 48H32V78H46V60H54V78H68V48H80L50 22Z" fill="#ffffff" />
-    <circle cx="50" cy="36" r="5" fill="#fef08a" />
+const Logo = ({ className = "h-8 w-8" }: { className?: string }) => (
+  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <path d="M50 15L85 45L75 85H25L15 45L50 15Z" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"/>
+    <path d="M50 35V85" stroke="currentColor" strokeWidth="4"/>
+    <path d="M30 60H70" stroke="currentColor" strokeWidth="4"/>
   </svg>
 );
 
 export default function Footer() {
   const pathname = usePathname();
 
-  // If we want it to be renderable anywhere, we can remove the pathname check,
-  // but let's keep it clean: if it is explicitly called in admin layout, it will render.
-  // We can just check here if it's auth/admin and return null, OR we can let it render.
-  // Wait, let's allow it to render everywhere, but in pages where it's not needed, we don't render it.
-  // Let's remove the restriction so it can be rendered on admin dashboard page!
   const isAuthPage = pathname === '/login' || pathname === '/register';
   const isAdminPage = pathname.startsWith('/admin');
 
@@ -34,66 +29,65 @@ export default function Footer() {
   }
 
   return (
-    <footer className="w-full bg-[#0b131f] text-white border-t border-gray-800/40">
-      <div className="mx-auto w-full px-6 py-16 md:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 lg:gap-12 w-full">
+    <footer className="w-full bg-[#1B2A22] text-[#FAF9F6] border-t border-[#D4AF37]/20 relative overflow-hidden">
+      {/* Decorative subtle element */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[#D4AF37]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+
+      <div className="mx-auto max-w-[1280px] px-8 py-20 md:px-16 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 lg:gap-16 w-full">
           
           {/* Logo & Description */}
           <div className="md:col-span-5 space-y-6">
-            <Link className="flex items-center gap-3 font-serif text-3xl font-bold tracking-tight text-white" href="/">
-              <Logo />
-              <span className="font-serif tracking-tight text-white">AgriStay</span>
+            <Link className="flex items-center gap-3 tracking-tight text-white hover:opacity-80 transition-opacity" href="/">
+              <Logo className="h-7 w-7 text-[#D4AF37]" />
+              <span className="font-serif text-2xl font-normal tracking-wide uppercase">The Estate</span>
             </Link>
-            <p className="text-sm text-gray-400 font-medium leading-relaxed max-w-md">
-              Experience unparalleled luxury, privacy, and nature at our exclusive private farmhouses. Unwind from the city and create unforgettable memories.
+            <p className="text-sm text-white/60 font-medium leading-relaxed max-w-sm">
+              An exclusive collection of private retreats designed for the discerning traveler. Experience unparalleled luxury, utmost privacy, and impeccable service.
             </p>
           </div>
 
           {/* Quick Links */}
-          <div className="md:col-span-3 space-y-5">
-            <h4 className="text-sm font-bold text-gray-100 uppercase tracking-widest">
-              Quick Links
+          <div className="md:col-span-3 space-y-6">
+            <h4 className="text-xs font-bold text-white/90 uppercase tracking-widest font-serif">
+              Explore
             </h4>
-            <ul className="space-y-3.5 text-sm text-gray-400 font-medium">
+            <ul className="space-y-4 text-[13px] text-white/60 font-medium">
               <li>
-                <Link href="/" className="hover:text-[#00a877] transition-colors">Home</Link>
+                <Link href="/" className="hover:text-[#D4AF37] transition-colors">Home</Link>
               </li>
               <li>
-                <Link href="/farms" className="hover:text-[#00a877] transition-colors">Listings</Link>
+                <Link href="/farms" className="hover:text-[#D4AF37] transition-colors">The Collection</Link>
               </li>
               <li>
-                <a href="#" className="hover:text-[#00a877] transition-colors">About Us</a>
+                <a href="#" className="hover:text-[#D4AF37] transition-colors">Concierge Services</a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#00a877] transition-colors">Contact</a>
+                <a href="#" className="hover:text-[#D4AF37] transition-colors">Experiences</a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#00a877] transition-colors">Blog</a>
+                <a href="#" className="hover:text-[#D4AF37] transition-colors">Journal</a>
               </li>
             </ul>
           </div>
 
           {/* Contact Details */}
-          <div className="md:col-span-4 space-y-5">
-            <h4 className="text-sm font-bold text-gray-100 uppercase tracking-widest">
-              Contact
+          <div className="md:col-span-4 space-y-6">
+            <h4 className="text-xs font-bold text-white/90 uppercase tracking-widest font-serif">
+              Contact & Concierge
             </h4>
-            <ul className="space-y-4 text-sm text-gray-400 font-medium">
-              <li className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 text-[#00a877] mt-0.5 shrink-0" />
-                <span className="leading-relaxed">123 Farm Lane, Green Valley, Countryside District</span>
+            <ul className="space-y-5 text-[13px] text-white/60 font-medium">
+              <li className="flex items-start gap-4">
+                <MapPin className="h-4.5 w-4.5 text-[#D4AF37] mt-0.5 shrink-0" />
+                <span className="leading-relaxed">The Estate Headquarters, <br/> 123 Emerald Valley, Countryside District</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-[#00a877] shrink-0" />
-                <span>+91 98765 43210</span>
+              <li className="flex items-center gap-4 hover:text-[#D4AF37] transition-colors">
+                <Phone className="h-4.5 w-4.5 text-[#D4AF37] shrink-0" />
+                <a href="tel:+919876543210">+91 98765 43210</a>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-[#00a877] shrink-0" />
-                <span>hello@agristay.com</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Clock className="h-5 w-5 text-[#00a877] shrink-0" />
-                <span>Mon-Sat: 9AM - 8PM</span>
+              <li className="flex items-center gap-4 hover:text-[#D4AF37] transition-colors">
+                <Mail className="h-4.5 w-4.5 text-[#D4AF37] shrink-0" />
+                <a href="mailto:concierge@theestate.com">concierge@theestate.com</a>
               </li>
             </ul>
           </div>
@@ -101,9 +95,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-16 pt-8 border-t border-gray-800/40 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500 font-medium">
-          <p>© {new Date().getFullYear()} AgriStay. All rights reserved.</p>
-          <div className="flex flex-wrap justify-center gap-6">
+        <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] text-white/40 font-medium uppercase tracking-wider">
+          <p>© {new Date().getFullYear()} The Estate Collection. All rights reserved.</p>
+          <div className="flex flex-wrap justify-center gap-8">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
             <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>

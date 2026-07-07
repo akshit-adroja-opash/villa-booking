@@ -19,7 +19,8 @@ import {
   Sparkles,
   Users,
   Bed,
-  X
+  X,
+  CalendarDays
 } from 'lucide-react';
 
 interface FarmDetails {
@@ -42,11 +43,11 @@ interface FarmDetails {
 const MOCK_FARMS_DETAILS: Record<string, FarmDetails> = {
   '1': {
     id: '1',
-    title: 'Sunrise Valley Farm',
+    title: 'Sunrise Valley Estate',
     location: 'Solan, Himachal Pradesh',
-    pricePerNight: 3500,
+    pricePerNight: 15000,
     images: [
-      'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1543872084-c7bd3822856f?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
@@ -61,50 +62,6 @@ const MOCK_FARMS_DETAILS: Record<string, FarmDetails> = {
     bedrooms: 4,
     baths: 4,
     acres: 5
-  },
-  '2': {
-    id: '2',
-    title: 'Hilltop Haven',
-    location: 'Manali, Himachal Pradesh',
-    pricePerNight: 5500,
-    images: [
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1543872084-c7bd3822856f?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80'
-    ],
-    description: 'Luxury snow-capped peaks cottage featuring an indoor fireplace, heated pool, spacious wood-paneled bedrooms, and local trekking guides. Breathtaking panoramas guaranteed.',
-    amenities: ['WiFi', 'Hot Tub', 'Fireplace', 'Mountain View', 'Kitchen'],
-    rating: 4.9,
-    reviewsCount: 203,
-    guests: 16,
-    bedrooms: 6,
-    baths: 5,
-    acres: 8
-  },
-  '3': {
-    id: '3',
-    title: 'Coastal Retreat',
-    location: 'Goa, Goa',
-    pricePerNight: 6000,
-    images: [
-      'https://images.unsplash.com/photo-1540206395-68808572332f?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1543872084-c7bd3822856f?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80'
-    ],
-    description: 'A modern coastal sanctuary just steps from pristine beaches. Private decks, landscaped palm gardens, and beach access pathways offer absolute seclusion.',
-    amenities: ['WiFi', 'Beach Access', 'Swimming Pool', 'Ocean View', 'AC'],
-    rating: 4.5,
-    reviewsCount: 67,
-    guests: 14,
-    bedrooms: 5,
-    baths: 4,
-    acres: 4
   }
 };
 
@@ -160,7 +117,7 @@ export default function FarmDetailPage() {
             pricePerNight: data.pricePerNight,
             description: data.description,
             images: data.images && data.images.length > 0 ? data.images : [
-              'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80'
+              'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80'
             ],
             amenities: data.amenities && data.amenities.length > 0 ? data.amenities : ['WiFi', 'Pool'],
             guests: data.guests || 6,
@@ -171,21 +128,11 @@ export default function FarmDetailPage() {
             acres: cleanAcres
           });
         } else {
-          // Fallback to MOCK
-          if (MOCK_FARMS_DETAILS[id as string]) {
-            setFarm(MOCK_FARMS_DETAILS[id as string]);
-          } else {
-            // Find in mock list or default
-            setFarm(MOCK_FARMS_DETAILS['1']);
-          }
+          setFarm(MOCK_FARMS_DETAILS['1']);
         }
       } catch (err) {
         console.error('Error fetching farm details:', err);
-        if (MOCK_FARMS_DETAILS[id as string]) {
-          setFarm(MOCK_FARMS_DETAILS[id as string]);
-        } else {
-          setFarm(MOCK_FARMS_DETAILS['1']);
-        }
+        setFarm(MOCK_FARMS_DETAILS['1']);
       } finally {
         setLoading(false);
       }
@@ -237,16 +184,16 @@ export default function FarmDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#fdfbf7]">
-        <Loader2 className="h-10 w-10 animate-spin text-[#003527]" />
+      <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
+        <Loader2 className="h-10 w-10 animate-spin text-[#D4AF37]" />
       </div>
     );
   }
 
   if (!farm) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#fdfbf7]">
-        <p className="text-lg font-semibold text-[#003527]">Retreat stay not found.</p>
+      <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
+        <p className="font-serif text-2xl text-[#1B2A22]">Estate not found.</p>
       </div>
     );
   }
@@ -276,13 +223,12 @@ export default function FarmDetailPage() {
 
   const priceBreakdown = [
     { label: `₹${farm.pricePerNight.toLocaleString('en-IN')} x ${diffNights} night${diffNights > 1 ? 's' : ''}`, value: accommodationTotal },
-    { label: 'Sanitary & Cleaning fee', value: cleaningFee },
-    { label: 'Service & Booking fee', value: serviceFee }
+    { label: 'Concierge & Service fee', value: serviceFee }
   ];
 
   const handleBooking = async () => {
     if (!session?.user) {
-      toast.error('Please sign in to complete your booking.');
+      toast.error('Please sign in to complete your reservation.');
       router.push('/login');
       return;
     }
@@ -303,7 +249,7 @@ export default function FarmDetailPage() {
     }
 
     if (hasConflict) {
-      toast.error('This farmhouse is already booked for the selected dates. Please choose different dates.');
+      toast.error('This estate is already reserved for the selected dates. Please choose different dates.');
       return;
     }
 
@@ -357,121 +303,112 @@ export default function FarmDetailPage() {
       });
 
       if (res.ok) {
-        toast.success('Booking Confirmed Successfully!');
+        toast.success('Reservation Confirmed Successfully!');
         router.push('/dashboard/bookings');
       } else {
         const errorData = await res.json();
-        toast.error(errorData.error || 'Failed to place booking.');
+        toast.error(errorData.error || 'Failed to place reservation.');
       }
     } catch (err) {
       console.error(err);
-      toast.error('Error confirming booking.');
+      toast.error('Error confirming reservation.');
     } finally {
       setBookingLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#fdfbf7] text-[#1a1b22] font-sans antialiased">
-      <main className="mx-auto max-w-[1280px] px-6 pt-[100px] pb-24 md:px-16">
+    <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22] font-sans antialiased">
+      <main className="mx-auto max-w-[1280px] px-6 pt-32 pb-24 md:px-16">
         
         {/* Title & Metadata */}
-        <div className="my-8">
-          <h1 className="font-serif text-3xl font-semibold text-[#003527] md:text-5xl mb-2">{farm.title}</h1>
-            <div className="flex flex-wrap items-center gap-2">
-              <MapPin className="h-4 w-4 text-[#10b981]" />
-              <span className="font-medium">{farm.location}</span>
-            </div>
+        <div className="mb-10 text-center max-w-4xl mx-auto">
+          <div className="flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-4">
+            <MapPin className="h-3.5 w-3.5" />
+            <span>{farm.location}</span>
+          </div>
+          <h1 className="font-serif text-4xl font-normal text-[#1B2A22] md:text-6xl mb-6">{farm.title}</h1>
         </div>
 
-        {/* Bento Grid Photo Gallery */}
-        <div className="relative mb-16 grid h-[400px] grid-cols-1 gap-4 overflow-hidden rounded-2xl md:h-[520px] md:grid-cols-4 md:grid-rows-2">
-          <div className="relative col-span-1 row-span-1 overflow-hidden md:col-span-2 md:row-span-2">
+        {/* Hero Photo Gallery */}
+        <div className="relative mb-20 grid h-[500px] grid-cols-1 gap-4 overflow-hidden md:h-[600px] md:grid-cols-4 md:grid-rows-2">
+          <div className="relative col-span-1 row-span-1 overflow-hidden md:col-span-3 md:row-span-2">
             <img 
               src={farm.images?.[0]} 
               alt="Main stay view" 
-              className="h-full w-full object-cover transition-transform duration-700 hover:scale-102"
+              className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
             />
           </div>
           <div className="hidden overflow-hidden md:block">
             <img 
               src={farm.images?.[1] || farm.images?.[0]} 
               alt="Alternative exterior view" 
-              className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+              className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
             />
           </div>
-          <div className="hidden overflow-hidden md:block">
+          <div className="relative hidden overflow-hidden md:block">
             <img 
               src={farm.images?.[2] || farm.images?.[0]} 
               alt="Interior lounge" 
-              className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+              className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
             />
-          </div>
-          <div className="relative hidden overflow-hidden md:block md:col-span-2">
-            <img 
-              src={farm.images?.[3] || farm.images?.[0]} 
-              alt="Scenery gardens" 
-              className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-            />
-            {farm.images && farm.images.length > 4 && (
+            {farm.images && farm.images.length > 3 && (
               <button 
                 onClick={() => setShowAllPhotosModal(true)}
-                className="absolute bottom-4 right-4 flex items-center space-x-2 rounded-xl border border-[#bfc9c3] bg-white px-4 py-2 text-sm font-bold text-[#003527] shadow-sm transition-colors hover:bg-gray-50"
+                className="absolute bottom-6 right-6 flex items-center space-x-2 bg-white/20 backdrop-blur-md px-6 py-3 text-[11px] uppercase tracking-widest font-bold text-white transition-all hover:bg-white hover:text-[#1B2A22]"
               >
                 <Grid className="h-4 w-4" />
-                <span>Show all photos</span>
+                <span>View Gallery</span>
               </button>
             )}
           </div>
         </div>
 
         {/* Detail Split Column Panel */}
-        <div className="flex flex-col gap-12 md:flex-row">
+        <div className="flex flex-col gap-16 md:flex-row">
           
           {/* Main Info */}
-          <div className="w-full md:w-[65%] md:pr-8">
+          <div className="w-full md:w-[60%] md:pr-10">
             
-            {/* Host Section */}
-            <div className="border-b border-[#bfc9c3]/30 pb-8 mb-8">
-              <h2 className="font-serif text-2xl text-[#003527] mb-2">Entire Farmhouse hosted by AgriStay</h2>
-              <div className="flex items-center gap-4 text-sm font-semibold text-[#404944]">
-                <div className="flex items-center gap-1.5">
-                  <Users className="h-4 w-4 text-gray-400" />
-                  <span>{farm.guests} guests</span>
+            {/* Highlights Section */}
+            <div className="border-b border-[#1B2A22]/10 pb-10 mb-10">
+              <h2 className="font-serif text-3xl text-[#1B2A22] mb-6">The Estate Experience</h2>
+              <div className="flex flex-wrap items-center gap-x-8 gap-y-4 text-sm font-semibold text-[#1B2A22]/70 uppercase tracking-widest">
+                <div className="flex items-center gap-2">
+                  <Users className="h-4 w-4 text-[#D4AF37]" />
+                  <span>{farm.guests} guests max</span>
                 </div>
-                <span>·</span>
-                <div className="flex items-center gap-1.5">
-                  <Bed className="h-4 w-4 text-gray-400" />
+                <div className="flex items-center gap-2">
+                  <Bed className="h-4 w-4 text-[#D4AF37]" />
                   <span>{farm.bedrooms} bedrooms</span>
                 </div>
-                <span>·</span>
-                <div className="flex items-center gap-1.5">
-                  <Compass className="h-4 w-4 text-gray-400" />
+                <div className="flex items-center gap-2">
+                  <Compass className="h-4 w-4 text-[#D4AF37]" />
                   <span>{farm.acres || 5} Acres</span>
                 </div>
               </div>
             </div>
 
             {/* About Home description */}
-            <div className="border-b border-[#bfc9c3]/30 pb-8 mb-8">
-              <h3 className="font-serif text-xl text-[#003527] mb-4">About this farmhouse stay</h3>
-              <p className="text-sm leading-relaxed text-gray-600 font-medium whitespace-pre-line">
+            <div className="border-b border-[#1B2A22]/10 pb-10 mb-10">
+              <h3 className="font-serif text-2xl text-[#1B2A22] mb-6">About the Estate</h3>
+              <p className="text-base leading-loose text-[#1B2A22]/70 font-medium whitespace-pre-line font-serif italic">
                 {farm.description}
               </p>
             </div>
 
             {/* Amenities Grid */}
-            <div className="border-b border-[#bfc9c3]/30 pb-8 mb-8">
-              <h3 className="font-serif text-xl text-[#003527] mb-6">What this farmhouse offers</h3>
-              <div className="grid grid-cols-1 gap-y-4 gap-x-8 sm:grid-cols-2">
+            <div className="pb-10 mb-10">
+              <h3 className="font-serif text-2xl text-[#1B2A22] mb-8">Exclusive Amenities</h3>
+              <div className="grid grid-cols-1 gap-y-6 gap-x-12 sm:grid-cols-2">
                 {farm.amenities?.map((amenity, index) => {
                   const IconComponent = AMENITY_ICONS[amenity] || ShieldCheck;
                   return (
                     <div key={index} className="flex items-center space-x-4">
-                      <div className="h-10 w-10 rounded-full bg-[#e6f4ea] flex items-center justify-center text-[#003527]">
+                      <div className="text-[#D4AF37]">
                         <IconComponent className="h-5 w-5" />
                       </div>
-                      <span className="text-sm font-semibold text-[#404944]">{amenity}</span>
+                      <span className="text-[13px] font-semibold text-[#1B2A22]/80 uppercase tracking-wider">{amenity}</span>
                     </div>
                   );
                 })}
@@ -480,51 +417,49 @@ export default function FarmDetailPage() {
           </div>
 
           {/* Booking / Sticky Card Column */}
-          <div className="w-full md:w-[35%]">
-            <div className="sticky top-[120px] rounded-2xl border border-[#bfc9c3]/30 bg-white p-6 shadow-[0_8px_30px_rgba(6,78,59,0.04)] hover-lift">
+          <div className="w-full md:w-[40%]">
+            <div className="sticky top-28 bg-[#1B2A22] text-white p-8 md:p-10 shadow-2xl">
               
-              {/* Price Tag Header */}
-              <div className="mb-6 flex items-end justify-between">
-                <div>
-                  <span className="font-serif text-2xl font-bold text-[#003527] md:text-3xl">
-                    ₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}
-                  </span>
-                  <span className="text-sm text-gray-500"> / night</span>
-                </div>
+              <div className="mb-8">
+                <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] block mb-2">Reservation</span>
+                <span className="font-serif text-3xl font-normal text-white">
+                  ₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}
+                </span>
+                <span className="text-xs text-white/50 font-medium ml-2 uppercase tracking-widest">/ night</span>
               </div>
 
               {/* Date Inputs Card */}
-              <div className={`mb-4 overflow-hidden rounded-xl border transition-all duration-200 ${hasConflict ? 'border-red-500 bg-red-50/20' : isInvalidDates ? 'border-amber-500 bg-amber-50/20' : 'border-[#bfc9c3]/40'}`}>
-                <div className="flex border-b border-[#bfc9c3]/40">
-                  <div className="w-1/2 border-r border-[#bfc9c3]/40 p-3 hover:bg-gray-50 transition-colors">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-[#404944] block mb-1">Check-in</label>
+              <div className={`mb-6 border transition-all duration-200 ${hasConflict ? 'border-red-500/50 bg-red-900/10' : isInvalidDates ? 'border-amber-500/50 bg-amber-900/10' : 'border-white/10'}`}>
+                <div className="flex border-b border-white/10">
+                  <div className="w-1/2 border-r border-white/10 p-4">
+                    <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#D4AF37] block mb-2">Check-in</label>
                     <input 
                       type="date" 
                       value={startDate} 
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="text-sm font-semibold text-[#003527] bg-transparent outline-none border-none w-full p-0" 
+                      className="text-sm font-semibold text-white bg-transparent outline-none border-none w-full p-0 [color-scheme:dark]" 
                     />
                   </div>
-                  <div className="w-1/2 p-3 hover:bg-gray-50 transition-colors">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-[#404944] block mb-1">Checkout</label>
+                  <div className="w-1/2 p-4">
+                    <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#D4AF37] block mb-2">Checkout</label>
                     <input 
                       type="date" 
                       value={endDate} 
                       onChange={(e) => setEndDate(e.target.value)}
-                      className="text-sm font-semibold text-[#003527] bg-transparent outline-none border-none w-full p-0" 
+                      className="text-sm font-semibold text-white bg-transparent outline-none border-none w-full p-0 [color-scheme:dark]" 
                     />
                   </div>
                 </div>
-                <div className="p-3 hover:bg-gray-50 transition-colors">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-[#404944] block mb-1">Guests limit</label>
+                <div className="p-4 border-b border-white/10">
+                  <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#D4AF37] block mb-2">Guests</label>
                   <select 
                     value={guestSelection}
                     onChange={(e) => setGuestSelection(Number(e.target.value))}
-                    className="text-sm font-semibold text-[#003527] bg-transparent border-none outline-none w-full p-0 cursor-pointer"
+                    className="text-sm font-semibold text-white bg-transparent outline-none border-none w-full p-0 appearance-none cursor-pointer"
                   >
-                    <option value={0} disabled>Select guests</option>
+                    <option value={0} disabled className="text-black">Select guests</option>
                     {[...Array(farm.guests || 6)].map((_, i) => (
-                      <option key={i + 1} value={i + 1}>{i + 1} guest{i > 0 ? 's' : ''}</option>
+                      <option key={i + 1} value={i + 1} className="text-black">{i + 1} guest{i > 0 ? 's' : ''}</option>
                     ))}
                   </select>
                 </div>
@@ -532,13 +467,13 @@ export default function FarmDetailPage() {
 
               {/* Alert Banners */}
               {hasConflict && (
-                <div className="mb-4 p-3 rounded-xl bg-red-50 text-red-700 text-xs font-semibold flex items-start gap-2 border border-red-200">
-                  <span>⚠️ This farmhouse is already booked for the selected dates. Please choose different dates.</span>
+                <div className="mb-6 p-4 bg-red-900/20 text-red-200 text-xs font-semibold flex items-start gap-2 border border-red-500/30">
+                  <span>This estate is already reserved for the selected dates.</span>
                 </div>
               )}
               {isInvalidDates && (
-                <div className="mb-4 p-3 rounded-xl bg-amber-50 text-amber-700 text-xs font-semibold flex items-start gap-2 border border-amber-200">
-                  <span>⚠️ Checkout date must be after check-in date.</span>
+                <div className="mb-6 p-4 bg-amber-900/20 text-amber-200 text-xs font-semibold flex items-start gap-2 border border-amber-500/30">
+                  <span>Checkout date must be after check-in date.</span>
                 </div>
               )}
 
@@ -546,28 +481,28 @@ export default function FarmDetailPage() {
               <button 
                 onClick={handleBooking}
                 disabled={bookingLoading || hasConflict || isInvalidDates || !startDate || !endDate || guestSelection === 0}
-                className="w-full rounded-xl bg-[#003527] hover:bg-[#064e3b] py-4 text-sm font-bold text-white shadow-sm transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#D4AF37] hover:bg-[#c29f31] py-5 text-[11px] uppercase tracking-[0.1em] font-bold text-white transition-colors active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed mb-4"
               >
-                {bookingLoading ? 'Reserving...' : hasConflict ? 'Dates Already Booked' : 'Book Your Stay'}
+                {bookingLoading ? 'Reserving...' : hasConflict ? 'Dates Unavailable' : 'Request Reservation'}
               </button>
-              <p className="mt-3 text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                No payment charged yet
-              </p>
+              
+              <div className="text-center text-[10px] font-bold text-white/40 uppercase tracking-widest mb-8">
+                <CalendarDays className="h-3 w-3 inline mr-1 mb-0.5" /> Subject to approval
+              </div>
 
               {/* Price Breakdown */}
               {hasValidDates && diffNights > 0 && (
                 <>
-                  <div className="mt-6 space-y-4 border-b border-[#bfc9c3]/20 pb-6 text-sm font-medium text-gray-500">
+                  <div className="space-y-4 border-b border-white/10 pb-6 text-xs font-medium text-white/70 uppercase tracking-wider">
                     {priceBreakdown.map((item, index) => (
                       <div key={index} className="flex justify-between">
-                        <span className="underline cursor-pointer">{item.label}</span>
-                        <span className="text-[#1a1b22]">₹{item.value.toLocaleString('en-IN')}</span>
+                        <span>{item.label}</span>
+                        <span className="text-white">₹{item.value.toLocaleString('en-IN')}</span>
                       </div>
                     ))}
                   </div>
 
-                  {/* Final price */}
-                  <div className="mt-6 flex justify-between font-serif text-lg font-bold text-[#003527]">
+                  <div className="mt-6 flex justify-between font-serif text-2xl font-normal text-white">
                     <span>Total</span>
                     <span>₹{grandTotal.toLocaleString('en-IN')}</span>
                   </div>
@@ -579,37 +514,36 @@ export default function FarmDetailPage() {
 
         </div>
       </main>
+
       {/* Full-screen Photo Gallery Modal */}
       {showAllPhotosModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-95 backdrop-blur-md flex flex-col transition-all duration-300">
-          {/* Header */}
-          <div className="sticky top-0 z-10 flex items-center justify-between bg-black/60 backdrop-blur-md px-6 py-4 border-b border-white/10 text-white">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-[#1B2A22] flex flex-col transition-all duration-300">
+          <div className="sticky top-0 z-10 flex items-center justify-between bg-[#1B2A22]/90 backdrop-blur-md px-8 py-6 border-b border-white/10 text-white">
             <div>
-              <h2 className="font-serif text-lg md:text-xl font-bold">{farm.title}</h2>
-              <p className="text-xs text-gray-400 font-medium mt-0.5">
-                {farm.images?.length || 0} photo{farm.images?.length && farm.images.length > 1 ? 's' : ''}
+              <h2 className="font-serif text-2xl font-normal">{farm.title}</h2>
+              <p className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold mt-2">
+                {farm.images?.length || 0} Photos
               </p>
             </div>
             <button 
               onClick={() => setShowAllPhotosModal(false)}
-              className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors focus:outline-none"
+              className="p-3 bg-white/5 hover:bg-white/10 text-white transition-colors focus:outline-none"
               aria-label="Close photo gallery"
             >
               <X className="h-6 w-6" />
             </button>
           </div>
 
-          {/* Grid Container */}
-          <div className="max-w-[1000px] w-full mx-auto px-6 py-12 flex-1">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="max-w-[1280px] w-full mx-auto px-6 py-16 flex-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {farm.images?.map((imgUrl, index) => (
-                <div key={index} className="overflow-hidden rounded-2xl aspect-[4/3] bg-neutral-900 border border-white/5 group relative shadow-md">
+                <div key={index} className="overflow-hidden aspect-[4/3] bg-black/20 border border-white/5 group relative">
                   <img 
                     src={imgUrl} 
                     alt={`${farm.title} photo ${index + 1}`} 
-                    className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                    className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
                   />
-                  <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold border border-white/10">
+                  <div className="absolute bottom-6 left-6 bg-[#1B2A22]/80 backdrop-blur-sm text-[#D4AF37] px-4 py-2 text-[10px] uppercase tracking-widest font-bold">
                     {index + 1} / {farm.images.length}
                   </div>
                 </div>

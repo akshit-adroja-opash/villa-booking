@@ -6,25 +6,13 @@ import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { 
-  Search, 
   MapPin, 
   Users, 
   Heart, 
   Bed, 
   Compass, 
-  SlidersHorizontal,
-  ChevronDown,
-  X,
-  ChevronLeft,
-  ChevronRight
+  ArrowRight
 } from 'lucide-react';
-
-
-const ALL_AMENITIES = [
-  'WiFi', 'Swimming Pool', 'Garden', 'Kitchen', 'Parking',
-  'Hot Tub', 'Fireplace', 'Beach Access', 'Tea Tasting',
-  'Plantation Walk', 'Yoga Deck', 'River View', 'Fruit Picking'
-];
 
 function StaysList() {
   const searchParams = useSearchParams();
@@ -36,7 +24,6 @@ function StaysList() {
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState<string[]>([]);
 
-
   useEffect(() => {
     async function fetchFarms() {
       try {
@@ -45,7 +32,7 @@ function StaysList() {
           const data = await res.json();
           if (data && data.length > 0) {
             const formatted = data.map((farm: any) => {
-              const cleanTitle = farm.title || 'Premium Farmhouse';
+              const cleanTitle = farm.title || 'Premium Estate';
               const cleanRating = farm.rating || (4.5 + Math.random() * 0.5);
               const cleanAcres = farm.acres || Math.round((farm.pricePerNight / 1000) + (farm.bedrooms || 1));
               return {
@@ -99,7 +86,7 @@ function StaysList() {
     e.preventDefault();
     e.stopPropagation();
     if (!session?.user) {
-      toast.error('Please sign in to save farmhouses to your favorites.');
+      toast.error('Please sign in to save estates to your collection.');
       router.push('/login');
       return;
     }
@@ -114,134 +101,123 @@ function StaysList() {
         const data = await res.json();
         setFavorites(data.favorites);
       } else {
-        const errorData = await res.json();
-        toast.error(errorData.error || 'Failed to toggle favorite.');
+        toast.error('Failed to toggle favorite.');
       }
     } catch (err) {
-      console.error('Error toggling favorite:', err);
       toast.error('Failed to update favorites.');
     }
   };
 
-  // Simplified list for single-owner portfolio
-  const currentFarms = farms;
-
   return (
-    <div className="max-w-[1280px] mx-auto px-6 md:px-16 pt-28 pb-16">
-      
-      {/* Title */}
-      <h1 className="font-serif text-3xl font-semibold text-[#003527] mb-10">
-        Our Properties
-      </h1>
+    <div className="bg-[#FAF9F6] min-h-screen">
+      {/* Hero Header */}
+      <div className="bg-[#1B2A22] pt-32 pb-20 px-6">
+        <div className="max-w-[1280px] mx-auto text-center text-white">
+          <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-4 block">
+            Portfolio
+          </span>
+          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-normal leading-tight">
+            The Collection
+          </h1>
+          <p className="mt-6 text-white/70 max-w-lg mx-auto font-medium text-sm">
+            Discover our curated selection of ultra-luxury private estates, designed for ultimate privacy and unforgettable experiences.
+          </p>
+        </div>
+      </div>
 
-      {/* Stays Grid */}
-      {loading ? (
-        <div className="flex flex-col items-center justify-center py-20 gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#003527] border-t-transparent"></div>
-          <p className="text-sm text-[#404944] font-semibold">Loading properties...</p>
-        </div>
-      ) : currentFarms.length === 0 ? (
-        <div className="text-center py-20 bg-white border border-[#bfc9c3]/15 rounded-2xl p-8 max-w-md mx-auto shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">No properties available</h3>
-          <p className="text-secondary text-sm mb-6">We couldn't load the properties right now.</p>
-        </div>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {currentFarms.map((farm) => {
+      <div className="max-w-[1280px] mx-auto px-6 md:px-16 py-20">
+        {/* Stays Grid */}
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-32 gap-4">
+            <div className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full"></div>
+            <p className="text-[11px] uppercase tracking-widest text-[#1B2A22]/60 font-bold">Curating Collection...</p>
+          </div>
+        ) : farms.length === 0 ? (
+          <div className="text-center py-32 border-y border-[#1B2A22]/10 max-w-2xl mx-auto">
+            <h3 className="font-serif text-2xl text-[#1B2A22] mb-4">No estates available</h3>
+            <p className="text-[#1B2A22]/60 font-medium">Our portfolio is currently being updated. Please check back later.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-x-12 gap-y-16">
+            {farms.map((farm) => {
               const isFav = favorites.includes(farm._id);
               return (
                 <Link
                   key={farm._id}
                   href={`/farms/${farm._id}`}
-                  className="bg-white rounded-2xl overflow-hidden border border-[#bfc9c3]/15 shadow-sm hover-lift group cursor-pointer flex flex-col h-full"
+                  className="group flex flex-col cursor-pointer"
                 >
                   
                   {/* Photo & Badge Overlay */}
-                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden mb-6 bg-gray-100 border border-[#1B2A22]/5">
                     <img
                       src={farm.images?.[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'}
                       alt={farm.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
                     />
 
                     {/* Favorite Button */}
                     <button 
                       onClick={(e) => toggleFavorite(farm._id, e)}
-                      className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2 rounded-full border border-gray-100 shadow-sm text-gray-500 hover:text-red-500 transition-colors"
+                      className="absolute top-5 right-5 bg-white/20 backdrop-blur-md p-2.5 rounded-full border border-white/30 text-white hover:bg-white hover:text-red-500 transition-all duration-300"
                     >
-                      <Heart className={`h-4 w-4 ${isFav ? 'fill-red-500 text-red-500' : ''}`} />
+                      <Heart className={`h-4.5 w-4.5 ${isFav ? 'fill-red-500 text-red-500' : ''}`} />
                     </button>
-
-
                   </div>
 
-                  {/* Staying info details */}
-                  <div className="p-6 flex flex-col flex-grow">
-                    
+                  {/* Estate details */}
+                  <div className="flex flex-col flex-grow px-2">
                     {/* Location */}
-                    <div className="flex items-center gap-1 text-[11px] font-semibold text-gray-500 mb-2">
-                      <MapPin className="h-3.5 w-3.5 text-[#10b981]" />
+                    <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-3">
+                      <MapPin className="h-3.5 w-3.5" />
                       <span>{farm.location}</span>
                     </div>
 
-                    {/* Title */}
-                    <h3 className="font-serif text-lg font-semibold text-[#1a1b22] group-hover:text-[#003527] transition-colors mb-3">
-                      {farm.title}
-                    </h3>
+                    {/* Title & Price */}
+                    <div className="flex justify-between items-start gap-4 mb-4">
+                      <h3 className="font-serif text-2xl text-[#1B2A22] group-hover:opacity-70 transition-opacity leading-snug">
+                        {farm.title}
+                      </h3>
+                      <div className="text-right shrink-0 mt-1">
+                        <span className="block text-lg font-serif text-[#1B2A22]">
+                          ₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}
+                        </span>
+                        <span className="block text-[10px] uppercase tracking-wider text-[#1B2A22]/50 font-bold">
+                          per night
+                        </span>
+                      </div>
+                    </div>
                     
                     {/* Size icons (Beds, Guests, Acres) */}
-                    <div className="grid grid-cols-3 gap-2 py-3 border-y border-[#bfc9c3]/15 mb-4 text-xs font-semibold text-[#404944]">
-                      <div className="flex items-center gap-1.5">
-                        <Bed className="h-4 w-4 text-gray-400" />
+                    <div className="flex gap-6 pb-5 border-b border-[#1B2A22]/10 mb-5 text-[11px] font-semibold text-[#1B2A22]/70 uppercase tracking-wide">
+                      <div className="flex items-center gap-2">
+                        <Bed className="h-4 w-4 text-[#D4AF37]" />
                         <span>{farm.bedrooms || 3} beds</span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <Users className="h-4 w-4 text-gray-400" />
+                      <div className="flex items-center gap-2">
+                        <Users className="h-4 w-4 text-[#D4AF37]" />
                         <span>{farm.guests || 6} guests</span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <Compass className="h-4 w-4 text-gray-400" />
+                      <div className="flex items-center gap-2">
+                        <Compass className="h-4 w-4 text-[#D4AF37]" />
                         <span>{farm.acres || 5} Acres</span>
                       </div>
                     </div>
 
-                    {/* Amenities Tag badges */}
-                    <div className="flex flex-wrap gap-1.5 mb-4">
-                      {farm.amenities?.slice(0, 3).map((amenity: string, idx: number) => (
-                        <span key={idx} className="text-[10px] font-bold text-[#404944] bg-[#e3e1ec]/30 px-2 py-0.5 rounded border border-[#bfc9c3]/20">
-                          {amenity}
-                        </span>
-                      ))}
-                      {farm.amenities?.length > 3 && (
-                        <span className="text-[10px] font-bold text-gray-500 bg-gray-50 px-2 py-0.5 rounded border border-gray-200">
-                          +{farm.amenities.length - 3}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Price and Action */}
-                    <div className="flex items-center justify-between pt-3 border-t border-[#bfc9c3]/15 mt-auto">
-                      <div>
-                        <span className="text-lg font-bold text-[#003527]">
-                          ₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}
-                        </span>
-                        <span className="text-xs text-gray-500 font-normal">/night</span>
-                      </div>
-                      <span className="text-xs font-bold text-[#003527] group-hover:underline flex items-center gap-1">
-                        Details
+                    {/* Footer / Action */}
+                    <div className="flex items-center justify-between mt-auto text-[11px] uppercase tracking-widest font-bold text-[#1B2A22] group-hover:text-[#D4AF37] transition-colors">
+                      <span className="flex items-center gap-1.5">
+                        Discover Estate
                       </span>
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </div>
-
                   </div>
                 </Link>
               );
             })}
           </div>
-
-        </>
-      )}
-
+        )}
+      </div>
     </div>
   );
 }
@@ -249,9 +225,9 @@ function StaysList() {
 export default function FarmsListingPage() {
   return (
     <Suspense fallback={
-      <div className="flex flex-col items-center justify-center py-40 gap-3">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#003527] border-t-transparent"></div>
-        <p className="text-sm text-[#404944] font-semibold">Initializing retreats search...</p>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#FAF9F6] gap-4">
+        <div className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full"></div>
+        <p className="text-[11px] uppercase tracking-widest text-[#1B2A22]/60 font-bold">Initializing The Collection...</p>
       </div>
     }>
       <StaysList />

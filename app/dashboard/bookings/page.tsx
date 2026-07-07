@@ -128,8 +128,8 @@ export default function BookingsDashboardPage() {
 
   if (status === 'loading' || loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#fdfbf7]">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#00a877] border-t-transparent"></div>
+      <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#D4AF37] border-t-transparent"></div>
       </div>
     );
   }
@@ -154,136 +154,137 @@ export default function BookingsDashboardPage() {
     const receiptHtml = `
       <html>
         <head>
-          <title>AgriStay Receipt - ${booking._id.slice(-6).toUpperCase()}</title>
+          <title>The Estate Receipt - ${booking._id.slice(-6).toUpperCase()}</title>
           <style>
             body {
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-              color: #1a1b22;
+              font-family: 'Georgia', serif;
+              color: #1B2A22;
               margin: 40px;
               line-height: 1.6;
-              background-color: #fdfbf7;
+              background-color: #FAF9F6;
             }
             .container {
-              max-width: 750px;
+              max-width: 800px;
               margin: 0 auto;
               background: white;
-              border: 1px solid #bfc9c3;
-              border-radius: 16px;
-              padding: 40px;
-              box-shadow: 0 4px 12px rgba(6, 78, 59, 0.05);
+              border: 1px solid rgba(27, 42, 34, 0.1);
+              padding: 60px;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             }
             .header {
               display: flex;
               justify-content: space-between;
               align-items: flex-start;
-              border-bottom: 2px solid #00a877;
-              padding-bottom: 20px;
-              margin-bottom: 30px;
+              border-bottom: 1px solid #D4AF37;
+              padding-bottom: 30px;
+              margin-bottom: 40px;
             }
             .logo {
-              font-size: 24px;
-              font-weight: bold;
-              color: #003527;
+              font-size: 28px;
+              font-weight: normal;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              color: #1B2A22;
               display: flex;
               align-items: center;
               gap: 8px;
             }
             .title {
-              font-size: 18px;
+              font-size: 14px;
+              font-family: sans-serif;
               font-weight: bold;
-              color: #707974;
+              color: #D4AF37;
               text-transform: uppercase;
-              letter-spacing: 0.05em;
+              letter-spacing: 0.2em;
               text-align: right;
             }
             .grid {
               display: grid;
               grid-template-columns: 1fr 1fr;
-              gap: 20px;
-              margin-bottom: 30px;
+              gap: 30px;
+              margin-bottom: 40px;
             }
             .card {
-              border: 1px solid rgba(191, 201, 195, 0.4);
-              border-radius: 12px;
-              padding: 20px;
-              background-color: #fcfbfa;
+              border-left: 2px solid #D4AF37;
+              padding: 0 20px;
             }
             .label {
+              font-family: sans-serif;
               font-size: 10px;
               text-transform: uppercase;
-              letter-spacing: 0.1em;
-              color: #707974;
+              letter-spacing: 0.2em;
+              color: #1B2A22;
+              opacity: 0.6;
               font-weight: bold;
-              margin-bottom: 10px;
+              margin-bottom: 15px;
             }
             .value {
-              font-size: 14px;
-              font-weight: 600;
-              color: #1a1b22;
+              font-size: 15px;
+              color: #1B2A22;
             }
             .table {
               width: 100%;
               border-collapse: collapse;
               margin-top: 20px;
-              margin-bottom: 20px;
+              margin-bottom: 40px;
             }
             .table th {
-              background-color: #e6f4ea;
-              color: #0f766e;
-              padding: 12px 16px;
-              font-size: 11px;
+              background-color: #1B2A22;
+              color: white;
+              padding: 16px;
+              font-family: sans-serif;
+              font-size: 10px;
               text-transform: uppercase;
-              letter-spacing: 0.05em;
+              letter-spacing: 0.15em;
               text-align: left;
-              border-bottom: 1px solid rgba(167, 243, 208, 0.5);
             }
             .table td {
-              padding: 16px;
-              font-size: 14px;
-              border-bottom: 1px solid rgba(191, 201, 195, 0.25);
-              color: #404944;
-              font-weight: 500;
+              padding: 20px 16px;
+              font-size: 15px;
+              border-bottom: 1px solid rgba(27, 42, 34, 0.1);
+              color: #1B2A22;
               vertical-align: top;
             }
             .summary-box {
-              width: 320px;
+              width: 350px;
               margin-left: auto;
               margin-top: 10px;
-              padding-top: 15px;
             }
             .summary-row {
               display: flex;
               justify-content: space-between;
-              margin-bottom: 8px;
-              font-size: 14px;
-              color: #707974;
+              margin-bottom: 12px;
+              font-size: 15px;
+              color: #1B2A22;
+              opacity: 0.8;
             }
             .total-box {
               display: flex;
               justify-content: space-between;
               align-items: center;
-              margin-top: 15px;
-              padding-top: 15px;
-              border-top: 1px solid rgba(191, 201, 195, 0.4);
+              margin-top: 20px;
+              padding-top: 20px;
+              border-top: 1px solid rgba(27, 42, 34, 0.2);
             }
             .total-label {
-              font-size: 14px;
-              font-weight: bold;
-              color: #1a1b22;
+              font-size: 16px;
+              font-weight: normal;
+              color: #1B2A22;
             }
             .total-value {
-              font-size: 24px;
-              font-weight: bold;
-              color: #003527;
+              font-size: 28px;
+              font-weight: normal;
+              color: #1B2A22;
             }
             .footer {
               text-align: center;
-              font-size: 12px;
-              color: #707974;
-              margin-top: 40px;
-              border-top: 1px solid rgba(191, 201, 195, 0.3);
-              padding-top: 20px;
-              font-weight: 500;
+              font-size: 13px;
+              font-style: italic;
+              color: #1B2A22;
+              opacity: 0.7;
+              margin-top: 60px;
+              border-top: 1px solid rgba(212, 175, 55, 0.3);
+              padding-top: 30px;
             }
           </style>
         </head>
@@ -291,35 +292,35 @@ export default function BookingsDashboardPage() {
           <div class="container">
             <div class="header">
               <div>
-                <div class="logo">🏡 AgriStay</div>
-                <div style="margin-top: 8px; font-size: 12px; color: #707974; line-height: 1.5;">
-                  123 Eco Farm Road, Green Valley District<br>
-                  Maharashtra, IN 400001<br>
+                <div class="logo">THE ESTATE</div>
+                <div style="margin-top: 15px; font-size: 13px; color: #1B2A22; opacity: 0.8; line-height: 1.6; font-family: sans-serif;">
+                  The Estate Headquarters<br>
+                  123 Emerald Valley, Countryside District<br>
                   GSTIN: 27AABCA1234D1Z5
                 </div>
               </div>
-              <div class="title">Official Receipt</div>
+              <div class="title">Reservation Receipt</div>
             </div>
 
             <div class="grid">
               <div class="card">
-                <div class="label">Billed To</div>
-                <div class="value" style="font-size: 16px; font-weight: 700; color: #003527; margin-bottom: 4px;">
-                  ${session?.user?.name || 'Valued Guest'}
+                <div class="label">Esteemed Guest</div>
+                <div class="value" style="font-size: 18px; font-weight: normal; color: #1B2A22; margin-bottom: 8px;">
+                  ${session?.user?.name || 'Valued Patron'}
                 </div>
-                <div class="value" style="font-weight: 500; color: #707974; font-size: 13px; line-height: 1.5;">
+                <div class="value" style="font-family: sans-serif; font-size: 13px; opacity: 0.8; line-height: 1.6;">
                   ${session?.user?.email || ''}<br>
                   Ph: +91-9876543210
                 </div>
               </div>
               <div class="card">
-                <div class="label">Booking & Payment Details</div>
-                <div class="value" style="font-size: 13px; line-height: 1.6; font-weight: 500;">
-                  <strong>Invoice No:</strong> AGR-${booking._id.slice(-6).toUpperCase()}<br>
+                <div class="label">Reservation Details</div>
+                <div class="value" style="font-family: sans-serif; font-size: 13px; line-height: 1.8; opacity: 0.8;">
+                  <strong>Folio No:</strong> EST-${booking._id.slice(-6).toUpperCase()}<br>
                   <strong>Transaction ID:</strong> TXN-${booking._id.slice(0, 8).toUpperCase()}<br>
-                  <strong>Payment Method:</strong> Online Payment<br>
+                  <strong>Payment Method:</strong> Secure Online Transfer<br>
                   <strong>Date Issued:</strong> ${new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}<br>
-                  <strong>Status:</strong> Paid / Confirmed
+                  <strong>Status:</strong> Confirmed & Paid
                 </div>
               </div>
             </div>
@@ -327,7 +328,7 @@ export default function BookingsDashboardPage() {
             <table class="table">
               <thead>
                 <tr>
-                  <th>Stay Description</th>
+                  <th>Sanctuary</th>
                   <th>Guests</th>
                   <th>Check-In</th>
                   <th>Check-Out</th>
@@ -337,39 +338,39 @@ export default function BookingsDashboardPage() {
               <tbody>
                 <tr>
                   <td>
-                    <strong style="color: #1a1b22; font-size: 15px;">${farm.title}</strong><br>
-                    <span style="font-size: 12px; color: #707974;">${farm.location || 'Eco-Stay Retreat'}</span>
+                    <strong style="color: #1B2A22; font-size: 18px; font-weight: normal;">${farm.title}</strong><br>
+                    <span style="font-family: sans-serif; font-size: 12px; color: #D4AF37; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-top: 8px;">${farm.location || 'Exclusive Retreat'}</span>
                   </td>
-                  <td>${farm.guests || 2} Adults</td>
-                  <td>${new Date(booking.startDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
-                  <td>${new Date(booking.endDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
-                  <td style="text-align: right; font-weight: bold; color: #1a1b22;">₹${booking.totalPrice.toLocaleString('en-IN')}</td>
+                  <td style="font-family: sans-serif;">${farm.guests || 2} Adults</td>
+                  <td style="font-family: sans-serif;">${new Date(booking.startDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                  <td style="font-family: sans-serif;">${new Date(booking.endDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                  <td style="text-align: right; font-weight: bold; font-family: sans-serif;">₹${booking.totalPrice.toLocaleString('en-IN')}</td>
                 </tr>
               </tbody>
             </table>
 
             <div class="summary-box">
-              <div class="summary-row">
-                <span>Base Price:</span>
-                <span style="font-weight: 600; color: #404944;">₹${basePrice.toLocaleString('en-IN')}</span>
+              <div class="summary-row" style="font-family: sans-serif;">
+                <span>Accommodation:</span>
+                <span>₹${basePrice.toLocaleString('en-IN')}</span>
               </div>
-              <div class="summary-row">
-                <span>Taxes (GST 18%):</span>
-                <span style="font-weight: 600; color: #404944;">₹${gst.toLocaleString('en-IN')}</span>
+              <div class="summary-row" style="font-family: sans-serif;">
+                <span>Taxes & Fees:</span>
+                <span>₹${gst.toLocaleString('en-IN')}</span>
               </div>
-              <div class="summary-row">
-                <span>Service Fees:</span>
-                <span style="font-weight: 600; color: #404944;">₹0</span>
+              <div class="summary-row" style="font-family: sans-serif;">
+                <span>Concierge Service:</span>
+                <span>Complimentary</span>
               </div>
               <div class="total-box">
-                <span class="total-label">Total Amount Paid:</span>
+                <span class="total-label">Total Remitted:</span>
                 <span class="total-value">₹${booking.totalPrice.toLocaleString('en-IN')}</span>
               </div>
             </div>
 
             <div class="footer">
-              Thank you for choosing AgriStay. Your booking supports local eco-tourism and sustainable farming.<br>
-              Need assistance? Email us at hello@agristay.com or call our hotline.
+              We look forward to welcoming you. Should you require bespoke arrangements prior to arrival, <br>
+              please contact our concierge desk at concierge@theestate.com.
             </div>
           </div>
           <script>
@@ -398,71 +399,71 @@ export default function BookingsDashboardPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#fdfbf7] text-[#1a1b22] font-sans flex flex-col pt-20">
+    <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22] font-sans flex flex-col pt-32">
       <main className="flex-grow mx-auto w-full max-w-[1280px] px-6 py-12 md:py-20 md:px-16">
         
         {/* Welcome Header */}
-        <header className="mb-12">
-          <span className="text-[10px] font-bold text-[#00a877] bg-[#e6f4ea] px-2.5 py-1 rounded-full uppercase tracking-wider">
-            Guest Area
+        <header className="mb-16">
+          <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-[0.2em] block mb-4">
+            Guest Portal
           </span>
-          <h1 className="font-serif text-3xl md:text-5xl font-bold tracking-tight text-[#1a1b22] mt-3">
-            Welcome back, {session?.user?.name || 'Guest'}
+          <h1 className="font-serif text-4xl md:text-5xl font-normal text-[#1B2A22] mt-3">
+            Welcome, {session?.user?.name || 'Guest'}
           </h1>
-          <p className="text-sm text-[#707974] font-medium mt-2 max-w-xl">
-            Manage your upcoming retreats, payments, and review past journeys.
+          <p className="text-sm text-[#1B2A22]/70 font-medium mt-4 max-w-xl font-serif italic">
+            Manage your upcoming reservations, review your bespoke experiences, and view your private collection.
           </p>
         </header>
 
         {/* Tab Controls */}
-        <section className="flex flex-col gap-8">
-          <div className="flex border-b border-[#bfc9c3]/20 gap-8">
+        <section className="flex flex-col gap-10">
+          <div className="flex border-b border-[#1B2A22]/10 gap-10">
             <button 
               onClick={() => setActiveTab('upcoming')}
-              className={`text-sm font-bold pb-4 transition-all ${
+              className={`text-[11px] uppercase tracking-widest font-bold pb-4 transition-all ${
                 activeTab === 'upcoming' 
-                  ? 'text-[#00a877] border-b-2 border-[#00a877]' 
-                  : 'text-gray-400 hover:text-gray-600'
+                  ? 'text-[#1B2A22] border-b-2 border-[#1B2A22]' 
+                  : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
               }`}
             >
-              Upcoming Stays
+              Upcoming
             </button>
             <button 
               onClick={() => setActiveTab('past')}
-              className={`text-sm font-bold pb-4 transition-all ${
+              className={`text-[11px] uppercase tracking-widest font-bold pb-4 transition-all ${
                 activeTab === 'past' 
-                  ? 'text-[#00a877] border-b-2 border-[#00a877]' 
-                  : 'text-gray-400 hover:text-gray-600'
+                  ? 'text-[#1B2A22] border-b-2 border-[#1B2A22]' 
+                  : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
               }`}
             >
-              Past Trips
+              Past Journeys
             </button>
             <button 
               onClick={() => setActiveTab('saved')}
-              className={`text-sm font-bold pb-4 transition-all ${
+              className={`text-[11px] uppercase tracking-widest font-bold pb-4 transition-all ${
                 activeTab === 'saved' 
-                  ? 'text-[#00a877] border-b-2 border-[#00a877]' 
-                  : 'text-gray-400 hover:text-gray-600'
+                  ? 'text-[#1B2A22] border-b-2 border-[#1B2A22]' 
+                  : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
               }`}
             >
-              Saved / Favorites
+              The Collection
             </button>
           </div>
 
           {/* Bookings List */}
-          <div className="flex flex-col gap-6 mt-2">
+          <div className="flex flex-col gap-8">
             {activeTab === 'saved' ? (
               favorites.length === 0 ? (
-                <div className="text-center py-16 border border-dashed border-[#bfc9c3]/40 rounded-2xl bg-white shadow-sm flex flex-col items-center">
-                  <p className="text-sm text-[#707974] font-semibold mb-6">
-                    You do not have any saved farmhouses yet.
+                <div className="text-center py-24 border border-[#1B2A22]/10 bg-white/50 flex flex-col items-center">
+                  <p className="text-sm text-[#1B2A22]/60 font-medium mb-8 font-serif italic">
+                    You have not added any estates to your private collection yet.
                   </p>
                   <Link
                     href="/farms"
-                    className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-6 py-3.5 rounded-xl text-sm font-bold shadow-md shadow-[#00a877]/10 transition-all active:scale-[0.98]"
+                    className="flex items-center justify-center gap-3 bg-[#1B2A22] text-white px-8 py-4 text-[10px] uppercase tracking-widest font-bold hover:bg-[#2c4236] transition-colors"
                   >
-                    <span>Explore Farmhouses</span>
-                    <ArrowRight className="h-4 w-4" />
+                    <span>Discover Estates</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
               ) : (
@@ -472,72 +473,64 @@ export default function BookingsDashboardPage() {
                     return (
                       <div
                         key={farm._id}
-                        className="bg-white rounded-2xl overflow-hidden border border-[#bfc9c3]/20 shadow-sm hover:shadow-md transition-all flex flex-col h-full relative group"
+                        className="bg-white border border-[#1B2A22]/10 flex flex-col h-full relative group"
                       >
                         {/* Image Area */}
-                        <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
+                        <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
                           <img
                             src={image}
                             alt={farm.title}
-                            className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s]"
                           />
                           {/* Heart Button */}
                           <button
                             onClick={(e) => handleToggleFavorite(farm._id, e)}
-                            className="absolute top-4 right-4 p-2.5 rounded-full bg-white/90 backdrop-blur-sm shadow-md hover:bg-white transition-colors z-10"
+                            className="absolute top-4 right-4 p-2.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white hover:bg-white hover:text-red-500 transition-all z-10"
                             aria-label="Remove from saved stays"
                           >
-                            <Heart className="h-4.5 w-4.5 fill-red-500 text-red-500" />
+                            <Heart className="h-4 w-4 fill-red-500 text-red-500" />
                           </button>
-                          {/* Category */}
-                          {farm.category && (
-                            <span className="absolute bottom-4 left-4 inline-block px-2.5 py-0.5 text-[10px] font-bold bg-[#003527]/80 backdrop-blur-sm text-white rounded-full uppercase tracking-wider">
-                              {farm.category}
-                            </span>
-                          )}
                         </div>
 
                         {/* Card Details */}
                         <div className="p-6 flex flex-col flex-grow gap-4">
                           <div>
-                            <div className="flex justify-between items-start gap-2">
-                              <h3 className="font-serif text-xl font-bold text-[#1a1b22] line-clamp-1">
-                                {farm.title}
-                              </h3>
-                            </div>
-                            <p className="mt-1 flex items-center gap-1 text-xs font-bold text-gray-400 uppercase tracking-wide">
-                              <MapPin className="h-3.5 w-3.5 text-[#00a877]" />
-                              {farm.location || 'Location unavailable'}
+                            <p className="flex items-center gap-1.5 text-[9px] font-bold text-[#D4AF37] uppercase tracking-[0.15em] mb-2">
+                              <MapPin className="h-3 w-3" />
+                              {farm.location || 'Exclusive Location'}
                             </p>
+                            <h3 className="font-serif text-xl text-[#1B2A22] line-clamp-1 group-hover:opacity-70 transition-opacity">
+                              {farm.title}
+                            </h3>
                           </div>
 
-                          <div className="grid grid-cols-3 gap-2 text-[11px] font-bold text-gray-500">
-                            <span className="flex items-center justify-center gap-1 rounded-xl bg-gray-50 px-2 py-2">
-                              <Users className="h-4 w-4 text-gray-400" />
-                              {farm.guests || 6} guests
+                          <div className="flex gap-4 text-[10px] font-bold text-[#1B2A22]/50 uppercase tracking-widest pb-4 border-b border-[#1B2A22]/5">
+                            <span className="flex items-center gap-1.5">
+                              <Users className="h-3.5 w-3.5 text-[#D4AF37]" />
+                              {farm.guests || 6}
                             </span>
-                            <span className="flex items-center justify-center gap-1 rounded-xl bg-gray-50 px-2 py-2">
-                              <Home className="h-4 w-4 text-gray-400" />
-                              {farm.bedrooms || 3} beds
+                            <span className="flex items-center gap-1.5">
+                              <Home className="h-3.5 w-3.5 text-[#D4AF37]" />
+                              {farm.bedrooms || 3}
                             </span>
-                            <span className="flex items-center justify-center gap-1 rounded-xl bg-gray-50 px-2 py-2">
-                              <Bath className="h-4 w-4 text-gray-400" />
-                              {farm.baths || 2} baths
+                            <span className="flex items-center gap-1.5">
+                              <Bath className="h-3.5 w-3.5 text-[#D4AF37]" />
+                              {farm.baths || 2}
                             </span>
                           </div>
 
-                          <div className="mt-auto pt-4 border-t border-[#bfc9c3]/15 flex items-center justify-between gap-4">
+                          <div className="mt-auto flex items-center justify-between pt-2">
                             <div>
-                              <p className="font-serif text-lg font-bold text-[#003527]">
+                              <p className="font-serif text-lg text-[#1B2A22]">
                                 ₹{farm.pricePerNight?.toLocaleString('en-IN')}
-                                <span className="font-sans text-xs font-semibold text-gray-400"> / night</span>
+                                <span className="font-sans text-[10px] font-bold text-[#1B2A22]/50 uppercase tracking-widest ml-1">/ night</span>
                               </p>
                             </div>
                             <Link
                               href={`/farms/${farm._id}`}
-                              className="rounded-xl border border-[#00a877] px-4 py-2 text-xs font-bold text-[#00a877] hover:bg-[#e6f4ea]/30 transition-colors"
+                              className="text-[10px] font-bold text-[#1B2A22] uppercase tracking-widest hover:text-[#D4AF37] transition-colors"
                             >
-                              View Detail
+                              Reserve
                             </Link>
                           </div>
                         </div>
@@ -548,16 +541,16 @@ export default function BookingsDashboardPage() {
               )
             ) : (
               displayedBookings.length === 0 ? (
-                <div className="text-center py-16 border border-dashed border-[#bfc9c3]/40 rounded-2xl bg-white shadow-sm flex flex-col items-center">
-                  <p className="text-sm text-[#707974] font-semibold mb-6">
-                    You do not have any {activeTab} bookings yet.
+                <div className="text-center py-24 border border-[#1B2A22]/10 bg-white/50 flex flex-col items-center">
+                  <p className="text-sm text-[#1B2A22]/60 font-medium mb-8 font-serif italic">
+                    You do not have any {activeTab} reservations yet.
                   </p>
                   <Link
                     href="/farms"
-                    className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-6 py-3.5 rounded-xl text-sm font-bold shadow-md shadow-[#00a877]/10 transition-all active:scale-[0.98]"
+                    className="flex items-center justify-center gap-3 bg-[#1B2A22] text-white px-8 py-4 text-[10px] uppercase tracking-widest font-bold hover:bg-[#2c4236] transition-colors"
                   >
-                    <span>Explore Farmhouses</span>
-                    <ArrowRight className="h-4 w-4" />
+                    <span>Discover Estates</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
               ) : (
@@ -573,77 +566,77 @@ export default function BookingsDashboardPage() {
                   return (
                     <article
                       key={booking._id}
-                      className="rounded-2xl border border-[#bfc9c3]/20 bg-white flex flex-col md:flex-row overflow-hidden shadow-sm shadow-[#064e3b]/3 hover:shadow-md transition-all"
+                      className="border border-[#1B2A22]/10 bg-white flex flex-col md:flex-row group"
                     >
                       {/* Stay Image */}
-                      <div className="md:w-[240px] h-48 md:h-auto overflow-hidden">
+                      <div className="md:w-[300px] h-56 md:h-auto overflow-hidden relative">
                         <img
                           src={image}
                           alt={farm.title}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]"
                         />
+                        <div className="absolute top-4 left-4 bg-black/40 backdrop-blur-md text-white text-[9px] uppercase tracking-widest font-bold px-3 py-1.5 border border-white/20">
+                          Ref: {booking._id.slice(-6)}
+                        </div>
                       </div>
 
                       {/* Booking metadata */}
-                      <div className="p-6 flex flex-col justify-between flex-grow gap-6">
+                      <div className="p-8 flex flex-col justify-between flex-grow">
                         
-                        <div className="flex justify-between items-start gap-4">
+                        <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-8">
                           <div>
-                            <span className="inline-block px-2.5 py-0.5 text-[9px] font-bold bg-[#e6f4ea] text-[#0f766e] border border-[#a7f3d0]/30 rounded-full lowercase mb-2">
-                              Stay ID: {booking._id.slice(-6)}
-                            </span>
-                            <h3 className="font-serif text-xl font-bold text-[#1a1b22]">
+                            <h3 className="font-serif text-2xl text-[#1B2A22] mb-3">
                               {farm.title}
                             </h3>
-                            <p className="text-xs font-bold text-gray-500 mt-2 flex items-center gap-1.5">
-                              <Calendar className="h-4 w-4 text-gray-400" />
+                            <p className="text-[11px] font-bold text-[#1B2A22]/60 uppercase tracking-widest flex items-center gap-2">
+                              <Calendar className="h-4 w-4 text-[#D4AF37]" />
                               {formatDateRange(booking.startDate, booking.endDate)}
                             </p>
                           </div>
 
                           <span
-                            className={`inline-block px-2.5 py-0.5 text-[10px] font-bold rounded-full lowercase ${
+                            className={`inline-block px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest border ${
                               booking.paymentStatus === 'Paid'
-                                ? 'bg-[#e6f4ea] text-[#0f766e]'
-                                : 'bg-amber-50 text-amber-700'
+                                ? 'border-[#1B2A22]/20 text-[#1B2A22] bg-[#1B2A22]/5'
+                                : 'border-[#D4AF37]/50 text-[#D4AF37] bg-[#D4AF37]/5'
                             }`}
                           >
-                            {booking.paymentStatus === 'Paid' ? 'confirmed' : 'pending'}
+                            {booking.paymentStatus === 'Paid' ? 'Confirmed' : 'Pending'}
                           </span>
                         </div>
 
                         {/* Footer Actions Row */}
-                        <div className="flex flex-col sm:flex-row sm:items-end justify-between border-t border-[#bfc9c3]/15 pt-4 gap-4">
+                        <div className="flex flex-col sm:flex-row sm:items-end justify-between border-t border-[#1B2A22]/10 pt-6 gap-6">
                           <div>
-                            <p className="text-[10px] font-bold uppercase tracking-widest text-[#707974]">
-                              Total Payment
+                            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#1B2A22]/50 mb-2">
+                              Remittance
                             </p>
-                            <p className="text-2xl font-serif font-bold text-[#003527] mt-0.5">
+                            <p className="text-2xl font-serif text-[#1B2A22]">
                               ₹{booking.totalPrice.toLocaleString('en-IN')}
                             </p>
                           </div>
 
-                          <div className="flex flex-wrap gap-2.5 self-start sm:self-auto">
+                          <div className="flex flex-wrap gap-4 self-start sm:self-auto">
                             <button
                               onClick={() => handleDownloadReceipt(booking)}
                               disabled={booking.paymentStatus !== 'Paid'}
-                              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-gray-200 text-xs font-bold text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:hover:bg-transparent transition-colors"
+                              className="flex items-center gap-2 px-5 py-3 border border-[#1B2A22] text-[10px] uppercase tracking-widest font-bold text-[#1B2A22] hover:bg-[#1B2A22] hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-[#1B2A22] transition-colors"
                             >
                               <Download className="h-3.5 w-3.5" />
-                              <span>Receipt</span>
+                              <span>Folio</span>
                             </button>
 
                             <Link 
                               href="/support"
-                              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors"
+                              className="flex items-center gap-2 px-5 py-3 text-[10px] uppercase tracking-widest font-bold text-[#1B2A22]/60 hover:text-[#1B2A22] transition-colors"
                             >
                               <HelpCircle className="h-3.5 w-3.5" />
-                              <span>Support</span>
+                              <span>Concierge</span>
                             </Link>
 
                             {booking.paymentStatus !== 'Paid' && (
-                              <button className="bg-[#00a877] hover:bg-[#009669] text-white px-4 py-2.5 rounded-xl text-xs font-bold shadow-md shadow-[#00a877]/10 transition-colors">
-                                Pay Now
+                              <button className="bg-[#D4AF37] hover:bg-[#c29f31] text-white px-6 py-3 text-[10px] uppercase tracking-widest font-bold transition-colors">
+                                Settle Folio
                               </button>
                             )}
                           </div>
