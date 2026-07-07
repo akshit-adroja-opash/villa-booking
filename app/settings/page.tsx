@@ -162,38 +162,43 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#fdfbf7] flex items-center justify-center">
-        <Loader2 className="h-10 w-10 animate-spin text-[#00a877]" />
+      <div className="min-h-screen bg-[#FAF9F6] flex items-center justify-center">
+        <Loader2 className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full text-transparent" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#fdfbf7] text-[#1a1b22] font-sans antialiased">
-      <main className="max-w-[760px] mx-auto px-6 pt-32 pb-24">
+    <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22] font-sans antialiased">
+      <main className="max-w-[760px] mx-auto px-6 pt-24 pb-24">
         
         {/* Title */}
-        <h1 className="font-serif text-3xl font-semibold text-[#003527] mb-8">
-          My Profile
-        </h1>
+        <div className="mb-10">
+          <h1 className="font-serif text-4xl font-normal text-[#1B2A22]">
+            My Settings
+          </h1>
+          <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-2">
+            Manage your personal profile
+          </p>
+        </div>
 
         {/* Profile Card */}
-        <div className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-8 shadow-sm shadow-[#064e3b]/3 mb-6 relative">
+        <div className="bg-white border border-[#1B2A22]/10 p-10 relative">
           {saving && (
-            <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] rounded-2xl z-10 flex items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin text-[#00a877]" />
+            <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
+              <Loader2 className="h-8 w-8 animate-spin border-t-2 border-[#D4AF37] rounded-full text-transparent" />
             </div>
           )}
           
           {/* Avatar Header info */}
-          <div className="flex items-center gap-5 mb-8">
-            <div className="relative">
+          <div className="flex items-center gap-6 mb-12">
+            <div className="relative shrink-0">
               {image ? (
-                <div className="h-20 w-20 rounded-full border border-gray-200 overflow-hidden shadow-sm">
+                <div className="h-24 w-24 border border-[#1B2A22]/10 overflow-hidden bg-[#FAF9F6]">
                   <img src={image} alt={name} className="h-full w-full object-cover" />
                 </div>
               ) : (
-                <div className="h-20 w-20 rounded-full bg-[#00a877] text-white flex items-center justify-center font-bold text-3xl">
+                <div className="h-24 w-24 bg-[#1B2A22] text-[#D4AF37] flex items-center justify-center font-serif text-4xl">
                   {name ? name.charAt(0).toUpperCase() : 'U'}
                 </div>
               )}
@@ -207,20 +212,22 @@ export default function SettingsPage() {
               <button 
                 type="button"
                 onClick={() => document.getElementById('avatar-input')?.click()}
-                className="absolute bottom-0 right-0 h-7 w-7 rounded-full bg-white border border-gray-200 shadow-sm flex items-center justify-center hover:bg-gray-50 text-gray-500 cursor-pointer"
+                className="absolute -bottom-3 -right-3 h-8 w-8 bg-white border border-[#1B2A22]/10 flex items-center justify-center hover:bg-[#1B2A22] hover:text-[#D4AF37] text-[#1B2A22] transition-colors cursor-pointer shadow-sm"
               >
-                <Camera className="h-4 w-4" />
+                <Camera className="h-3 w-3" />
               </button>
             </div>
 
-            <div className="space-y-1">
-              <h2 className="text-xl font-bold text-[#1a1b22]">{name || 'Guest User'}</h2>
-              <span className="inline-block px-2.5 py-0.5 text-[10px] font-bold bg-[#e6f4ea] text-[#0f766e] border border-[#a7f3d0]/30 rounded-full lowercase">
-                {role}
-              </span>
-              <p className="text-xs text-gray-400 font-semibold mt-1">
-                Member Profile Settings
-              </p>
+            <div className="space-y-2">
+              <h2 className="font-serif text-3xl font-normal text-[#1B2A22]">{name || 'Guest User'}</h2>
+              <div className="flex items-center gap-3">
+                <span className="inline-block px-3 py-1 text-[9px] font-bold bg-[#1B2A22] text-[#D4AF37] uppercase tracking-widest border border-[#1B2A22]">
+                  {role}
+                </span>
+                <span className="text-[10px] uppercase tracking-widest text-[#1B2A22]/40 font-bold">
+                  Member since 2024
+                </span>
+              </div>
             </div>
           </div>
 
@@ -228,115 +235,132 @@ export default function SettingsPage() {
           {!isEditing ? (
             <div className="space-y-6">
               
-              {/* Email display */}
-              <div className="flex items-center gap-4 bg-[#f4f6f8] rounded-xl px-5 py-3.5 border border-transparent">
-                <Mail className="h-5 w-5 text-gray-400" />
-                <span className="text-sm font-semibold text-[#1a1b22]">{email || 'No email provided'}</span>
+              {/* Info Items */}
+              <div className="grid gap-6">
+                <div className="flex items-center gap-5 border-b border-[#1B2A22]/10 pb-6">
+                  <div className="flex h-10 w-10 items-center justify-center bg-[#FAF9F6] border border-[#1B2A22]/10 text-[#1B2A22]/50 shrink-0">
+                    <Mail className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-[9px] uppercase tracking-widest text-[#1B2A22]/50 font-bold mb-1">Email Address</p>
+                    <p className="font-serif text-lg text-[#1B2A22]">{email || 'Not provided'}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-5 border-b border-[#1B2A22]/10 pb-6">
+                  <div className="flex h-10 w-10 items-center justify-center bg-[#FAF9F6] border border-[#1B2A22]/10 text-[#1B2A22]/50 shrink-0">
+                    <Phone className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-[9px] uppercase tracking-widest text-[#1B2A22]/50 font-bold mb-1">Phone Number</p>
+                    <p className="font-serif text-lg text-[#1B2A22]">{phone || 'Not provided'}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-5 border-b border-[#1B2A22]/10 pb-6">
+                  <div className="flex h-10 w-10 items-center justify-center bg-[#FAF9F6] border border-[#1B2A22]/10 text-[#1B2A22]/50 shrink-0">
+                    <MapPin className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-[9px] uppercase tracking-widest text-[#1B2A22]/50 font-bold mb-1">Location</p>
+                    <p className="font-serif text-lg text-[#1B2A22]">{location || 'Not provided'}</p>
+                  </div>
+                </div>
               </div>
 
-              {/* Phone display */}
-              <div className="flex items-center gap-4 bg-[#f4f6f8] rounded-xl px-5 py-3.5 border border-transparent">
-                <Phone className="h-5 w-5 text-gray-400" />
-                <span className="text-sm font-semibold text-[#1a1b22]">{phone || 'No phone number provided'}</span>
+              <div className="pt-4">
+                <button
+                  onClick={handleEditClick}
+                  className="inline-block border border-[#1B2A22] bg-transparent hover:bg-[#1B2A22] hover:text-[#D4AF37] px-8 py-3 text-[10px] font-bold uppercase tracking-widest text-[#1B2A22] transition-colors"
+                >
+                  Edit Details
+                </button>
               </div>
-
-              {/* Location display */}
-              <div className="flex items-center gap-4 bg-[#f4f6f8] rounded-xl px-5 py-3.5 border border-transparent">
-                <MapPin className="h-5 w-5 text-gray-400" />
-                <span className="text-sm font-semibold text-[#1a1b22]">{location || 'No location provided'}</span>
-              </div>
-
-              <button
-                onClick={handleEditClick}
-                className="mt-2 px-6 py-2.5 rounded-xl border border-[#00a877] text-[#00a877] text-sm font-bold hover:bg-[#e6f4ea]/30 transition-colors cursor-pointer"
-              >
-                Edit Profile
-              </button>
 
             </div>
           ) : (
-            <form onSubmit={handleSave} className="space-y-5">
+            <form onSubmit={handleSave} className="space-y-6 pt-4 border-t border-[#1B2A22]/10">
               
               {/* Full Name */}
-              <div className="space-y-1.5">
-                <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider">
+              <div className="space-y-2">
+                <label className="block text-[9px] font-bold text-[#1B2A22]/70 uppercase tracking-widest">
                   Full Name
                 </label>
-                <div className="relative flex items-center bg-white rounded-xl border border-[#bfc9c3]/50 focus-within:border-[#00a877] transition-all">
-                  <User className="absolute left-4 h-5 w-5 text-gray-400" />
+                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                  <User className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                   <input
                     type="text"
                     required
                     value={editName}
                     onChange={(e) => setEditName(e.target.value)}
-                    className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold outline-none border-none"
+                    className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none"
                   />
                 </div>
               </div>
 
               {/* Email */}
-              <div className="space-y-1.5">
-                <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider">
+              <div className="space-y-2">
+                <label className="block text-[9px] font-bold text-[#1B2A22]/70 uppercase tracking-widest">
                   Email
                 </label>
-                <div className="relative flex items-center bg-white rounded-xl border border-[#bfc9c3]/50 focus-within:border-[#00a877] transition-all">
-                  <Mail className="absolute left-4 h-5 w-5 text-gray-400" />
+                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                  <Mail className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                   <input
                     type="email"
                     required
                     value={editEmail}
                     onChange={(e) => setEditEmail(e.target.value)}
-                    className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold outline-none border-none"
+                    className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none"
                   />
                 </div>
               </div>
 
               {/* Phone */}
-              <div className="space-y-1.5">
-                <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider">
+              <div className="space-y-2">
+                <label className="block text-[9px] font-bold text-[#1B2A22]/70 uppercase tracking-widest">
                   Phone
                 </label>
-                <div className="relative flex items-center bg-white rounded-xl border border-[#bfc9c3]/50 focus-within:border-[#00a877] transition-all">
-                  <Phone className="absolute left-4 h-5 w-5 text-gray-400" />
+                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                  <Phone className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                   <input
                     type="text"
                     value={editPhone}
                     onChange={(e) => setEditPhone(e.target.value)}
-                    className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold outline-none border-none"
-                    placeholder="+91 98765 43210"
+                    className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none"
+                    placeholder="+91"
                   />
                 </div>
               </div>
 
               {/* Location */}
-              <div className="space-y-1.5">
-                <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider">
+              <div className="space-y-2">
+                <label className="block text-[9px] font-bold text-[#1B2A22]/70 uppercase tracking-widest">
                   Location
                 </label>
-                <div className="relative flex items-center bg-white rounded-xl border border-[#bfc9c3]/50 focus-within:border-[#00a877] transition-all">
-                  <MapPin className="absolute left-4 h-5 w-5 text-gray-400" />
+                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                  <MapPin className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                   <input
                     type="text"
                     value={editLocation}
                     onChange={(e) => setEditLocation(e.target.value)}
-                    className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold outline-none border-none"
-                    placeholder="India"
+                    className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none"
+                    placeholder="City, Country"
                   />
                 </div>
               </div>
 
               {/* Save / Cancel actions */}
-              <div className="flex items-center gap-4 pt-3">
+              <div className="flex items-center gap-4 pt-6">
                 <button
                   type="submit"
-                  className="bg-[#00a877] hover:bg-[#009669] text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-[#00a877]/10 active:scale-[0.98] transition-all cursor-pointer"
+                  className="bg-[#1B2A22] hover:bg-[#2c4236] text-[#D4AF37] px-8 py-3 text-[10px] font-bold uppercase tracking-widest transition-colors cursor-pointer"
                 >
                   Save Changes
                 </button>
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="text-gray-400 hover:text-gray-600 text-sm font-semibold cursor-pointer"
+                  className="text-[#1B2A22]/50 hover:text-[#1B2A22] text-[10px] uppercase tracking-widest font-bold cursor-pointer transition-colors"
                 >
                   Cancel
                 </button>
