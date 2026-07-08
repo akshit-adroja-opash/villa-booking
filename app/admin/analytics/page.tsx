@@ -174,7 +174,7 @@ export default function AdminAnalyticsPage() {
             { label: 'Occupancy', value: `${occupancy || 83}%`, icon: BarChart3 },
             { label: 'Listings', value: farms.length.toString(), icon: Users },
           ].map((stat) => (
-            <div key={stat.label} className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-6 shadow-sm">
+            <div key={stat.label} className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-6">
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-widest text-[#707974]">{stat.label}</p>
@@ -192,7 +192,7 @@ export default function AdminAnalyticsPage() {
         <div className="grid gap-6 lg:grid-cols-[1.3fr_1fr]">
           
           {/* Revenue Trend */}
-          <section className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-6 shadow-sm shadow-[#064e3b]/3">
+          <section className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-6">
             <div className="mb-8 flex items-center justify-between">
               <div>
                 <h3 className="font-serif text-lg font-bold text-[#1a1b22]">Revenue Trend</h3>
@@ -223,14 +223,14 @@ export default function AdminAnalyticsPage() {
           </section>
 
           {/* Top Properties Leaderboard */}
-          <section className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-6 shadow-sm shadow-[#064e3b]/3 flex flex-col justify-between">
+          <section className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-6 flex flex-col justify-between">
             <div>
               <h3 className="font-serif text-lg font-bold text-[#1a1b22]">Top Properties</h3>
               <p className="mb-6 text-xs text-[#707974] font-semibold mt-1">Ranked by booked revenue.</p>
 
               <div className="space-y-4">
                 {(topProperties.length ? topProperties : [{ title: 'No bookings yet', revenue: 0, bookings: 0 }]).map((property) => (
-                  <div key={property.title} className="rounded-2xl border border-[#bfc9c3]/20 bg-gray-50 p-4 hover:shadow-sm transition-all">
+                  <div key={property.title} className="rounded-2xl border border-[#bfc9c3]/20 bg-gray-50 p-4 transition-all">
                     <div className="flex items-center justify-between gap-4">
                       <div>
                         <p className="text-sm font-bold text-[#1a1b22]">{property.title}</p>

@@ -144,7 +144,7 @@ export default function AddPropertyWizardPage() {
           <p className="text-sm text-[#404944]">Provide the details to list a new estate on the platform.</p>
         </header>
 
-        <div className="mx-auto max-w-3xl rounded-xl border border-[#eeedf7] bg-white p-6 shadow-[0_4px_24px_-4px_rgba(6,78,59,0.05),0_12px_48px_-12px_rgba(6,78,59,0.08)] md:p-10">
+        <div className="mx-auto max-w-3xl rounded-xl border border-[#eeedf7] bg-white p-6 md:p-10">
           
           {/* Progress Tracker */}
           <div className="relative mb-12 flex items-center justify-between">
@@ -200,7 +200,7 @@ export default function AddPropertyWizardPage() {
                     required
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Describe the unique features and atmosphere of the estate..."
+                    placeholder="Describe the unique features and atmosphere of the farm..."
                     className="w-full resize-none rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] px-4 py-3 text-sm text-[#1a1b22] placeholder-[#404944]/50 outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
                   />
                 </div>
@@ -326,10 +326,10 @@ export default function AddPropertyWizardPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
-                    'Pool', 'Private Chef', 'High-Speed WiFi', 'Indoor Fireplace', 
-                    'Air Conditioning', 'Vineyard Views', 'Home Theater', 
-                    'Tennis Court', 'Wine Cellar', 'Outdoor Kitchen', 
-                    'Gym', 'Smart Home System'
+                    'Swimming Pool', 'Children\'s Swimming Pool', 'Garden', 
+                    'Children\'s Playground', 'Gazebo', 'Extra Mattress',
+                    'WiFi', 'Air Conditioning', 'CCTV', 'Parking',
+                    'Indoor Fireplace', 'Home Theater', 'Outdoor Kitchen'
                   ].map((amenity) => (
                     <div key={amenity} className="flex items-center gap-3 bg-[#fbf8ff] p-4 rounded-lg border border-[#eeedf7] transition-all hover:bg-[#e3e1ec]/30">
                       <div className="relative flex items-center">
@@ -366,7 +366,7 @@ export default function AddPropertyWizardPage() {
                 {images.length > 0 && (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
                     {images.map((url, idx) => (
-                      <div key={idx} className="relative aspect-[4/3] rounded-xl overflow-hidden border border-[#eeedf7] group shadow-sm">
+                      <div key={idx} className="relative aspect-[4/3] rounded-xl overflow-hidden border border-[#eeedf7] group">
                         <img src={url} alt={`Property photo ${idx + 1}`} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                           <button 

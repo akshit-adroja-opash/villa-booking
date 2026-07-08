@@ -148,7 +148,7 @@ export default function AdminPropertiesPage() {
           </div>
           <Link
             href="/admin/properties/create"
-            className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-3 text-[10px] uppercase tracking-widest font-bold transition-colors shadow-md shadow-[#00a877]/10 self-start sm:self-auto"
+            className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-3 text-[10px] uppercase tracking-widest font-bold transition-colors self-start sm:self-auto"
           >
             <Plus className="h-4 w-4" />
             <span>Add Property</span>

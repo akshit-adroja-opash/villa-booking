@@ -19,7 +19,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "The Estate - Exclusive Sanctuaries",
+  title: "Enjoy Farm - Exclusive Sanctuaries",
   description: "Discover our curated portfolio of private estates, where uncompromising luxury meets absolute tranquility.",
 };
 

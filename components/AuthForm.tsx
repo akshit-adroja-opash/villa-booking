@@ -12,7 +12,7 @@ const Logo = () => (
       <path d="M50 35V85" stroke="currentColor" strokeWidth="4"/>
       <path d="M30 60H70" stroke="currentColor" strokeWidth="4"/>
     </svg>
-    <span className="font-serif text-3xl font-normal tracking-wide uppercase mt-2">The Estate</span>
+    <span className="font-serif text-3xl font-normal tracking-wide uppercase mt-2">Enjoy Farm</span>
   </div>
 );
 

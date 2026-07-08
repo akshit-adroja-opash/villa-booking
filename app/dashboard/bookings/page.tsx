@@ -151,7 +151,7 @@ export default function BookingsDashboardPage() {
     const receiptHtml = `
       <html>
         <head>
-          <title>The Estate Receipt - ${booking._id.slice(-6).toUpperCase()}</title>
+          <title>Enjoy Farm Receipt - ${booking._id.slice(-6).toUpperCase()}</title>
           <style>
             body {
               font-family: 'Georgia', serif;
@@ -294,9 +294,9 @@ export default function BookingsDashboardPage() {
           <div class="container">
             <div class="header">
               <div>
-                <div class="logo">THE ESTATE</div>
+                <div class="logo">ENJOY FARM</div>
                 <div style="margin-top: 15px; font-size: 13px; color: #1B2A22; opacity: 0.8; line-height: 1.6; font-family: sans-serif;">
-                  The Estate Headquarters<br>
+                  Enjoy Farm Headquarters<br>
                   123 Emerald Valley, Countryside District<br>
                   GSTIN: 27AABCA1234D1Z5
                 </div>

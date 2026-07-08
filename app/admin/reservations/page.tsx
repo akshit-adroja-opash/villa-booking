@@ -169,7 +169,7 @@ export default function AdminReservationsPage() {
               Track Guest Stays & Payment State
             </p>
           </div>
-          <button className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-3 text-[10px] uppercase tracking-widest font-bold transition-colors shadow-md shadow-[#00a877]/10 self-start sm:self-auto">
+          <button className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-3 text-[10px] uppercase tracking-widest font-bold transition-colors self-start sm:self-auto">
             <Download className="h-4 w-4" />
             <span>Export Manifest</span>
           </button>

@@ -24,7 +24,6 @@ export default function Home() {
   const [farms, setFarms] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [reviews, setReviews] = useState<any[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const heroImages = [
@@ -57,39 +56,6 @@ export default function Home() {
       }
     }
     fetchFarms();
-  }, []);
-
-  useEffect(() => {
-    async function fetchReviews() {
-      try {
-        const res = await fetch('/api/reviews');
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.length > 0) {
-            setReviews(data);
-          } else {
-            // Fallback for an empty database
-            setReviews([
-              {
-                name: 'Eleanor Vance',
-                role: 'Private Retreat',
-                text: 'An absolute sanctuary. The attention to detail and the sheer privacy of the estate exceeded all our expectations.',
-                rating: 5
-              },
-              {
-                name: 'Julian Blackwood',
-                role: 'Executive Gathering',
-                text: 'The most refined experience we have had outside the city. Impeccable service and breathtaking grounds.',
-                rating: 5
-              }
-            ]);
-          }
-        }
-      } catch (err) {
-        console.error('Failed to fetch reviews:', err);
-      }
-    }
-    fetchReviews();
   }, []);
 
   useEffect(() => {
@@ -195,16 +161,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Intro Section */}
-      <section className="py-24 md:py-32 px-6 md:px-16 max-w-[1000px] mx-auto text-center">
-        <h2 className="font-serif text-3xl md:text-5xl text-[#1B2A22] leading-tight mb-8">
-          A New Standard of <br/> Living
-        </h2>
-        <p className="text-[#1B2A22]/70 text-lg md:text-xl font-serif max-w-2xl mx-auto leading-relaxed">
-          The Estate provides a singular vision of hospitality. We manage our own exclusive properties designed for a great experience.
-        </p>
-      </section>
-
       {/* The Collection (Editorial Layout) */}
       <section className="py-20 bg-white">
         <div className="max-w-[1280px] mx-auto px-6 md:px-16">
@@ -226,124 +182,82 @@ export default function Home() {
               <p className="text-[11px] uppercase tracking-widest text-[#1B2A22]/60 font-bold">Loading Properties...</p>
             </div>
           ) : (
-            <div className="space-y-24 md:space-y-32">
-              {farms.slice(0, 3).map((farm, index) => {
-                const isEven = index % 2 === 0;
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {farms.slice(0, 3).map((farm) => {
                 const isFav = favorites.includes(farm._id);
                 return (
-                  <div key={farm._id} className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-10 md:gap-20 items-center group`}>
+                  <Link
+                    key={farm._id}
+                    href={`/farms/${farm._id}`}
+                    className="group flex flex-col cursor-pointer bg-white rounded-xl border border-[#eeedf7] hover:shadow-md transition-shadow overflow-hidden"
+                  >
                     
-                    {/* Image Block */}
-                    <div className="w-full md:w-3/5 relative aspect-[4/3] md:aspect-[3/2] overflow-hidden bg-gray-100">
-                      <Link href={`/farms/${farm._id}`}>
-                        <img
-                          src={farm.images?.[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80'}
-                          alt={farm.title}
-                          className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
-                        />
-                      </Link>
+                    {/* Photo & Badge Overlay */}
+                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
+                      <img
+                        src={farm.images?.[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'}
+                        alt={farm.title}
+                        className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80';
+                        }}
+                      />
+
+                      {/* Featured Badge */}
+                      <div className="absolute top-4 left-4 bg-[#00a877] text-white px-3 py-1 rounded-full text-[9px] uppercase tracking-widest font-bold">
+                        Featured
+                      </div>
+
+                      {/* Favorite Button */}
                       <button 
                         onClick={(e) => toggleFavorite(farm._id, e)}
-                        className="absolute top-6 right-6 bg-white/10 backdrop-blur-md p-3 rounded-full border border-white/20 text-white hover:bg-white hover:text-red-500 transition-all duration-300"
+                        className="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-2 rounded-full text-[#1B2A22]/50 hover:text-red-500 transition-colors shadow-sm"
                       >
-                        <Heart className={`h-5 w-5 ${isFav ? 'fill-red-500 text-red-500' : ''}`} />
+                        <Heart className={`h-4 w-4 ${isFav ? 'fill-red-500 text-red-500' : ''}`} />
                       </button>
                     </div>
 
-                    {/* Content Block */}
-                    <div className="w-full md:w-2/5 flex flex-col justify-center">
-                      <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-4">
+                    {/* Estate details */}
+                    <div className="flex flex-col flex-grow p-5">
+                      {/* Location */}
+                      <div className="flex items-center gap-1.5 text-xs text-[#1B2A22]/50 font-medium mb-3">
                         <MapPin className="h-3.5 w-3.5" />
-                        <span>{farm.location || 'Exclusive Location'}</span>
-                      </div>
-                      
-                      <Link href={`/farms/${farm._id}`}>
-                        <h3 className="font-serif text-3xl md:text-4xl text-[#1B2A22] leading-tight mb-6 hover:opacity-80 transition-opacity">
-                          {farm.title}
-                        </h3>
-                      </Link>
-                      
-                      <div className="flex gap-6 mb-8 text-[#1B2A22]/70 text-sm font-medium">
-                        <span className="flex items-center gap-2"><Wind className="h-4 w-4 text-[#D4AF37]"/> {farm.guests || 6} Guests</span>
-                        <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#00a877]"/> Private</span>
+                        <span>{farm.location?.startsWith('http') ? 'Map Link Available' : farm.location}</span>
                       </div>
 
-                      <p className="text-[#1B2A22]/60 leading-relaxed mb-10 font-serif text-lg italic border-l-2 border-[#D4AF37]/30 pl-6">
-                        "A masterclass in design and tranquility, offering an escape unlike any other."
-                      </p>
+                      {/* Title */}
+                      <h3 className="font-serif text-2xl text-[#1B2A22] font-normal mb-4 leading-snug group-hover:text-[#00a877] transition-colors">
+                        {farm.title}
+                      </h3>
+                      
+                      {/* Amenities Tags */}
+                      <div className="flex flex-wrap gap-2 mb-5">
+                        {(farm.amenities?.length ? farm.amenities : ['WiFi', 'Swimming Pool', 'Garden', 'Kitchen', 'Parking']).slice(0, 5).map((amenity: string, index: number) => (
+                          <span key={index} className="bg-[#fbf8ff] border border-[#eeedf7] text-[#1B2A22]/70 text-[10px] font-bold px-2 py-1 rounded-md whitespace-nowrap">
+                            {amenity}
+                          </span>
+                        ))}
+                      </div>
 
-                      <div className="flex items-center justify-between pt-8 border-t border-[#1B2A22]/10">
-                        <div>
-                          <span className="text-[10px] uppercase tracking-widest text-[#1B2A22]/50 font-bold block mb-1">Reserve</span>
-                          <span className="text-xl font-serif text-[#1B2A22]">₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')} <span className="text-sm font-sans text-[#1B2A22]/60">/ night</span></span>
+                      {/* Divider */}
+                      <div className="border-t border-[#eeedf7] my-2"></div>
+
+                      {/* Footer: Price & Guests */}
+                      <div className="flex items-center justify-between mt-auto pt-3">
+                        <div className="text-[#1B2A22]">
+                          <span className="text-lg font-bold">₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}</span>
+                          <span className="text-[11px] text-[#1B2A22]/50 font-medium ml-1">/ night</span>
                         </div>
-                        <Link 
-                          href={`/farms/${farm._id}`}
-                          className="h-12 w-12 rounded-full border border-[#1B2A22] flex items-center justify-center text-[#1B2A22] hover:bg-[#1B2A22] hover:text-white transition-colors"
-                        >
-                          <ChevronRight className="h-5 w-5" />
-                        </Link>
+                        <div className="bg-[#fbf8ff] text-[#1B2A22]/70 text-[10px] font-bold px-3 py-1.5 rounded-md border border-[#eeedf7]">
+                          {farm.guests || 6} guests
+                        </div>
                       </div>
                     </div>
-
-                  </div>
+                  </Link>
                 );
               })}
             </div>
           )}
-        </div>
-      </section>
-
-      {/* Experience / Services */}
-      <section className="py-24 bg-[#1B2A22] text-white">
-        <div className="max-w-[1280px] mx-auto px-6 md:px-16 text-center">
-          <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-4 block">
-            Services
-          </span>
-          <h2 className="font-serif text-3xl md:text-5xl mb-16">Special Services</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto">
-            <div className="flex flex-col items-center">
-              <div className="h-16 w-16 rounded-full border border-[#D4AF37]/30 flex items-center justify-center mb-6 text-[#D4AF37]">
-                <Coffee className="h-6 w-6" />
-              </div>
-              <h3 className="font-serif text-xl mb-3">Private Culinary</h3>
-              <p className="text-white/60 text-sm leading-relaxed max-w-xs font-medium">Personalized menus crafted by renowned private chefs using organic, locally-sourced ingredients.</p>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="h-16 w-16 rounded-full border border-[#00a877]/30 flex items-center justify-center mb-6 text-[#00a877]">
-                <ShieldCheck className="h-6 w-6" />
-              </div>
-              <h3 className="font-serif text-xl mb-3">Absolute Discretion</h3>
-              <p className="text-white/60 text-sm leading-relaxed max-w-xs font-medium">Enjoy your retreat with the assurance of complete privacy and dedicated, unobtrusive security.</p>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="h-16 w-16 rounded-full border border-[#D4AF37]/30 flex items-center justify-center mb-6 text-[#D4AF37]">
-                <Wind className="h-6 w-6" />
-              </div>
-              <h3 className="font-serif text-xl mb-3">Curated Wellness</h3>
-              <p className="text-white/60 text-sm leading-relaxed max-w-xs font-medium">In-estate spa treatments, private yoga sessions, and immersive nature experiences tailored to you.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Minimalist Testimonials */}
-      <section className="py-32 bg-[#FAF9F6]">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="font-serif text-3xl text-[#1B2A22] mb-16">Reviews</h2>
-          <div className="relative">
-            <div className="text-6xl font-serif text-[#D4AF37]/20 absolute -top-8 left-0 right-0">"</div>
-            {reviews.length > 0 && (
-              <div className="relative z-10 px-8">
-                <p className="font-serif text-2xl md:text-3xl text-[#1B2A22] leading-relaxed mb-8 italic">
-                  {reviews[0].text}
-                </p>
-                <h4 className="text-[11px] uppercase tracking-widest font-bold text-[#1B2A22]">{reviews[0].name}</h4>
-                <p className="text-[#1B2A22]/50 text-xs mt-1 font-serif italic">{reviews[0].role}</p>
-              </div>
-            )}
-          </div>
         </div>
       </section>
 

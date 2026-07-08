@@ -138,18 +138,18 @@ function StaysList() {
             <p className="text-[#1B2A22]/60 font-medium">Our properties list is currently being updated. Please check back later.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-x-12 gap-y-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {farms.map((farm) => {
               const isFav = favorites.includes(farm._id);
               return (
                 <Link
                   key={farm._id}
                   href={`/farms/${farm._id}`}
-                  className="group flex flex-col cursor-pointer"
+                  className="group flex flex-col cursor-pointer bg-white rounded-xl border border-[#eeedf7] hover:shadow-md transition-shadow overflow-hidden"
                 >
                   
                   {/* Photo & Badge Overlay */}
-                  <div className="relative aspect-[4/3] w-full overflow-hidden mb-6 bg-gray-100 border border-[#1B2A22]/5">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
                     <img
                       src={farm.images?.[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'}
                       alt={farm.title}
@@ -159,60 +159,54 @@ function StaysList() {
                       }}
                     />
 
+                    {/* Featured Badge */}
+                    <div className="absolute top-4 left-4 bg-[#00a877] text-white px-3 py-1 rounded-full text-[9px] uppercase tracking-widest font-bold">
+                      Featured
+                    </div>
+
                     {/* Favorite Button */}
                     <button 
                       onClick={(e) => toggleFavorite(farm._id, e)}
-                      className="absolute top-5 right-5 bg-white/20 backdrop-blur-md p-2.5 rounded-full border border-white/30 text-white hover:bg-white hover:text-red-500 transition-all duration-300"
+                      className="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-2 rounded-full text-[#1B2A22]/50 hover:text-red-500 transition-colors shadow-sm"
                     >
-                      <Heart className={`h-4.5 w-4.5 ${isFav ? 'fill-red-500 text-red-500' : ''}`} />
+                      <Heart className={`h-4 w-4 ${isFav ? 'fill-red-500 text-red-500' : ''}`} />
                     </button>
                   </div>
 
                   {/* Estate details */}
-                  <div className="flex flex-col flex-grow px-2">
+                  <div className="flex flex-col flex-grow p-5">
                     {/* Location */}
-                    <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-3">
+                    <div className="flex items-center gap-1.5 text-xs text-[#1B2A22]/50 font-medium mb-3">
                       <MapPin className="h-3.5 w-3.5" />
                       <span>{farm.location?.startsWith('http') ? 'Map Link Available' : farm.location}</span>
                     </div>
 
-                    {/* Title & Price */}
-                    <div className="flex justify-between items-start gap-4 mb-4">
-                      <h3 className="font-serif text-2xl text-[#1B2A22] group-hover:opacity-70 transition-opacity leading-snug">
-                        {farm.title}
-                      </h3>
-                      <div className="text-right shrink-0 mt-1">
-                        <span className="block text-lg font-serif text-[#1B2A22]">
-                          ₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}
-                        </span>
-                        <span className="block text-[10px] uppercase tracking-wider text-[#1B2A22]/50 font-bold">
-                          per night
-                        </span>
-                      </div>
-                    </div>
+                    {/* Title */}
+                    <h3 className="font-serif text-2xl text-[#1B2A22] font-normal mb-4 leading-snug group-hover:text-[#00a877] transition-colors">
+                      {farm.title}
+                    </h3>
                     
-                    {/* Size icons (Beds, Guests, Acres) */}
-                    <div className="flex gap-6 pb-5 border-b border-[#1B2A22]/10 mb-5 text-[11px] font-semibold text-[#1B2A22]/70 uppercase tracking-wide">
-                      <div className="flex items-center gap-2">
-                        <Bed className="h-4 w-4 text-[#D4AF37]" />
-                        <span>{farm.bedrooms || 3} beds</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Users className="h-4 w-4 text-[#D4AF37]" />
-                        <span>{farm.guests || 6} guests</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Compass className="h-4 w-4 text-[#D4AF37]" />
-                        <span>{farm.acres || 5} Acres</span>
-                      </div>
+                    {/* Amenities Tags */}
+                    <div className="flex flex-wrap gap-2 mb-5">
+                      {(farm.amenities?.length ? farm.amenities : ['WiFi', 'Swimming Pool', 'Garden', 'Kitchen', 'Parking']).slice(0, 5).map((amenity: string, index: number) => (
+                        <span key={index} className="bg-[#fbf8ff] border border-[#eeedf7] text-[#1B2A22]/70 text-[10px] font-bold px-2 py-1 rounded-md whitespace-nowrap">
+                          {amenity}
+                        </span>
+                      ))}
                     </div>
 
-                    {/* Footer / Action */}
-                    <div className="flex items-center justify-between mt-auto text-[11px] uppercase tracking-widest font-bold text-[#1B2A22] group-hover:text-[#D4AF37] transition-colors">
-                      <span className="flex items-center gap-1.5">
-                        View Property
-                      </span>
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    {/* Divider */}
+                    <div className="border-t border-[#eeedf7] my-2"></div>
+
+                    {/* Footer: Price & Guests */}
+                    <div className="flex items-center justify-between mt-auto pt-3">
+                      <div className="text-[#1B2A22]">
+                        <span className="text-lg font-bold">₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}</span>
+                        <span className="text-[11px] text-[#1B2A22]/50 font-medium ml-1">/ night</span>
+                      </div>
+                      <div className="bg-[#fbf8ff] text-[#1B2A22]/70 text-[10px] font-bold px-3 py-1.5 rounded-md border border-[#eeedf7]">
+                        {farm.guests || 6} guests
+                      </div>
                     </div>
                   </div>
                 </Link>

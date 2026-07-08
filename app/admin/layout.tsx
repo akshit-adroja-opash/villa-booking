@@ -67,7 +67,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="flex flex-1 pt-16">
         
         {/* Left Sidebar */}
-        <aside className="fixed top-16 left-0 z-40 hidden h-[calc(100vh-64px)] w-64 flex-col border-r border-[#1B2A22]/10 bg-white p-4 shadow-sm md:flex">
+        <aside className="fixed top-16 left-0 z-40 hidden h-[calc(100vh-64px)] w-64 flex-col border-r border-[#1B2A22]/10 bg-white p-4 md:flex">
           
           {/* Sidebar Title */}
           <div className="px-3 py-6 mb-2">

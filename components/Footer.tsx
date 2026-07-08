@@ -10,13 +10,7 @@ import {
   Clock 
 } from 'lucide-react';
 
-const Logo = ({ className = "h-8 w-8" }: { className?: string }) => (
-  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <path d="M50 15L85 45L75 85H25L15 45L50 15Z" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"/>
-    <path d="M50 35V85" stroke="currentColor" strokeWidth="4"/>
-    <path d="M30 60H70" stroke="currentColor" strokeWidth="4"/>
-  </svg>
-);
+
 
 export default function Footer() {
   const pathname = usePathname();
@@ -38,9 +32,8 @@ export default function Footer() {
           
           {/* Logo & Description */}
           <div className="md:col-span-5 space-y-6">
-            <Link className="flex items-center gap-3 tracking-tight text-white hover:opacity-80 transition-opacity" href="/">
-              <Logo className="h-7 w-7 text-[#D4AF37]" />
-              <span className="font-serif text-2xl font-normal tracking-wide uppercase">The Estate</span>
+            <Link className="flex items-center tracking-tight text-white hover:opacity-80 transition-opacity" href="/">
+              <span className="font-serif text-2xl font-normal tracking-wide uppercase">Enjoy Farm</span>
             </Link>
             <p className="text-sm text-white/60 font-medium leading-relaxed max-w-sm">
               An exclusive collection of private retreats designed for the discerning traveler. Experience unparalleled luxury, utmost privacy, and impeccable service.
@@ -79,7 +72,7 @@ export default function Footer() {
             <ul className="space-y-5 text-[13px] text-white/60 font-medium">
               <li className="flex items-start gap-4">
                 <MapPin className="h-4.5 w-4.5 text-[#D4AF37] mt-0.5 shrink-0" />
-                <span className="leading-relaxed">The Estate Headquarters, <br/> 123 Emerald Valley, Countryside District</span>
+                <span className="leading-relaxed">Enjoy Farm Headquarters, <br/> 123 Emerald Valley, Countryside District</span>
               </li>
               <li className="flex items-center gap-4 hover:text-[#D4AF37] transition-colors">
                 <Phone className="h-4.5 w-4.5 text-[#D4AF37] shrink-0" />
@@ -96,7 +89,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] text-white/40 font-medium uppercase tracking-wider">
-          <p>© {new Date().getFullYear()} The Estate Collection. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Enjoy Farm Collection. All rights reserved.</p>
           <div className="flex flex-wrap justify-center gap-8">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>

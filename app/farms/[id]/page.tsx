@@ -22,7 +22,10 @@ import {
   Users,
   Bed,
   X,
-  CalendarDays
+  CalendarDays,
+  CheckCircle2,
+  Car,
+  Camera
 } from 'lucide-react';
 
 interface FarmDetails {
@@ -70,12 +73,21 @@ const MOCK_FARMS_DETAILS: Record<string, FarmDetails> = {
 const AMENITY_ICONS: Record<string, React.ComponentType<any>> = {
   'WiFi': Wifi,
   'Swimming Pool': Waves,
+  'Pool': Waves,
+  'Children\'s Swimming Pool': Waves,
+  'Kids Swimming Pool': Waves,
   'Kitchen': ChefHat,
   'Hot Tub': Sparkles,
   'Fireplace': Flame,
+  'Indoor Fireplace': Flame,
   'Air Conditioning': Snowflake,
   'AC': Snowflake,
   'Garden': Trees,
+  'Children\'s Playground': Trees,
+  'Gazebo': Compass,
+  'Extra Mattress': Bed,
+  'Parking': Car,
+  'CCTV': Camera,
   'Tea Tasting': Compass,
   'Plantation Walk': Trees,
   'Yoga Deck': Sparkles,
@@ -421,7 +433,7 @@ export default function FarmDetailPage() {
             
             {/* Highlights Section */}
             <div className="border-b border-[#1B2A22]/10 pb-10 mb-10">
-              <h2 className="font-serif text-3xl text-[#1B2A22] mb-6">The Estate Experience</h2>
+              <h2 className="font-serif text-3xl text-[#1B2A22] mb-6">Enjoy Farm Experience</h2>
               <div className="flex flex-wrap items-center gap-x-8 gap-y-4 text-sm font-semibold text-[#1B2A22]/70 uppercase tracking-widest">
                 <div className="flex items-center gap-2">
                   <Users className="h-4 w-4 text-[#D4AF37]" />
@@ -440,7 +452,7 @@ export default function FarmDetailPage() {
 
             {/* About Home description */}
             <div className="border-b border-[#1B2A22]/10 pb-10 mb-10">
-              <h3 className="font-serif text-2xl text-[#1B2A22] mb-6">About the Estate</h3>
+              <h3 className="font-serif text-2xl text-[#1B2A22] mb-6">About Enjoy Farm</h3>
               <p className="text-base leading-loose text-[#1B2A22]/70 font-medium whitespace-pre-line font-serif italic">
                 {farm.description}
               </p>
@@ -448,16 +460,19 @@ export default function FarmDetailPage() {
 
             {/* Amenities Grid */}
             <div className="pb-10 mb-10">
-              <h3 className="font-serif text-2xl text-[#1B2A22] mb-8">Exclusive Amenities</h3>
-              <div className="grid grid-cols-1 gap-y-6 gap-x-12 sm:grid-cols-2">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-1.5 h-6 bg-[#00a877] rounded-sm"></div>
+                <h3 className="font-sans text-xl font-bold text-[#1B2A22]">Amenities</h3>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 {farm.amenities?.map((amenity, index) => {
-                  const IconComponent = AMENITY_ICONS[amenity] || ShieldCheck;
+                  const IconComponent = AMENITY_ICONS[amenity] || CheckCircle2;
                   return (
-                    <div key={index} className="flex items-center space-x-4">
-                      <div className="text-[#D4AF37]">
-                        <IconComponent className="h-5 w-5" />
+                    <div key={index} className="flex flex-col items-center justify-center p-5 bg-[#fbf8ff] border border-[#eeedf7] rounded-xl text-center gap-3 hover:shadow-md transition-shadow">
+                      <div className="text-[#00a877]">
+                        <IconComponent className="h-6 w-6 stroke-[1.5]" />
                       </div>
-                      <span className="text-[13px] font-semibold text-[#1B2A22]/80 uppercase tracking-wider">{amenity}</span>
+                      <span className="text-sm font-semibold text-[#1B2A22]/80">{amenity}</span>
                     </div>
                   );
                 })}
@@ -467,20 +482,20 @@ export default function FarmDetailPage() {
 
           {/* Booking / Sticky Card Column */}
           <div className="w-full md:w-[40%]">
-            <div className="sticky top-28 bg-[#1B2A22] text-white p-8 md:p-10 shadow-2xl">
+            <div className="sticky top-28 bg-white border border-[#1B2A22]/5 p-8 md:p-10">
               
               <div className="mb-8">
                 <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] block mb-2">Reservation</span>
-                <span className="font-serif text-3xl font-normal text-white">
+                <span className="font-serif text-3xl font-normal text-[#1B2A22]">
                   ₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}
                 </span>
-                <span className="text-xs text-white/50 font-medium ml-2 uppercase tracking-widest">/ night</span>
+                <span className="text-xs text-[#1B2A22]/50 font-medium ml-2 uppercase tracking-widest">/ night</span>
               </div>
 
               {/* Date Inputs Card */}
-              <div className={`mb-6 border transition-all duration-200 ${hasConflict ? 'border-red-500/50 bg-red-900/10' : isInvalidDates ? 'border-amber-500/50 bg-amber-900/10' : 'border-white/10'}`}>
-                <div className="flex border-b border-white/10">
-                  <div className="w-1/2 border-r border-white/10 p-4">
+              <div className={`mb-6 border transition-all duration-200 ${hasConflict ? 'border-red-500/50 bg-red-50/50' : isInvalidDates ? 'border-amber-500/50 bg-amber-50/50' : 'border-[#1B2A22]/10'}`}>
+                <div className="flex border-b border-[#1B2A22]/10">
+                  <div className="w-1/2 border-r border-[#1B2A22]/10 p-4">
                     <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#D4AF37] block mb-2">Check-in</label>
                     <DatePicker
                       selected={startDate}
@@ -491,7 +506,7 @@ export default function FarmDetailPage() {
                       minDate={new Date()}
                       excludeDates={checkInExcludeDates}
                       placeholderText="Select date"
-                      className="text-sm font-semibold text-white bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-white/30"
+                      className="text-sm font-semibold text-[#1B2A22] bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-[#1B2A22]/30"
                     />
                   </div>
                   <div className="w-1/2 p-4">
@@ -505,12 +520,12 @@ export default function FarmDetailPage() {
                       minDate={startDate || new Date()}
                       excludeDates={checkOutExcludeDates}
                       placeholderText="Select date"
-                      className="text-sm font-semibold text-white bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-white/30"
+                      className="text-sm font-semibold text-[#1B2A22] bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-[#1B2A22]/30"
                     />
                   </div>
                 </div>
                 <div 
-                  className="p-4 border-b border-white/10 relative outline-none"
+                  className="p-4 relative outline-none"
                   tabIndex={0}
                   onBlur={(e) => {
                     if (!e.currentTarget.contains(e.relatedTarget)) {
@@ -521,16 +536,16 @@ export default function FarmDetailPage() {
                   <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#D4AF37] block mb-2">Guests</label>
                   <div 
                     onClick={() => setShowGuestDropdown(!showGuestDropdown)}
-                    className="text-sm font-semibold text-white w-full cursor-pointer flex justify-between items-center"
+                    className="text-sm font-semibold text-[#1B2A22] w-full cursor-pointer flex justify-between items-center"
                   >
-                    <span className={guestSelection === 0 ? 'text-white/30' : ''}>
+                    <span className={guestSelection === 0 ? 'text-[#1B2A22]/30' : ''}>
                       {guestSelection === 0 ? 'Select guests' : `${guestSelection} guest${guestSelection > 1 ? 's' : ''}`}
                     </span>
-                    <svg className={`w-4 h-4 text-white/50 transition-transform duration-200 ${showGuestDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg className={`w-4 h-4 text-[#1B2A22]/50 transition-transform duration-200 ${showGuestDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                   </div>
                   
                   {showGuestDropdown && (
-                    <div className="absolute top-full left-0 w-full bg-[#1B2A22] border border-[#D4AF37]/30 shadow-2xl z-50 max-h-60 overflow-y-auto mt-1">
+                    <div className="absolute top-full left-0 w-full bg-white border border-[#1B2A22]/10 shadow-2xl z-50 max-h-60 overflow-y-auto mt-1">
                       {[...Array(farm.guests || 6)].map((_, i) => (
                         <div 
                           key={i + 1}
@@ -538,7 +553,7 @@ export default function FarmDetailPage() {
                             setGuestSelection(i + 1);
                             setShowGuestDropdown(false);
                           }}
-                          className={`px-4 py-3 text-sm font-semibold cursor-pointer transition-colors ${guestSelection === i + 1 ? 'bg-[#D4AF37] text-[#1B2A22]' : 'text-white hover:bg-white/10'}`}
+                          className={`px-4 py-3 text-sm font-semibold cursor-pointer transition-colors ${guestSelection === i + 1 ? 'bg-[#D4AF37] text-white' : 'text-[#1B2A22] hover:bg-[#FAF9F6]'}`}
                         >
                           {i + 1} guest{i > 0 ? 's' : ''}
                         </div>
@@ -550,12 +565,12 @@ export default function FarmDetailPage() {
 
               {/* Alert Banners */}
               {hasConflict && (
-                <div className="mb-6 p-4 bg-red-900/20 text-red-200 text-xs font-semibold flex items-start gap-2 border border-red-500/30">
+                <div className="mb-6 p-4 bg-red-50 text-red-800 text-xs font-semibold flex items-start gap-2 border border-red-200">
                   <span>This estate is already reserved for the selected dates.</span>
                 </div>
               )}
               {isInvalidDates && (
-                <div className="mb-6 p-4 bg-amber-900/20 text-amber-200 text-xs font-semibold flex items-start gap-2 border border-amber-500/30">
+                <div className="mb-6 p-4 bg-amber-50 text-amber-800 text-xs font-semibold flex items-start gap-2 border border-amber-200">
                   <span>Checkout date must be after check-in date.</span>
                 </div>
               )}
@@ -564,28 +579,28 @@ export default function FarmDetailPage() {
               <button 
                 onClick={handleBooking}
                 disabled={bookingLoading || hasConflict || isInvalidDates || !startDate || !endDate || guestSelection === 0}
-                className="w-full bg-[#D4AF37] hover:bg-[#00a877] py-5 text-[11px] uppercase tracking-[0.1em] font-bold text-white transition-colors active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+                className="w-full bg-[#1B2A22] hover:bg-[#00a877] py-5 text-[11px] uppercase tracking-[0.1em] font-bold text-white transition-colors active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed mb-4"
               >
                 {bookingLoading ? 'Reserving...' : hasConflict ? 'Dates Unavailable' : 'Request Reservation'}
               </button>
               
-              <div className="text-center text-[10px] font-bold text-white/40 uppercase tracking-widest mb-8">
+              <div className="text-center text-[10px] font-bold text-[#1B2A22]/40 uppercase tracking-widest mb-8">
                 <CalendarDays className="h-3 w-3 inline mr-1 mb-0.5" /> Subject to approval
               </div>
 
               {/* Price Breakdown */}
               {hasValidDates && diffNights > 0 && (
                 <>
-                  <div className="space-y-4 border-b border-white/10 pb-6 text-xs font-medium text-white/70 uppercase tracking-wider">
+                  <div className="space-y-4 border-t border-[#1B2A22]/10 pt-6 pb-6 text-xs font-medium text-[#1B2A22]/70 uppercase tracking-wider">
                     {priceBreakdown.map((item, index) => (
                       <div key={index} className="flex justify-between">
                         <span>{item.label}</span>
-                        <span className="text-white">₹{item.value.toLocaleString('en-IN')}</span>
+                        <span className="text-[#1B2A22]">₹{item.value.toLocaleString('en-IN')}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="mt-6 flex justify-between font-serif text-2xl font-normal text-white">
+                  <div className="mt-2 flex justify-between font-serif text-2xl font-normal text-[#1B2A22]">
                     <span>Total</span>
                     <span>₹{grandTotal.toLocaleString('en-IN')}</span>
                   </div>
