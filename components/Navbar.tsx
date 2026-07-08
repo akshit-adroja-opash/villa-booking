@@ -66,7 +66,7 @@ export default function Navbar() {
   const textColor = (isHome && !scrolled) ? 'text-white' : 'text-[#1B2A22]';
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 h-20 flex items-center transition-all duration-500 ${navBg}`}>
+    <header className={`fixed top-0 left-0 w-full z-50 h-16 flex items-center transition-all duration-500 ${navBg}`}>
       <div className="flex justify-between items-center w-full px-8 md:px-16 h-full">
         
         {/* Brand Logo */}

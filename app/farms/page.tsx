@@ -154,6 +154,9 @@ function StaysList() {
                       src={farm.images?.[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'}
                       alt={farm.title}
                       className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80';
+                      }}
                     />
 
                     {/* Favorite Button */}
