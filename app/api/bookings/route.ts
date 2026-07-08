@@ -7,6 +7,7 @@ import User from '@/models/User';
 import { sendBookingEmail } from '@/lib/mailer';
 import { sendWhatsAppNotification } from '@/lib/whatsapp';
 
+
 export async function POST(req: Request) {
   await connectDB();
   try {
@@ -95,3 +96,4 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Failed to fetch bookings' }, { status: 500 });
   }
 }
+// hi
