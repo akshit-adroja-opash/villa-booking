@@ -405,13 +405,13 @@ export default function BookingsDashboardPage() {
         {/* Welcome Header */}
         <header className="mb-16">
           <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-[0.2em] block mb-4">
-            Guest Portal
+            Bookings Dashboard
           </span>
           <h1 className="font-serif text-4xl md:text-5xl font-normal text-[#1B2A22] mt-3">
             Welcome, {session?.user?.name || 'Guest'}
           </h1>
           <p className="text-sm text-[#1B2A22]/70 font-medium mt-4 max-w-xl font-serif italic">
-            Manage your upcoming reservations, review your past bookings, and view your saved properties.
+            Manage your upcoming bookings, review your past bookings, and view your saved properties.
           </p>
         </header>
 
@@ -456,13 +456,13 @@ export default function BookingsDashboardPage() {
               favorites.length === 0 ? (
                 <div className="text-center py-24 border border-[#1B2A22]/10 bg-white/50 flex flex-col items-center">
                   <p className="text-sm text-[#1B2A22]/60 font-medium mb-8 font-serif italic">
-                    You have not added any estates to your saved properties yet.
+                    You have not added any properties to your saved list yet.
                   </p>
                   <Link
                     href="/farms"
                     className="flex items-center justify-center gap-3 bg-[#1B2A22] text-white px-8 py-4 text-[10px] uppercase tracking-widest font-bold hover:bg-[#2c4236] transition-colors"
                   >
-                    <span>Discover Estates</span>
+                    <span>Find Properties</span>
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
@@ -543,13 +543,13 @@ export default function BookingsDashboardPage() {
               displayedBookings.length === 0 ? (
                 <div className="text-center py-24 border border-[#1B2A22]/10 bg-white/50 flex flex-col items-center">
                   <p className="text-sm text-[#1B2A22]/60 font-medium mb-8 font-serif italic">
-                    You do not have any {activeTab} reservations yet.
+                    You do not have any {activeTab} bookings yet.
                   </p>
                   <Link
                     href="/farms"
                     className="flex items-center justify-center gap-3 bg-[#1B2A22] text-white px-8 py-4 text-[10px] uppercase tracking-widest font-bold hover:bg-[#2c4236] transition-colors"
                   >
-                    <span>Discover Estates</span>
+                    <span>Find Properties</span>
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>

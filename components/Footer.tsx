@@ -57,16 +57,16 @@ export default function Footer() {
                 <Link href="/" className="hover:text-[#D4AF37] transition-colors">Home</Link>
               </li>
               <li>
-                <Link href="/farms" className="hover:text-[#D4AF37] transition-colors">The Collection</Link>
+                <Link href="/farms" className="hover:text-[#D4AF37] transition-colors">Properties</Link>
               </li>
               <li>
-                <a href="#" className="hover:text-[#D4AF37] transition-colors">Concierge Services</a>
+                <a href="#" className="hover:text-[#D4AF37] transition-colors">Customer Support</a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#D4AF37] transition-colors">Experiences</a>
+                <a href="#" className="hover:text-[#D4AF37] transition-colors">Activities</a>
               </li>
               <li>
-                <a href="#" className="hover:text-[#D4AF37] transition-colors">Journal</a>
+                <a href="#" className="hover:text-[#D4AF37] transition-colors">Blog</a>
               </li>
             </ul>
           </div>
@@ -74,7 +74,7 @@ export default function Footer() {
           {/* Contact Details */}
           <div className="md:col-span-4 space-y-6">
             <h4 className="text-xs font-bold text-white/90 uppercase tracking-widest font-serif">
-              Contact & Concierge
+              Contact Support
             </h4>
             <ul className="space-y-5 text-[13px] text-white/60 font-medium">
               <li className="flex items-start gap-4">
@@ -87,7 +87,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-4 hover:text-[#D4AF37] transition-colors">
                 <Mail className="h-4.5 w-4.5 text-[#D4AF37] shrink-0" />
-                <a href="mailto:concierge@theestate.com">concierge@theestate.com</a>
+                <a href="mailto:support@theestate.com">support@theestate.com</a>
               </li>
             </ul>
           </div>

@@ -114,13 +114,13 @@ function StaysList() {
       <div className="bg-[#1B2A22] pt-32 pb-20 px-6">
         <div className="max-w-[1280px] mx-auto text-center text-white">
           <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-4 block">
-            Portfolio
+            Properties
           </span>
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-normal leading-tight">
-            The Collection
+            Our Properties
           </h1>
           <p className="mt-6 text-white/70 max-w-lg mx-auto font-medium text-sm">
-            Discover our curated selection of ultra-luxury private estates, designed for ultimate privacy and unforgettable experiences.
+            Discover our selection of private properties, designed for ultimate privacy and great experiences.
           </p>
         </div>
       </div>
@@ -130,12 +130,12 @@ function StaysList() {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32 gap-4">
             <div className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full"></div>
-            <p className="text-[11px] uppercase tracking-widest text-[#1B2A22]/60 font-bold">Curating Collection...</p>
+            <p className="text-[11px] uppercase tracking-widest text-[#1B2A22]/60 font-bold">Loading Properties...</p>
           </div>
         ) : farms.length === 0 ? (
           <div className="text-center py-32 border-y border-[#1B2A22]/10 max-w-2xl mx-auto">
-            <h3 className="font-serif text-2xl text-[#1B2A22] mb-4">No estates available</h3>
-            <p className="text-[#1B2A22]/60 font-medium">Our portfolio is currently being updated. Please check back later.</p>
+            <h3 className="font-serif text-2xl text-[#1B2A22] mb-4">No properties available</h3>
+            <p className="text-[#1B2A22]/60 font-medium">Our properties list is currently being updated. Please check back later.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-x-12 gap-y-16">
@@ -210,7 +210,7 @@ function StaysList() {
                     {/* Footer / Action */}
                     <div className="flex items-center justify-between mt-auto text-[11px] uppercase tracking-widest font-bold text-[#1B2A22] group-hover:text-[#D4AF37] transition-colors">
                       <span className="flex items-center gap-1.5">
-                        Discover Estate
+                        View Property
                       </span>
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </div>
@@ -230,7 +230,7 @@ export default function FarmsListingPage() {
     <Suspense fallback={
       <div className="flex flex-col items-center justify-center min-h-screen bg-[#FAF9F6] gap-4">
         <div className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full"></div>
-        <p className="text-[11px] uppercase tracking-widest text-[#1B2A22]/60 font-bold">Initializing The Collection...</p>
+        <p className="text-[11px] uppercase tracking-widest text-[#1B2A22]/60 font-bold">Loading Properties...</p>
       </div>
     }>
       <StaysList />

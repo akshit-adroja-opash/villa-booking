@@ -164,20 +164,20 @@ export default function Home() {
         {/* Hero Content */}
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center mt-20">
           <span className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] mb-6 animate-fade-in">
-            Exclusive Sanctuaries
+            Exclusive Properties
           </span>
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-normal text-white leading-tight mb-8 drop-shadow-lg">
-            Retreat to <br/> Elegance
+            Luxury Stays
           </h1>
           <p className="text-white/80 text-sm md:text-base font-medium max-w-lg mb-10 leading-relaxed">
-            Discover our curated portfolio of private estates, where uncompromising luxury meets absolute tranquility.
+            Discover our collection of private properties, where luxury meets absolute tranquility.
           </p>
           <Link 
             href="/farms" 
             className="group relative px-8 py-4 bg-white text-[#1B2A22] text-[11px] uppercase tracking-widest font-bold overflow-hidden transition-all hover:bg-[#D4AF37] hover:text-white"
           >
             <span className="relative z-10 flex items-center gap-2">
-              Explore The Collection <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              View Properties <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </span>
           </Link>
         </div>
@@ -198,10 +198,10 @@ export default function Home() {
       {/* Intro Section */}
       <section className="py-24 md:py-32 px-6 md:px-16 max-w-[1000px] mx-auto text-center">
         <h2 className="font-serif text-3xl md:text-5xl text-[#1B2A22] leading-tight mb-8">
-          A New Standard of <br/> Private Living
+          A New Standard of <br/> Living
         </h2>
         <p className="text-[#1B2A22]/70 text-lg md:text-xl font-serif max-w-2xl mx-auto leading-relaxed">
-          The Estate represents a singular vision of hospitality. We do not aggregate properties; we curate a masterful collection of our own exclusive retreats designed for those who seek the extraordinary.
+          The Estate provides a singular vision of hospitality. We manage our own exclusive properties designed for a great experience.
         </p>
       </section>
 
@@ -211,19 +211,19 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div>
               <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-3 block">
-                Portfolio
+                Properties
               </span>
-              <h2 className="font-serif text-4xl text-[#1B2A22]">The Collection</h2>
+              <h2 className="font-serif text-4xl text-[#1B2A22]">Our Properties</h2>
             </div>
             <Link href="/farms" className="text-[11px] uppercase tracking-widest font-bold text-[#1B2A22] flex items-center gap-2 hover:text-[#D4AF37] transition-colors border-b border-[#1B2A22] hover:border-[#D4AF37] pb-1">
-              View All Estates <ArrowRight className="h-3 w-3" />
+              View All Properties <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
 
           {loading ? (
             <div className="flex flex-col items-center justify-center py-32 gap-4">
               <div className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full"></div>
-              <p className="text-[11px] uppercase tracking-widest text-[#1B2A22]/60 font-bold">Curating Collection...</p>
+              <p className="text-[11px] uppercase tracking-widest text-[#1B2A22]/60 font-bold">Loading Properties...</p>
             </div>
           ) : (
             <div className="space-y-24 md:space-y-32">
@@ -294,13 +294,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Experience / Concierge */}
+      {/* Experience / Services */}
       <section className="py-24 bg-[#1B2A22] text-white">
         <div className="max-w-[1280px] mx-auto px-6 md:px-16 text-center">
           <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-4 block">
-            The Experience
+            Services
           </span>
-          <h2 className="font-serif text-3xl md:text-5xl mb-16">Bespoke Services</h2>
+          <h2 className="font-serif text-3xl md:text-5xl mb-16">Special Services</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto">
             <div className="flex flex-col items-center">
@@ -331,7 +331,7 @@ export default function Home() {
       {/* Minimalist Testimonials */}
       <section className="py-32 bg-[#FAF9F6]">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="font-serif text-3xl text-[#1B2A22] mb-16">Words from our Patrons</h2>
+          <h2 className="font-serif text-3xl text-[#1B2A22] mb-16">Reviews</h2>
           <div className="relative">
             <div className="text-6xl font-serif text-[#D4AF37]/20 absolute -top-8 left-0 right-0">"</div>
             {reviews.length > 0 && (
@@ -354,13 +354,13 @@ export default function Home() {
           
           <div className="relative z-10">
             <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#00a877] mb-6 block">
-              Inquiries
+              Contact Us
             </span>
             <h2 className="font-serif text-4xl md:text-5xl text-[#1B2A22] font-normal leading-tight mb-6">
               Begin Your Journey
             </h2>
             <p className="text-[#1B2A22]/70 font-serif italic text-lg max-w-md mx-auto mb-10">
-              Speak with our concierge to arrange your private viewing or secure your reservation.
+              Speak with our support team to arrange your private viewing or secure your booking.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -368,13 +368,13 @@ export default function Home() {
                 href="/farms" 
                 className="bg-[#1B2A22] text-white hover:bg-[#00a877] px-10 py-4 text-[11px] uppercase tracking-widest font-bold transition-colors"
               >
-                View Portfolio
+                View Properties
               </Link>
               <a 
-                href="mailto:concierge@theestate.com"
+                href="mailto:support@theestate.com"
                 className="bg-transparent border border-[#1B2A22]/30 hover:border-[#1B2A22] text-[#1B2A22] px-10 py-4 text-[11px] uppercase tracking-widest font-bold transition-colors"
               >
-                Contact Concierge
+                Contact Support
               </a>
             </div>
           </div>
