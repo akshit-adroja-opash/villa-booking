@@ -25,7 +25,11 @@ import {
   CalendarDays,
   CheckCircle2,
   Car,
-  Camera
+  Camera,
+  ExternalLink,
+  Phone,
+  MessageCircle,
+  Info
 } from 'lucide-react';
 
 interface FarmDetails {
@@ -478,11 +482,94 @@ export default function FarmDetailPage() {
                 })}
               </div>
             </div>
+
+            {/* House Rules */}
+            <div className="pb-10 mb-10 border-t border-[#1B2A22]/10 pt-10">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-1.5 h-6 bg-[#D4AF37] rounded-sm"></div>
+                <h3 className="font-sans text-xl font-bold text-[#1B2A22]">House Rules</h3>
+              </div>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  'No Alcohol Party',
+                  'No Smoking',
+                  'Self Cooking',
+                  'Self Cleaning',
+                  'Staircase only',
+                  'No Pets',
+                  'No Luggage Responsibility',
+                  'Non-veg not allowed'
+                ].map((rule, idx) => (
+                  <li key={idx} className="flex items-center gap-3 bg-[#fbf8ff] border border-[#eeedf7] p-4 rounded-xl">
+                    <div className="text-[#1B2A22]/40">
+                      <CheckCircle2 className="h-5 w-5" />
+                    </div>
+                    <span className="text-sm font-semibold text-[#1B2A22]/80">{rule}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Cancellation Policy */}
+            <div className="pb-10 mb-10 border-t border-[#1B2A22]/10 pt-10">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-1.5 h-6 bg-red-500 rounded-sm"></div>
+                <h3 className="font-sans text-xl font-bold text-[#1B2A22]">Cancellation Policy</h3>
+              </div>
+              <ul className="space-y-3">
+                {[
+                  { label: "Within 20 mins of booking", value: "10% convenience fee will be applied." },
+                  { label: "15 days+ before check-in", value: "20% of the booking amount will be charged." },
+                  { label: "Less than 15 days before", value: "100% of the booking amount will be charged." },
+                  { label: "After check-in time", value: "No cancellation allowed." },
+                  { label: "Refund Processing", value: "Processed within 7 working days." }
+                ].map((policy, idx) => (
+                  <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-red-50/30 border border-red-100 rounded-xl gap-2 hover:bg-red-50/80 transition-colors">
+                    <span className="text-sm font-bold text-red-950">{policy.label}</span>
+                    <span className="text-sm font-medium text-red-900/80">{policy.value}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Location */}
+            <div className="pb-10 mb-10 border-t border-[#1B2A22]/10 pt-10">
+              <div className="border border-[#eeedf7] rounded-xl p-6 bg-white">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-1.5 h-6 bg-[#00a877] rounded-sm"></div>
+                  <h3 className="font-sans text-xl font-bold text-[#1B2A22]">Location</h3>
+                </div>
+                
+                <div className="relative w-full h-[350px] rounded-lg overflow-hidden bg-[#fbf8ff]">
+                  <iframe
+                    title="Property Location Map"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    allowFullScreen
+                    referrerPolicy="no-referrer-when-downgrade"
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(farm.location || 'Gujarat, India')}&t=k&z=15&ie=UTF8&iwloc=&output=embed`}
+                  ></iframe>
+                  
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(farm.location || 'Gujarat, India')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute top-4 left-4 bg-white text-blue-600 px-4 py-2 text-sm font-semibold shadow-md hover:bg-slate-50 transition-colors flex items-center gap-2 rounded-sm"
+                  >
+                    Open in Maps
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Booking / Sticky Card Column */}
           <div className="w-full md:w-[40%]">
-            <div className="sticky top-28 bg-white border border-[#1B2A22]/5 p-8 md:p-10">
+            <div className="sticky top-28">
+              <div className="bg-white border border-[#1B2A22]/5 p-8 md:p-10">
               
               <div className="mb-8">
                 <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] block mb-2">Reservation</span>
@@ -575,6 +662,20 @@ export default function FarmDetailPage() {
                 </div>
               )}
 
+              {/* Security Deposit Banner */}
+              <div className="mb-6 p-4 bg-[#fff9f0] border border-[#f5a623] rounded-xl flex gap-3 items-start">
+                <div className="mt-0.5">
+                  <Info className="h-5 w-5 text-[#f5a623]" />
+                </div>
+                <div>
+                  <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                    <span className="text-[13px] font-bold text-[#1B2A22]">₹5000 Security Deposit</span>
+                    <span className="bg-[#f5a623] text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">Pay at Check-in</span>
+                  </div>
+                  <p className="text-xs font-semibold text-[#1B2A22]/70">Refunded by host if no damage</p>
+                </div>
+              </div>
+
               {/* Booking Actions */}
               <button 
                 onClick={handleBooking}
@@ -606,6 +707,23 @@ export default function FarmDetailPage() {
                   </div>
                 </>
               )}
+
+              </div>
+
+              {/* Need Help Section */}
+              <div className="mt-8">
+                <h4 className="font-sans text-sm font-bold text-[#1B2A22] mb-4">Need Help?</h4>
+                <div className="space-y-3">
+                  <a href="tel:+918780493615" className="flex items-center gap-4 w-full p-4 bg-white border border-[#eeedf7] rounded-xl hover:border-[#00a877] transition-colors group hover:shadow-sm">
+                    <Phone className="h-5 w-5 text-[#00a877] group-hover:scale-110 transition-transform" />
+                    <span className="text-sm font-semibold text-[#1B2A22]">Call us: +91 8780493615</span>
+                  </a>
+                  <a href="https://wa.me/918780493615" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 w-full p-4 bg-white border border-[#eeedf7] rounded-xl hover:border-[#00a877] transition-colors group hover:shadow-sm">
+                    <MessageCircle className="h-5 w-5 text-[#00a877] group-hover:scale-110 transition-transform" />
+                    <span className="text-sm font-semibold text-[#1B2A22]">WhatsApp Support</span>
+                  </a>
+                </div>
+              </div>
 
             </div>
           </div>
