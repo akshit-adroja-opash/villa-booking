@@ -140,10 +140,10 @@ export default function AdminPropertiesPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="font-serif text-3xl font-normal tracking-tight text-[#1B2A22]">
-              Estates Collection
+              Properties
             </h1>
             <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-2">
-              Manage Portfolio & Rates
+              Manage Properties & Rates
             </p>
           </div>
           <Link
@@ -151,7 +151,7 @@ export default function AdminPropertiesPage() {
             className="flex items-center justify-center gap-2 bg-[#1B2A22] hover:bg-[#2c4236] text-white px-5 py-3 text-[10px] uppercase tracking-widest font-bold transition-all active:scale-[0.98] self-start sm:self-auto"
           >
             <Plus className="h-4 w-4" />
-            <span>Add Estate</span>
+            <span>Add Property</span>
           </Link>
         </div>
 
@@ -175,7 +175,7 @@ export default function AdminPropertiesPage() {
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search portfolio..."
+            placeholder="Search properties..."
             className="w-full bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
           />
         </div>
@@ -184,7 +184,7 @@ export default function AdminPropertiesPage() {
         <section className="flex flex-col gap-6">
           {filteredFarms.length === 0 ? (
             <div className="bg-white border border-[#1B2A22]/10 p-10 text-center">
-              <p className="text-[#1B2A22]/50 font-serif italic text-lg">No estates found in the portfolio.</p>
+              <p className="text-[#1B2A22]/50 font-serif italic text-lg">No properties found.</p>
             </div>
           ) : (
             filteredFarms.map((farm) => (

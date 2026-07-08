@@ -247,7 +247,7 @@ export default function AdminDashboard() {
           <p className="flex items-center gap-2 mt-2">
             <TrendingUp className="h-3.5 w-3.5 text-[#00a877]" />
             <span className="text-[10px] uppercase tracking-widest text-[#00a877] font-bold">
-              Estate Portfolio Overview
+              Properties Overview
             </span>
           </p>
         </div>
@@ -276,7 +276,7 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="font-serif text-3xl text-[#1B2A22]">{displayBookingsCount}</h3>
-                <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-1">Reservations</p>
+                <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-1">Bookings</p>
               </div>
               <LogoBookingsIcon />
             </div>
@@ -292,7 +292,7 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="font-serif text-3xl text-[#1B2A22]">{displayActiveUsers}</h3>
-                <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-1">Patrons</p>
+                <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-1">Guests</p>
               </div>
               <LogoUsersIcon />
             </div>
@@ -424,7 +424,7 @@ export default function AdminDashboard() {
         {/* Recent Bookings Table View Layout */}
         <div className="bg-white border border-[#1B2A22]/10 overflow-hidden">
           <div className="p-6 border-b border-[#1B2A22]/10">
-            <h3 className="font-serif text-lg font-normal text-[#1B2A22]">Recent Reservations</h3>
+            <h3 className="font-serif text-lg font-normal text-[#1B2A22]">Recent Bookings</h3>
           </div>
 
           <div className="overflow-x-auto">
@@ -432,8 +432,8 @@ export default function AdminDashboard() {
               <thead>
                 <tr className="border-b border-[#1B2A22]/10 bg-[#FAF9F6] text-[9px] font-bold text-[#1B2A22]/50 uppercase tracking-[0.2em]">
                   <th className="px-6 py-4">Ref</th>
-                  <th className="px-6 py-4">Estate</th>
-                  <th className="px-6 py-4">Patron</th>
+                  <th className="px-6 py-4">Property</th>
+                  <th className="px-6 py-4">Guest</th>
                   <th className="px-6 py-4">Dates</th>
                   <th className="px-6 py-4">Amount</th>
                   <th className="px-6 py-4">Status</th>
@@ -442,10 +442,10 @@ export default function AdminDashboard() {
               <tbody className="divide-y divide-[#1B2A22]/5 text-[13px] font-semibold text-[#1B2A22]">
                 {bookings.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-6 py-8 text-center text-[#1B2A22]/50 font-serif italic">No recent reservations.</td>
+                    <td colSpan={6} className="px-6 py-8 text-center text-[#1B2A22]/50 font-serif italic">No recent bookings.</td>
                   </tr>
                 ) : bookings.slice(0, 5).map((booking, index) => {
-                  const farmTitle = booking.farmId?.title || 'Estate stay';
+                  const farmTitle = booking.farmId?.title || 'Property stay';
                   const guestName = booking.userId?.name || 'Guest';
                   
                   let dateRangeDisplay = 'N/A';

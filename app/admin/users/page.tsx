@@ -115,7 +115,7 @@ export default function UserManagementPage() {
       return;
     }
 
-    if (!confirm('Are you sure you want to delete this patron?')) return;
+    if (!confirm('Are you sure you want to delete this guest?')) return;
 
     try {
       const res = await fetch('/api/users', {
@@ -166,10 +166,10 @@ export default function UserManagementPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="font-serif text-3xl font-normal tracking-tight text-[#1B2A22]">
-              Customers & Members
+              Guests
             </h1>
             <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-2">
-              Manage Estate Customers and Access
+              Manage Guests and Access
             </p>
           </div>
           <button
@@ -177,7 +177,7 @@ export default function UserManagementPage() {
             className="flex items-center justify-center gap-2 bg-[#1B2A22] hover:bg-[#2c4236] text-white px-5 py-3 text-[10px] uppercase tracking-widest font-bold transition-all active:scale-[0.98] self-start sm:self-auto"
           >
             <UserPlus className="h-4 w-4" />
-            <span>New Member</span>
+            <span>New Guest</span>
           </button>
         </div>
 
@@ -231,7 +231,7 @@ export default function UserManagementPage() {
             <table className="w-full text-left border-collapse min-w-[700px]">
               <thead>
                 <tr className="border-b border-[#1B2A22]/10 bg-[#FAF9F6] text-[9px] font-bold text-[#1B2A22]/50 uppercase tracking-[0.2em]">
-                  <th className="px-6 py-4">Customer Details</th>
+                  <th className="px-6 py-4">Guest Details</th>
                   <th className="px-6 py-4">Contact</th>
                   <th className="px-6 py-4">Access Level</th>
                   <th className="px-6 py-4">Registration</th>
@@ -308,8 +308,8 @@ export default function UserManagementPage() {
             </button>
 
             <div className="mb-8 text-center">
-              <h3 className="font-serif text-2xl font-normal text-[#1B2A22]">New Member</h3>
-              <p className="text-[10px] text-[#1B2A22]/50 uppercase tracking-[0.2em] font-bold mt-2">Grant access to the portfolio</p>
+              <h3 className="font-serif text-2xl font-normal text-[#1B2A22]">New Guest</h3>
+              <p className="text-[10px] text-[#1B2A22]/50 uppercase tracking-[0.2em] font-bold mt-2">Create a new guest</p>
             </div>
 
             <form onSubmit={handleAddUser} className="space-y-6">

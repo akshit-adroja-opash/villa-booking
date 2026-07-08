@@ -112,7 +112,7 @@ export default function AdminFinancialsPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="font-serif text-3xl font-normal tracking-tight text-[#1B2A22]">
-              Financials
+              Revenue
             </h1>
             <p className="mt-2 text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60">
               Revenue, pending payments & transaction activity
@@ -158,7 +158,7 @@ export default function AdminFinancialsPage() {
               <thead>
                 <tr className="border-b border-[#1B2A22]/10 bg-[#FAF9F6] text-[9px] font-bold text-[#1B2A22]/50 uppercase tracking-[0.15em]">
                   <th className="px-6 py-5">Guest</th>
-                  <th className="px-6 py-5">Estate</th>
+                  <th className="px-6 py-5">Property</th>
                   <th className="px-6 py-5">Order ID</th>
                   <th className="px-6 py-5">Status</th>
                   <th className="px-6 py-5 text-right">Amount</th>

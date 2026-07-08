@@ -113,7 +113,7 @@ export default function AdminReservationsPage() {
           setBookings(MOCK_RESERVATIONS);
         }
       } catch (error) {
-        console.error('Failed to load reservations:', error);
+        console.error('Failed to load bookings:', error);
         setBookings(MOCK_RESERVATIONS);
       } finally {
         setLoading(false);
@@ -163,7 +163,7 @@ export default function AdminReservationsPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="font-serif text-3xl font-normal tracking-tight text-[#1B2A22]">
-              Reservations
+              Bookings
             </h1>
             <p className="mt-2 text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60">
               Track Guest Stays & Payment State
@@ -178,7 +178,7 @@ export default function AdminReservationsPage() {
         {/* Stats Grid */}
         <div className="grid gap-6 md:grid-cols-3">
           {[
-            { label: 'Total Reservations', value: bookings.length.toString(), color: '#1B2A22' },
+            { label: 'Total Bookings', value: bookings.length.toString(), color: '#1B2A22' },
             { label: 'Confirmed', value: confirmedBookings.toString(), color: '#1B2A22' },
             { label: 'Booked Revenue', value: `₹${totalRevenue.toLocaleString('en-IN')}`, color: '#D4AF37' },
           ].map((stat) => (
@@ -197,7 +197,7 @@ export default function AdminReservationsPage() {
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search reservations..."
+                placeholder="Search bookings..."
                 className="w-full bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
               />
             </div>
@@ -208,8 +208,8 @@ export default function AdminReservationsPage() {
             <table className="w-full min-w-[860px] text-left border-collapse">
               <thead>
                 <tr className="border-b border-[#1B2A22]/10 bg-[#FAF9F6] text-[9px] font-bold text-[#1B2A22]/50 uppercase tracking-[0.15em]">
-                  <th className="px-6 py-5">Patron</th>
-                  <th className="px-6 py-5">Estate</th>
+                  <th className="px-6 py-5">Guest</th>
+                  <th className="px-6 py-5">Property</th>
                   <th className="px-6 py-5">Dates</th>
                   <th className="px-6 py-5">Total</th>
                   <th className="px-6 py-5">Status</th>
@@ -220,7 +220,7 @@ export default function AdminReservationsPage() {
                 {filteredBookings.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="px-6 py-12 text-center text-[#1B2A22]/40 font-serif italic text-lg">
-                      No reservations found.
+                      No bookings found.
                     </td>
                   </tr>
                 ) : (
@@ -273,7 +273,7 @@ export default function AdminReservationsPage() {
           </div>
 
           <div className="border-t border-[#1B2A22]/10 p-6 text-[10px] uppercase tracking-widest font-bold text-[#1B2A22]/50 bg-[#FAF9F6]">
-            Showing {filteredBookings.length} of {bookings.length} reservations • {upcomingBookings} upcoming
+            Showing {filteredBookings.length} of {bookings.length} bookings • {upcomingBookings} upcoming
           </div>
         </div>
       </div>
