@@ -325,7 +325,12 @@ export default function AddPropertyWizardPage() {
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {['Pool', 'Private Chef', 'High-Speed WiFi', 'Indoor Fireplace', 'Air Conditioning', 'Vineyard Views'].map((amenity) => (
+                  {[
+                    'Pool', 'Private Chef', 'High-Speed WiFi', 'Indoor Fireplace', 
+                    'Air Conditioning', 'Vineyard Views', 'Home Theater', 
+                    'Tennis Court', 'Wine Cellar', 'Outdoor Kitchen', 
+                    'Gym', 'Smart Home System'
+                  ].map((amenity) => (
                     <div key={amenity} className="flex items-center gap-3 bg-[#fbf8ff] p-4 rounded-lg border border-[#eeedf7] transition-all hover:bg-[#e3e1ec]/30">
                       <div className="relative flex items-center">
                         <input 

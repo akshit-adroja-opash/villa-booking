@@ -22,14 +22,6 @@ interface Member {
   createdAt?: string;
 }
 
-const MOCK_MEMBERS: Member[] = [
-  { _id: 'mock-1', name: 'Arjun Mehta', email: 'arjun@theestate.com', role: 'customer', createdAt: '2024-01-15T08:00:00.000Z' },
-  { _id: 'mock-2', name: 'Sarah Williams', email: 'sarah.w@gmail.com', role: 'admin', createdAt: '2024-02-10T10:30:00.000Z' },
-  { _id: 'mock-3', name: 'Mike Chen', email: 'mike.c@theestate.com', role: 'customer', createdAt: '2024-03-01T12:00:00.000Z' },
-  { _id: 'mock-4', name: 'David Smith', email: 'admin@gmail.com', role: 'admin', createdAt: '2023-12-01T09:00:00.000Z' },
-  { _id: 'mock-5', name: 'Priya Sharma', email: 'priya@gmail.com', role: 'customer', createdAt: '2024-04-18T15:20:00.000Z' }
-];
-
 export default function UserManagementPage() {
   const [users, setUsers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,25 +40,13 @@ export default function UserManagementPage() {
       const res = await fetch('/api/users');
       if (res.ok) {
         const data = await res.json();
-        // If database is empty, merge with mock members for rich UX display
-        if (!data || data.length === 0) {
-          setUsers(MOCK_MEMBERS);
-        } else {
-          // Merge mock users to guarantee a robust, visually populated UI
-          const merged = [...data];
-          MOCK_MEMBERS.forEach(mock => {
-            if (!merged.some(u => u.email.toLowerCase() === mock.email.toLowerCase())) {
-              merged.push(mock);
-            }
-          });
-          setUsers(merged);
-        }
+        setUsers(data || []);
       } else {
-        setUsers(MOCK_MEMBERS);
+        setUsers([]);
       }
     } catch (err) {
       console.error('Error fetching users:', err);
-      setUsers(MOCK_MEMBERS);
+      setUsers([]);
     } finally {
       setLoading(false);
     }
@@ -109,13 +89,15 @@ export default function UserManagementPage() {
   };
 
   const handleDeleteUser = async (id: string) => {
-    if (id.startsWith('mock-')) {
-      setUsers(users.filter(u => u._id !== id));
-      toast.success('Mock user removed successfully!');
+    const userToDelete = users.find(u => u._id === id);
+    if (userToDelete && userToDelete.role === 'admin') {
+      toast.error('Administrator accounts cannot be deleted.');
       return;
     }
 
-    if (!confirm('Are you sure you want to delete this guest?')) return;
+    if (!window.confirm('Are you sure you want to delete this guest?')) return;
+
+
 
     try {
       const res = await fetch('/api/users', {
@@ -277,13 +259,15 @@ export default function UserManagementPage() {
                         {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '2024-01-15'}
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <button
-                          onClick={() => handleDeleteUser(user._id)}
-                          className="p-2 text-[#1B2A22]/30 hover:text-red-500 transition-colors"
-                          title="Revoke Access"
-                        >
-                          <Trash2 className="h-4.5 w-4.5" />
-                        </button>
+                        {user.role !== 'admin' && (
+                          <button
+                            onClick={() => handleDeleteUser(user._id)}
+                            className="p-2 text-[#1B2A22]/30 hover:text-red-500 transition-colors"
+                            title="Revoke Access"
+                          >
+                            <Trash2 className="h-4.5 w-4.5" />
+                          </button>
+                        )}
                       </td>
                     </tr>
                   ))
