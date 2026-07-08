@@ -72,6 +72,8 @@
   --spacing-gutter: 24px;
 
   /* Font Families */
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-libre-caslon), ui-serif, Georgia, serif;
   --font-body-lg: var(--font-manrope);
   --font-label-md: var(--font-manrope);
   --font-display-lg: var(--font-libre-caslon);
