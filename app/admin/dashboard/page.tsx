@@ -296,8 +296,8 @@ export default function AdminDashboard() {
               <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 500 200">
                 <defs>
                   <linearGradient id="chartGrad" x1="0%" x2="0%" y1="0%" y2="100%">
-                    <stop offset="0%" stopColor="#1B2A22" stopOpacity="0.1" />
-                    <stop offset="100%" stopColor="#1B2A22" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#00a877" stopOpacity="0.1" />
+                    <stop offset="100%" stopColor="#00a877" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 
@@ -317,7 +317,7 @@ export default function AdminDashboard() {
                   <path 
                     d={chartPathData.lineD} 
                     fill="none" 
-                    stroke="#1B2A22" 
+                    stroke="#00a877" 
                     strokeWidth="2.5" 
                     strokeLinecap="round" 
                   />

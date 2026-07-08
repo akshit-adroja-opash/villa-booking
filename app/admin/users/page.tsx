@@ -24,10 +24,10 @@ interface Member {
 
 const MOCK_MEMBERS: Member[] = [
   { _id: 'mock-1', name: 'Arjun Mehta', email: 'arjun@theestate.com', role: 'customer', createdAt: '2024-01-15T08:00:00.000Z' },
-  { _id: 'mock-2', name: 'Sarah Williams', email: 'sarah.w@gmail.com', role: 'owner', createdAt: '2024-02-10T10:30:00.000Z' },
+  { _id: 'mock-2', name: 'Sarah Williams', email: 'sarah.w@gmail.com', role: 'admin', createdAt: '2024-02-10T10:30:00.000Z' },
   { _id: 'mock-3', name: 'Mike Chen', email: 'mike.c@theestate.com', role: 'customer', createdAt: '2024-03-01T12:00:00.000Z' },
   { _id: 'mock-4', name: 'David Smith', email: 'admin@gmail.com', role: 'admin', createdAt: '2023-12-01T09:00:00.000Z' },
-  { _id: 'mock-5', name: 'Priya Sharma', email: 'priya@gmail.com', role: 'owner', createdAt: '2024-04-18T15:20:00.000Z' }
+  { _id: 'mock-5', name: 'Priya Sharma', email: 'priya@gmail.com', role: 'customer', createdAt: '2024-04-18T15:20:00.000Z' }
 ];
 
 export default function UserManagementPage() {
@@ -150,15 +150,12 @@ export default function UserManagementPage() {
     switch (role) {
       case 'admin':
         return 'bg-[#1B2A22] text-[#D4AF37] border-[#1B2A22]';
-      case 'owner':
-        return 'bg-[#D4AF37]/5 text-[#D4AF37] border-[#D4AF37]/30';
       default:
         return 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20';
     }
   };
 
   const totalAdmins = users.filter(u => u.role === 'admin').length;
-  const totalOwners = users.filter(u => u.role === 'owner' || u.role === 'host').length;
   const totalCustomers = users.filter(u => u.role === 'customer' || u.role === 'user').length;
 
   return (
@@ -169,10 +166,10 @@ export default function UserManagementPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="font-serif text-3xl font-normal tracking-tight text-[#1B2A22]">
-              Patrons & Members
+              Customers & Members
             </h1>
             <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-2">
-              Manage Estate Clientele and Access
+              Manage Estate Customers and Access
             </p>
           </div>
           <button
@@ -185,7 +182,7 @@ export default function UserManagementPage() {
         </div>
 
         {/* User Summary Stats Widgets */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <div className="bg-white border border-[#1B2A22]/10 p-6">
             <h4 className="font-serif text-3xl text-[#1B2A22]">{users.length}</h4>
             <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-2">Registered Accounts</p>
@@ -195,12 +192,8 @@ export default function UserManagementPage() {
             <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-2">Administrators</p>
           </div>
           <div className="bg-white border border-[#1B2A22]/10 p-6">
-            <h4 className="font-serif text-3xl text-[#D4AF37]">{totalOwners}</h4>
-            <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-2">Curators</p>
-          </div>
-          <div className="bg-white border border-[#1B2A22]/10 p-6">
             <h4 className="font-serif text-3xl text-[#00a877]">{totalCustomers}</h4>
-            <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-2">Patrons / Guests</p>
+            <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mt-2">Customers / Guests</p>
           </div>
         </div>
 
@@ -227,8 +220,7 @@ export default function UserManagementPage() {
             >
               <option value="all">All Roles</option>
               <option value="admin">Administrator</option>
-              <option value="owner">Curator</option>
-              <option value="customer">Patron</option>
+              <option value="customer">Customer</option>
             </select>
           </div>
         </div>
@@ -239,7 +231,7 @@ export default function UserManagementPage() {
             <table className="w-full text-left border-collapse min-w-[700px]">
               <thead>
                 <tr className="border-b border-[#1B2A22]/10 bg-[#FAF9F6] text-[9px] font-bold text-[#1B2A22]/50 uppercase tracking-[0.2em]">
-                  <th className="px-6 py-4">Patron Details</th>
+                  <th className="px-6 py-4">Customer Details</th>
                   <th className="px-6 py-4">Contact</th>
                   <th className="px-6 py-4">Access Level</th>
                   <th className="px-6 py-4">Registration</th>
@@ -379,8 +371,7 @@ export default function UserManagementPage() {
                     onChange={(e) => setNewUserRole(e.target.value)}
                     className="w-full h-10 bg-transparent text-[11px] uppercase tracking-widest font-bold text-[#1B2A22] outline-none border-none cursor-pointer appearance-none"
                   >
-                    <option value="customer">Patron / Guest</option>
-                    <option value="owner">Curator</option>
+                    <option value="customer">Customer / Guest</option>
                     <option value="admin">Administrator</option>
                   </select>
                 </div>

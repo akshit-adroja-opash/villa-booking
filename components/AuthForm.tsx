@@ -125,7 +125,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
                 <input 
                   className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
                   id="login-email" 
-                  placeholder="patron@theestate.com" 
+                  placeholder="member@theestate.com" 
                   type="email"
                   required
                   value={loginEmail}
@@ -215,7 +215,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
                 <input 
                   className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
                   id="reg-email" 
-                  placeholder="patron@theestate.com" 
+                  placeholder="member@theestate.com" 
                   type="email"
                   required
                   value={regEmail}
@@ -268,7 +268,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
             </p>
           ) : (
             <p>
-              Already a patron?{' '}
+              Already a member?{' '}
               <button 
                 onClick={() => setMode('signin')}
                 className="text-[#D4AF37] hover:text-[#c29f31] transition-colors ml-1"
