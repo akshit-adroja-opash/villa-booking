@@ -1,9 +1,11 @@
 'use client';
 import toast from 'react-hot-toast';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { 
   MapPin, 
   Grid, 
@@ -91,9 +93,10 @@ export default function FarmDetailPage() {
   const [loading, setLoading] = useState(true);
 
   // Booking states
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
   const [guestSelection, setGuestSelection] = useState(0);
+  const [showGuestDropdown, setShowGuestDropdown] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [existingBookings, setExistingBookings] = useState<any[]>([]);
   const [showAllPhotosModal, setShowAllPhotosModal] = useState(false);
@@ -161,6 +164,37 @@ export default function FarmDetailPage() {
     fetchFarmBookings();
   }, [farm]);
 
+  const checkInExcludeDates = useMemo(() => {
+    const dates: Date[] = [];
+    existingBookings.forEach((b: any) => {
+      if (b.paymentStatus === 'Failed') return;
+      const bStart = new Date(b.startDate);
+      const bEnd = new Date(b.endDate);
+      let curr = new Date(bStart);
+      while (curr < bEnd) {
+        dates.push(new Date(curr));
+        curr.setDate(curr.getDate() + 1);
+      }
+    });
+    return dates;
+  }, [existingBookings]);
+
+  const checkOutExcludeDates = useMemo(() => {
+    const dates: Date[] = [];
+    existingBookings.forEach((b: any) => {
+      if (b.paymentStatus === 'Failed') return;
+      const bStart = new Date(b.startDate);
+      const bEnd = new Date(b.endDate);
+      let curr = new Date(bStart);
+      curr.setDate(curr.getDate() + 1);
+      while (curr <= bEnd) {
+        dates.push(new Date(curr));
+        curr.setDate(curr.getDate() + 1);
+      }
+    });
+    return dates;
+  }, [existingBookings]);
+
   useEffect(() => {
     if (showAllPhotosModal) {
       document.body.style.overflow = 'hidden';
@@ -199,8 +233,8 @@ export default function FarmDetailPage() {
   }
 
   // Calculate pricing breakdown
-  const start = startDate ? new Date(startDate) : null;
-  const end = endDate ? new Date(endDate) : null;
+  const start = startDate;
+  const end = endDate;
 
   const hasValidDates = start && end && !isNaN(start.getTime()) && !isNaN(end.getTime()) && start < end;
   const isInvalidDates = start && end && (isNaN(start.getTime()) || isNaN(end.getTime()) || start >= end);
@@ -209,8 +243,8 @@ export default function FarmDetailPage() {
     if (b.paymentStatus === 'Failed') return false;
     const bStart = new Date(b.startDate).getTime();
     const bEnd = new Date(b.endDate).getTime();
-    const sTime = new Date(startDate).getTime();
-    const eTime = new Date(endDate).getTime();
+    const sTime = startDate.getTime();
+    const eTime = endDate.getTime();
     return sTime < bEnd && eTime > bStart;
   });
 
@@ -296,8 +330,8 @@ export default function FarmDetailPage() {
         body: JSON.stringify({
           userId: (session.user as any).id,
           farmId: finalFarmId,
-          startDate,
-          endDate,
+          startDate: startDate ? startDate.toISOString() : null,
+          endDate: endDate ? endDate.toISOString() : null,
           totalPrice: grandTotal
         })
       });
@@ -319,6 +353,18 @@ export default function FarmDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22] font-sans antialiased">
+      <style dangerouslySetInnerHTML={{__html: `
+        .react-datepicker-wrapper { width: 100%; }
+        .react-datepicker { font-family: inherit; border: 1px solid rgba(255,255,255,0.1); background-color: #1B2A22; color: white; border-radius: 0; }
+        .react-datepicker__header { background-color: #1B2A22; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header { color: white; font-weight: normal; }
+        .react-datepicker__day-name { color: #D4AF37; }
+        .react-datepicker__day { color: white; }
+        .react-datepicker__day:hover { background-color: rgba(255,255,255,0.1); border-radius: 0; }
+        .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range { background-color: #D4AF37; color: #1B2A22; border-radius: 0; }
+        .react-datepicker__day--keyboard-selected { background-color: rgba(212,175,55,0.3); color: white; }
+        .react-datepicker__day--disabled { color: rgba(255,255,255,0.2) !important; text-decoration: line-through; }
+      `}} />
       <main className="mx-auto max-w-[1280px] px-6 pt-32 pb-24 md:px-16">
         
         {/* Title & Metadata */}
@@ -433,35 +479,69 @@ export default function FarmDetailPage() {
                 <div className="flex border-b border-white/10">
                   <div className="w-1/2 border-r border-white/10 p-4">
                     <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#D4AF37] block mb-2">Check-in</label>
-                    <input 
-                      type="date" 
-                      value={startDate} 
-                      onChange={(e) => setStartDate(e.target.value)}
-                      className="text-sm font-semibold text-white bg-transparent outline-none border-none w-full p-0 [color-scheme:dark]" 
+                    <DatePicker
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      selectsStart
+                      startDate={startDate || undefined}
+                      endDate={endDate || undefined}
+                      minDate={new Date()}
+                      excludeDates={checkInExcludeDates}
+                      placeholderText="Select date"
+                      className="text-sm font-semibold text-white bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-white/30"
                     />
                   </div>
                   <div className="w-1/2 p-4">
                     <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#D4AF37] block mb-2">Checkout</label>
-                    <input 
-                      type="date" 
-                      value={endDate} 
-                      onChange={(e) => setEndDate(e.target.value)}
-                      className="text-sm font-semibold text-white bg-transparent outline-none border-none w-full p-0 [color-scheme:dark]" 
+                    <DatePicker
+                      selected={endDate}
+                      onChange={(date) => setEndDate(date)}
+                      selectsEnd
+                      startDate={startDate || undefined}
+                      endDate={endDate || undefined}
+                      minDate={startDate || new Date()}
+                      excludeDates={checkOutExcludeDates}
+                      placeholderText="Select date"
+                      className="text-sm font-semibold text-white bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-white/30"
                     />
                   </div>
                 </div>
-                <div className="p-4 border-b border-white/10">
+                <div 
+                  className="p-4 border-b border-white/10 relative outline-none"
+                  tabIndex={0}
+                  onBlur={(e) => {
+                    if (!e.currentTarget.contains(e.relatedTarget)) {
+                      setShowGuestDropdown(false);
+                    }
+                  }}
+                >
                   <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#D4AF37] block mb-2">Guests</label>
-                  <select 
-                    value={guestSelection}
-                    onChange={(e) => setGuestSelection(Number(e.target.value))}
-                    className="text-sm font-semibold text-white bg-transparent outline-none border-none w-full p-0 appearance-none cursor-pointer"
+                  <div 
+                    onClick={() => setShowGuestDropdown(!showGuestDropdown)}
+                    className="text-sm font-semibold text-white w-full cursor-pointer flex justify-between items-center"
                   >
-                    <option value={0} disabled className="text-black">Select guests</option>
-                    {[...Array(farm.guests || 6)].map((_, i) => (
-                      <option key={i + 1} value={i + 1} className="text-black">{i + 1} guest{i > 0 ? 's' : ''}</option>
-                    ))}
-                  </select>
+                    <span className={guestSelection === 0 ? 'text-white/30' : ''}>
+                      {guestSelection === 0 ? 'Select guests' : `${guestSelection} guest${guestSelection > 1 ? 's' : ''}`}
+                    </span>
+                    <svg className={`w-4 h-4 text-white/50 transition-transform duration-200 ${showGuestDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </div>
+                  
+                  {showGuestDropdown && (
+                    <div className="absolute top-full left-0 w-full bg-[#1B2A22] border border-[#D4AF37]/30 shadow-2xl z-50 max-h-60 overflow-y-auto mt-1">
+                      {[...Array(farm.guests || 6)].map((_, i) => (
+                        <div 
+                          key={i + 1}
+                          onClick={() => {
+                            setGuestSelection(i + 1);
+                            setShowGuestDropdown(false);
+                          }}
+                          className={`px-4 py-3 text-sm font-semibold cursor-pointer transition-colors ${guestSelection === i + 1 ? 'bg-[#D4AF37] text-[#1B2A22]' : 'text-white hover:bg-white/10'}`}
+                        >
+                          {i + 1} guest{i > 0 ? 's' : ''}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 

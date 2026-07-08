@@ -104,10 +104,10 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
           <Logo />
           <div className="space-y-2 mt-4">
             <h2 className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37]">
-              {mode === 'signin' ? 'Client Portal' : 'Join The Portfolio'}
+              {mode === 'signin' ? 'Login' : 'Sign Up'}
             </h2>
             <p className="text-sm text-[#1B2A22]/60 font-serif italic">
-              {mode === 'signin' ? 'Sign in to your private account to continue.' : 'Register to curate your exclusive retreats.'}
+              {mode === 'signin' ? 'Sign in to your account to continue.' : 'Create an account to continue.'}
             </p>
           </div>
         </div>
@@ -182,7 +182,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
               disabled={loading}
               className="w-full h-14 bg-[#1B2A22] hover:bg-[#00a877] text-white text-[11px] uppercase tracking-[0.2em] font-bold transition-all active:scale-[0.99] disabled:opacity-50 mt-4"
             >
-              {loading ? 'Authenticating...' : 'Enter Portal'}
+              {loading ? 'Authenticating...' : 'Sign In'}
             </button>
           </form>
         ) : (
@@ -249,7 +249,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
               disabled={loading}
               className="w-full h-14 bg-[#1B2A22] hover:bg-[#00a877] text-white text-[11px] uppercase tracking-[0.2em] font-bold transition-all active:scale-[0.99] disabled:opacity-50 mt-4"
             >
-              {loading ? 'Creating Account...' : 'Register'}
+              {loading ? 'Creating Account...' : 'Sign Up'}
             </button>
           </form>
         )}
@@ -263,7 +263,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
                 onClick={() => setMode('signup')}
                 className="text-[#D4AF37] hover:text-[#c29f31] transition-colors ml-1"
               >
-                Inquire here
+                Sign Up
               </button>
             </p>
           ) : (
