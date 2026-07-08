@@ -220,7 +220,7 @@ export default function AddPropertyWizardPage() {
                         required
                         value={location}
                         onChange={(e) => setLocation(e.target.value)}
-                        placeholder="City, Region"
+                        placeholder="City, Region or Google Maps Link"
                         className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] pl-10 pr-4 py-3 text-sm text-[#1a1b22] placeholder-[#404944]/50 outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
                       />
                     </div>

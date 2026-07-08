@@ -371,7 +371,13 @@ export default function FarmDetailPage() {
         <div className="mb-10 text-center max-w-4xl mx-auto">
           <div className="flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-4">
             <MapPin className="h-3.5 w-3.5" />
-            <span>{farm.location}</span>
+            {farm.location?.startsWith('http') ? (
+              <a href={farm.location} target="_blank" rel="noopener noreferrer" className="hover:underline text-[#D4AF37]">
+                View on Map
+              </a>
+            ) : (
+              <span>{farm.location}</span>
+            )}
           </div>
           <h1 className="font-serif text-4xl font-normal text-[#1B2A22] md:text-6xl mb-6">{farm.title}</h1>
         </div>

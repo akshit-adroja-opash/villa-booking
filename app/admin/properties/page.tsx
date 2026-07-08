@@ -214,7 +214,13 @@ export default function AdminPropertiesPage() {
                   <div className="flex flex-col gap-3">
                     <div className="flex items-center gap-2 text-[9px] uppercase tracking-[0.2em] font-bold text-[#D4AF37]">
                       <MapPin className="h-3 w-3" />
-                      <span>{farm.location || 'Exclusive Location'}</span>
+                      {farm.location?.startsWith('http') ? (
+                        <a href={farm.location} target="_blank" rel="noopener noreferrer" className="hover:underline text-[#D4AF37]">
+                          View on Map
+                        </a>
+                      ) : (
+                        <span>{farm.location || 'Exclusive Location'}</span>
+                      )}
                     </div>
                     
                     <h3 className="font-serif text-2xl font-normal text-[#1B2A22]">{farm.title}</h3>

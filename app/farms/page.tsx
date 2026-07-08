@@ -173,7 +173,7 @@ function StaysList() {
                     {/* Location */}
                     <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-3">
                       <MapPin className="h-3.5 w-3.5" />
-                      <span>{farm.location}</span>
+                      <span>{farm.location?.startsWith('http') ? 'Map Link Available' : farm.location}</span>
                     </div>
 
                     {/* Title & Price */}
