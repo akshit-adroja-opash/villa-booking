@@ -370,12 +370,12 @@ export default function Home() {
               >
                 View Properties
               </Link>
-              <a 
-                href="mailto:support@theestate.com"
+              <Link 
+                href="/support"
                 className="bg-transparent border border-[#1B2A22]/30 hover:border-[#1B2A22] text-[#1B2A22] px-10 py-4 text-[11px] uppercase tracking-widest font-bold transition-colors"
               >
                 Contact Support
-              </a>
+              </Link>
             </div>
           </div>
         </div>

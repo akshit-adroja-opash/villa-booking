@@ -39,7 +39,7 @@ export default function HelpSupportPage() {
 
   return (
     <div className="min-h-screen bg-[#fdfbf7] text-[#1a1b22] font-sans antialiased">
-      <main className="max-w-[800px] mx-auto px-6 pt-32 pb-24">
+      <main className="max-w-[1000px] mx-auto px-6 pt-32 pb-24">
         
         {/* Title */}
         <h1 className="font-serif text-3xl font-semibold text-[#003527] mb-8">
