@@ -251,13 +251,10 @@ export default function FarmDetailPage() {
   const diffTime = hasValidDates ? Math.abs(end!.getTime() - start!.getTime()) : 0;
   const diffNights = hasValidDates ? Math.ceil(diffTime / (1000 * 60 * 60 * 24)) : 0;
   const accommodationTotal = farm.pricePerNight * diffNights;
-  const cleaningFee = diffNights > 0 ? Math.round(accommodationTotal * 0.05) : 0;
-  const serviceFee = diffNights > 0 ? Math.round(accommodationTotal * 0.08) : 0;
-  const grandTotal = accommodationTotal + cleaningFee + serviceFee;
+  const grandTotal = accommodationTotal;
 
   const priceBreakdown = [
-    { label: `₹${farm.pricePerNight.toLocaleString('en-IN')} x ${diffNights} night${diffNights > 1 ? 's' : ''}`, value: accommodationTotal },
-    { label: 'Concierge & Service fee', value: serviceFee }
+    { label: `₹${farm.pricePerNight.toLocaleString('en-IN')} x ${diffNights} night${diffNights > 1 ? 's' : ''}`, value: accommodationTotal }
   ];
 
   const handleBooking = async () => {

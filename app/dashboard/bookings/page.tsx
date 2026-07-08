@@ -148,9 +148,6 @@ export default function BookingsDashboardPage() {
       return;
     }
 
-    const basePrice = Math.round(booking.totalPrice / 1.18);
-    const gst = booking.totalPrice - basePrice;
-
     const receiptHtml = `
       <html>
         <head>
@@ -159,7 +156,7 @@ export default function BookingsDashboardPage() {
             body {
               font-family: 'Georgia', serif;
               color: #1B2A22;
-              margin: 40px;
+              margin: 20px;
               line-height: 1.6;
               background-color: #FAF9F6;
             }
@@ -168,7 +165,7 @@ export default function BookingsDashboardPage() {
               margin: 0 auto;
               background: white;
               border: 1px solid rgba(27, 42, 34, 0.1);
-              padding: 60px;
+              padding: 40px;
               box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             }
             .header {
@@ -282,9 +279,14 @@ export default function BookingsDashboardPage() {
               font-style: italic;
               color: #1B2A22;
               opacity: 0.7;
-              margin-top: 60px;
+              margin-top: 40px;
               border-top: 1px solid rgba(212, 175, 55, 0.3);
-              padding-top: 30px;
+              padding-top: 20px;
+            }
+            @media print {
+              body { margin: 0; padding: 20px; }
+              .container { border: none; box-shadow: none; padding: 20px; }
+              .footer { margin-top: 30px; }
             }
           </style>
         </head>
@@ -352,11 +354,7 @@ export default function BookingsDashboardPage() {
             <div class="summary-box">
               <div class="summary-row" style="font-family: sans-serif;">
                 <span>Accommodation:</span>
-                <span>₹${basePrice.toLocaleString('en-IN')}</span>
-              </div>
-              <div class="summary-row" style="font-family: sans-serif;">
-                <span>Taxes & Fees:</span>
-                <span>₹${gst.toLocaleString('en-IN')}</span>
+                <span>₹${booking.totalPrice.toLocaleString('en-IN')}</span>
               </div>
               <div class="summary-row" style="font-family: sans-serif;">
                 <span>Support Service:</span>
