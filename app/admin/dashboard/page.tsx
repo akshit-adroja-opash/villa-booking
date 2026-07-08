@@ -44,6 +44,7 @@ export default function AdminDashboard() {
   const [farms, setFarms] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [revenueTimeRange, setRevenueTimeRange] = useState('all');
 
   useEffect(() => {
     async function loadDashboardData() {
@@ -96,29 +97,65 @@ export default function AdminDashboard() {
     return percentage > 0 ? `${percentage}%` : '50%';
   }, [bookings, farms]);
 
-  // Dynamic monthly revenue calculation (for line graph)
-  const monthlyRevenue = useMemo(() => {
-    const monthlyMap = Array(12).fill(0);
+  // Generate dynamic chart data based on time range
+  const chartData = useMemo(() => {
+    const now = new Date();
+    let dataPoints: { label: string, value: number, start: Date, end: Date }[] = [];
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    if (revenueTimeRange === '1m') {
+      for (let i = 3; i >= 0; i--) {
+        const end = new Date(now);
+        end.setDate(now.getDate() - i * 7);
+        const start = new Date(now);
+        start.setDate(now.getDate() - (i + 1) * 7);
+        dataPoints.push({ label: `W${4 - i}`, value: 0, start, end });
+      }
+    } else if (revenueTimeRange === '5y') {
+      for (let i = 4; i >= 0; i--) {
+        const year = now.getFullYear() - i;
+        const start = new Date(year, 0, 1);
+        const end = new Date(year, 11, 31, 23, 59, 59);
+        dataPoints.push({ label: String(year), value: 0, start, end });
+      }
+    } else {
+      const numMonths = revenueTimeRange === '3m' ? 3 : revenueTimeRange === '6m' ? 6 : 12;
+      for (let i = numMonths - 1; i >= 0; i--) {
+        const d = new Date(now);
+        d.setMonth(now.getMonth() - i);
+        const start = new Date(d.getFullYear(), d.getMonth(), 1);
+        const end = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59);
+        dataPoints.push({ label: monthNames[d.getMonth()], value: 0, start, end });
+      }
+    }
+
     bookings.forEach(b => {
-      const date = new Date(b.startDate);
-      if (!isNaN(date.getTime())) {
-        const month = date.getMonth(); // 0 - 11
-        monthlyMap[month] += b.totalPrice || 0;
+      const bDate = new Date(b.startDate);
+      if (!isNaN(bDate.getTime())) {
+        for (let point of dataPoints) {
+          if (bDate >= point.start && bDate <= point.end) {
+            point.value += b.totalPrice || 0;
+            break;
+          }
+        }
       }
     });
-    return monthlyMap;
-  }, [bookings]);
+
+    return dataPoints;
+  }, [bookings, revenueTimeRange]);
 
   const maxRevenue = useMemo(() => {
-    return Math.max(...monthlyRevenue, 1);
-  }, [monthlyRevenue]);
+    const values = chartData.map(d => d.value);
+    return Math.max(...values, 1);
+  }, [chartData]);
 
   // Generate SVG graph paths dynamically (wavy trend line)
   const chartPathData = useMemo(() => {
-    const points = monthlyRevenue.map((val, idx) => {
-      const x = idx * (500 / 11);
+    const points = chartData.map((d, idx) => {
+      const step = chartData.length > 1 ? 500 / (chartData.length - 1) : 500;
+      const x = idx * step;
       // y-bounds are 170 (min value/bottom) and 30 (max value/top)
-      const y = 170 - (val / maxRevenue) * 140;
+      const y = 170 - (d.value / maxRevenue) * 140;
       return { x, y };
     });
 
@@ -136,9 +173,9 @@ export default function AdminDashboard() {
       lineD += ` C ${cpX1} ${cpY1}, ${cpX2} ${cpY2}, ${curr.x} ${curr.y}`;
     }
 
-    const fillD = `${lineD} L 500 200 L 0 200 Z`;
+    const fillD = `${lineD} L ${points[points.length - 1].x} 200 L 0 200 Z`;
     return { lineD, fillD };
-  }, [monthlyRevenue, maxRevenue]);
+  }, [chartData, maxRevenue]);
 
   // Dynamic Popular Destinations calculation
   const popularDestinations = useMemo(() => {
@@ -289,7 +326,21 @@ export default function AdminDashboard() {
           
           {/* Revenue Trends Chart (3/5) */}
           <div className="lg:col-span-3 bg-white border border-[#1B2A22]/10 p-6">
-            <h3 className="font-serif text-lg font-normal text-[#1B2A22] mb-6">Revenue Trends</h3>
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="font-serif text-lg font-normal text-[#1B2A22]">Revenue Trends</h3>
+              <select 
+                value={revenueTimeRange} 
+                onChange={(e) => setRevenueTimeRange(e.target.value)}
+                className="text-[10px] uppercase tracking-widest font-bold text-[#1B2A22] bg-[#FAF9F6] border border-[#1B2A22]/10 px-3 py-1.5 outline-none cursor-pointer"
+              >
+                <option value="1m">1 Month</option>
+                <option value="3m">3 Months</option>
+                <option value="6m">6 Months</option>
+                <option value="1y">1 Year</option>
+                <option value="5y">5 Years</option>
+                <option value="all">All Time</option>
+              </select>
+            </div>
             <div className="relative w-full h-[220px] pt-4">
               
               {/* SVG Line Graph */}
@@ -324,20 +375,11 @@ export default function AdminDashboard() {
                 )}
               </svg>
 
-              {/* Month Labels */}
+              {/* Dynamic Labels */}
               <div className="flex justify-between items-center text-[9px] font-bold text-[#1B2A22]/40 uppercase tracking-widest mt-4 px-1">
-                <span>Jan</span>
-                <span>Feb</span>
-                <span>Mar</span>
-                <span>Apr</span>
-                <span>May</span>
-                <span>Jun</span>
-                <span>Jul</span>
-                <span>Aug</span>
-                <span>Sep</span>
-                <span>Oct</span>
-                <span>Nov</span>
-                <span>Dec</span>
+                {chartData.map((d, idx) => (
+                  <span key={idx}>{d.label}</span>
+                ))}
               </div>
             </div>
           </div>

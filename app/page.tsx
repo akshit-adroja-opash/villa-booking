@@ -349,30 +349,30 @@ export default function Home() {
 
       {/* Footer CTA */}
       <section className="py-0">
-        <div className="bg-[#1B2A22] border-b border-[#D4AF37]/10 py-32 px-6 relative overflow-hidden text-center flex flex-col items-center gap-8">
-          <div className="absolute inset-0 z-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at center, #D4AF37 0%, transparent 70%)' }}></div>
+        <div className="bg-white border-t border-[#1B2A22]/10 py-32 px-6 relative overflow-hidden text-center flex flex-col items-center gap-8">
+          <div className="absolute inset-0 z-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at center, #1B2A22 0%, transparent 70%)' }}></div>
           
           <div className="relative z-10">
-            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-6 block">
+            <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#00a877] mb-6 block">
               Inquiries
             </span>
-            <h2 className="font-serif text-4xl md:text-5xl text-white font-normal leading-tight mb-6">
+            <h2 className="font-serif text-4xl md:text-5xl text-[#1B2A22] font-normal leading-tight mb-6">
               Begin Your Journey
             </h2>
-            <p className="text-white/70 font-serif italic text-lg max-w-md mx-auto mb-10">
+            <p className="text-[#1B2A22]/70 font-serif italic text-lg max-w-md mx-auto mb-10">
               Speak with our concierge to arrange your private viewing or secure your reservation.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link 
                 href="/farms" 
-                className="bg-[#D4AF37] text-white hover:bg-[#c29f31] px-10 py-4 text-[11px] uppercase tracking-widest font-bold transition-colors"
+                className="bg-[#1B2A22] text-white hover:bg-[#00a877] px-10 py-4 text-[11px] uppercase tracking-widest font-bold transition-colors"
               >
                 View Portfolio
               </Link>
               <a 
                 href="mailto:concierge@theestate.com"
-                className="bg-transparent border border-white/30 hover:border-white text-white px-10 py-4 text-[11px] uppercase tracking-widest font-bold transition-colors"
+                className="bg-transparent border border-[#1B2A22]/30 hover:border-[#1B2A22] text-[#1B2A22] px-10 py-4 text-[11px] uppercase tracking-widest font-bold transition-colors"
               >
                 Contact Concierge
               </a>

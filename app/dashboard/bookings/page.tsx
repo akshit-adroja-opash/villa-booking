@@ -316,7 +316,7 @@ export default function BookingsDashboardPage() {
               <div class="card">
                 <div class="label">Reservation Details</div>
                 <div class="value" style="font-family: sans-serif; font-size: 13px; line-height: 1.8; opacity: 0.8;">
-                  <strong>Folio No:</strong> EST-${booking._id.slice(-6).toUpperCase()}<br>
+                  <strong>Receipt No:</strong> EST-${booking._id.slice(-6).toUpperCase()}<br>
                   <strong>Transaction ID:</strong> TXN-${booking._id.slice(0, 8).toUpperCase()}<br>
                   <strong>Payment Method:</strong> Secure Online Transfer<br>
                   <strong>Date Issued:</strong> ${new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}<br>
@@ -359,7 +359,7 @@ export default function BookingsDashboardPage() {
                 <span>₹${gst.toLocaleString('en-IN')}</span>
               </div>
               <div class="summary-row" style="font-family: sans-serif;">
-                <span>Concierge Service:</span>
+                <span>Support Service:</span>
                 <span>Complimentary</span>
               </div>
               <div class="total-box">
@@ -411,7 +411,7 @@ export default function BookingsDashboardPage() {
             Welcome, {session?.user?.name || 'Guest'}
           </h1>
           <p className="text-sm text-[#1B2A22]/70 font-medium mt-4 max-w-xl font-serif italic">
-            Manage your upcoming reservations, review your bespoke experiences, and view your private collection.
+            Manage your upcoming reservations, review your past bookings, and view your saved properties.
           </p>
         </header>
 
@@ -436,7 +436,7 @@ export default function BookingsDashboardPage() {
                   : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
               }`}
             >
-              Past Journeys
+              Past Bookings
             </button>
             <button 
               onClick={() => setActiveTab('saved')}
@@ -446,7 +446,7 @@ export default function BookingsDashboardPage() {
                   : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
               }`}
             >
-              The Collection
+              Saved Properties
             </button>
           </div>
 
@@ -456,7 +456,7 @@ export default function BookingsDashboardPage() {
               favorites.length === 0 ? (
                 <div className="text-center py-24 border border-[#1B2A22]/10 bg-white/50 flex flex-col items-center">
                   <p className="text-sm text-[#1B2A22]/60 font-medium mb-8 font-serif italic">
-                    You have not added any estates to your private collection yet.
+                    You have not added any estates to your saved properties yet.
                   </p>
                   <Link
                     href="/farms"
@@ -609,7 +609,7 @@ export default function BookingsDashboardPage() {
                         <div className="flex flex-col sm:flex-row sm:items-end justify-between border-t border-[#1B2A22]/10 pt-6 gap-6">
                           <div>
                             <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#1B2A22]/50 mb-2">
-                              Remittance
+                              Total Amount
                             </p>
                             <p className="text-2xl font-serif text-[#1B2A22]">
                               ₹{booking.totalPrice.toLocaleString('en-IN')}
@@ -623,7 +623,7 @@ export default function BookingsDashboardPage() {
                               className="flex items-center gap-2 px-5 py-3 border border-[#1B2A22] text-[10px] uppercase tracking-widest font-bold text-[#1B2A22] hover:bg-[#1B2A22] hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-[#1B2A22] transition-colors"
                             >
                               <Download className="h-3.5 w-3.5" />
-                              <span>Folio</span>
+                              <span>Receipt</span>
                             </button>
 
                             <Link 
@@ -631,12 +631,12 @@ export default function BookingsDashboardPage() {
                               className="flex items-center gap-2 px-5 py-3 text-[10px] uppercase tracking-widest font-bold text-[#1B2A22]/60 hover:text-[#1B2A22] transition-colors"
                             >
                               <HelpCircle className="h-3.5 w-3.5" />
-                              <span>Concierge</span>
+                              <span>Support</span>
                             </Link>
 
                             {booking.paymentStatus !== 'Paid' && (
                               <button className="bg-[#D4AF37] hover:bg-[#c29f31] text-white px-6 py-3 text-[10px] uppercase tracking-widest font-bold transition-colors">
-                                Settle Folio
+                                Make Payment
                               </button>
                             )}
                           </div>
