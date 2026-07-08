@@ -118,7 +118,7 @@ export default function AdminFinancialsPage() {
               Revenue, pending payments & transaction activity
             </p>
           </div>
-          <button className="flex items-center justify-center gap-2 bg-[#1B2A22] hover:bg-[#2c4236] text-white px-5 py-3 text-[10px] uppercase tracking-widest font-bold transition-all active:scale-[0.98] self-start sm:self-auto">
+          <button className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-3 text-[10px] uppercase tracking-widest font-bold transition-colors shadow-md shadow-[#00a877]/10 self-start sm:self-auto">
             <Download className="h-4 w-4" />
             <span>Export Report</span>
           </button>

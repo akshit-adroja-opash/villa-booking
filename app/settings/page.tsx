@@ -223,7 +223,7 @@ export default function SettingsPage() {
               <div className="flex items-center gap-3">
                 <span className={`inline-block px-3 py-1 text-[9px] font-bold uppercase tracking-widest border ${
                   role === 'admin' 
-                    ? 'bg-[#1B2A22] text-[#D4AF37] border-[#1B2A22]'
+                    ? 'bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/30'
                     : role === 'owner'
                       ? 'bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/30'
                       : 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20'
