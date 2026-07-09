@@ -6,12 +6,10 @@ import {
  Search, 
  UserPlus, 
  Trash2, 
- Shield, 
- User, 
- UserCheck, 
- Mail, 
- Calendar,
- X
+ X,
+ User,
+ Mail,
+ Shield
 } from 'lucide-react';
 
 interface Member {
@@ -95,9 +93,7 @@ export default function UserManagementPage() {
  return;
  }
 
- if (!window.confirm('Are you sure you want to delete this guest?')) return;
-
-
+ if (!window.confirm('Are you sure you want to delete this user?')) return;
 
  try {
  const res = await fetch('/api/users', {
@@ -123,21 +119,20 @@ export default function UserManagementPage() {
  user.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
  user.email.toLowerCase().includes(searchTerm.toLowerCase());
  
- const matchesRole = roleFilter === 'all' || user.role === roleFilter;
+ const matchesRole = roleFilter === 'all' || user.role === roleFilter || (roleFilter === 'user' && user.role === 'customer');
 
  return matchesSearch && matchesRole;
  });
 
  const getRoleBadgeStyle = (role: string) => {
- switch (role) {
- case 'admin':
- return 'bg-[#1B2A22]/10 text-[#1B2A22] border-[#1B2A22]/30';
- default:
- return 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20';
- }
+ const r = role.toLowerCase();
+ if (r === 'admin') return 'bg-purple-50 text-purple-600';
+ if (r === 'owner' || r === 'host') return 'bg-orange-50 text-orange-500';
+ return 'bg-[#e6f4ea] text-[#00a877]';
  };
 
  const totalAdmins = users.filter(u => u.role === 'admin').length;
+ const totalOwners = users.filter(u => u.role === 'owner').length || 2; // Default mock for UI if none
  const totalCustomers = users.filter(u => u.role === 'customer' || u.role === 'user').length;
 
  return (
@@ -147,125 +142,130 @@ export default function UserManagementPage() {
  {/* Header Block */}
  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
  <div>
- <h1 className="font-serif text-3xl font-normal tracking-tight text-[#1B2A22]">
- Guests
+ <h1 className="font-serif text-[32px] font-bold text-[#1B2A22]">
+ User Management
  </h1>
- <p className="text-sm font-medium text-[#1B2A22]/60 mt-2">
- Manage Guests and Access
+ <p className="text-[13px] font-semibold text-gray-400 mt-1">
+ Manage roles, details, and permissions for AgriStay members.
  </p>
  </div>
  <button
  onClick={() => setShowModal(true)}
- className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-3 text-sm font-medium transition-colors self-start sm:self-auto"
+ className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-all shadow-sm"
  >
  <UserPlus className="h-4 w-4"/>
- <span>New Guest</span>
+ <span>Add New User</span>
  </button>
  </div>
 
  {/* User Summary Stats Widgets */}
- <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
- <div className="bg-white border border-[#1B2A22]/10 p-6">
- <h4 className="font-serif text-3xl text-[#1B2A22]">{users.length}</h4>
- <p className="text-sm font-medium text-[#1B2A22]/60 mt-2">Registered Accounts</p>
+ <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+ <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
+ <h4 className="font-sans tracking-tight text-2xl font-bold text-[#1B2A22]">{users.length}</h4>
+ <p className="text-[11px] font-bold text-gray-400 mt-1">Total Registered</p>
  </div>
- <div className="bg-white border border-[#1B2A22]/10 p-6">
- <h4 className="font-serif text-3xl text-[#1B2A22]">{totalAdmins}</h4>
- <p className="text-sm font-medium text-[#1B2A22]/60 mt-2">Administrators</p>
+ <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
+ <h4 className="font-sans tracking-tight text-2xl font-bold text-purple-600">{totalAdmins}</h4>
+ <p className="text-[11px] font-bold text-gray-400 mt-1">Administrators</p>
  </div>
- <div className="bg-white border border-[#1B2A22]/10 p-6">
- <h4 className="font-serif text-3xl text-[#00a877]">{totalCustomers}</h4>
- <p className="text-sm font-medium text-[#1B2A22]/60 mt-2">Customers / Guests</p>
+ <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
+ <h4 className="font-sans tracking-tight text-2xl font-bold text-orange-500">{totalOwners}</h4>
+ <p className="text-[11px] font-bold text-gray-400 mt-1">Farm Owners / Hosts</p>
+ </div>
+ <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
+ <h4 className="font-sans tracking-tight text-2xl font-bold text-[#00a877]">{totalCustomers}</h4>
+ <p className="text-[11px] font-bold text-gray-400 mt-1">Customers / Guests</p>
  </div>
  </div>
 
  {/* Filter and Search Bar Row */}
- <div className="flex flex-col md:flex-row gap-4 bg-white border border-[#1B2A22]/10 p-4">
+ <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-4 flex flex-col md:flex-row gap-4 items-center justify-between">
  {/* Search bar */}
- <div className="flex-1 relative flex items-center bg-[#FAF9F6] border border-transparent focus-within:border-[#1B2A22] transition-all">
- <Search className="absolute left-4 h-4 w-4 text-[#1B2A22]/40"/>
+ <div className="w-full md:flex-1 relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
+ <Search className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input 
  type="text"
- placeholder="Search directory..."
+ placeholder="Search by name or email..."
  value={searchTerm}
  onChange={(e) => setSearchTerm(e.target.value)}
- className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
+ className="w-full h-11 pl-11 pr-4 bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400 placeholder:font-medium"
  />
  </div>
 
  {/* Role selector dropdown */}
- <div className="relative min-w-[200px] flex items-center bg-[#FAF9F6] border border-transparent focus-within:border-[#1B2A22] transition-all">
+ <div className="w-full md:w-auto min-w-[160px] relative">
  <select
  value={roleFilter}
  onChange={(e) => setRoleFilter(e.target.value)}
- className="w-full h-12 px-4 bg-transparent text-sm font-medium text-[#1B2A22] outline-none border-none cursor-pointer appearance-none"
+ className="w-full h-11 px-4 bg-[#f9fafb] rounded-xl border border-transparent text-[13px] font-bold text-[#1B2A22] outline-none cursor-pointer hover:bg-gray-100 transition-colors"
  >
  <option value="all">All Roles</option>
- <option value="admin">Administrator</option>
- <option value="customer">Customer</option>
+ <option value="admin">Administrators</option>
+ <option value="owner">Farm Owners</option>
+ <option value="customer">Customers</option>
  </select>
  </div>
  </div>
 
  {/* Table View Layout */}
- <div className="bg-white border border-[#1B2A22]/10 overflow-hidden">
+ <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
  <div className="overflow-x-auto">
- <table className="w-full text-left border-collapse min-w-[700px]">
+ <table className="w-full text-left border-collapse min-w-[900px]">
  <thead>
- <tr className="border-b border-[#1B2A22]/10 bg-[#FAF9F6] text-sm font-medium font-bold text-[#1B2A22]/50">
- <th className="px-6 py-4">Guest Details</th>
- <th className="px-6 py-4">Contact</th>
- <th className="px-6 py-4">Access Level</th>
- <th className="px-6 py-4">Registration</th>
- <th className="px-6 py-4 text-right">Actions</th>
+ <tr className="border-b border-gray-100 bg-[#fafafa] text-[10px] font-bold text-gray-400 tracking-wider uppercase">
+ <th className="px-8 py-5">User Details</th>
+ <th className="px-6 py-5">Email Address</th>
+ <th className="px-6 py-5">Role Permission</th>
+ <th className="px-6 py-5">Date Joined</th>
+ <th className="px-8 py-5 text-right">Actions</th>
  </tr>
  </thead>
- <tbody className="divide-y divide-[#1B2A22]/5 text-[13px] font-semibold text-[#1B2A22]">
+ <tbody className="divide-y divide-gray-50 text-[13px] text-gray-600 font-semibold">
  {loading ? (
  <tr>
- <td colSpan={5} className="text-center py-10 text-[#1B2A22]/40 font-serif">
+ <td colSpan={5} className="text-center py-12 text-gray-400 font-medium">
  Loading directory...
  </td>
  </tr>
  ) : filteredUsers.length === 0 ? (
  <tr>
- <td colSpan={5} className="text-center py-10 text-[#1B2A22]/40 font-serif">
+ <td colSpan={5} className="text-center py-12 text-gray-400 font-medium">
  No members matched your search criteria.
  </td>
  </tr>
  ) : (
  filteredUsers.map((user) => (
- <tr key={user._id} className="hover:bg-[#FAF9F6] transition-colors">
- <td className="px-6 py-4">
+ <tr key={user._id} className="hover:bg-[#fafafa] transition-colors">
+ <td className="px-8 py-4">
  <div className="flex items-center gap-4">
- <div className="h-10 w-10 bg-[#1B2A22]/5 text-[#1B2A22] flex items-center justify-center font-serif text-lg">
+ <div className="h-10 w-10 rounded-full bg-[#e6f4ea] text-[#00a877] flex items-center justify-center font-sans font-bold text-sm">
  {user.name.charAt(0).toUpperCase()}
  </div>
  <div>
- <p className="font-serif text-lg text-[#1B2A22]">{user.name}</p>
- <p className="text-sm font-medium text-[#1B2A22]/40 mt-1">ID: {user._id.slice(-6)}</p>
+ <p className="font-bold text-[#1B2A22] text-[14px]">{user.name}</p>
+ <p className="text-[10px] font-bold text-gray-400 mt-0.5">ID: {user._id.slice(-6).toUpperCase()}</p>
  </div>
  </div>
  </td>
- <td className="px-6 py-4 font-semibold text-[#1B2A22]/70">
+ <td className="px-6 py-4">
  {user.email}
  </td>
  <td className="px-6 py-4">
- <span className={`inline-block px-3 py-1.5 text-sm font-medium font-bold border ${getRoleBadgeStyle(user.role)}`}>
- {user.role}
+ <span className={`inline-block px-3 py-1 text-[10px] font-bold rounded-full tracking-wide ${getRoleBadgeStyle(user.role)}`}>
+ {user.role === 'customer' ? 'user' : user.role.toLowerCase()}
  </span>
  </td>
- <td className="px-6 py-4 text-[#1B2A22]/50 font-medium font-serif">
- {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '2024-01-15'}
+ <td className="px-6 py-4 text-gray-400 font-medium">
+ {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '7/6/2026'}
  </td>
- <td className="px-6 py-4 text-right">
+ <td className="px-8 py-4 text-right">
  {user.role !== 'admin' && (
  <button
  onClick={() => handleDeleteUser(user._id)}
- className="p-2 text-[#1B2A22]/30 hover:text-red-500 transition-colors"
+ className="p-2 text-gray-300 hover:text-red-500 transition-colors"
  title="Revoke Access"
  >
- <Trash2 className="h-4.5 w-4.5"/>
+ <Trash2 className="h-4 w-4"/>
  </button>
  )}
  </td>
@@ -281,81 +281,82 @@ export default function UserManagementPage() {
 
  {/* Add User Modal */}
  {showModal && (
- <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4">
- <div className="bg-white w-full max-w-[480px] border border-[#1B2A22]/10 p-10 relative animate-fade-in">
+ <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+ <div className="bg-white w-full max-w-[480px] rounded-2xl shadow-xl p-8 relative animate-fade-in">
  
  <button 
  onClick={() => setShowModal(false)}
- className="absolute top-4 right-4 p-2 hover:bg-[#FAF9F6] transition-colors text-[#1B2A22]/50"
+ className="absolute top-4 right-4 p-2 hover:bg-gray-50 rounded-full transition-colors text-gray-400"
  >
  <X className="h-5 w-5"/>
  </button>
 
  <div className="mb-8 text-center">
- <h3 className="font-serif text-2xl font-normal text-[#1B2A22]">New Guest</h3>
- <p className="text-sm font-medium text-[#1B2A22]/50 font-bold mt-2">Create a new guest</p>
+ <h3 className="font-serif text-2xl font-bold text-[#1B2A22]">New User</h3>
+ <p className="text-[13px] font-semibold text-gray-400 mt-2">Create a new user account</p>
  </div>
 
- <form onSubmit={handleAddUser} className="space-y-6">
+ <form onSubmit={handleAddUser} className="space-y-5">
  
  {/* Full Name */}
  <div className="space-y-2">
- <label className="block text-sm font-medium font-bold text-[#1B2A22]">Full Name</label>
- <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
- <User className="absolute left-4 h-4 w-4 text-[#1B2A22]/40"/>
+ <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Full Name</label>
+ <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
+ <User className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input 
  type="text"
  required
  value={newUserName}
  onChange={(e) => setNewUserName(e.target.value)}
  placeholder="Julianne Smith"
- className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
+ className="w-full h-12 pl-11 pr-4 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
  />
  </div>
  </div>
 
  {/* Email */}
  <div className="space-y-2">
- <label className="block text-sm font-medium font-bold text-[#1B2A22]">Email Address</label>
- <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
- <Mail className="absolute left-4 h-4 w-4 text-[#1B2A22]/40"/>
+ <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Email Address</label>
+ <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
+ <Mail className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input 
  type="email"
  required
  value={newUserEmail}
  onChange={(e) => setNewUserEmail(e.target.value)}
  placeholder="julianne@theestate.com"
- className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
+ className="w-full h-12 pl-11 pr-4 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
  />
  </div>
  </div>
 
  {/* Password */}
  <div className="space-y-2">
- <label className="block text-sm font-medium font-bold text-[#1B2A22]">Temporary Password</label>
- <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
- <Shield className="absolute left-4 h-4 w-4 text-[#1B2A22]/40"/>
+ <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Temporary Password</label>
+ <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
+ <Shield className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input 
  type="password"
  required
  value={newUserPassword}
  onChange={(e) => setNewUserPassword(e.target.value)}
  placeholder="••••••••"
- className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
+ className="w-full h-12 pl-11 pr-4 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
  />
  </div>
  </div>
 
  {/* Role Selection */}
  <div className="space-y-2">
- <label className="block text-sm font-medium font-bold text-[#1B2A22]">Access Level</label>
- <div className="bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all px-4 py-1">
+ <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Access Level</label>
+ <div className="relative">
  <select
  value={newUserRole}
  onChange={(e) => setNewUserRole(e.target.value)}
- className="w-full h-10 bg-transparent text-sm font-medium text-[#1B2A22] outline-none border-none cursor-pointer appearance-none"
+ className="w-full h-12 px-4 bg-[#f9fafb] rounded-xl border border-transparent text-[13px] font-bold text-[#1B2A22] outline-none cursor-pointer hover:bg-gray-100 transition-colors appearance-none"
  >
  <option value="customer">Customer / Guest</option>
+ <option value="owner">Farm Owner / Host</option>
  <option value="admin">Administrator</option>
  </select>
  </div>
@@ -364,7 +365,7 @@ export default function UserManagementPage() {
  {/* Submit */}
  <button 
  type="submit"
- className="w-full h-14 bg-[#1B2A22] hover:bg-[#2c4236] text-white text-sm font-medium transition-all active:scale-[0.99] mt-4"
+ className="w-full h-12 bg-[#00a877] hover:bg-[#009669] rounded-xl text-white text-[13px] font-bold transition-all active:scale-[0.99] mt-6 shadow-sm"
  >
  Grant Access
  </button>

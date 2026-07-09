@@ -112,12 +112,13 @@ export default function Navbar() {
  onClick={() => setDropdownOpen(!dropdownOpen)}
  className={`flex items-center gap-2 group focus:outline-none ${textColor}`}
  >
- <span className="hidden sm:inline text-xs font-semibold tracking-wider opacity-90 group-hover:opacity-100 transition-opacity">
- {displayName.split(' ')[0]}
- </span>
- <div className="h-8 w-8 overflow-hidden rounded-full border border-current/20">
+ <div className="h-8 w-8 overflow-hidden rounded-full border border-current/20 shrink-0">
  <img src={displayImage} alt={displayName} className="h-full w-full object-cover"/>
  </div>
+ <span className="hidden sm:inline text-[15px] font-medium opacity-90 group-hover:opacity-100 transition-opacity">
+ {displayName.split(' ')[0]}
+ </span>
+ <ChevronDown className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity hidden sm:block"/>
  </button>
 
  {dropdownOpen && (

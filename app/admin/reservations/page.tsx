@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { CalendarDays, Download, Search, MoreVertical } from 'lucide-react';
+import { CalendarDays, Download, Search } from 'lucide-react';
 
 type Booking = {
  _id: string;
@@ -28,9 +28,9 @@ function formatDateRange(startDate: string, endDate: string) {
  return `${startDate} - ${endDate}`;
  }
 
- return `${start.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })} – ${end.toLocaleDateString('en-US', {
- day: 'numeric',
+ return `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} \u2013 ${end.toLocaleDateString('en-US', {
  month: 'short',
+ day: 'numeric',
  year: 'numeric',
  })}`;
 }
@@ -104,7 +104,7 @@ export default function AdminReservationsPage() {
  }, [bookings, query]);
 
  const totalRevenue = bookings.reduce((sum, booking) => sum + (booking.totalPrice || 0), 0);
- const confirmedBookings = bookings.filter((booking) => booking.paymentStatus === 'Paid').length;
+ const confirmedBookings = bookings.filter((booking) => booking.paymentStatus === 'Paid' || booking.paymentStatus?.toLowerCase() === 'confirmed').length;
  const upcomingBookings = bookings.filter((booking) => new Date(booking.startDate) >= new Date()).length;
 
  if (loading) {
@@ -116,124 +116,130 @@ export default function AdminReservationsPage() {
  }
 
  return (
- <main className="p-6 md:p-10 bg-[#FAF9F6]">
+ <main className="p-6 md:p-10 bg-[#FAF9F6] min-h-screen">
  <div className="mx-auto max-w-[1280px] space-y-8">
  
  {/* Title Block */}
- <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+ <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
  <div>
- <h1 className="font-serif text-3xl font-normal tracking-tight text-[#1B2A22]">
- Bookings
+ <h1 className="font-serif text-[32px] font-bold text-[#1a1f1c]">
+ Reservations
  </h1>
- <p className="mt-2 text-sm font-medium text-[#1B2A22]/60">
- Track Guest Stays & Payment State
+ <p className="text-[13px] font-semibold text-gray-400 mt-1">
+ Track every guest stay, payment state, and booking window.
  </p>
  </div>
- <button className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-3 text-sm font-medium transition-colors self-start sm:self-auto">
+ <button className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-all shadow-sm self-start sm:self-auto">
  <Download className="h-4 w-4"/>
- <span>Export Manifest</span>
+ <span>Export</span>
  </button>
  </div>
 
  {/* Stats Grid */}
  <div className="grid gap-6 md:grid-cols-3">
- {[
- { label: 'Total Bookings', value: bookings.length.toString(), color: '#1B2A22' },
- { label: 'Confirmed', value: confirmedBookings.toString(), color: '#1B2A22' },
- { label: 'Booked Revenue', value: `₹${totalRevenue.toLocaleString('en-IN')}`, color: '#1B2A22' },
- ].map((stat) => (
- <div key={stat.label} className="bg-white border border-[#1B2A22]/10 p-6">
- <p className="text-sm font-medium text-[#1B2A22]/60 mb-2">{stat.label}</p>
- <p className="font-serif text-3xl"style={{ color: stat.color }}>{stat.value}</p>
+ <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
+ <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">TOTAL RESERVATIONS</p>
+ <p className="font-sans tracking-tight text-[28px] font-bold text-[#1B2A22]">{bookings.length}</p>
  </div>
- ))}
+ <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
+ <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">CONFIRMED</p>
+ <p className="font-sans tracking-tight text-[28px] font-bold text-[#1B2A22]">{confirmedBookings}</p>
+ </div>
+ <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
+ <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">BOOKED REVENUE</p>
+ <p className="font-sans tracking-tight text-[28px] font-bold text-[#1B2A22]">₹{totalRevenue.toLocaleString('en-IN')}</p>
+ </div>
  </div>
 
+ {/* Table Layout Container */}
+ <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
+ 
  {/* Search Row */}
- <div className="bg-white border border-[#1B2A22]/10">
- <div className="flex flex-col gap-4 border-b border-[#1B2A22]/10 p-6 md:flex-row md:items-center md:justify-between">
- <div className="flex w-full max-w-md items-center gap-3 bg-[#FAF9F6] border border-[#1B2A22]/10 px-4 py-3 focus-within:border-[#1B2A22] transition-all">
- <Search className="h-4 w-4 text-[#1B2A22]/40"/>
+ <div className="p-6 border-b border-gray-100">
+ <div className="flex w-full max-w-md items-center gap-3 bg-white rounded-xl border border-gray-200 px-4 py-2.5 focus-within:border-gray-300 transition-all shadow-sm">
+ <Search className="h-4 w-4 text-gray-400"/>
  <input
  value={query}
  onChange={(event) => setQuery(event.target.value)}
- placeholder="Search bookings..."
- className="w-full bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
+ placeholder="Search reservations..."
+ className="w-full bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
  />
  </div>
  </div>
 
  {/* Table */}
  <div className="overflow-x-auto">
- <table className="w-full min-w-[860px] text-left border-collapse">
+ <table className="w-full min-w-[900px] text-left border-collapse">
  <thead>
- <tr className="border-b border-[#1B2A22]/10 bg-[#FAF9F6] text-sm font-medium font-bold text-[#1B2A22]/50">
- <th className="px-6 py-5">Guest</th>
+ <tr className="bg-[#fafafa] text-[10px] font-bold text-gray-400 tracking-wider uppercase border-b border-gray-100">
+ <th className="px-8 py-5">Guest</th>
  <th className="px-6 py-5">Property</th>
  <th className="px-6 py-5">Dates</th>
  <th className="px-6 py-5">Total</th>
  <th className="px-6 py-5">Status</th>
- <th className="px-6 py-5 text-right">Actions</th>
  </tr>
  </thead>
- <tbody className="divide-y divide-[#1B2A22]/5 text-[13px] font-semibold text-[#1B2A22]">
+ <tbody className="divide-y divide-gray-50 text-[13px] font-semibold text-[#1B2A22]">
  {filteredBookings.length === 0 ? (
  <tr>
- <td colSpan={6} className="px-6 py-12 text-center text-[#1B2A22]/40 font-serif text-lg">
+ <td colSpan={5} className="px-8 py-12 text-center text-gray-400 font-medium">
  No bookings found.
  </td>
  </tr>
  ) : (
- filteredBookings.map((booking) => (
- <tr key={booking._id} className="hover:bg-[#FAF9F6]/50 transition-colors group">
- <td className="px-6 py-5">
+ filteredBookings.map((booking) => {
+ const status = booking.paymentStatus?.toLowerCase() || 'pending';
+ const isConfirmed = status === 'paid' || status === 'confirmed';
+ 
+ return (
+ <tr key={booking._id} className="hover:bg-[#fafafa] transition-colors">
+ <td className="px-8 py-5">
  <div className="flex items-center gap-4">
- <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#1B2A22]/10 text-[#1B2A22] border border-[#1B2A22]/20 text-sm font-medium font-bold">
+ <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#e6f4ea] text-[#00a877] text-sm font-bold font-sans">
  {getInitials(booking.userId?.name)}
  </div>
  <div>
- <p className="font-serif text-base text-[#1B2A22]">{booking.userId?.name || 'Guest'}</p>
- <p className="text-sm font-medium text-[#1B2A22]/50 mt-0.5">{booking.userId?.email || 'No email'}</p>
+ <p className="font-bold text-[#1B2A22] text-[14px]">{booking.userId?.name || 'Guest'}</p>
+ <p className="text-[11px] font-bold text-gray-400 mt-0.5">{booking.userId?.email || 'No email'}</p>
  </div>
  </div>
  </td>
  <td className="px-6 py-5">
- <p className="font-serif text-base text-[#1B2A22]">{booking.farmId?.title || 'Property'}</p>
- <p className="text-sm font-medium text-[#1B2A22]/50 mt-0.5">{booking.farmId?.location || 'Location unavailable'}</p>
+ <p className="font-bold text-[#1B2A22] text-[14px]">{booking.farmId?.title || 'Property'}</p>
+ <p className="text-[11px] font-bold text-gray-400 mt-0.5">{booking.farmId?.location?.split(',')[0] || 'Location unavailable'}</p>
  </td>
  <td className="px-6 py-5">
  <div className="flex items-start gap-3">
- <CalendarDays className="mt-0.5 h-4 w-4 text-[#1B2A22]"/>
+ <CalendarDays className="mt-0.5 h-4 w-4 text-gray-400"/>
  <div>
  <p className="text-[13px] font-bold text-[#1B2A22]">{formatDateRange(booking.startDate, booking.endDate)}</p>
- <p className="text-sm font-medium text-[#1B2A22]/50 mt-0.5">{getNights(booking.startDate, booking.endDate)}</p>
+ <p className="text-[11px] font-bold text-gray-400 mt-0.5">{getNights(booking.startDate, booking.endDate)}</p>
  </div>
  </div>
  </td>
- <td className="px-6 py-5 font-serif text-lg text-[#1B2A22]">₹{(booking.totalPrice || 0).toLocaleString('en-IN')}</td>
+ <td className="px-6 py-5 font-sans tracking-tight font-bold text-[14px] text-[#1B2A22]">
+ ₹{(booking.totalPrice || 0).toLocaleString('en-IN')}
+ </td>
  <td className="px-6 py-5">
- <span className={`inline-block px-3 py-1 text-sm font-medium border ${
- booking.paymentStatus === 'Paid'
- ? 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20'
- : 'bg-transparent text-[#1B2A22] border-[#1B2A22]'
+ <span className={`inline-block px-3 py-1 text-[10px] font-bold rounded-full tracking-wide ${
+ isConfirmed
+ ? 'bg-[#e6f4ea] text-[#00a877]'
+ : 'bg-orange-50 text-orange-500'
  }`}>
- {booking.paymentStatus === 'Paid' ? 'Confirmed' : 'Pending'}
+ {isConfirmed ? 'confirmed' : 'pending'}
  </span>
  </td>
- <td className="px-6 py-5 text-right">
- <button className="p-2 text-[#1B2A22]/30 hover:text-[#1B2A22] transition-colors">
- <MoreVertical className="h-5 w-5"/>
- </button>
- </td>
  </tr>
- ))
+ );
+ })
  )}
  </tbody>
  </table>
  </div>
 
- <div className="border-t border-[#1B2A22]/10 p-6 text-sm font-medium text-[#1B2A22]/50 bg-[#FAF9F6]">
- Showing {filteredBookings.length} of {bookings.length} bookings • {upcomingBookings} upcoming
+ {/* Footer */}
+ <div className="border-t border-gray-100 p-6 text-[12px] font-bold text-gray-400 bg-white">
+ Showing {filteredBookings.length} of {bookings.length} reservations. {upcomingBookings} upcoming.
  </div>
  </div>
  </div>

@@ -33,7 +33,8 @@ import {
  FileText,
  Ban,
  ChevronLeft,
- ChevronRight
+ ChevronRight,
+ ChevronDown
 } from 'lucide-react';
 
 interface FarmDetails {
@@ -355,31 +356,34 @@ export default function FarmDetailPage() {
  <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22] font-sans antialiased">
  <style dangerouslySetInnerHTML={{__html: `
  .react-datepicker-wrapper { width: 100%; }
- .react-datepicker { font-family: inherit; border: 1px solid rgba(255,255,255,0.1); background-color: #1B2A22; color: white; border-radius: 0; }
- .react-datepicker__header { background-color: #1B2A22; border-bottom: 1px solid rgba(255,255,255,0.1); }
- .react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header { color: white; font-weight: normal; }
- .react-datepicker__day-name { color: #1B2A22; }
- .react-datepicker__day { color: white; }
- .react-datepicker__day:hover { background-color: rgba(255,255,255,0.1); border-radius: 0; }
- .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range { background-color: #1B2A22; color: #1B2A22; border-radius: 0; }
- .react-datepicker__day--keyboard-selected { background-color: rgba(212,175,55,0.3); color: white; }
- .react-datepicker__day--disabled { color: rgba(255,255,255,0.2) !important; text-decoration: line-through; }
+ .react-datepicker-popper { z-index: 9999 !important; }
+ .react-datepicker { font-family: inherit; border: 1px solid #f3f4f6; background-color: white; color: #002E1E; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); overflow: hidden; }
+ .react-datepicker__header { background-color: white; border-bottom: 1px solid #f3f4f6; padding-top: 16px; }
+ .react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header { color: #002E1E; font-weight: 800; font-size: 14px; }
+ .react-datepicker__day-name { color: #9ca3af; font-weight: 700; font-size: 12px; margin: 4px; }
+ .react-datepicker__day { color: #4b5563; font-weight: 600; margin: 4px; border-radius: 8px; transition: all 0.2s; }
+ .react-datepicker__day:hover { background-color: #f3f4f6; color: #002E1E; }
+ .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range { background-color: #002E1E; color: white; font-weight: 700; }
+ .react-datepicker__day--keyboard-selected { background-color: #e6f4ea; color: #002E1E; }
+ .react-datepicker__day--disabled { color: #d1d5db !important; text-decoration: line-through; cursor: not-allowed; hover:bg-transparent; }
+ .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle::before { border-bottom-color: #f3f4f6; }
+ .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle::after { border-bottom-color: white; }
  `}} />
  <main className="mx-auto max-w-[1280px] px-6 pt-32 pb-24 md:px-16">
  
  {/* Title & Metadata */}
- <div className="mb-10 text-center max-w-4xl mx-auto">
- <div className="flex items-center justify-center gap-2 text-sm font-medium text-[#1B2A22] mb-4">
- <MapPin className="h-3.5 w-3.5"/>
+ <div className="mb-8 max-w-4xl">
+ <h1 className="font-serif text-4xl font-bold text-[#002E1E] md:text-[64px] leading-tight mb-4">{farm.title}</h1>
+ <div className="flex items-center gap-2 text-[16px] font-medium text-[#002E1E]">
+ <MapPin className="h-5 w-5 text-[#00a877]"/>
  {farm.location?.startsWith('http') ? (
- <a href={farm.location} target="_blank"rel="noopener noreferrer"className="hover:underline text-[#1B2A22]">
+ <a href={farm.location} target="_blank" rel="noopener noreferrer" className="hover:underline">
  View on Map
  </a>
  ) : (
  <span>{farm.location}</span>
  )}
  </div>
- <h1 className="font-serif text-4xl font-normal text-[#1B2A22] md:text-6xl mb-6">{farm.title}</h1>
  </div>
 
  {/* Hero Photo Gallery */}
@@ -417,146 +421,140 @@ export default function FarmDetailPage() {
  </div>
 
  {/* Detail Split Column Panel */}
- <div className="flex flex-col gap-16 md:flex-row">
+ <div className="flex flex-col gap-16 md:flex-row mt-12">
  
  {/* Main Info */}
  <div className="w-full md:w-[60%] md:pr-10">
  
  {/* Highlights Section */}
- <div className="border-b border-[#1B2A22]/10 pb-10 mb-10">
- <h2 className="font-serif text-3xl text-[#1B2A22] mb-6">Enjoy Farm Experience</h2>
- <div className="flex flex-wrap items-center gap-x-8 gap-y-4 text-sm font-semibold text-[#1B2A22]/70">
- <div className="flex items-center gap-2">
- <Users className="h-4 w-4 text-[#1B2A22]"/>
- <span>{farm.guests} guests max</span>
- </div>
- <div className="flex items-center gap-2">
- <Bed className="h-4 w-4 text-[#1B2A22]"/>
- <span>{farm.bedrooms} bedrooms</span>
- </div>
- <div className="flex items-center gap-2">
- <Compass className="h-4 w-4 text-[#1B2A22]"/>
- <span>{farm.acres || 5} Acres</span>
- </div>
+ <div className="mb-8">
+ <h2 className="font-serif text-[26px] font-bold text-[#002E1E] mb-4">Entire Farmhouse hosted by AgriStay</h2>
+ <div className="flex items-center flex-wrap gap-2 text-[14px] text-gray-600 font-bold">
+ <span className="flex items-center gap-1.5"><Users className="h-4 w-4 text-gray-400"/> {farm.guests} guests</span>
+ <span className="text-gray-300 mx-1">·</span>
+ <span className="flex items-center gap-1.5"><Bed className="h-4 w-4 text-gray-400"/> {farm.bedrooms} bedrooms</span>
+ <span className="text-gray-300 mx-1">·</span>
+ <span className="flex items-center gap-1.5"><Compass className="h-4 w-4 text-gray-400"/> {farm.acres || 8} Acres</span>
  </div>
  </div>
 
+ <div className="border-t border-gray-100 my-8"></div>
+
  {/* About Home description */}
- <div className="border-b border-[#1B2A22]/10 pb-10 mb-10">
- <h3 className="font-serif text-2xl text-[#1B2A22] mb-6">About Enjoy Farm</h3>
- <p className="text-base leading-loose text-[#1B2A22]/70 font-medium whitespace-pre-line font-serif">
+ <div className="mb-8">
+ <h3 className="font-serif text-[22px] font-bold text-[#002E1E] mb-4">About this farmhouse stay</h3>
+ <p className="text-[14px] font-medium text-gray-600 leading-relaxed whitespace-pre-line">
  {farm.description}
  </p>
  </div>
 
+ <div className="border-t border-gray-100 my-8"></div>
+
  {/* Amenities Grid */}
- <div className="pb-10 mb-10">
- <div className="flex items-center gap-3 mb-6">
- <div className="w-1.5 h-6 bg-[#00a877] rounded-sm"></div>
- <h3 className="font-sans text-xl font-bold text-[#1B2A22]">Amenities</h3>
- </div>
- <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+ <div className="mb-8">
+ <h3 className="font-serif text-[22px] font-bold text-[#002E1E] mb-6">What this farmhouse offers</h3>
+ <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8">
  {farm.amenities?.map((amenity, index) => {
  const IconComponent = AMENITY_ICONS[amenity] || CheckCircle2;
  return (
- <div key={index} className="flex flex-col items-center justify-center p-4 bg-[#fbf8ff] border border-[#eeedf7] rounded-xl text-center gap-2 hover:shadow-md transition-shadow">
- <div className="text-[#00a877]">
+ <div key={index} className="flex items-center gap-4">
+ <div className="bg-[#e6f4ea] p-2.5 rounded-full text-[#002E1E]">
  <IconComponent className="h-5 w-5 stroke-[1.5]"/>
  </div>
- <span className="text-xs font-semibold text-[#1B2A22]/80">{amenity}</span>
+ <span className="text-[14px] font-bold text-gray-700">{amenity}</span>
  </div>
  );
  })}
  </div>
  </div>
 
-  {/* Policies Accordion */}
-  <div className="border border-[#eeedf7] rounded-xl p-6 bg-white mb-10 mt-10 shadow-sm">
-    <div className="flex items-center gap-3 mb-6">
-      <div className="w-1 h-6 bg-[#00a877] rounded-sm"></div>
-      <h3 className="font-sans text-xl font-bold text-[#1B2A22]">Policies</h3>
-    </div>
-    
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <button 
-      onClick={() => setOpenPolicy(openPolicy === 'rules' ? null : 'rules')}
-      className={`flex items-center gap-3 p-4 rounded-xl border transition-colors ${openPolicy === 'rules' ? 'border-[#00a877] bg-[#fbf8ff]' : 'border-[#eeedf7] hover:bg-slate-50'}`}
-      >
-        <FileText className={`h-5 w-5 ${openPolicy === 'rules' ? 'text-[#00a877]' : 'text-[#1B2A22]/60'}`}/>
-        <span className={`font-bold ${openPolicy === 'rules' ? 'text-[#00a877]' : 'text-[#1B2A22]'}`}>House Rules</span>
-      </button>
-      
-      <button 
-      onClick={() => setOpenPolicy(openPolicy === 'cancellation' ? null : 'cancellation')}
-      className={`flex items-center gap-3 p-4 rounded-xl border transition-colors ${openPolicy === 'cancellation' ? 'border-red-500 bg-red-50/30' : 'border-[#eeedf7] hover:bg-slate-50'}`}
-      >
-        <Ban className={`h-5 w-5 ${openPolicy === 'cancellation' ? 'text-red-500' : 'text-[#1B2A22]/60'}`}/>
-        <span className={`font-bold ${openPolicy === 'cancellation' ? 'text-red-500' : 'text-[#1B2A22]'}`}>Cancellation Policy</span>
-      </button>
-    </div>
-    
-    {/* Expanded Content */}
-    {openPolicy === 'rules' && (
-    <div className="mt-6 pt-6 border-t border-[#eeedf7] animate-fade-in">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-1.5 h-5 bg-[#1B2A22] rounded-sm"></div>
-        <h4 className="font-sans text-lg font-bold text-[#1B2A22]">House Rules</h4>
-      </div>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {[
-        'No Alcohol Party',
-        'No Smoking',
-        'Self Cooking',
-        'Self Cleaning',
-        'Staircase only',
-        'No Pets',
-        'No Luggage Responsibility',
-        'Non-veg not allowed'
-        ].map((rule, idx) => (
-        <li key={idx} className="flex items-center gap-3 bg-[#fbf8ff] border border-[#eeedf7] p-4 rounded-xl">
-          <div className="text-[#1B2A22]/40">
-            <CheckCircle2 className="h-5 w-5"/>
-          </div>
-          <span className="text-sm font-semibold text-[#1B2A22]/80">{rule}</span>
-        </li>
-        ))}
-      </ul>
-    </div>
-    )}
-    
-    {openPolicy === 'cancellation' && (
-    <div className="mt-6 pt-6 border-t border-[#eeedf7] animate-fade-in">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-1.5 h-5 bg-red-500 rounded-sm"></div>
-        <h4 className="font-sans text-lg font-bold text-[#1B2A22]">Cancellation Policy</h4>
-      </div>
-      <ul className="space-y-3">
-        {[
-        { label:"Within 20 mins of booking", value:"10% convenience fee will be applied."},
-        { label:"15 days+ before check-in", value:"20% of the booking amount will be charged."},
-        { label:"Less than 15 days before", value:"100% of the booking amount will be charged."},
-        { label:"After check-in time", value:"No cancellation allowed."},
-        { label:"Refund Processing", value:"Processed within 7 working days."}
-        ].map((policy, idx) => (
-        <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-red-50/30 border border-red-100 rounded-xl gap-2 hover:bg-red-50/80 transition-colors">
-          <span className="text-sm font-bold text-red-950">{policy.label}</span>
-          <span className="text-sm font-medium text-red-900/80">{policy.value}</span>
-        </li>
-        ))}
-      </ul>
-    </div>
-    )}
-  </div>
-
- {/* Location */}
- <div className="pb-10 mb-10 border-t border-[#1B2A22]/10 pt-10">
- <div className="border border-[#eeedf7] rounded-xl p-6 bg-white">
+ {/* Policies Accordion */}
+ <div className="border border-gray-100 rounded-xl p-6 bg-white mb-10 mt-12 shadow-sm">
  <div className="flex items-center gap-3 mb-6">
- <div className="w-1.5 h-6 bg-[#00a877] rounded-sm"></div>
- <h3 className="font-sans text-xl font-bold text-[#1B2A22]">Location</h3>
+ <div className="w-1 h-6 bg-[#002E1E] rounded-sm"></div>
+ <h3 className="font-sans text-xl font-bold text-[#002E1E]">Policies</h3>
  </div>
  
- <div className="relative w-full h-[350px] rounded-lg overflow-hidden bg-[#fbf8ff]">
+ <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+ <button 
+ onClick={() => setOpenPolicy(openPolicy === 'rules' ? null : 'rules')}
+ className={`flex items-center gap-3 p-4 rounded-xl border transition-colors ${openPolicy === 'rules' ? 'border-[#002E1E] bg-gray-50' : 'border-gray-100 hover:bg-slate-50'}`}
+ >
+ <FileText className={`h-5 w-5 ${openPolicy === 'rules' ? 'text-[#002E1E]' : 'text-gray-500'}`}/>
+ <span className={`font-bold ${openPolicy === 'rules' ? 'text-[#002E1E]' : 'text-gray-700'}`}>House Rules</span>
+ </button>
+ 
+ <button 
+ onClick={() => setOpenPolicy(openPolicy === 'cancellation' ? null : 'cancellation')}
+ className={`flex items-center gap-3 p-4 rounded-xl border transition-colors ${openPolicy === 'cancellation' ? 'border-red-500 bg-red-50/30' : 'border-gray-100 hover:bg-slate-50'}`}
+ >
+ <Ban className={`h-5 w-5 ${openPolicy === 'cancellation' ? 'text-red-500' : 'text-gray-500'}`}/>
+ <span className={`font-bold ${openPolicy === 'cancellation' ? 'text-red-500' : 'text-gray-700'}`}>Cancellation Policy</span>
+ </button>
+ </div>
+ 
+ {/* Expanded Content */}
+ {openPolicy === 'rules' && (
+ <div className="mt-6 pt-6 border-t border-gray-100 animate-fade-in">
+ <div className="flex items-center gap-3 mb-6">
+ <div className="w-1.5 h-5 bg-[#002E1E] rounded-sm"></div>
+ <h4 className="font-sans text-lg font-bold text-[#002E1E]">House Rules</h4>
+ </div>
+ <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+ {[
+ 'No Alcohol Party',
+ 'No Smoking',
+ 'Self Cooking',
+ 'Self Cleaning',
+ 'Staircase only',
+ 'No Pets',
+ 'No Luggage Responsibility',
+ 'Non-veg not allowed'
+ ].map((rule, idx) => (
+ <li key={idx} className="flex items-center gap-3 bg-gray-50 border border-gray-100 p-4 rounded-xl">
+ <div className="text-[#002E1E]/40">
+ <CheckCircle2 className="h-5 w-5"/>
+ </div>
+ <span className="text-sm font-bold text-gray-700">{rule}</span>
+ </li>
+ ))}
+ </ul>
+ </div>
+ )}
+ 
+ {openPolicy === 'cancellation' && (
+ <div className="mt-6 pt-6 border-t border-gray-100 animate-fade-in">
+ <div className="flex items-center gap-3 mb-6">
+ <div className="w-1.5 h-5 bg-red-500 rounded-sm"></div>
+ <h4 className="font-sans text-lg font-bold text-[#002E1E]">Cancellation Policy</h4>
+ </div>
+ <ul className="space-y-3">
+ {[
+ { label:"Within 20 mins of booking", value:"10% convenience fee will be applied."},
+ { label:"15 days+ before check-in", value:"20% of the booking amount will be charged."},
+ { label:"Less than 15 days before", value:"100% of the booking amount will be charged."},
+ { label:"After check-in time", value:"No cancellation allowed."},
+ { label:"Refund Processing", value:"Processed within 7 working days."}
+ ].map((policy, idx) => (
+ <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-red-50/30 border border-red-100 rounded-xl gap-2 hover:bg-red-50/80 transition-colors">
+ <span className="text-sm font-bold text-red-950">{policy.label}</span>
+ <span className="text-sm font-medium text-red-900/80">{policy.value}</span>
+ </li>
+ ))}
+ </ul>
+ </div>
+ )}
+ </div>
+
+ {/* Location */}
+ <div className="pb-10 mb-10 border-t border-gray-100 pt-10">
+ <div className="border border-gray-100 rounded-xl p-6 bg-white shadow-sm">
+ <div className="flex items-center gap-3 mb-6">
+ <div className="w-1.5 h-6 bg-[#002E1E] rounded-sm"></div>
+ <h3 className="font-sans text-xl font-bold text-[#002E1E]">Location</h3>
+ </div>
+ 
+ <div className="relative w-full h-[350px] rounded-lg overflow-hidden bg-gray-50">
  <iframe
  title="Property Location Map"
  width="100%"
@@ -585,21 +583,20 @@ export default function FarmDetailPage() {
  {/* Booking / Sticky Card Column */}
  <div className="w-full md:w-[40%]">
  <div className="sticky top-28">
- <div className="bg-white border border-[#1B2A22]/5 p-8 md:p-10">
+ <div className="bg-white border border-gray-100 rounded-3xl p-7 shadow-sm">
  
- <div className="mb-8">
- <span className="text-sm font-medium text-[#1B2A22] block mb-2">Reservation</span>
- <span className="font-serif text-3xl font-normal text-[#1B2A22]">
+ <div className="mb-6 flex items-baseline gap-2">
+ <span className="font-sans tracking-tight text-3xl font-bold text-[#002E1E]">
  ₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}
  </span>
- <span className="text-xs text-[#1B2A22]/50 font-medium ml-2">/ night</span>
+ <span className="text-[13px] font-bold text-gray-500">/ night</span>
  </div>
 
  {/* Date Inputs Card */}
- <div className={`mb-6 border transition-all duration-200 ${hasConflict ? 'border-red-500/50 bg-red-50/50' : isInvalidDates ? 'border-amber-500/50 bg-amber-50/50' : 'border-[#1B2A22]/10'}`}>
- <div className="flex border-b border-[#1B2A22]/10">
- <div className="w-1/2 border-r border-[#1B2A22]/10 p-4">
- <label className="text-sm font-medium text-[#1B2A22] block mb-2">Check-in</label>
+ <div className={`mb-6 border rounded-xl transition-all duration-200 ${hasConflict ? 'border-red-500/50 bg-red-50/50' : isInvalidDates ? 'border-amber-500/50 bg-amber-50/50' : 'border-gray-200'}`}>
+ <div className="flex border-b border-gray-200">
+ <div className="w-1/2 border-r border-gray-200 p-3 relative">
+ <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1 tracking-wider">Check-in</label>
  <DatePicker
  selected={startDate}
  onChange={(date: Date | null) => setStartDate(date)}
@@ -608,12 +605,13 @@ export default function FarmDetailPage() {
  endDate={endDate || undefined}
  minDate={new Date()}
  excludeDates={checkInExcludeDates}
- placeholderText="Select date"
- className="text-sm font-semibold text-[#1B2A22] bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-[#1B2A22]/30"
+ placeholderText="dd-mm-yyyy"
+ className="text-[13px] font-bold text-[#002E1E] bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-gray-400"
  />
+ <CalendarDays className="h-3.5 w-3.5 text-[#002E1E] absolute right-3 bottom-3.5 pointer-events-none" />
  </div>
- <div className="w-1/2 p-4">
- <label className="text-sm font-medium text-[#1B2A22] block mb-2">Checkout</label>
+ <div className="w-1/2 p-3 relative">
+ <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1 tracking-wider">Checkout</label>
  <DatePicker
  selected={endDate}
  onChange={(date: Date | null) => setEndDate(date)}
@@ -622,13 +620,14 @@ export default function FarmDetailPage() {
  endDate={endDate || undefined}
  minDate={startDate || new Date()}
  excludeDates={checkOutExcludeDates}
- placeholderText="Select date"
- className="text-sm font-semibold text-[#1B2A22] bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-[#1B2A22]/30"
+ placeholderText="dd-mm-yyyy"
+ className="text-[13px] font-bold text-[#002E1E] bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-gray-400"
  />
+ <CalendarDays className="h-3.5 w-3.5 text-[#002E1E] absolute right-3 bottom-3.5 pointer-events-none" />
  </div>
  </div>
  <div 
- className="p-4 relative outline-none"
+ className="p-3 relative cursor-pointer"
  tabIndex={0}
  onBlur={(e) => {
  if (!e.currentTarget.contains(e.relatedTarget)) {
@@ -636,19 +635,19 @@ export default function FarmDetailPage() {
  }
  }}
  >
- <label className="text-sm font-medium text-[#1B2A22] block mb-2">Guests</label>
+ <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1 tracking-wider">Guests Limit</label>
  <div 
  onClick={() => setShowGuestDropdown(!showGuestDropdown)}
- className="text-sm font-semibold text-[#1B2A22] w-full cursor-pointer flex justify-between items-center"
+ className="text-[13px] font-bold text-[#002E1E] w-full flex justify-between items-center"
  >
- <span className={guestSelection === 0 ? 'text-[#1B2A22]/30' : ''}>
+ <span>
  {guestSelection === 0 ? 'Select guests' : `${guestSelection} guest${guestSelection > 1 ? 's' : ''}`}
  </span>
- <svg className={`w-4 h-4 text-[#1B2A22]/50 transition-transform duration-200 ${showGuestDropdown ? 'rotate-180' : ''}`} fill="none"stroke="currentColor"viewBox="0 0 24 24"><path strokeLinecap="round"strokeLinejoin="round"strokeWidth="2"d="M19 9l-7 7-7-7"></path></svg>
+ <ChevronDown className={`w-4 h-4 text-[#002E1E] transition-transform duration-200 ${showGuestDropdown ? 'rotate-180' : ''}`} />
  </div>
  
  {showGuestDropdown && (
- <div className="absolute top-full left-0 w-full bg-white border border-[#1B2A22]/10 shadow-2xl z-50 max-h-60 overflow-y-auto mt-1">
+ <div className="absolute top-full left-0 w-full bg-white border border-gray-100 shadow-xl z-50 max-h-60 overflow-y-auto mt-2 rounded-xl">
  {[...Array(farm.guests || 6)].map((_, i) => (
  <div 
  key={i + 1}
@@ -656,7 +655,7 @@ export default function FarmDetailPage() {
  setGuestSelection(i + 1);
  setShowGuestDropdown(false);
  }}
- className={`px-4 py-3 text-sm font-semibold cursor-pointer transition-colors ${guestSelection === i + 1 ? 'bg-[#1B2A22] text-white' : 'text-[#1B2A22] hover:bg-[#FAF9F6]'}`}
+ className={`px-4 py-3 text-[13px] font-bold cursor-pointer transition-colors ${guestSelection === i + 1 ? 'bg-[#e6f4ea] text-[#002E1E]' : 'text-[#002E1E] hover:bg-gray-50'}`}
  >
  {i + 1} guest{i > 0 ? 's' : ''}
  </div>
@@ -668,27 +667,27 @@ export default function FarmDetailPage() {
 
  {/* Alert Banners */}
  {hasConflict && (
- <div className="mb-6 p-4 bg-red-50 text-red-800 text-xs font-semibold flex items-start gap-2 border border-red-200">
+ <div className="mb-6 p-4 bg-red-50 text-red-800 text-xs font-bold flex items-start gap-2 border border-red-200 rounded-xl">
  <span>This estate is already reserved for the selected dates.</span>
  </div>
  )}
  {isInvalidDates && (
- <div className="mb-6 p-4 bg-amber-50 text-amber-800 text-xs font-semibold flex items-start gap-2 border border-amber-200">
+ <div className="mb-6 p-4 bg-amber-50 text-amber-800 text-xs font-bold flex items-start gap-2 border border-amber-200 rounded-xl">
  <span>Checkout date must be after check-in date.</span>
  </div>
  )}
 
- {/* Security Deposit Banner */}
- <div className="mb-6 p-4 bg-[#fff9f0] border border-[#f5a623] rounded-xl flex gap-3 items-start">
- <div className="mt-0.5">
- <Info className="h-5 w-5 text-[#f5a623]"/>
+ {/* Security Deposit Notice */}
+ <div className="mb-6 bg-[#fffaf0] border border-[#f5a623]/60 rounded-xl p-4 flex gap-3">
+ <div className="shrink-0 pt-0.5">
+ <Info className="w-[18px] h-[18px] fill-[#f5a623] text-white" />
  </div>
- <div>
- <div className="flex flex-wrap items-center gap-2 mb-1.5">
- <span className="text-[13px] font-bold text-[#1B2A22]">₹5000 Security Deposit</span>
- <span className="bg-[#f5a623] text-white text-sm font-medium font-bold px-2.5 py-0.5 rounded-full">Pay at Check-in</span>
+ <div className="flex flex-col">
+ <div className="flex items-center gap-2 mb-1 flex-wrap">
+ <span className="font-bold text-[#333333] text-[14px]">₹5000 Security Deposit</span>
+ <span className="bg-[#f5a623] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">Pay at Check-in</span>
  </div>
- <p className="text-xs font-semibold text-[#1B2A22]/70">Refunded by host if no damage</p>
+ <span className="text-[13px] text-gray-500 font-medium">Refunded by host if no damage</span>
  </div>
  </div>
 
@@ -696,47 +695,45 @@ export default function FarmDetailPage() {
  <button 
  onClick={handleBooking}
  disabled={bookingLoading || hasConflict || isInvalidDates || !startDate || !endDate || guestSelection === 0}
- className="w-full bg-[#1B2A22] hover:bg-[#00a877] py-5 text-sm font-medium text-white transition-colors active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+ className="w-full bg-[#829e92] hover:bg-[#6c867a] py-3.5 rounded-[10px] text-[15px] font-bold text-white transition-colors active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed mb-4"
  >
- {bookingLoading ? 'Reserving...' : hasConflict ? 'Dates Unavailable' : 'Request Reservation'}
+ {bookingLoading ? 'Reserving...' : hasConflict ? 'Dates Unavailable' : 'Book Your Stay'}
  </button>
  
- <div className="text-center text-sm font-medium font-bold text-[#1B2A22]/40 mb-8">
- <CalendarDays className="h-3 w-3 inline mr-1 mb-0.5"/> Subject to approval
+ <div className="text-center text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-6">
+ No payment charged yet
  </div>
 
  {/* Price Breakdown */}
  {hasValidDates && diffNights > 0 && (
  <>
- <div className="space-y-4 border-t border-[#1B2A22]/10 pt-6 pb-6 text-xs font-medium text-[#1B2A22]/70 tracking-wider">
+ <div className="space-y-4 border-t border-gray-100 pt-6 pb-6 text-xs font-bold text-gray-500 tracking-wider">
  {priceBreakdown.map((item, index) => (
  <div key={index} className="flex justify-between">
  <span>{item.label}</span>
- <span className="text-[#1B2A22]">₹{item.value.toLocaleString('en-IN')}</span>
+ <span className="text-[#002E1E]">₹{item.value.toLocaleString('en-IN')}</span>
  </div>
  ))}
  </div>
 
- <div className="mt-2 flex justify-between font-serif text-2xl font-normal text-[#1B2A22]">
+ <div className="mt-2 flex justify-between font-sans tracking-tight text-2xl font-bold text-[#002E1E]">
  <span>Total</span>
  <span>₹{grandTotal.toLocaleString('en-IN')}</span>
  </div>
  </>
  )}
 
- </div>
-
  {/* Need Help Section */}
- <div className="mt-8">
- <h4 className="font-sans text-sm font-bold text-[#1B2A22] mb-4">Need Help?</h4>
+ <div className="mt-8 border-t border-gray-100 pt-6">
+ <h4 className="font-sans text-[13px] font-bold text-[#002E1E] mb-4 uppercase tracking-wider">Need Help?</h4>
  <div className="space-y-3">
- <a href="tel:+918780493615"className="flex items-center gap-4 w-full p-4 bg-white border border-[#eeedf7] rounded-xl hover:border-[#00a877] transition-colors group hover:shadow-sm">
- <Phone className="h-5 w-5 text-[#00a877] group-hover:scale-110 transition-transform"/>
- <span className="text-sm font-semibold text-[#1B2A22]">Call us: +91 8780493615</span>
+ <a href="tel:+918780493615"className="flex items-center gap-4 w-full p-4 bg-white border border-gray-100 rounded-xl hover:border-[#002E1E] transition-colors group hover:shadow-sm">
+ <Phone className="h-5 w-5 text-[#829e92] group-hover:scale-110 transition-transform"/>
+ <span className="text-[13px] font-bold text-gray-700">Call us: +91 8780493615</span>
  </a>
- <a href="https://wa.me/918780493615"target="_blank"rel="noopener noreferrer"className="flex items-center gap-4 w-full p-4 bg-white border border-[#eeedf7] rounded-xl hover:border-[#00a877] transition-colors group hover:shadow-sm">
- <MessageCircle className="h-5 w-5 text-[#00a877] group-hover:scale-110 transition-transform"/>
- <span className="text-sm font-semibold text-[#1B2A22]">WhatsApp Support</span>
+ <a href="https://wa.me/918780493615"target="_blank"rel="noopener noreferrer"className="flex items-center gap-4 w-full p-4 bg-white border border-gray-100 rounded-xl hover:border-[#002E1E] transition-colors group hover:shadow-sm">
+ <MessageCircle className="h-5 w-5 text-[#829e92] group-hover:scale-110 transition-transform"/>
+ <span className="text-[13px] font-bold text-gray-700">WhatsApp Support</span>
  </a>
  </div>
  </div>
@@ -744,6 +741,7 @@ export default function FarmDetailPage() {
  </div>
  </div>
 
+ </div>
  </div>
  </main>
 

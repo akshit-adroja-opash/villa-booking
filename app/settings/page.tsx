@@ -170,35 +170,32 @@ export default function SettingsPage() {
 
  return (
  <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22] font-sans antialiased">
- <main className="max-w-[760px] mx-auto px-6 pt-24 pb-24">
+ <main className="max-w-[760px] mx-auto px-6 pt-16 pb-24">
  
  {/* Title */}
- <div className="mb-10">
- <h1 className="font-serif text-4xl font-normal text-[#1B2A22]">
- My Settings
+ <div className="mb-8">
+ <h1 className="font-serif text-[32px] font-bold text-[#004d40]">
+ My Profile
  </h1>
- <p className="text-sm font-medium text-[#1B2A22]/60 mt-2">
- Manage your personal profile
- </p>
  </div>
 
  {/* Profile Card */}
- <div className="bg-white border border-[#1B2A22]/10 p-10 relative">
+ <div className="bg-white rounded-2xl border border-gray-100 p-8 md:p-10 relative shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)]">
  {saving && (
- <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
+ <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-10 flex items-center justify-center rounded-2xl">
  <Loader2 className="h-8 w-8 animate-spin border-t-2 border-[#1B2A22] rounded-full text-transparent"/>
  </div>
  )}
  
  {/* Avatar Header info */}
- <div className="flex items-center gap-6 mb-12">
+ <div className="flex items-center gap-6 mb-10">
  <div className="relative shrink-0">
  {image ? (
- <div className="h-24 w-24 border border-[#1B2A22]/10 overflow-hidden bg-[#FAF9F6]">
+ <div className="h-24 w-24 rounded-full overflow-hidden bg-[#FAF9F6]">
  <img src={image} alt={name} className="h-full w-full object-cover"/>
  </div>
  ) : (
- <div className="h-24 w-24 bg-[#1B2A22] text-white flex items-center justify-center font-serif text-4xl">
+ <div className="h-24 w-24 rounded-full bg-[#00a877] text-white flex items-center justify-center font-sans text-4xl font-bold">
  {name ? name.charAt(0).toUpperCase() : 'U'}
  </div>
  )}
@@ -212,26 +209,26 @@ export default function SettingsPage() {
  <button 
  type="button"
  onClick={() => document.getElementById('avatar-input')?.click()}
- className="absolute -bottom-3 -right-3 h-8 w-8 bg-white border border-[#1B2A22]/10 flex items-center justify-center hover:bg-[#00a877] hover:border-[#00a877] hover:text-white text-[#1B2A22] transition-colors cursor-pointer shadow-sm"
+ className="absolute bottom-0 right-0 h-8 w-8 bg-white rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 text-gray-500 transition-colors cursor-pointer shadow-sm"
  >
- <Camera className="h-3 w-3"/>
+ <Camera className="h-3.5 w-3.5"/>
  </button>
  </div>
 
  <div className="space-y-2">
- <h2 className="font-serif text-3xl font-normal text-[#1B2A22]">{name || 'Guest User'}</h2>
- <div className="flex items-center gap-3">
- <span className={`inline-block px-3 py-1 text-sm font-medium border ${
+ <h2 className="font-bold text-xl text-[#1B2A22]">{name || 'Guest User'}</h2>
+ <div className="flex flex-col items-start gap-1">
+ <span className={`inline-block px-3 py-0.5 text-[10px] font-bold rounded-full tracking-wide ${
  role === 'admin' 
- ? 'bg-[#1B2A22]/10 text-[#1B2A22] border-[#1B2A22]/30'
+ ? 'bg-[#e6f4ea] text-[#00a877]'
  : role === 'owner'
- ? 'bg-[#1B2A22]/10 text-[#1B2A22] border-[#1B2A22]/30'
- : 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20'
+ ? 'bg-orange-50 text-orange-500'
+ : 'bg-[#e6f4ea] text-[#00a877]'
  }`}>
  {role}
  </span>
- <span className="text-sm font-medium text-[#1B2A22]/40 font-bold">
- Member since 2024
+ <span className="text-[11px] font-bold text-gray-400 mt-1">
+ Member Profile Settings
  </span>
  </div>
  </div>
@@ -239,100 +236,85 @@ export default function SettingsPage() {
 
  {/* View Mode or Edit Mode */}
  {!isEditing ? (
- <div className="space-y-6">
+ <div className="space-y-8">
  
  {/* Info Items */}
- <div className="grid gap-6">
- <div className="flex items-center gap-5 border-b border-[#1B2A22]/10 pb-6">
- <div className="flex h-10 w-10 items-center justify-center bg-[#FAF9F6] border border-[#1B2A22]/10 text-[#1B2A22]/50 shrink-0">
- <Mail className="h-4 w-4"/>
+ <div className="grid gap-4">
+ <div className="flex items-center gap-4 bg-[#f9fafb] rounded-xl px-5 py-3">
+ <Mail className="h-4 w-4 text-gray-400 shrink-0"/>
+ <p className="text-[13px] font-bold text-[#1B2A22]">{email || 'Not provided'}</p>
  </div>
- <div>
- <p className="text-sm font-medium text-[#1B2A22]/50 font-bold mb-1">Email Address</p>
- <p className="font-serif text-lg text-[#1B2A22]">{email || 'Not provided'}</p>
+
+ <div className="flex items-center gap-4 bg-[#f9fafb] rounded-xl px-5 py-3">
+ <Phone className="h-4 w-4 text-gray-400 shrink-0"/>
+ <p className="text-[13px] font-bold text-[#1B2A22]">{phone || 'No phone number provided'}</p>
+ </div>
+
+ <div className="flex items-center gap-4 bg-[#f9fafb] rounded-xl px-5 py-3">
+ <MapPin className="h-4 w-4 text-gray-400 shrink-0"/>
+ <p className="text-[13px] font-bold text-[#1B2A22]">{location || 'No location provided'}</p>
  </div>
  </div>
 
- <div className="flex items-center gap-5 border-b border-[#1B2A22]/10 pb-6">
- <div className="flex h-10 w-10 items-center justify-center bg-[#FAF9F6] border border-[#1B2A22]/10 text-[#1B2A22]/50 shrink-0">
- <Phone className="h-4 w-4"/>
- </div>
- <div>
- <p className="text-sm font-medium text-[#1B2A22]/50 font-bold mb-1">Phone Number</p>
- <p className="font-serif text-lg text-[#1B2A22]">{phone || 'Not provided'}</p>
- </div>
- </div>
-
- <div className="flex items-center gap-5 border-b border-[#1B2A22]/10 pb-6">
- <div className="flex h-10 w-10 items-center justify-center bg-[#FAF9F6] border border-[#1B2A22]/10 text-[#1B2A22]/50 shrink-0">
- <MapPin className="h-4 w-4"/>
- </div>
- <div>
- <p className="text-sm font-medium text-[#1B2A22]/50 font-bold mb-1">Location</p>
- <p className="font-serif text-lg text-[#1B2A22]">{location || 'Not provided'}</p>
- </div>
- </div>
- </div>
-
- <div className="pt-4">
+ <div className="pt-2">
  <button
  onClick={handleEditClick}
- className="inline-block border border-[#1B2A22] bg-transparent hover:bg-[#1B2A22] hover:text-[#1B2A22] px-8 py-3 text-sm font-medium text-[#1B2A22] transition-colors"
+ className="inline-block border border-[#00a877] text-[#00a877] bg-transparent hover:bg-[#00a877] hover:text-white rounded-lg px-6 py-2.5 text-[13px] font-bold transition-colors"
  >
- Edit Details
+ Edit Profile
  </button>
  </div>
 
  </div>
  ) : (
- <form onSubmit={handleSave} className="space-y-6 pt-4 border-t border-[#1B2A22]/10">
+ <form onSubmit={handleSave} className="space-y-6 pt-4 border-t border-gray-100">
  
  {/* Full Name */}
  <div className="space-y-2">
- <label className="block text-sm font-medium font-bold text-[#1B2A22]/70">
+ <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">
  Full Name
  </label>
- <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
- <User className="absolute left-4 h-4 w-4 text-[#1B2A22]/40"/>
+ <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
+ <User className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input
  type="text"
  required
  value={editName}
  onChange={(e) => setEditName(e.target.value)}
- className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none"
+ className="w-full h-11 pl-11 pr-4 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
  />
  </div>
  </div>
 
  {/* Email */}
  <div className="space-y-2">
- <label className="block text-sm font-medium font-bold text-[#1B2A22]/70">
- Email
+ <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">
+ Email Address
  </label>
- <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
- <Mail className="absolute left-4 h-4 w-4 text-[#1B2A22]/40"/>
+ <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
+ <Mail className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input
  type="email"
  required
  value={editEmail}
  onChange={(e) => setEditEmail(e.target.value)}
- className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none"
+ className="w-full h-11 pl-11 pr-4 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
  />
  </div>
  </div>
 
  {/* Phone */}
  <div className="space-y-2">
- <label className="block text-sm font-medium font-bold text-[#1B2A22]/70">
- Phone
+ <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">
+ Phone Number
  </label>
- <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
- <Phone className="absolute left-4 h-4 w-4 text-[#1B2A22]/40"/>
+ <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
+ <Phone className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input
  type="text"
  value={editPhone}
  onChange={(e) => setEditPhone(e.target.value)}
- className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none"
+ className="w-full h-11 pl-11 pr-4 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
  placeholder="+91"
  />
  </div>
@@ -340,16 +322,16 @@ export default function SettingsPage() {
 
  {/* Location */}
  <div className="space-y-2">
- <label className="block text-sm font-medium font-bold text-[#1B2A22]/70">
+ <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">
  Location
  </label>
- <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
- <MapPin className="absolute left-4 h-4 w-4 text-[#1B2A22]/40"/>
+ <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
+ <MapPin className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input
  type="text"
  value={editLocation}
  onChange={(e) => setEditLocation(e.target.value)}
- className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none"
+ className="w-full h-11 pl-11 pr-4 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
  placeholder="City, Country"
  />
  </div>
@@ -359,14 +341,14 @@ export default function SettingsPage() {
  <div className="flex items-center gap-4 pt-6">
  <button
  type="submit"
- className="bg-[#00a877] hover:bg-[#009669] text-white px-8 py-3 text-sm font-medium transition-colors cursor-pointer shadow-md shadow-[#00a877]/10"
+ className="bg-[#00a877] hover:bg-[#009669] text-white px-8 py-2.5 rounded-xl text-[13px] font-bold transition-colors cursor-pointer shadow-sm"
  >
  Save Changes
  </button>
  <button
  type="button"
  onClick={handleCancel}
- className="text-[#1B2A22]/50 hover:text-[#1B2A22] text-sm font-medium cursor-pointer transition-colors"
+ className="text-gray-400 hover:text-gray-600 text-[13px] font-bold cursor-pointer transition-colors"
  >
  Cancel
  </button>

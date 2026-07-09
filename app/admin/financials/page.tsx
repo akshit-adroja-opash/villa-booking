@@ -44,8 +44,8 @@ export default function AdminFinancialsPage() {
  loadBookings();
  }, []);
 
- const paidBookings = bookings.filter((booking) => booking.paymentStatus === 'Paid');
- const pendingBookings = bookings.filter((booking) => booking.paymentStatus !== 'Paid');
+ const paidBookings = bookings.filter((booking) => booking.paymentStatus === 'Paid' || booking.paymentStatus?.toLowerCase() === 'confirmed');
+ const pendingBookings = bookings.filter((booking) => booking.paymentStatus !== 'Paid' && booking.paymentStatus?.toLowerCase() !== 'confirmed');
  const grossRevenue = paidBookings.reduce((sum, booking) => sum + (booking.totalPrice || 0), 0);
  const pendingRevenue = pendingBookings.reduce((sum, booking) => sum + (booking.totalPrice || 0), 0);
  const platformFees = Math.round(grossRevenue * 0.08);
@@ -100,90 +100,103 @@ export default function AdminFinancialsPage() {
  }
 
  return (
- <main className="p-6 md:p-10 bg-[#FAF9F6]">
+ <main className="p-6 md:p-10 bg-[#FAF9F6] min-h-screen">
  <div className="mx-auto max-w-[1280px] space-y-8">
  
  {/* Title Block */}
- <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+ <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
  <div>
- <h1 className="font-serif text-3xl font-normal tracking-tight text-[#1B2A22]">
- Revenue
+ <h1 className="font-serif text-[32px] font-bold text-[#1a1f1c]">
+ Financials
  </h1>
- <p className="mt-2 text-sm font-medium text-[#1B2A22]/60">
- Revenue, pending payments & transaction activity
+ <p className="text-[13px] font-semibold text-gray-400 mt-1">
+ Revenue, pending payments, fees, and transaction activity.
  </p>
  </div>
- <button onClick={handleExport} className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-3 text-sm font-medium transition-colors self-start sm:self-auto">
+ <button onClick={handleExport} className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-all shadow-sm self-start sm:self-auto">
  <Download className="h-4 w-4"/>
  <span>Export Report</span>
  </button>
  </div>
 
  {/* 4 Stats Grid */}
- <div className="grid gap-6 md:grid-cols-4">
+ <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
  {[
- { label: 'Gross Revenue', value: `₹${grossRevenue.toLocaleString('en-IN')}`, icon: IndianRupee },
- { label: 'Pending Revenue', value: `₹${pendingRevenue.toLocaleString('en-IN')}`, icon: WalletCards },
- { label: 'Platform Fees', value: `₹${platformFees.toLocaleString('en-IN')}`, icon: ReceiptText },
- { label: 'Net Payout', value: `₹${netPayout.toLocaleString('en-IN')}`, icon: CreditCard },
+ { label: 'GROSS REVENUE', value: `₹${grossRevenue.toLocaleString('en-IN')}`, icon: IndianRupee },
+ { label: 'PENDING REVENUE', value: `₹${pendingRevenue.toLocaleString('en-IN')}`, icon: WalletCards },
+ { label: 'PLATFORM FEES', value: `₹${platformFees.toLocaleString('en-IN')}`, icon: ReceiptText },
+ { label: 'NET PAYOUT', value: `₹${netPayout.toLocaleString('en-IN')}`, icon: CreditCard },
  ].map((stat) => (
- <div key={stat.label} className="bg-white border border-[#1B2A22]/10 p-6">
- <div className="flex items-start justify-between">
- <div>
- <p className="text-sm font-medium text-[#1B2A22]/60 mb-2">{stat.label}</p>
- <p className="font-serif text-2xl text-[#1B2A22]">{stat.value}</p>
+ <div key={stat.label} className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex items-start justify-between min-h-[110px]">
+ <div className="flex flex-col justify-between h-full">
+ <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">{stat.label}</p>
+ <h3 className="font-sans tracking-tight text-[28px] font-bold text-[#1B2A22] leading-none">{stat.value}</h3>
  </div>
- <div className="bg-[#1B2A22]/10 p-2 text-[#1B2A22]">
- <stat.icon className="h-5 w-5"/>
- </div>
+ <div className="bg-[#e6f4ea] text-[#00a877] h-10 w-10 rounded-xl flex items-center justify-center shrink-0">
+ <stat.icon className="h-5 w-5 stroke-[2]"/>
  </div>
  </div>
  ))}
  </div>
 
  {/* Transaction History Section */}
- <section className="bg-white border border-[#1B2A22]/10">
- <div className="p-6 border-b border-[#1B2A22]/10">
- <h3 className="font-serif text-xl font-normal text-[#1B2A22]">Recent Transactions</h3>
- <p className="text-sm font-medium text-[#1B2A22]/50 font-bold mt-2">Latest booking payments from guests</p>
+ <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
+ <div className="p-6 md:p-8 border-b border-gray-100">
+ <h3 className="font-serif text-[22px] font-bold text-[#1B2A22]">Recent Transactions</h3>
+ <p className="text-[13px] font-semibold text-gray-400 mt-1">Latest booking payments from guests.</p>
  </div>
 
  <div className="overflow-x-auto">
- <table className="w-full min-w-[820px] text-left border-collapse">
+ <table className="w-full text-left border-collapse min-w-[850px]">
  <thead>
- <tr className="border-b border-[#1B2A22]/10 bg-[#FAF9F6] text-sm font-medium font-bold text-[#1B2A22]/50">
- <th className="px-6 py-5">Guest</th>
+ <tr className="bg-[#fafafa] text-[10px] uppercase tracking-wider font-bold text-gray-400 border-b border-gray-100">
+ <th className="px-8 py-5">Guest</th>
  <th className="px-6 py-5">Property</th>
  <th className="px-6 py-5">Order ID</th>
  <th className="px-6 py-5">Status</th>
- <th className="px-6 py-5 text-right">Amount</th>
+ <th className="px-8 py-5 text-right">Amount</th>
  </tr>
  </thead>
- <tbody className="divide-y divide-[#1B2A22]/5 text-[13px] font-semibold text-[#1B2A22]">
- {recentTransactions.map((booking) => (
- <tr key={booking._id} className="hover:bg-[#FAF9F6]/50 transition-colors">
- <td className="px-6 py-5">
- <p className="font-serif text-base text-[#1B2A22]">{booking.userId?.name || 'Guest'}</p>
- <p className="text-sm font-medium text-[#1B2A22]/50 mt-0.5">{booking.userId?.email || 'No email'}</p>
+ <tbody className="divide-y divide-gray-50 text-[13px] font-semibold text-[#1B2A22]">
+ {recentTransactions.length === 0 ? (
+ <tr>
+ <td colSpan={5} className="px-8 py-12 text-center text-gray-400 font-medium">
+ No recent transactions found.
  </td>
- <td className="px-6 py-5 text-[#1B2A22]/70 font-serif text-base">{booking.farmId?.title || 'Property'}</td>
- <td className="px-6 py-5 text-sm font-medium text-[#1B2A22]/40">{booking.razorpayOrderId || booking._id.slice(-10)}</td>
+ </tr>
+ ) : (
+ recentTransactions.map((booking) => {
+ const status = booking.paymentStatus?.toLowerCase() || 'pending';
+ const isPaid = status === 'paid' || status === 'confirmed';
+
+ return (
+ <tr key={booking._id} className="hover:bg-[#fafafa] transition-colors">
+ <td className="px-8 py-5">
+ <p className="font-bold text-[#1B2A22] text-[14px]">{booking.userId?.name || 'Guest'}</p>
+ <p className="text-[11px] font-bold text-gray-400 mt-0.5">{booking.userId?.email || 'No email'}</p>
+ </td>
+ <td className="px-6 py-5 font-bold text-[#1B2A22] text-[14px]">{booking.farmId?.title || 'Property'}</td>
+ <td className="px-6 py-5 text-gray-400 font-medium">{booking.razorpayOrderId || `order_${booking._id.slice(-10)}`}</td>
  <td className="px-6 py-5">
- <span className={`inline-block px-3 py-1 text-sm font-medium border ${
- booking.paymentStatus === 'Paid'
- ? 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20'
- : 'bg-transparent text-[#1B2A22] border-[#1B2A22]'
+ <span className={`inline-block px-3 py-1 text-[10px] font-bold rounded-full tracking-wide ${
+ isPaid
+ ? 'bg-[#e6f4ea] text-[#00a877]'
+ : 'bg-orange-50 text-orange-500'
  }`}>
- {booking.paymentStatus === 'Paid' ? 'Paid' : 'Pending'}
+ {isPaid ? 'paid' : 'pending'}
  </span>
  </td>
- <td className="px-6 py-5 text-right font-serif text-lg text-[#1B2A22]">₹{(booking.totalPrice || 0).toLocaleString('en-IN')}</td>
+ <td className="px-8 py-5 text-right font-sans tracking-tight font-bold text-[14px] text-[#1B2A22]">
+ ₹{(booking.totalPrice || 0).toLocaleString('en-IN')}
+ </td>
  </tr>
- ))}
+ );
+ })
+ )}
  </tbody>
  </table>
  </div>
- </section>
+ </div>
 
  </div>
  </main>

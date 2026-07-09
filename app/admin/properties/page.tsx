@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Bath, BedDouble, Home, MapPin, Plus, Search, Users, ShieldCheck, Trash2 } from 'lucide-react';
+import { Bath, BedDouble, Home, MapPin, Plus, Search, Users, Trash2, ShieldCheck } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 type Farm = {
@@ -94,129 +94,121 @@ export default function AdminPropertiesPage() {
  {/* Header Block */}
  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
  <div>
- <h1 className="font-serif text-3xl font-normal tracking-tight text-[#1B2A22]">
- Properties
+ <h1 className="font-serif text-[32px] font-bold text-[#1a1f1c]">
+ Farmhouses
  </h1>
- <p className="text-sm font-medium text-[#1B2A22]/60 mt-2">
- Manage Farmhouses & Rates
+ <p className="text-[13px] font-semibold text-gray-400 mt-1">
+ Review listings, capacity, amenities, and nightly rates.
  </p>
  </div>
  <Link
  href="/admin/properties/create"
- className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-3 text-sm font-medium transition-colors self-start sm:self-auto"
+ className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-all shadow-sm self-start sm:self-auto"
  >
  <Plus className="h-4 w-4"/>
- <span>Add Property</span>
+ <span>New Farmhouse</span>
  </Link>
  </div>
 
  {/* Stats Grid */}
  <div className="grid gap-6 md:grid-cols-3">
  {[
- { label: 'Active Listings', value: farms.length.toString(), color: '#1B2A22' },
- { label: 'Average Nightly Rate', value: `₹${averageRate.toLocaleString('en-IN')}`, color: '#1B2A22' },
- { label: 'Total Capacity', value: farms.reduce((sum, farm) => sum + (farm.guests || 0), 0).toString(), color: '#1B2A22' },
+ { label: 'LIVE LISTINGS', value: farms.length.toString() },
+ { label: 'AVERAGE NIGHTLY RATE', value: `₹${averageRate.toLocaleString('en-IN')}` },
+ { label: 'TOTAL GUEST CAPACITY', value: farms.reduce((sum, farm) => sum + (farm.guests || 0), 0).toString() },
  ].map((stat) => (
- <div key={stat.label} className="bg-white border border-[#1B2A22]/10 p-6">
- <p className="text-sm font-medium text-[#1B2A22]/60 mb-2">{stat.label}</p>
- <p className="font-serif text-3xl"style={{ color: stat.color }}>{stat.value}</p>
+ <div key={stat.label} className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
+ <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">{stat.label}</p>
+ <p className="font-sans tracking-tight text-[28px] font-bold text-[#1B2A22]">{stat.value}</p>
  </div>
  ))}
  </div>
 
  {/* Search Input bar */}
- <div className="flex w-full max-w-md items-center gap-3 bg-white border border-[#1B2A22]/10 px-4 py-3 focus-within:border-[#1B2A22] transition-all">
- <Search className="h-4 w-4 text-[#1B2A22]/40"/>
+ <div className="flex w-full max-w-md items-center gap-3 bg-white rounded-xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 px-4 py-2.5 focus-within:border-gray-200 transition-all">
+ <Search className="h-4 w-4 text-gray-400"/>
  <input
  value={query}
  onChange={(event) => setQuery(event.target.value)}
- placeholder="Search farmhouses..."
- className="w-full bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
+ placeholder="Search properties by name, location..."
+ className="w-full bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
  />
  </div>
 
- {/* Listings List Layout */}
+ {/* Listings Grid Layout */}
  <section className="flex flex-col gap-6">
  {filteredFarms.length === 0 ? (
- <div className="bg-white border border-[#1B2A22]/10 p-10 text-center">
- <p className="text-[#1B2A22]/50 font-serif text-lg">No farmhouses found.</p>
+ <div className="bg-white border border-gray-200 p-10 text-center shadow-sm">
+ <p className="text-gray-400 font-medium">No farmhouses found.</p>
  </div>
  ) : (
  filteredFarms.map((farm) => (
- <article key={farm._id} className="flex flex-col sm:flex-row items-center gap-8 p-4 bg-white border border-[#1B2A22]/10 hover:border-[#1B2A22]/50 transition-colors group">
+ <article key={farm._id} className="flex flex-col sm:flex-row bg-white border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)] overflow-hidden">
  {/* Image */}
- <div className="shrink-0 w-full sm:w-72 h-48 overflow-hidden bg-gray-100 relative">
+ <div className="shrink-0 w-full sm:w-[320px] h-56 sm:h-auto overflow-hidden bg-gray-100 relative p-4">
  {farm.images?.[0] ? (
  <img 
  src={farm.images[0]} 
  alt={farm.title} 
- className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+ className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-105"
  />
  ) : (
- <div className="flex h-full items-center justify-center bg-[#1B2A22]/5 text-[#1B2A22]/20">
+ <div className="absolute inset-0 flex h-full items-center justify-center bg-[#f9fafb] text-gray-300">
  <Home className="h-8 w-8"/>
  </div>
  )}
- <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-sm font-medium text-[#00a877] border border-[#00a877]/20 flex items-center gap-1.5">
+ <div className="absolute top-4 left-4 bg-white/95 px-3 py-1.5 text-[12px] font-bold text-[#00a877] flex items-center gap-1.5 shadow-sm">
  <span className="h-1.5 w-1.5 rounded-full bg-[#00a877]"></span>
  Active
  </div>
  </div>
  
  {/* Content */}
- <div className="flex flex-1 flex-col sm:flex-row sm:items-center justify-between w-full">
+ <div className="flex flex-col justify-between w-full p-6 md:p-8">
  
- <div className="flex flex-col gap-3">
- <div className="flex items-center gap-2 text-sm font-medium text-[#1B2A22]">
- <MapPin className="h-3 w-3"/>
- {farm.location?.startsWith('http') ? (
- <a href={farm.location} target="_blank"rel="noopener noreferrer"className="hover:underline text-[#1B2A22]">
- View on Map
- </a>
- ) : (
- <span>{farm.location || 'Exclusive Location'}</span>
- )}
+ <div>
+ <div className="flex items-center gap-2 text-[14px] font-bold text-[#1B2A22]">
+ <MapPin className="h-4 w-4"/>
+ {farm.location || 'Exclusive Location'}
  </div>
  
- <h3 className="font-serif text-2xl font-normal text-[#1B2A22]">{farm.title}</h3>
+ <h3 className="font-serif text-[28px] font-normal text-[#1B2A22] mt-3">{farm.title}</h3>
  
- <div className="flex items-center gap-6 text-sm font-medium text-[#1B2A22]/60 mt-2">
- <span className="flex items-center gap-1.5">
- <Users className="h-3.5 w-3.5 text-[#1B2A22]/40"/>
+ <div className="flex items-center gap-6 flex-wrap mt-5 text-[13px] font-bold text-gray-400">
+ <span className="flex items-center gap-2">
+ <Users className="h-4 w-4 text-gray-300"/>
  {farm.guests || 0} Guests
  </span>
- <span className="flex items-center gap-1.5">
- <BedDouble className="h-3.5 w-3.5 text-[#1B2A22]/40"/>
+ <span className="flex items-center gap-2">
+ <BedDouble className="h-4 w-4 text-gray-300"/>
  {farm.bedrooms || 0} Beds
  </span>
  <span className="flex items-center gap-1.5 text-[#00a877]">
- <ShieldCheck className="h-3.5 w-3.5 text-[#00a877]"/>
+ <ShieldCheck className="h-4 w-4"/>
  Verified
  </span>
  </div>
+ </div>
  
- <div className="mt-4">
- <p className="text-xl font-serif text-[#1B2A22]">
- ₹{(farm.pricePerNight || 0).toLocaleString('en-IN')} <span className="text-sm font-medium text-[#1B2A22]/40 font-sans">/ night</span>
+ <div className="flex items-center justify-between mt-8">
+ <p className="text-[22px] font-sans tracking-tight font-bold text-[#1B2A22]">
+ ₹{(farm.pricePerNight || 0).toLocaleString('en-IN')} <span className="text-[13px] font-bold text-gray-400 font-sans tracking-wide">/ night</span>
  </p>
- </div>
- </div>
-
- {/* Action Button */}
- <div className="mt-6 sm:mt-0 sm:ml-4 sm:pr-4 flex gap-3">
+ <div className="flex items-center gap-3">
  <button 
-                  onClick={() => handleDelete(farm._id)}
-                  className="inline-flex items-center justify-center p-3 text-red-500 hover:bg-red-50 border border-red-100 transition-colors"
-                  title="Delete Property"
-                >
-                  <Trash2 className="h-4 w-4"/>
-                </button>
-                <Link 
-                  href={`/admin/properties/${farm._id}/edit`} 
- className="inline-block border border-[#1B2A22]/20 hover:border-[#1B2A22] hover:text-[#1B2A22] px-6 py-3 text-sm font-medium text-[#1B2A22]/70 transition-colors"
+ onClick={() => handleDelete(farm._id)}
+ className="h-10 w-10 flex items-center justify-center border border-red-100 text-red-500 hover:bg-red-50 transition-colors"
+ title="Delete Property"
+ >
+ <Trash2 className="h-4 w-4"/>
+ </button>
+ <Link 
+ href={`/admin/properties/${farm._id}/edit`} 
+ className="h-10 px-8 inline-flex items-center justify-center border border-gray-200 text-gray-600 hover:bg-gray-50 text-[13px] font-bold transition-all"
  >
  Edit
  </Link>
+ </div>
  </div>
  
  </div>
@@ -224,7 +216,7 @@ export default function AdminPropertiesPage() {
  ))
  )}
  </section>
-
+ 
  </div>
  </main>
  );

@@ -11,7 +11,10 @@ import {
  Heart, 
  Bed, 
  Compass, 
- ArrowRight
+ ArrowRight,
+ Search,
+ ChevronDown,
+ SlidersHorizontal
 } from 'lucide-react';
 
 function StaysList() {
@@ -110,22 +113,40 @@ function StaysList() {
 
  return (
  <div className="bg-[#FAF9F6] min-h-screen">
- {/* Hero Header */}
- <div className="bg-[#1B2A22] pt-32 pb-20 px-6">
- <div className="max-w-[1280px] mx-auto text-center text-white">
- <span className="text-sm font-medium text-[#1B2A22] mb-4 block">
- Properties
- </span>
- <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-normal leading-tight">
- Our Farmhouses
+ <div className="max-w-[1280px] mx-auto px-6 md:px-16 pt-32 pb-20">
+ 
+ {/* Header & Search */}
+ <div className="mb-8">
+ <h1 className="font-serif text-3xl md:text-[32px] font-bold text-[#002E1E] mb-6">
+ Find Your Perfect Farmhouse
  </h1>
- <p className="mt-6 text-white/70 max-w-lg mx-auto font-medium text-sm">
- Discover our selection of private farmhouses, designed for ultimate privacy and great experiences.
- </p>
+ <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
+ <div className="flex-1 relative flex items-center w-full">
+ <Search className="w-5 h-5 text-gray-400 absolute left-4" />
+ <input 
+ type="text" 
+ placeholder="Search by location, city, or name..." 
+ className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-[#002E1E]/30 text-sm bg-white" 
+ />
  </div>
+ <div className="flex items-center gap-4 w-full md:w-auto">
+ <div className="relative">
+ <select className="appearance-none bg-white border border-gray-200 rounded-lg px-4 py-3 pr-10 text-sm font-medium focus:outline-none cursor-pointer min-w-[160px]">
+ <option>Most Popular</option>
+ <option>Price: Low to High</option>
+ <option>Price: High to Low</option>
+ </select>
+ <ChevronDown className="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+ </div>
+ <button className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm font-medium hover:bg-gray-50 transition-colors">
+ <SlidersHorizontal className="w-4 h-4" />
+ Filters
+ </button>
+ </div>
+ </div>
+ <p className="text-sm text-gray-500 font-medium">{farms.length} farmhouses found</p>
  </div>
 
- <div className="max-w-[1280px] mx-auto px-6 md:px-16 py-20">
  {/* Stays Grid */}
  {loading ? (
  <div className="flex flex-col items-center justify-center py-32 gap-4">
@@ -141,15 +162,19 @@ function StaysList() {
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
  {farms.map((farm) => {
  const isFav = favorites.includes(farm._id);
+ const amenities = farm.amenities?.length ? farm.amenities : ['WiFi', 'Swimming Pool', 'Garden', 'Kitchen', 'Parking'];
+ const displayAmenities = amenities.slice(0, 3);
+ const extraAmenities = amenities.length - 3;
+ 
  return (
  <Link
  key={farm._id}
  href={`/farms/${farm._id}`}
- className="group flex flex-col cursor-pointer bg-white rounded-xl border border-[#eeedf7] hover:shadow-md transition-shadow overflow-hidden"
+ className="group flex flex-col cursor-pointer bg-white rounded-2xl border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden p-2.5"
  >
  
  {/* Photo & Badge Overlay */}
- <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
+ <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-gray-100 mb-4">
  <img
  src={farm.images?.[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'}
  alt={farm.title}
@@ -162,46 +187,58 @@ function StaysList() {
  {/* Favorite Button */}
  <button 
  onClick={(e) => toggleFavorite(farm._id, e)}
- className="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-2 rounded-full text-[#1B2A22]/50 hover:text-red-500 transition-colors shadow-sm"
+ className="absolute top-3 right-3 bg-white p-2 rounded-full text-gray-400 hover:text-red-500 transition-colors shadow-sm"
  >
  <Heart className={`h-4 w-4 ${isFav ? 'fill-red-500 text-red-500' : ''}`} />
  </button>
  </div>
 
  {/* Estate details */}
- <div className="flex flex-col flex-grow p-5">
+ <div className="flex flex-col flex-grow px-2 pb-2">
  {/* Location */}
- <div className="flex items-center gap-1.5 text-xs text-[#1B2A22]/50 font-medium mb-3">
- <MapPin className="h-3.5 w-3.5"/>
- <span>{farm.location?.startsWith('http') ? 'Map Link Available' : farm.location}</span>
+ <div className="flex items-center gap-1.5 text-xs font-medium mb-2.5">
+ <MapPin className="h-3.5 w-3.5 text-[#00a877]"/>
+ <span className="text-gray-500">{farm.location?.startsWith('http') ? 'Map Link Available' : farm.location}</span>
  </div>
 
  {/* Title */}
- <h3 className="font-serif text-2xl text-[#1B2A22] font-normal mb-4 leading-snug group-hover:text-[#00a877] transition-colors">
+ <h3 className="font-serif text-[22px] text-[#002E1E] font-bold mb-4 leading-snug">
  {farm.title}
  </h3>
  
+ {/* Stats: beds, guests, acres */}
+ <div className="flex items-center gap-4 text-[13px] font-medium text-gray-500 mb-5">
+ <span className="flex items-center gap-1.5"><Bed className="w-4 h-4" /> {farm.bedrooms || 3} beds</span>
+ <span className="flex items-center gap-1.5"><Users className="w-4 h-4" /> {farm.guests || 6} guests</span>
+ <span className="flex items-center gap-1.5"><Compass className="w-4 h-4" /> {farm.acres || 8} Acres</span>
+ </div>
+
  {/* Amenities Tags */}
- <div className="flex flex-wrap gap-2 mb-5">
- {(farm.amenities?.length ? farm.amenities : ['WiFi', 'Swimming Pool', 'Garden', 'Kitchen', 'Parking']).slice(0, 5).map((amenity: string, index: number) => (
- <span key={index} className="bg-[#fbf8ff] border border-[#eeedf7] text-[#1B2A22]/70 text-xs font-medium px-2 py-0.5 rounded-md whitespace-nowrap">
+ <div className="flex flex-wrap gap-2 mb-4">
+ {displayAmenities.map((amenity: string, index: number) => (
+ <span key={index} className="bg-gray-50 border border-gray-100 text-gray-600 text-[11px] font-medium px-2 py-1 rounded-md whitespace-nowrap">
  {amenity}
  </span>
  ))}
+ {extraAmenities > 0 && (
+ <span className="bg-gray-50 border border-gray-100 text-gray-600 text-[11px] font-medium px-2 py-1 rounded-md whitespace-nowrap">
+ +{extraAmenities}
+ </span>
+ )}
  </div>
 
  {/* Divider */}
- <div className="border-t border-[#eeedf7] my-2"></div>
+ <div className="border-t border-gray-100 mt-auto mb-4"></div>
 
- {/* Footer: Price & Guests */}
- <div className="flex items-center justify-between mt-auto pt-3">
- <div className="text-[#1B2A22]">
- <span className="text-lg font-bold">₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}</span>
- <span className="text-sm font-medium text-[#1B2A22]/50 font-medium ml-1">/ night</span>
+ {/* Footer: Price & Details */}
+ <div className="flex items-center justify-between">
+ <div className="text-[#002E1E]">
+ <span className="text-[18px] font-bold">₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}</span>
+ <span className="text-[13px] font-medium text-gray-400 ml-0.5">/night</span>
  </div>
- <div className="bg-[#fbf8ff] text-[#1B2A22]/70 text-sm font-medium font-bold px-3 py-1.5 rounded-md border border-[#eeedf7]">
- {farm.guests || 6} guests
- </div>
+ <span className="text-[13px] font-bold text-[#002E1E] group-hover:underline">
+ Details
+ </span>
  </div>
  </div>
  </Link>
