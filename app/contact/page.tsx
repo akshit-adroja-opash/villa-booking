@@ -8,10 +8,10 @@ export default function ContactPage() {
     <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22]">
       {/* Hero Section */}
       <section className="pt-40 pb-20 px-6 max-w-[1280px] mx-auto text-center">
-        <h1 className="font-sans text-6xl md:text-8xl font-black text-[#1B2A22] tracking-tight mb-6">
+        <h1 className="font-sans text-5xl md:text-7xl font-black text-[#1B2A22] tracking-tight mb-4">
           Get in<span className="text-[#00a877]">Touch</span>
         </h1>
-        <p className="text-[#1B2A22]/80 font-medium text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+        <p className="text-[#1B2A22]/80 font-medium text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
           Have questions? We're here to help you find the perfect farmhouse for your next getaway
         </p>
       </section>
@@ -22,7 +22,7 @@ export default function ContactPage() {
           
           {/* Contact Form */}
           <div className="bg-white p-8 md:p-12 border border-[#1B2A22]/10 shadow-sm order-2 lg:order-1">
-            <h2 className="font-serif text-3xl mb-8">Send us a Message</h2>
+            <h2 className="font-serif text-2xl mb-8">Send us a Message</h2>
             <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); alert('Message sent successfully! We will get back to you soon.'); }}>
               
               <div className="space-y-2">
@@ -86,7 +86,7 @@ export default function ContactPage() {
           {/* Contact Details */}
           <div className="space-y-12 order-1 lg:order-2">
             <div>
-              <h2 className="font-serif text-3xl mb-4">Contact Information</h2>
+              <h2 className="font-serif text-2xl mb-4">Contact Information</h2>
               <p className="text-[#1B2A22]/70 font-medium text-sm leading-relaxed mb-10 max-w-md">
                 We're always here to help you find the perfect farmhouse experience. Reach out to us through any of the channels below.
               </p>

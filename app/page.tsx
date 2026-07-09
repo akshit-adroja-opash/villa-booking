@@ -26,18 +26,20 @@ export default function Home() {
  const [favorites, setFavorites] = useState<string[]>([]);
  const [currentSlide, setCurrentSlide] = useState(0);
 
- const heroImages = [
-"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80", // Luxury Estate
-"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80", // Mansion interior
-"https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=1920&q=80"// Estate landscape
+ const heroImages = farms.length > 0 
+ ? farms.filter(f => f.images && f.images.length > 0).map(f => f.images[0]).slice(0, 5)
+ : [
+ "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80",
+ "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80",
+ "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=1920&q=80"
  ];
 
  useEffect(() => {
  const timer = setInterval(() => {
- setCurrentSlide((prev) => (prev === heroImages.length - 1 ? 0 : prev + 1));
+ setCurrentSlide((prev) => (prev >= heroImages.length - 1 ? 0 : prev + 1));
  }, 6000);
  return () => clearInterval(timer);
- }, []);
+ }, [heroImages.length]);
 
  useEffect(() => {
  async function fetchFarms() {
