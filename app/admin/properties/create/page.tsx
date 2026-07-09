@@ -30,6 +30,7 @@ export default function AddPropertyWizardPage() {
  const [baths, setBaths] = useState('2');
  
  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+ const [extraMattressCount, setExtraMattressCount] = useState<number>(1);
  
  const [images, setImages] = useState<string[]>([]);
  const [uploading, setUploading] = useState(false);
@@ -110,7 +111,7 @@ export default function AddPropertyWizardPage() {
  guests: Number(guests),
  bedrooms: Number(bedrooms),
  baths: Number(baths),
- amenities: selectedAmenities,
+ amenities: selectedAmenities.map(a => a === 'Extra Mattress' ? `Extra Mattress: ${extraMattressCount}` : a),
  images: images.length > 0 ? images : ['https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80'],
  }),
  });
@@ -329,9 +330,9 @@ export default function AddPropertyWizardPage() {
  'Swimming Pool', 'Children\'s Swimming Pool', 'Garden', 
  'Children\'s Playground', 'Gazebo', 'Extra Mattress',
  'WiFi', 'Air Conditioning', 'CCTV', 'Parking',
- 'Indoor Fireplace', 'Home Theater', 'Outdoor Kitchen'
+ 'Indoor Fireplace', 'Home Theater', 'Outdoor Kitchen', 'Sound System'
  ].map((amenity) => (
- <div key={amenity} className="flex items-center gap-3 bg-[#fbf8ff] p-4 rounded-lg border border-[#eeedf7] transition-all hover:bg-[#e3e1ec]/30">
+ <div key={amenity} className="flex items-center gap-3 bg-[#fbf8ff] p-4 rounded-lg border border-[#eeedf7] transition-all hover:bg-[#e3e1ec]/30 relative">
  <div className="relative flex items-center">
  <input 
  type="checkbox"
@@ -345,6 +346,18 @@ export default function AddPropertyWizardPage() {
  <label htmlFor={`amenity-${amenity}`} className="text-sm font-semibold text-[#1a1b22] cursor-pointer select-none">
  {amenity}
  </label>
+ {amenity === 'Extra Mattress' && selectedAmenities.includes('Extra Mattress') && (
+   <div className="absolute right-4 flex items-center gap-2">
+     <label className="text-xs font-semibold text-[#404944]">Qty:</label>
+     <input 
+       type="number" 
+       min="1" 
+       value={extraMattressCount}
+       onChange={(e) => setExtraMattressCount(Number(e.target.value) || 1)}
+       className="w-16 rounded border-[#bfc9c3]/60 bg-white px-2 py-1 text-sm outline-none focus:border-[#003527]"
+     />
+   </div>
+ )}
  </div>
  ))}
  </div>
@@ -368,13 +381,22 @@ export default function AddPropertyWizardPage() {
  {images.map((url, idx) => (
  <div key={idx} className="relative aspect-[4/3] rounded-xl overflow-hidden border border-[#eeedf7] group">
  <img src={url} alt={`Property photo ${idx + 1}`} className="w-full h-full object-cover"/>
- <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+ <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+ {idx !== 0 && (
+ <button 
+ type="button"
+ onClick={() => setImages(prev => [prev[idx], ...prev.filter((_, i) => i !== idx)])}
+ className="bg-[#003527] text-white rounded-lg px-3 py-1.5 text-xs font-bold hover:bg-[#0b513d] transition-colors shadow-sm"
+ >
+ Set as Cover
+ </button>
+ )}
  <button 
  type="button"
  onClick={() => setImages(prev => prev.filter((_, i) => i !== idx))}
- className="bg-red-600 text-white rounded-lg px-2.5 py-1 text-xs font-bold hover:bg-red-700 transition-colors"
+ className="bg-red-600 text-white rounded-lg px-3 py-1.5 text-xs font-bold hover:bg-red-700 transition-colors shadow-sm"
  >
- Remove
+ Remove Photo
  </button>
  </div>
  {idx === 0 && (
