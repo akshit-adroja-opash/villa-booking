@@ -199,11 +199,6 @@ export default function Home() {
  }}
  />
 
- {/* Featured Badge */}
- <div className="absolute top-4 left-4 bg-[#00a877] text-white px-3 py-1 rounded-full text-sm font-medium">
- Featured
- </div>
-
  {/* Favorite Button */}
  <button 
  onClick={(e) => toggleFavorite(farm._id, e)}

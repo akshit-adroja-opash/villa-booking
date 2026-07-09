@@ -2,7 +2,8 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Bath, BedDouble, Home, MapPin, Plus, Search, Users, ShieldCheck } from 'lucide-react';
+import { Bath, BedDouble, Home, MapPin, Plus, Search, Users, ShieldCheck, Trash2 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 type Farm = {
  _id: string;
@@ -44,6 +45,22 @@ export default function AdminPropertiesPage() {
 
  loadFarms();
  }, []);
+
+  const handleDelete = async (id: string) => {
+    if (!window.confirm('Are you sure you want to delete this property? This cannot be undone.')) return;
+    try {
+      const response = await fetch(`/api/farms/${id}`, { method: 'DELETE' });
+      if (response.ok) {
+        toast.success('Property deleted successfully');
+        setFarms((prev) => prev.filter((farm) => farm._id !== id));
+      } else {
+        toast.error('Failed to delete property');
+      }
+    } catch (error) {
+      console.error('Delete error:', error);
+      toast.error('An error occurred while deleting');
+    }
+  };
 
  const filteredFarms = useMemo(() => {
  const normalizedQuery = query.trim().toLowerCase();
@@ -187,17 +204,18 @@ export default function AdminPropertiesPage() {
 
  {/* Action Button */}
  <div className="mt-6 sm:mt-0 sm:ml-4 sm:pr-4 flex gap-3">
- <Link 
- href={`/admin/properties/${farm._id}/edit`} 
+ <button 
+                  onClick={() => handleDelete(farm._id)}
+                  className="inline-flex items-center justify-center p-3 text-red-500 hover:bg-red-50 border border-red-100 transition-colors"
+                  title="Delete Property"
+                >
+                  <Trash2 className="h-4 w-4"/>
+                </button>
+                <Link 
+                  href={`/admin/properties/${farm._id}/edit`} 
  className="inline-block border border-[#1B2A22]/20 hover:border-[#1B2A22] hover:text-[#1B2A22] px-6 py-3 text-sm font-medium text-[#1B2A22]/70 transition-colors"
  >
  Edit
- </Link>
- <Link 
- href={`/farms/${farm._id}`} 
- className="inline-block border border-[#1B2A22] hover:bg-[#1B2A22] hover:text-white px-6 py-3 text-sm font-medium text-[#1B2A22] transition-colors"
- >
- View Details
  </Link>
  </div>
  

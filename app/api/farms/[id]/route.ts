@@ -38,3 +38,20 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     return NextResponse.json({ error: 'Invalid ID or processing error' }, { status: 500 });
   }
 }
+
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  await connectDB();
+  try {
+    const { id } = await params;
+    const deletedFarm = await Farm.findByIdAndDelete(id);
+    
+    if (!deletedFarm) {
+      return NextResponse.json({ error: 'Farmhouse not found' }, { status: 404 });
+    }
+    
+    return NextResponse.json({ message: 'Farmhouse deleted successfully' }, { status: 200 });
+  } catch (error) {
+    console.error('Error deleting farm:', error);
+    return NextResponse.json({ error: 'Invalid ID or processing error' }, { status: 500 });
+  }
+}

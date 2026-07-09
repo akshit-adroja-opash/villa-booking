@@ -198,7 +198,7 @@ export default function SettingsPage() {
  <img src={image} alt={name} className="h-full w-full object-cover"/>
  </div>
  ) : (
- <div className="h-24 w-24 bg-[#1B2A22] text-[#1B2A22] flex items-center justify-center font-serif text-4xl">
+ <div className="h-24 w-24 bg-[#1B2A22] text-white flex items-center justify-center font-serif text-4xl">
  {name ? name.charAt(0).toUpperCase() : 'U'}
  </div>
  )}

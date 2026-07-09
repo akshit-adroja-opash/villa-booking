@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { CreditCard, Download, IndianRupee, ReceiptText, WalletCards } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 type Booking = {
  _id: string;
@@ -50,6 +51,40 @@ export default function AdminFinancialsPage() {
  const platformFees = Math.round(grossRevenue * 0.08);
  const netPayout = grossRevenue - platformFees;
 
+ const handleExport = () => {
+    try {
+      const headers = ['Date', 'Farmhouse', 'Guest', 'Amount', 'Status', 'Booking ID'];
+      const csvRows = [];
+      csvRows.push(headers.join(','));
+
+      bookings.forEach((b) => {
+        const date = new Date(b.startDate).toLocaleDateString('en-IN');
+        const farm = b.farmId?.title ? `"${b.farmId.title}"` : 'N/A';
+        const guest = b.userId?.name ? `"${b.userId.name}"` : 'N/A';
+        const amount = b.totalPrice;
+        const status = b.paymentStatus || 'Pending';
+        const bookingId = b._id;
+        csvRows.push([date, farm, guest, amount, status, bookingId].join(','));
+      });
+
+      const csvContent = csvRows.join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `financial_report_${new Date().getTime()}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      toast.success('Report exported successfully');
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to export report');
+    }
+  };
+
  const recentTransactions = useMemo(() => {
  return [...bookings]
  .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
@@ -78,7 +113,7 @@ export default function AdminFinancialsPage() {
  Revenue, pending payments & transaction activity
  </p>
  </div>
- <button className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-3 text-sm font-medium transition-colors self-start sm:self-auto">
+ <button onClick={handleExport} className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-3 text-sm font-medium transition-colors self-start sm:self-auto">
  <Download className="h-4 w-4"/>
  <span>Export Report</span>
  </button>
