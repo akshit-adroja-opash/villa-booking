@@ -93,6 +93,15 @@ export default function Navbar() {
  The Collection
  <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname === '/farms' || pathname === '/properties' ? 'scale-x-100' : ''}`}></span>
  </Link>
+ <Link 
+ className={`relative text-sm font-medium transition-all group ${
+ pathname === '/contact' ? textColor : `${textColor} opacity-70 hover:opacity-100`
+ }`} 
+ href="/contact"
+ >
+ Contact Us
+ <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname === '/contact' ? 'scale-x-100' : ''}`}></span>
+ </Link>
  </nav>
 
  {/* Actions - Right Aligned */}
@@ -141,7 +150,7 @@ export default function Navbar() {
  <Link 
  href="/login"
  className={`text-sm font-medium px-6 py-2.5 rounded-full transition-all duration-300 ${
- (isHome && !scrolled) ? 'bg-white text-[#1B2A22] hover:bg-white/90 shadow-md' : 'bg-[#1B2A22] text-white hover:bg-[#00a877] hover:shadow-lg hover:-translate-y-0.5'
+ (isHome && !scrolled) ? 'bg-white text-[#1B2A22] hover:bg-white/90 shadow-md' : 'bg-[#00a877] text-white hover:bg-[#008f65] hover:shadow-lg hover:-translate-y-0.5'
  }`}
  >
  Sign In
@@ -163,6 +172,7 @@ export default function Navbar() {
  <div className="absolute top-20 left-0 w-full bg-[#FAF9F6] border-b border-[#1B2A22]/10 md:hidden flex flex-col py-6 px-8 gap-6 z-40 shadow-2xl text-center">
  <Link className="text-sm font-semibold text-[#1B2A22]"href="/"onClick={() => setMobileMenuOpen(false)}>Home</Link>
  <Link className="text-sm font-semibold text-[#1B2A22]"href="/farms"onClick={() => setMobileMenuOpen(false)}>The Collection</Link>
+ <Link className="text-sm font-semibold text-[#1B2A22]"href="/contact"onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
  {!isAdmin && <Link className="text-sm font-semibold text-[#1B2A22]"href={session ?"/dashboard/bookings":"/login"} onClick={() => setMobileMenuOpen(false)}>Reservations</Link>}
  {isAdmin && <Link className="text-sm font-bold text-[#1B2A22]"href="/admin/dashboard"onClick={() => setMobileMenuOpen(false)}>Admin Panel</Link>}
  </div>

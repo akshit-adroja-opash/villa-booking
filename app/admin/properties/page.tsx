@@ -81,7 +81,7 @@ export default function AdminPropertiesPage() {
  Properties
  </h1>
  <p className="text-sm font-medium text-[#1B2A22]/60 mt-2">
- Manage Properties & Rates
+ Manage Farmhouses & Rates
  </p>
  </div>
  <Link
@@ -113,7 +113,7 @@ export default function AdminPropertiesPage() {
  <input
  value={query}
  onChange={(event) => setQuery(event.target.value)}
- placeholder="Search properties..."
+ placeholder="Search farmhouses..."
  className="w-full bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
  />
  </div>
@@ -122,7 +122,7 @@ export default function AdminPropertiesPage() {
  <section className="flex flex-col gap-6">
  {filteredFarms.length === 0 ? (
  <div className="bg-white border border-[#1B2A22]/10 p-10 text-center">
- <p className="text-[#1B2A22]/50 font-serif text-lg">No properties found.</p>
+ <p className="text-[#1B2A22]/50 font-serif text-lg">No farmhouses found.</p>
  </div>
  ) : (
  filteredFarms.map((farm) => (

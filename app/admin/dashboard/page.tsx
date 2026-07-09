@@ -247,7 +247,7 @@ export default function AdminDashboard() {
  <p className="flex items-center gap-2 mt-2">
  <TrendingUp className="h-3.5 w-3.5 text-[#00a877]"/>
  <span className="text-sm font-medium text-[#00a877] font-bold">
- Properties Overview
+ Farmhouses Overview
  </span>
  </p>
  </div>

@@ -126,20 +126,20 @@ export default function Home() {
  {/* Hero Content */}
  <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center mt-20">
  <span className="text-sm font-medium tracking-[0.3em] font-bold text-[#1B2A22] mb-6 animate-fade-in">
- Exclusive Properties
+ Exclusive Farmhouses
  </span>
  <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-normal text-white leading-tight mb-8 drop-shadow-lg">
- Luxury Stays
+ Explore Best Farmhouse
  </h1>
  <p className="text-white/80 text-sm md:text-base font-medium max-w-lg mb-10 leading-relaxed">
- Discover our collection of private properties, where luxury meets absolute tranquility.
+ Discover our collection of private farmhouses, where luxury meets absolute tranquility.
  </p>
  <Link 
  href="/farms"
  className="group relative px-8 py-4 bg-white text-[#1B2A22] text-sm font-medium overflow-hidden transition-all hover:bg-[#1B2A22] hover:text-white"
  >
  <span className="relative z-10 flex items-center gap-2">
- View Properties <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1"/>
+ View Farmhouses <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1"/>
  </span>
  </Link>
  </div>
@@ -163,19 +163,19 @@ export default function Home() {
  <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
  <div>
  <span className="text-sm font-medium text-[#1B2A22] mb-3 block">
- Properties
+ Farmhouses
  </span>
- <h2 className="font-serif text-4xl text-[#1B2A22]">Our Properties</h2>
+ <h2 className="font-serif text-4xl text-[#1B2A22]">Our Farmhouses</h2>
  </div>
  <Link href="/farms"className="text-sm font-medium text-[#1B2A22] flex items-center gap-2 hover:text-[#1B2A22] transition-colors border-b border-[#1B2A22] hover:border-[#1B2A22] pb-1">
- View All Properties <ArrowRight className="h-3 w-3"/>
+ View All Farmhouses <ArrowRight className="h-3 w-3"/>
  </Link>
  </div>
 
  {loading ? (
  <div className="flex flex-col items-center justify-center py-32 gap-4">
  <div className="h-10 w-10 animate-spin border-t-2 border-[#1B2A22] rounded-full"></div>
- <p className="text-sm font-medium text-[#1B2A22]/60 font-bold">Loading Properties...</p>
+ <p className="text-sm font-medium text-[#1B2A22]/60 font-bold">Loading Farmhouses...</p>
  </div>
  ) : (
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -229,7 +229,7 @@ export default function Home() {
  {/* Amenities Tags */}
  <div className="flex flex-wrap gap-2 mb-5">
  {(farm.amenities?.length ? farm.amenities : ['WiFi', 'Swimming Pool', 'Garden', 'Kitchen', 'Parking']).slice(0, 5).map((amenity: string, index: number) => (
- <span key={index} className="bg-[#fbf8ff] border border-[#eeedf7] text-[#1B2A22]/70 text-sm font-medium font-bold px-2 py-1 rounded-md whitespace-nowrap">
+ <span key={index} className="bg-[#fbf8ff] border border-[#eeedf7] text-[#1B2A22]/70 text-xs font-medium px-2 py-0.5 rounded-md whitespace-nowrap">
  {amenity}
  </span>
  ))}
@@ -278,10 +278,10 @@ export default function Home() {
  href="/farms"
  className="bg-[#1B2A22] text-white hover:bg-[#00a877] px-10 py-4 text-sm font-medium transition-colors"
  >
- View Properties
+ View Farmhouses
  </Link>
  <Link 
- href="/support"
+ href="/contact"
  className="bg-transparent border border-[#1B2A22]/30 hover:border-[#1B2A22] text-[#1B2A22] px-10 py-4 text-sm font-medium transition-colors"
  >
  Contact Support

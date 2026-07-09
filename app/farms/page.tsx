@@ -117,10 +117,10 @@ function StaysList() {
  Properties
  </span>
  <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-normal leading-tight">
- Our Properties
+ Our Farmhouses
  </h1>
  <p className="mt-6 text-white/70 max-w-lg mx-auto font-medium text-sm">
- Discover our selection of private properties, designed for ultimate privacy and great experiences.
+ Discover our selection of private farmhouses, designed for ultimate privacy and great experiences.
  </p>
  </div>
  </div>
@@ -130,12 +130,12 @@ function StaysList() {
  {loading ? (
  <div className="flex flex-col items-center justify-center py-32 gap-4">
  <div className="h-10 w-10 animate-spin border-t-2 border-[#1B2A22] rounded-full"></div>
- <p className="text-sm font-medium text-[#1B2A22]/60 font-bold">Loading Properties...</p>
+ <p className="text-sm font-medium text-[#1B2A22]/60 font-bold">Loading Farmhouses...</p>
  </div>
  ) : farms.length === 0 ? (
  <div className="text-center py-32 border-y border-[#1B2A22]/10 max-w-2xl mx-auto">
- <h3 className="font-serif text-2xl text-[#1B2A22] mb-4">No properties available</h3>
- <p className="text-[#1B2A22]/60 font-medium">Our properties list is currently being updated. Please check back later.</p>
+ <h3 className="font-serif text-2xl text-[#1B2A22] mb-4">No farmhouses available</h3>
+ <p className="text-[#1B2A22]/60 font-medium">Our Farmhouses list is currently being updated. Please check back later.</p>
  </div>
  ) : (
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -189,7 +189,7 @@ function StaysList() {
  {/* Amenities Tags */}
  <div className="flex flex-wrap gap-2 mb-5">
  {(farm.amenities?.length ? farm.amenities : ['WiFi', 'Swimming Pool', 'Garden', 'Kitchen', 'Parking']).slice(0, 5).map((amenity: string, index: number) => (
- <span key={index} className="bg-[#fbf8ff] border border-[#eeedf7] text-[#1B2A22]/70 text-sm font-medium font-bold px-2 py-1 rounded-md whitespace-nowrap">
+ <span key={index} className="bg-[#fbf8ff] border border-[#eeedf7] text-[#1B2A22]/70 text-xs font-medium px-2 py-0.5 rounded-md whitespace-nowrap">
  {amenity}
  </span>
  ))}
@@ -224,7 +224,7 @@ export default function FarmsListingPage() {
  <Suspense fallback={
  <div className="flex flex-col items-center justify-center min-h-screen bg-[#FAF9F6] gap-4">
  <div className="h-10 w-10 animate-spin border-t-2 border-[#1B2A22] rounded-full"></div>
- <p className="text-sm font-medium text-[#1B2A22]/60 font-bold">Loading Properties...</p>
+ <p className="text-sm font-medium text-[#1B2A22]/60 font-bold">Loading Farmhouses...</p>
  </div>
  }>
  <StaysList />

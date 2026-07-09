@@ -169,10 +169,10 @@ export default function AdminAnalyticsPage() {
  </div>
  </section>
 
- {/* Top Properties Leaderboard */}
+ {/* Top Farmhouses Leaderboard */}
  <section className="bg-white border border-[#bfc9c3]/20 rounded-2xl p-6 flex flex-col justify-between">
  <div>
- <h3 className="font-serif text-lg font-bold text-[#1a1b22]">Top Properties</h3>
+ <h3 className="font-serif text-lg font-bold text-[#1a1b22]">Top Farmhouses</h3>
  <p className="mb-6 text-xs text-[#707974] font-semibold mt-1">Ranked by booked revenue.</p>
 
  <div className="space-y-4">

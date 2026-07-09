@@ -52,7 +52,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
  const menuItems: MenuItem[] = [
  { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
  { href: '/admin/users', icon: Users, label: 'Guests' },
- { href: '/admin/properties', icon: Home, label: 'Properties' },
+ { href: '/admin/properties', icon: Home, label: 'Farmhouses' },
  { href: '/admin/reservations', icon: CalendarDays, label: 'Bookings' },
  { href: '/admin/financials', icon: CreditCard, label: 'Revenue' },
  { href: '/settings', icon: Settings, label: 'Settings' },

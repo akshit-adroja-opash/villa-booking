@@ -6,14 +6,12 @@ import { signIn } from 'next-auth/react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
 const Logo = () => (
- <div className="flex flex-col items-center gap-2 mb-6 text-[#1B2A22]">
- <svg viewBox="0 0 100 100"fill="none"xmlns="http://www.w3.org/2000/svg"className="h-10 w-10 text-[#1B2A22]">
- <path d="M50 15L85 45L75 85H25L15 45L50 15Z"stroke="currentColor"strokeWidth="4"strokeLinejoin="round"/>
- <path d="M50 35V85"stroke="currentColor"strokeWidth="4"/>
- <path d="M30 60H70"stroke="currentColor"strokeWidth="4"/>
- </svg>
- <span className="font-serif text-3xl font-normal tracking-wide mt-2">Enjoy Farm</span>
- </div>
+  <div className="flex flex-col items-center gap-2 mb-6 text-[#1B2A22]">
+    <div className="w-16 h-16 flex items-center justify-center shrink-0">
+      <img src="/logo.png" alt="Enjoy Farm Logo" className="w-full h-full object-contain" />
+    </div>
+    <span className="font-serif text-3xl font-normal tracking-wide mt-2">Enjoy Farm</span>
+  </div>
 );
 
 interface AuthFormProps {
@@ -180,7 +178,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <button 
  type="submit"
  disabled={loading}
- className="w-full h-14 bg-[#1B2A22] hover:bg-[#00a877] text-white text-sm font-medium transition-all active:scale-[0.99] disabled:opacity-50 mt-4"
+ className="w-full h-14 bg-[#00a877] hover:bg-[#008f65] text-white text-sm font-medium transition-all active:scale-[0.99] disabled:opacity-50 mt-4"
  >
  {loading ? 'Authenticating...' : 'Sign In'}
  </button>
@@ -247,7 +245,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <button 
  type="submit"
  disabled={loading}
- className="w-full h-14 bg-[#1B2A22] hover:bg-[#00a877] text-white text-sm font-medium transition-all active:scale-[0.99] disabled:opacity-50 mt-4"
+ className="w-full h-14 bg-[#00a877] hover:bg-[#008f65] text-white text-sm font-medium transition-all active:scale-[0.99] disabled:opacity-50 mt-4"
  >
  {loading ? 'Creating Account...' : 'Sign Up'}
  </button>
