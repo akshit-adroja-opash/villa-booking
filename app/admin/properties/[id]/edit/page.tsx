@@ -1,9 +1,9 @@
 'use client';
 import toast from 'react-hot-toast';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { 
   ArrowLeft, 
   MapPin, 
@@ -14,9 +14,12 @@ import {
   Sparkles
 } from 'lucide-react';
 
-export default function AddPropertyWizardPage() {
+export default function EditPropertyWizardPage() {
   const router = useRouter();
+  const { id } = useParams() || {};
+  
   const [currentStep, setCurrentStep] = useState(1);
+  const [dataLoading, setDataLoading] = useState(true);
   
   // Form States
   const [title, setTitle] = useState('');
@@ -41,6 +44,39 @@ export default function AddPropertyWizardPage() {
     { number: 3, label: 'Amenities', active: currentStep === 3 },
     { number: 4, label: 'Photos', active: currentStep === 4 },
   ];
+
+  useEffect(() => {
+    if (!id) return;
+    
+    async function loadProperty() {
+      try {
+        const res = await fetch(`/api/farms/${id}`);
+        if (res.ok) {
+          const data = await res.json();
+          setTitle(data.title || '');
+          setDescription(data.description || '');
+          setLocation(data.location || '');
+          setPropertyType(data.category || 'farmhouse');
+          setPricePerNight(data.pricePerNight?.toString() || '');
+          setGuests(data.guests?.toString() || '');
+          setBedrooms(data.bedrooms?.toString() || '');
+          setBaths(data.baths?.toString() || '');
+          setSelectedAmenities(data.amenities || []);
+          setImages(data.images || []);
+        } else {
+          toast.error('Property not found');
+          router.push('/admin/properties');
+        }
+      } catch (err) {
+        console.error('Error fetching property:', err);
+        toast.error('Failed to load property details');
+      } finally {
+        setDataLoading(false);
+      }
+    }
+    
+    loadProperty();
+  }, [id, router]);
 
   const handleAmenityChange = (amenity: string) => {
     setSelectedAmenities(prev =>
@@ -91,15 +127,15 @@ export default function AddPropertyWizardPage() {
     if (currentStep > 1) {
       setCurrentStep(prev => prev - 1);
     } else {
-      router.push('/admin/dashboard');
+      router.push('/admin/properties');
     }
   };
 
   const handleSubmit = async () => {
     setSaving(true);
     try {
-      const res = await fetch('/api/farms', {
-        method: 'POST',
+      const res = await fetch(`/api/farms/${id}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title,
@@ -116,19 +152,27 @@ export default function AddPropertyWizardPage() {
       });
 
       if (res.ok) {
-        toast.success('Property created successfully!');
-        router.push('/admin/dashboard');
+        toast.success('Property updated successfully!');
+        router.push('/admin/properties');
       } else {
         const data = await res.json();
-        toast.error(data.error || 'Failed to create property.');
+        toast.error(data.error || 'Failed to update property.');
       }
     } catch (err) {
       console.error(err);
-      toast.error('Error creating property.');
+      toast.error('Error updating property.');
     } finally {
       setSaving(false);
     }
   };
+
+  if (dataLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
+        <Loader2 className="h-10 w-10 animate-spin text-[#003527]" />
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 md:p-16 pb-24 selection:bg-[#064e3b]/10 selection:text-[#0b513d]">
@@ -137,11 +181,11 @@ export default function AddPropertyWizardPage() {
           <div className="mb-4 flex items-center gap-2 text-[#404944] cursor-pointer" onClick={handleBack}>
             <ArrowLeft className="h-4 w-4" />
             <span className="text-xs font-bold uppercase tracking-wider">
-              {currentStep > 1 ? 'Previous Step' : 'Back to Dashboard'}
+              {currentStep > 1 ? 'Previous Step' : 'Back to Properties'}
             </span>
           </div>
-          <h2 className="font-serif text-3xl font-normal text-[#003527] mb-2">Add New Property</h2>
-          <p className="text-sm text-[#404944]">Provide the details to list a new estate on the platform.</p>
+          <h2 className="font-serif text-3xl font-normal text-[#003527] mb-2">Edit Property</h2>
+          <p className="text-sm text-[#404944]">Update the details for this estate.</p>
         </header>
 
         <div className="mx-auto max-w-3xl rounded-xl border border-[#eeedf7] bg-white p-6 md:p-10">
@@ -449,11 +493,11 @@ export default function AddPropertyWizardPage() {
                   {saving ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      <span>Creating Listing...</span>
+                      <span>Saving Changes...</span>
                     </>
                   ) : (
                     <>
-                      <span>Publish Property</span>
+                      <span>Update Property</span>
                       <Sparkles className="h-4 w-4" />
                     </>
                   )}

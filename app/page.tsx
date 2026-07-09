@@ -129,7 +129,7 @@ export default function Home() {
 
         {/* Hero Content */}
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center mt-20">
-          <span className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] mb-6 animate-fade-in">
+          <span className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#1B2A22] mb-6 animate-fade-in">
             Exclusive Properties
           </span>
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-normal text-white leading-tight mb-8 drop-shadow-lg">
@@ -140,7 +140,7 @@ export default function Home() {
           </p>
           <Link 
             href="/farms" 
-            className="group relative px-8 py-4 bg-white text-[#1B2A22] text-[11px] uppercase tracking-widest font-bold overflow-hidden transition-all hover:bg-[#D4AF37] hover:text-white"
+            className="group relative px-8 py-4 bg-white text-[#1B2A22] text-[11px] uppercase tracking-widest font-bold overflow-hidden transition-all hover:bg-[#1B2A22] hover:text-white"
           >
             <span className="relative z-10 flex items-center gap-2">
               View Properties <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -154,7 +154,7 @@ export default function Home() {
             <button
               key={idx}
               onClick={() => setCurrentSlide(idx)}
-              className={`h-[1px] transition-all duration-500 ${currentSlide === idx ? 'w-12 bg-[#D4AF37]' : 'w-6 bg-white/40 hover:bg-white/70'}`}
+              className={`h-[1px] transition-all duration-500 ${currentSlide === idx ? 'w-12 bg-[#1B2A22]' : 'w-6 bg-white/40 hover:bg-white/70'}`}
               aria-label={`Go to slide ${idx + 1}`}
             />
           ))}
@@ -166,19 +166,19 @@ export default function Home() {
         <div className="max-w-[1280px] mx-auto px-6 md:px-16">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div>
-              <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-3 block">
+              <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22] mb-3 block">
                 Properties
               </span>
               <h2 className="font-serif text-4xl text-[#1B2A22]">Our Properties</h2>
             </div>
-            <Link href="/farms" className="text-[11px] uppercase tracking-widest font-bold text-[#1B2A22] flex items-center gap-2 hover:text-[#D4AF37] transition-colors border-b border-[#1B2A22] hover:border-[#D4AF37] pb-1">
+            <Link href="/farms" className="text-[11px] uppercase tracking-widest font-bold text-[#1B2A22] flex items-center gap-2 hover:text-[#1B2A22] transition-colors border-b border-[#1B2A22] hover:border-[#1B2A22] pb-1">
               View All Properties <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
 
           {loading ? (
             <div className="flex flex-col items-center justify-center py-32 gap-4">
-              <div className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full"></div>
+              <div className="h-10 w-10 animate-spin border-t-2 border-[#1B2A22] rounded-full"></div>
               <p className="text-[11px] uppercase tracking-widest text-[#1B2A22]/60 font-bold">Loading Properties...</p>
             </div>
           ) : (

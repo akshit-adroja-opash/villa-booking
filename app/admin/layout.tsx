@@ -33,7 +33,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (status === 'loading') {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#D4AF37] border-t-transparent"></div>
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#1B2A22] border-t-transparent"></div>
       </div>
     );
   }
@@ -71,7 +71,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           
           {/* Sidebar Title */}
           <div className="px-3 py-6 mb-2">
-            <h2 className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37]">Admin Portal</h2>
+            <h2 className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]">Admin Portal</h2>
           </div>
 
           {/* Menu Items */}
@@ -85,17 +85,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                       href={item.href}
                       className={`flex items-center justify-between rounded-none px-4 py-3 transition-all duration-200 border-l-2 ${
                         isActive
-                          ? 'bg-[#FAF9F6] text-[#1B2A22] font-bold border-[#D4AF37]'
+                          ? 'bg-[#FAF9F6] text-[#1B2A22] font-bold border-[#1B2A22]'
                           : 'text-[#1B2A22]/60 hover:bg-[#FAF9F6] border-transparent font-semibold'
                       }`}
                     >
                       <div className="flex items-center gap-4">
-                        <item.icon className={`h-4 w-4 ${isActive ? 'text-[#D4AF37]' : 'text-[#1B2A22]/40'}`} />
+                        <item.icon className={`h-4 w-4 ${isActive ? 'text-[#1B2A22]' : 'text-[#1B2A22]/40'}`} />
                         <span className="text-[11px] uppercase tracking-widest">{item.label}</span>
                       </div>
                       
                       {item.badge && (
-                        <span className="text-[10px] font-bold bg-[#D4AF37]/10 text-[#D4AF37] rounded-full px-2 py-0.5 border border-[#D4AF37]/20">
+                        <span className="text-[10px] font-bold bg-[#1B2A22]/10 text-[#1B2A22] rounded-full px-2 py-0.5 border border-[#1B2A22]/20">
                           {item.badge}
                         </span>
                       )}

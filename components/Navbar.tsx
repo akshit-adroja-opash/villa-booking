@@ -66,12 +66,8 @@ export default function Navbar() {
         {/* Brand Logo - Left Aligned */}
         <div className="flex-1 flex justify-start">
           <Link className={`flex items-center gap-2 tracking-tight ${textColor} hover:opacity-80 transition-opacity`} href="/">
-            <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-sm ${isHome && !scrolled ? 'bg-white' : 'bg-[#0a3124]'}`}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 3L3 10.5H5V21H19V10.5H21L12 3Z" fill={isHome && !scrolled ? '#0a3124' : 'white'}/>
-                <rect x="10.5" y="14" width="3" height="7" fill={isHome && !scrolled ? 'white' : '#0a3124'}/>
-                <circle cx="12" cy="9.5" r="1.5" fill="#00a877"/>
-              </svg>
+            <div className={`w-10 h-10 flex items-center justify-center shrink-0`}>
+              <img src="/logo.png" alt="Enjoy Farm Logo" className="w-full h-full object-contain" />
             </div>
             <span className="font-serif text-[20px] md:text-[22px] font-bold tracking-tight">Enjoy Farm</span>
           </Link>
@@ -168,7 +164,7 @@ export default function Navbar() {
           <Link className="text-sm uppercase tracking-widest font-semibold text-[#1B2A22]" href="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
           <Link className="text-sm uppercase tracking-widest font-semibold text-[#1B2A22]" href="/farms" onClick={() => setMobileMenuOpen(false)}>The Collection</Link>
           {!isAdmin && <Link className="text-sm uppercase tracking-widest font-semibold text-[#1B2A22]" href={session ? "/dashboard/bookings" : "/login"} onClick={() => setMobileMenuOpen(false)}>Reservations</Link>}
-          {isAdmin && <Link className="text-sm uppercase tracking-widest font-bold text-[#D4AF37]" href="/admin/dashboard" onClick={() => setMobileMenuOpen(false)}>Admin Panel</Link>}
+          {isAdmin && <Link className="text-sm uppercase tracking-widest font-bold text-[#1B2A22]" href="/admin/dashboard" onClick={() => setMobileMenuOpen(false)}>Admin Panel</Link>}
         </div>
       )}
     </header>

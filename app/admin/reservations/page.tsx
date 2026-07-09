@@ -150,7 +150,7 @@ export default function AdminReservationsPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center bg-[#FAF9F6]">
-        <div className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full"></div>
+        <div className="h-10 w-10 animate-spin border-t-2 border-[#1B2A22] rounded-full"></div>
       </div>
     );
   }
@@ -180,7 +180,7 @@ export default function AdminReservationsPage() {
           {[
             { label: 'Total Bookings', value: bookings.length.toString(), color: '#1B2A22' },
             { label: 'Confirmed', value: confirmedBookings.toString(), color: '#1B2A22' },
-            { label: 'Booked Revenue', value: `₹${totalRevenue.toLocaleString('en-IN')}`, color: '#D4AF37' },
+            { label: 'Booked Revenue', value: `₹${totalRevenue.toLocaleString('en-IN')}`, color: '#1B2A22' },
           ].map((stat) => (
             <div key={stat.label} className="bg-white border border-[#1B2A22]/10 p-6">
               <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mb-2">{stat.label}</p>
@@ -192,7 +192,7 @@ export default function AdminReservationsPage() {
         {/* Search Row */}
         <div className="bg-white border border-[#1B2A22]/10">
           <div className="flex flex-col gap-4 border-b border-[#1B2A22]/10 p-6 md:flex-row md:items-center md:justify-between">
-            <div className="flex w-full max-w-md items-center gap-3 bg-[#FAF9F6] border border-[#1B2A22]/10 px-4 py-3 focus-within:border-[#D4AF37] transition-all">
+            <div className="flex w-full max-w-md items-center gap-3 bg-[#FAF9F6] border border-[#1B2A22]/10 px-4 py-3 focus-within:border-[#1B2A22] transition-all">
               <Search className="h-4 w-4 text-[#1B2A22]/40" />
               <input
                 value={query}
@@ -228,7 +228,7 @@ export default function AdminReservationsPage() {
                     <tr key={booking._id} className="hover:bg-[#FAF9F6]/50 transition-colors group">
                       <td className="px-6 py-5">
                         <div className="flex items-center gap-4">
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/20 text-[11px] font-bold">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#1B2A22]/10 text-[#1B2A22] border border-[#1B2A22]/20 text-[11px] font-bold">
                             {getInitials(booking.userId?.name)}
                           </div>
                           <div>
@@ -243,7 +243,7 @@ export default function AdminReservationsPage() {
                       </td>
                       <td className="px-6 py-5">
                         <div className="flex items-start gap-3">
-                          <CalendarDays className="mt-0.5 h-4 w-4 text-[#D4AF37]" />
+                          <CalendarDays className="mt-0.5 h-4 w-4 text-[#1B2A22]" />
                           <div>
                             <p className="text-[13px] font-bold text-[#1B2A22]">{formatDateRange(booking.startDate, booking.endDate)}</p>
                             <p className="text-[10px] uppercase tracking-widest text-[#1B2A22]/50 mt-0.5">{getNights(booking.startDate, booking.endDate)}</p>
@@ -255,13 +255,13 @@ export default function AdminReservationsPage() {
                         <span className={`inline-block px-3 py-1 text-[9px] font-bold uppercase tracking-widest border ${
                           booking.paymentStatus === 'Paid'
                             ? 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20'
-                            : 'bg-transparent text-[#D4AF37] border-[#D4AF37]'
+                            : 'bg-transparent text-[#1B2A22] border-[#1B2A22]'
                         }`}>
                           {booking.paymentStatus === 'Paid' ? 'Confirmed' : 'Pending'}
                         </span>
                       </td>
                       <td className="px-6 py-5 text-right">
-                        <button className="p-2 text-[#1B2A22]/30 hover:text-[#D4AF37] transition-colors">
+                        <button className="p-2 text-[#1B2A22]/30 hover:text-[#1B2A22] transition-colors">
                           <MoreVertical className="h-5 w-5" />
                         </button>
                       </td>

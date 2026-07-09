@@ -163,7 +163,7 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#FAF9F6] flex items-center justify-center">
-        <Loader2 className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full text-transparent" />
+        <Loader2 className="h-10 w-10 animate-spin border-t-2 border-[#1B2A22] rounded-full text-transparent" />
       </div>
     );
   }
@@ -186,7 +186,7 @@ export default function SettingsPage() {
         <div className="bg-white border border-[#1B2A22]/10 p-10 relative">
           {saving && (
             <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-10 flex items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin border-t-2 border-[#D4AF37] rounded-full text-transparent" />
+              <Loader2 className="h-8 w-8 animate-spin border-t-2 border-[#1B2A22] rounded-full text-transparent" />
             </div>
           )}
           
@@ -198,7 +198,7 @@ export default function SettingsPage() {
                   <img src={image} alt={name} className="h-full w-full object-cover" />
                 </div>
               ) : (
-                <div className="h-24 w-24 bg-[#1B2A22] text-[#D4AF37] flex items-center justify-center font-serif text-4xl">
+                <div className="h-24 w-24 bg-[#1B2A22] text-[#1B2A22] flex items-center justify-center font-serif text-4xl">
                   {name ? name.charAt(0).toUpperCase() : 'U'}
                 </div>
               )}
@@ -223,9 +223,9 @@ export default function SettingsPage() {
               <div className="flex items-center gap-3">
                 <span className={`inline-block px-3 py-1 text-[9px] font-bold uppercase tracking-widest border ${
                   role === 'admin' 
-                    ? 'bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/30'
+                    ? 'bg-[#1B2A22]/10 text-[#1B2A22] border-[#1B2A22]/30'
                     : role === 'owner'
-                      ? 'bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/30'
+                      ? 'bg-[#1B2A22]/10 text-[#1B2A22] border-[#1B2A22]/30'
                       : 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20'
                 }`}>
                   {role}
@@ -277,7 +277,7 @@ export default function SettingsPage() {
               <div className="pt-4">
                 <button
                   onClick={handleEditClick}
-                  className="inline-block border border-[#1B2A22] bg-transparent hover:bg-[#1B2A22] hover:text-[#D4AF37] px-8 py-3 text-[10px] font-bold uppercase tracking-widest text-[#1B2A22] transition-colors"
+                  className="inline-block border border-[#1B2A22] bg-transparent hover:bg-[#1B2A22] hover:text-[#1B2A22] px-8 py-3 text-[10px] font-bold uppercase tracking-widest text-[#1B2A22] transition-colors"
                 >
                   Edit Details
                 </button>
@@ -292,7 +292,7 @@ export default function SettingsPage() {
                 <label className="block text-[9px] font-bold text-[#1B2A22]/70 uppercase tracking-widest">
                   Full Name
                 </label>
-                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
                   <User className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                   <input
                     type="text"
@@ -309,7 +309,7 @@ export default function SettingsPage() {
                 <label className="block text-[9px] font-bold text-[#1B2A22]/70 uppercase tracking-widest">
                   Email
                 </label>
-                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
                   <Mail className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                   <input
                     type="email"
@@ -326,7 +326,7 @@ export default function SettingsPage() {
                 <label className="block text-[9px] font-bold text-[#1B2A22]/70 uppercase tracking-widest">
                   Phone
                 </label>
-                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
                   <Phone className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                   <input
                     type="text"
@@ -343,7 +343,7 @@ export default function SettingsPage() {
                 <label className="block text-[9px] font-bold text-[#1B2A22]/70 uppercase tracking-widest">
                   Location
                 </label>
-                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
                   <MapPin className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                   <input
                     type="text"

@@ -129,7 +129,7 @@ export default function BookingsDashboardPage() {
   if (status === 'loading' || loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#D4AF37] border-t-transparent"></div>
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#1B2A22] border-t-transparent"></div>
       </div>
     );
   }
@@ -172,7 +172,7 @@ export default function BookingsDashboardPage() {
               display: flex;
               justify-content: space-between;
               align-items: flex-start;
-              border-bottom: 1px solid #D4AF37;
+              border-bottom: 1px solid #1B2A22;
               padding-bottom: 30px;
               margin-bottom: 40px;
             }
@@ -190,7 +190,7 @@ export default function BookingsDashboardPage() {
               font-size: 14px;
               font-family: sans-serif;
               font-weight: bold;
-              color: #D4AF37;
+              color: #1B2A22;
               text-transform: uppercase;
               letter-spacing: 0.2em;
               text-align: right;
@@ -202,7 +202,7 @@ export default function BookingsDashboardPage() {
               margin-bottom: 40px;
             }
             .card {
-              border-left: 2px solid #D4AF37;
+              border-left: 2px solid #1B2A22;
               padding: 0 20px;
             }
             .label {
@@ -341,7 +341,7 @@ export default function BookingsDashboardPage() {
                 <tr>
                   <td>
                     <strong style="color: #1B2A22; font-size: 18px; font-weight: normal;">${farm.title}</strong><br>
-                    <span style="font-family: sans-serif; font-size: 12px; color: #D4AF37; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-top: 8px;">${farm.location || 'Exclusive Retreat'}</span>
+                    <span style="font-family: sans-serif; font-size: 12px; color: #1B2A22; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-top: 8px;">${farm.location || 'Exclusive Retreat'}</span>
                   </td>
                   <td style="font-family: sans-serif;">${farm.guests || 2} Adults</td>
                   <td style="font-family: sans-serif;">${new Date(booking.startDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
@@ -402,7 +402,7 @@ export default function BookingsDashboardPage() {
         
         {/* Welcome Header */}
         <header className="mb-16">
-          <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-[0.2em] block mb-4">
+          <span className="text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.2em] block mb-4">
             Bookings Dashboard
           </span>
           <h1 className="font-serif text-4xl md:text-5xl font-normal text-[#1B2A22] mt-3">
@@ -493,7 +493,7 @@ export default function BookingsDashboardPage() {
                         {/* Card Details */}
                         <div className="p-6 flex flex-col flex-grow gap-4">
                           <div>
-                            <p className="flex items-center gap-1.5 text-[9px] font-bold text-[#D4AF37] uppercase tracking-[0.15em] mb-2">
+                            <p className="flex items-center gap-1.5 text-[9px] font-bold text-[#1B2A22] uppercase tracking-[0.15em] mb-2">
                               <MapPin className="h-3 w-3" />
                               {farm.location || 'Exclusive Location'}
                             </p>
@@ -504,15 +504,15 @@ export default function BookingsDashboardPage() {
 
                           <div className="flex gap-4 text-[10px] font-bold text-[#1B2A22]/50 uppercase tracking-widest pb-4 border-b border-[#1B2A22]/5">
                             <span className="flex items-center gap-1.5">
-                              <Users className="h-3.5 w-3.5 text-[#D4AF37]" />
+                              <Users className="h-3.5 w-3.5 text-[#1B2A22]" />
                               {farm.guests || 6}
                             </span>
                             <span className="flex items-center gap-1.5">
-                              <Home className="h-3.5 w-3.5 text-[#D4AF37]" />
+                              <Home className="h-3.5 w-3.5 text-[#1B2A22]" />
                               {farm.bedrooms || 3}
                             </span>
                             <span className="flex items-center gap-1.5">
-                              <Bath className="h-3.5 w-3.5 text-[#D4AF37]" />
+                              <Bath className="h-3.5 w-3.5 text-[#1B2A22]" />
                               {farm.baths || 2}
                             </span>
                           </div>
@@ -526,7 +526,7 @@ export default function BookingsDashboardPage() {
                             </div>
                             <Link
                               href={`/farms/${farm._id}`}
-                              className="text-[10px] font-bold text-[#1B2A22] uppercase tracking-widest hover:text-[#D4AF37] transition-colors"
+                              className="text-[10px] font-bold text-[#1B2A22] uppercase tracking-widest hover:text-[#1B2A22] transition-colors"
                             >
                               Reserve
                             </Link>
@@ -587,7 +587,7 @@ export default function BookingsDashboardPage() {
                               {farm.title}
                             </h3>
                             <p className="text-[11px] font-bold text-[#1B2A22]/60 uppercase tracking-widest flex items-center gap-2">
-                              <Calendar className="h-4 w-4 text-[#D4AF37]" />
+                              <Calendar className="h-4 w-4 text-[#1B2A22]" />
                               {formatDateRange(booking.startDate, booking.endDate)}
                             </p>
                           </div>
@@ -596,7 +596,7 @@ export default function BookingsDashboardPage() {
                             className={`inline-block px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest border ${
                               booking.paymentStatus === 'Paid'
                                 ? 'border-[#00a877]/20 text-[#00a877] bg-[#e6f4ea]'
-                                : 'border-[#D4AF37]/50 text-[#D4AF37] bg-[#D4AF37]/5'
+                                : 'border-[#1B2A22]/50 text-[#1B2A22] bg-[#1B2A22]/5'
                             }`}
                           >
                             {booking.paymentStatus === 'Paid' ? 'Confirmed' : 'Pending'}
@@ -633,7 +633,7 @@ export default function BookingsDashboardPage() {
                             </Link>
 
                             {booking.paymentStatus !== 'Paid' && (
-                              <button className="bg-[#D4AF37] hover:bg-[#c29f31] text-white px-6 py-3 text-[10px] uppercase tracking-widest font-bold transition-colors">
+                              <button className="bg-[#1B2A22] hover:bg-[#c29f31] text-white px-6 py-3 text-[10px] uppercase tracking-widest font-bold transition-colors">
                                 Make Payment
                               </button>
                             )}

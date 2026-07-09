@@ -13,8 +13,8 @@ import {
 
 const LogoMoneyIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="24" height="24" rx="6" fill="#D4AF37" fillOpacity="0.1" />
-    <path d="M12 6V18M9 8H13.5C14.88 8 16 9.12 16 10.5C16 11.88 14.88 13 13.5 13H10.5C9.12 13 8 14.12 8 15.5C8 16.88 9.12 18 10.5 18H15" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" />
+    <rect width="24" height="24" rx="6" fill="#1B2A22" fillOpacity="0.1" />
+    <path d="M12 6V18M9 8H13.5C14.88 8 16 9.12 16 10.5C16 11.88 14.88 13 13.5 13H10.5C9.12 13 8 14.12 8 15.5C8 16.88 9.12 18 10.5 18H15" stroke="#1B2A22" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 
@@ -214,7 +214,7 @@ export default function AdminDashboard() {
 
   // Compute donut segments for SVG circle elements
   const donutSegments = useMemo(() => {
-    const colors = ['#1B2A22', '#D4AF37', '#2c4236', '#c29f31', '#111827'];
+    const colors = ['#1B2A22', '#1B2A22', '#2c4236', '#c29f31', '#111827'];
     let currentOffset = 0;
     
     const totalPercentage = popularDestinations.reduce((sum, d) => sum + d.percentage, 0);
@@ -265,7 +265,7 @@ export default function AdminDashboard() {
               <LogoMoneyIcon />
             </div>
             <div className="flex justify-end">
-              <span className="text-[10px] font-bold text-[#D4AF37] bg-[#D4AF37]/10 px-2 py-0.5 uppercase tracking-wider">
+              <span className="text-[10px] font-bold text-[#1B2A22] bg-[#1B2A22]/10 px-2 py-0.5 uppercase tracking-wider">
                 +24%
               </span>
             </div>
@@ -479,7 +479,7 @@ export default function AdminDashboard() {
                           status.toLowerCase() === 'paid' || status.toLowerCase() === 'confirmed' || status.toLowerCase() === 'completed'
                             ? 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20'
                             : status.toLowerCase() === 'pending'
-                              ? 'bg-[#D4AF37]/5 text-[#D4AF37] border border-[#D4AF37]/30'
+                              ? 'bg-[#1B2A22]/5 text-[#1B2A22] border border-[#1B2A22]/30'
                               : 'bg-[#1B2A22]/5 text-[#1B2A22]/50 border border-[#1B2A22]/20'
                         }`}>
                           {status.toLowerCase() === 'paid' ? 'confirmed' : status.toLowerCase()}

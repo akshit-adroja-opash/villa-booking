@@ -127,7 +127,7 @@ export default function AdminPropertiesPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center bg-[#FAF9F6]">
-        <div className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full"></div>
+        <div className="h-10 w-10 animate-spin border-t-2 border-[#1B2A22] rounded-full"></div>
       </div>
     );
   }
@@ -160,7 +160,7 @@ export default function AdminPropertiesPage() {
           {[
             { label: 'Active Listings', value: farms.length.toString(), color: '#1B2A22' },
             { label: 'Average Nightly Rate', value: `₹${averageRate.toLocaleString('en-IN')}`, color: '#1B2A22' },
-            { label: 'Total Capacity', value: farms.reduce((sum, farm) => sum + (farm.guests || 0), 0).toString(), color: '#D4AF37' },
+            { label: 'Total Capacity', value: farms.reduce((sum, farm) => sum + (farm.guests || 0), 0).toString(), color: '#1B2A22' },
           ].map((stat) => (
             <div key={stat.label} className="bg-white border border-[#1B2A22]/10 p-6">
               <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mb-2">{stat.label}</p>
@@ -170,7 +170,7 @@ export default function AdminPropertiesPage() {
         </div>
 
         {/* Search Input bar */}
-        <div className="flex w-full max-w-md items-center gap-3 bg-white border border-[#1B2A22]/10 px-4 py-3 focus-within:border-[#D4AF37] transition-all">
+        <div className="flex w-full max-w-md items-center gap-3 bg-white border border-[#1B2A22]/10 px-4 py-3 focus-within:border-[#1B2A22] transition-all">
           <Search className="h-4 w-4 text-[#1B2A22]/40" />
           <input
             value={query}
@@ -188,7 +188,7 @@ export default function AdminPropertiesPage() {
             </div>
           ) : (
             filteredFarms.map((farm) => (
-              <article key={farm._id} className="flex flex-col sm:flex-row items-center gap-8 p-4 bg-white border border-[#1B2A22]/10 hover:border-[#D4AF37]/50 transition-colors group">
+              <article key={farm._id} className="flex flex-col sm:flex-row items-center gap-8 p-4 bg-white border border-[#1B2A22]/10 hover:border-[#1B2A22]/50 transition-colors group">
                 {/* Image */}
                 <div className="shrink-0 w-full sm:w-72 h-48 overflow-hidden bg-gray-100 relative">
                   {farm.images?.[0] ? (
@@ -212,10 +212,10 @@ export default function AdminPropertiesPage() {
                 <div className="flex flex-1 flex-col sm:flex-row sm:items-center justify-between w-full">
                   
                   <div className="flex flex-col gap-3">
-                    <div className="flex items-center gap-2 text-[9px] uppercase tracking-[0.2em] font-bold text-[#D4AF37]">
+                    <div className="flex items-center gap-2 text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]">
                       <MapPin className="h-3 w-3" />
                       {farm.location?.startsWith('http') ? (
-                        <a href={farm.location} target="_blank" rel="noopener noreferrer" className="hover:underline text-[#D4AF37]">
+                        <a href={farm.location} target="_blank" rel="noopener noreferrer" className="hover:underline text-[#1B2A22]">
                           View on Map
                         </a>
                       ) : (
@@ -248,7 +248,13 @@ export default function AdminPropertiesPage() {
                   </div>
 
                   {/* Action Button */}
-                  <div className="mt-6 sm:mt-0 sm:ml-4 sm:pr-4">
+                  <div className="mt-6 sm:mt-0 sm:ml-4 sm:pr-4 flex gap-3">
+                    <Link 
+                      href={`/admin/properties/${farm._id}/edit`} 
+                      className="inline-block border border-[#1B2A22]/20 hover:border-[#1B2A22] hover:text-[#1B2A22] px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-[#1B2A22]/70 transition-colors"
+                    >
+                      Edit
+                    </Link>
                     <Link 
                       href={`/farms/${farm._id}`} 
                       className="inline-block border border-[#1B2A22] hover:bg-[#1B2A22] hover:text-white px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-[#1B2A22] transition-colors"

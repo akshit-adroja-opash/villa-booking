@@ -235,7 +235,7 @@ export default function FarmDetailPage() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
-        <Loader2 className="h-10 w-10 animate-spin text-[#D4AF37]" />
+        <Loader2 className="h-10 w-10 animate-spin text-[#1B2A22]" />
       </div>
     );
   }
@@ -371,10 +371,10 @@ export default function FarmDetailPage() {
         .react-datepicker { font-family: inherit; border: 1px solid rgba(255,255,255,0.1); background-color: #1B2A22; color: white; border-radius: 0; }
         .react-datepicker__header { background-color: #1B2A22; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header { color: white; font-weight: normal; }
-        .react-datepicker__day-name { color: #D4AF37; }
+        .react-datepicker__day-name { color: #1B2A22; }
         .react-datepicker__day { color: white; }
         .react-datepicker__day:hover { background-color: rgba(255,255,255,0.1); border-radius: 0; }
-        .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range { background-color: #D4AF37; color: #1B2A22; border-radius: 0; }
+        .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range { background-color: #1B2A22; color: #1B2A22; border-radius: 0; }
         .react-datepicker__day--keyboard-selected { background-color: rgba(212,175,55,0.3); color: white; }
         .react-datepicker__day--disabled { color: rgba(255,255,255,0.2) !important; text-decoration: line-through; }
       `}} />
@@ -382,10 +382,10 @@ export default function FarmDetailPage() {
         
         {/* Title & Metadata */}
         <div className="mb-10 text-center max-w-4xl mx-auto">
-          <div className="flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-4">
+          <div className="flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22] mb-4">
             <MapPin className="h-3.5 w-3.5" />
             {farm.location?.startsWith('http') ? (
-              <a href={farm.location} target="_blank" rel="noopener noreferrer" className="hover:underline text-[#D4AF37]">
+              <a href={farm.location} target="_blank" rel="noopener noreferrer" className="hover:underline text-[#1B2A22]">
                 View on Map
               </a>
             ) : (
@@ -423,7 +423,7 @@ export default function FarmDetailPage() {
                 className="absolute bottom-6 right-6 flex items-center space-x-2 bg-white/20 backdrop-blur-md px-6 py-3 text-[11px] uppercase tracking-widest font-bold text-white transition-all hover:bg-white hover:text-[#1B2A22]"
               >
                 <Grid className="h-4 w-4" />
-                <span>View Gallery</span>
+                <span>View All</span>
               </button>
             )}
           </div>
@@ -440,15 +440,15 @@ export default function FarmDetailPage() {
               <h2 className="font-serif text-3xl text-[#1B2A22] mb-6">Enjoy Farm Experience</h2>
               <div className="flex flex-wrap items-center gap-x-8 gap-y-4 text-sm font-semibold text-[#1B2A22]/70 uppercase tracking-widest">
                 <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4 text-[#D4AF37]" />
+                  <Users className="h-4 w-4 text-[#1B2A22]" />
                   <span>{farm.guests} guests max</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Bed className="h-4 w-4 text-[#D4AF37]" />
+                  <Bed className="h-4 w-4 text-[#1B2A22]" />
                   <span>{farm.bedrooms} bedrooms</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Compass className="h-4 w-4 text-[#D4AF37]" />
+                  <Compass className="h-4 w-4 text-[#1B2A22]" />
                   <span>{farm.acres || 5} Acres</span>
                 </div>
               </div>
@@ -468,15 +468,15 @@ export default function FarmDetailPage() {
                 <div className="w-1.5 h-6 bg-[#00a877] rounded-sm"></div>
                 <h3 className="font-sans text-xl font-bold text-[#1B2A22]">Amenities</h3>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                 {farm.amenities?.map((amenity, index) => {
                   const IconComponent = AMENITY_ICONS[amenity] || CheckCircle2;
                   return (
-                    <div key={index} className="flex flex-col items-center justify-center p-5 bg-[#fbf8ff] border border-[#eeedf7] rounded-xl text-center gap-3 hover:shadow-md transition-shadow">
+                    <div key={index} className="flex flex-col items-center justify-center p-4 bg-[#fbf8ff] border border-[#eeedf7] rounded-xl text-center gap-2 hover:shadow-md transition-shadow">
                       <div className="text-[#00a877]">
-                        <IconComponent className="h-6 w-6 stroke-[1.5]" />
+                        <IconComponent className="h-5 w-5 stroke-[1.5]" />
                       </div>
-                      <span className="text-sm font-semibold text-[#1B2A22]/80">{amenity}</span>
+                      <span className="text-xs font-semibold text-[#1B2A22]/80">{amenity}</span>
                     </div>
                   );
                 })}
@@ -486,7 +486,7 @@ export default function FarmDetailPage() {
             {/* House Rules */}
             <div className="pb-10 mb-10 border-t border-[#1B2A22]/10 pt-10">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-1.5 h-6 bg-[#D4AF37] rounded-sm"></div>
+                <div className="w-1.5 h-6 bg-[#1B2A22] rounded-sm"></div>
                 <h3 className="font-sans text-xl font-bold text-[#1B2A22]">House Rules</h3>
               </div>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -572,7 +572,7 @@ export default function FarmDetailPage() {
               <div className="bg-white border border-[#1B2A22]/5 p-8 md:p-10">
               
               <div className="mb-8">
-                <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] block mb-2">Reservation</span>
+                <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22] block mb-2">Reservation</span>
                 <span className="font-serif text-3xl font-normal text-[#1B2A22]">
                   ₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}
                 </span>
@@ -583,7 +583,7 @@ export default function FarmDetailPage() {
               <div className={`mb-6 border transition-all duration-200 ${hasConflict ? 'border-red-500/50 bg-red-50/50' : isInvalidDates ? 'border-amber-500/50 bg-amber-50/50' : 'border-[#1B2A22]/10'}`}>
                 <div className="flex border-b border-[#1B2A22]/10">
                   <div className="w-1/2 border-r border-[#1B2A22]/10 p-4">
-                    <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#D4AF37] block mb-2">Check-in</label>
+                    <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#1B2A22] block mb-2">Check-in</label>
                     <DatePicker
                       selected={startDate}
                       onChange={(date: Date | null) => setStartDate(date)}
@@ -597,7 +597,7 @@ export default function FarmDetailPage() {
                     />
                   </div>
                   <div className="w-1/2 p-4">
-                    <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#D4AF37] block mb-2">Checkout</label>
+                    <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#1B2A22] block mb-2">Checkout</label>
                     <DatePicker
                       selected={endDate}
                       onChange={(date: Date | null) => setEndDate(date)}
@@ -620,7 +620,7 @@ export default function FarmDetailPage() {
                     }
                   }}
                 >
-                  <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#D4AF37] block mb-2">Guests</label>
+                  <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#1B2A22] block mb-2">Guests</label>
                   <div 
                     onClick={() => setShowGuestDropdown(!showGuestDropdown)}
                     className="text-sm font-semibold text-[#1B2A22] w-full cursor-pointer flex justify-between items-center"
@@ -640,7 +640,7 @@ export default function FarmDetailPage() {
                             setGuestSelection(i + 1);
                             setShowGuestDropdown(false);
                           }}
-                          className={`px-4 py-3 text-sm font-semibold cursor-pointer transition-colors ${guestSelection === i + 1 ? 'bg-[#D4AF37] text-white' : 'text-[#1B2A22] hover:bg-[#FAF9F6]'}`}
+                          className={`px-4 py-3 text-sm font-semibold cursor-pointer transition-colors ${guestSelection === i + 1 ? 'bg-[#1B2A22] text-white' : 'text-[#1B2A22] hover:bg-[#FAF9F6]'}`}
                         >
                           {i + 1} guest{i > 0 ? 's' : ''}
                         </div>
@@ -737,7 +737,7 @@ export default function FarmDetailPage() {
           <div className="sticky top-0 z-10 flex items-center justify-between bg-[#1B2A22]/90 backdrop-blur-md px-8 py-6 border-b border-white/10 text-white">
             <div>
               <h2 className="font-serif text-2xl font-normal">{farm.title}</h2>
-              <p className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-bold mt-2">
+              <p className="text-[10px] uppercase tracking-widest text-[#1B2A22] font-bold mt-2">
                 {farm.images?.length || 0} Photos
               </p>
             </div>
@@ -759,7 +759,7 @@ export default function FarmDetailPage() {
                     alt={`${farm.title} photo ${index + 1}`} 
                     className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
                   />
-                  <div className="absolute bottom-6 left-6 bg-[#1B2A22]/80 backdrop-blur-sm text-[#D4AF37] px-4 py-2 text-[10px] uppercase tracking-widest font-bold">
+                  <div className="absolute bottom-6 left-6 bg-[#1B2A22]/80 backdrop-blur-sm text-[#1B2A22] px-4 py-2 text-[10px] uppercase tracking-widest font-bold">
                     {index + 1} / {farm.images.length}
                   </div>
                 </div>

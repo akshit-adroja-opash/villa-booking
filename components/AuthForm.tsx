@@ -7,7 +7,7 @@ import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
 const Logo = () => (
   <div className="flex flex-col items-center gap-2 mb-6 text-[#1B2A22]">
-    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-[#D4AF37]">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-[#1B2A22]">
       <path d="M50 15L85 45L75 85H25L15 45L50 15Z" stroke="currentColor" strokeWidth="4" strokeLinejoin="round"/>
       <path d="M50 35V85" stroke="currentColor" strokeWidth="4"/>
       <path d="M30 60H70" stroke="currentColor" strokeWidth="4"/>
@@ -93,7 +93,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
     <div className="flex flex-col min-h-screen bg-[#FAF9F6] items-center justify-center p-6 text-[#1B2A22] font-sans antialiased relative overflow-hidden">
       
       {/* Decorative subtle element */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D4AF37]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#1B2A22]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#1B2A22]/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 pointer-events-none"></div>
 
       {/* Main Card */}
@@ -103,7 +103,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
         <div className="flex flex-col items-center text-center mb-10">
           <Logo />
           <div className="space-y-2 mt-4">
-            <h2 className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37]">
+            <h2 className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]">
               {mode === 'signin' ? 'Login' : 'Sign Up'}
             </h2>
             <p className="text-sm text-[#1B2A22]/60 font-serif italic">
@@ -120,7 +120,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
               <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]" htmlFor="login-email">
                 Email Address
               </label>
-              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
                 <Mail className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                 <input 
                   className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
@@ -139,7 +139,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
               <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]" htmlFor="login-pass">
                 Password
               </label>
-              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
                 <Lock className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                 <input 
                   className="w-full h-12 pl-12 pr-12 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
@@ -171,7 +171,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
                 />
                 <span>Remember me</span>
               </label>
-              <a href="#" className="hover:text-[#D4AF37] transition-colors">
+              <a href="#" className="hover:text-[#1B2A22] transition-colors">
                 Forgot password?
               </a>
             </div>
@@ -192,7 +192,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
               <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]" htmlFor="reg-name">
                 Full Name
               </label>
-              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
                 <input 
                   className="w-full h-12 px-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
                   id="reg-name" 
@@ -210,7 +210,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
               <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]" htmlFor="reg-email">
                 Email Address
               </label>
-              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
                 <Mail className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                 <input 
                   className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
@@ -229,7 +229,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
               <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]" htmlFor="reg-pass">
                 Password
               </label>
-              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+              <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
                 <Lock className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                 <input 
                   className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
@@ -261,7 +261,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
               Not a member yet?{' '}
               <button 
                 onClick={() => setMode('signup')}
-                className="text-[#D4AF37] hover:text-[#c29f31] transition-colors ml-1"
+                className="text-[#1B2A22] hover:text-[#c29f31] transition-colors ml-1"
               >
                 Sign Up
               </button>
@@ -271,7 +271,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
               Already a member?{' '}
               <button 
                 onClick={() => setMode('signin')}
-                className="text-[#D4AF37] hover:text-[#c29f31] transition-colors ml-1"
+                className="text-[#1B2A22] hover:text-[#c29f31] transition-colors ml-1"
               >
                 Sign In
               </button>

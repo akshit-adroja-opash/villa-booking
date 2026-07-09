@@ -131,7 +131,7 @@ export default function UserManagementPage() {
   const getRoleBadgeStyle = (role: string) => {
     switch (role) {
       case 'admin':
-        return 'bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/30';
+        return 'bg-[#1B2A22]/10 text-[#1B2A22] border-[#1B2A22]/30';
       default:
         return 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20';
     }
@@ -182,7 +182,7 @@ export default function UserManagementPage() {
         {/* Filter and Search Bar Row */}
         <div className="flex flex-col md:flex-row gap-4 bg-white border border-[#1B2A22]/10 p-4">
           {/* Search bar */}
-          <div className="flex-1 relative flex items-center bg-[#FAF9F6] border border-transparent focus-within:border-[#D4AF37] transition-all">
+          <div className="flex-1 relative flex items-center bg-[#FAF9F6] border border-transparent focus-within:border-[#1B2A22] transition-all">
             <Search className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
             <input 
               type="text" 
@@ -194,7 +194,7 @@ export default function UserManagementPage() {
           </div>
 
           {/* Role selector dropdown */}
-          <div className="relative min-w-[200px] flex items-center bg-[#FAF9F6] border border-transparent focus-within:border-[#D4AF37] transition-all">
+          <div className="relative min-w-[200px] flex items-center bg-[#FAF9F6] border border-transparent focus-within:border-[#1B2A22] transition-all">
             <select
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
@@ -301,7 +301,7 @@ export default function UserManagementPage() {
               {/* Full Name */}
               <div className="space-y-2">
                 <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]">Full Name</label>
-                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
                   <User className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                   <input 
                     type="text" 
@@ -317,7 +317,7 @@ export default function UserManagementPage() {
               {/* Email */}
               <div className="space-y-2">
                 <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]">Email Address</label>
-                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
                   <Mail className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                   <input 
                     type="email" 
@@ -333,7 +333,7 @@ export default function UserManagementPage() {
               {/* Password */}
               <div className="space-y-2">
                 <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]">Temporary Password</label>
-                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all">
+                <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all">
                   <Shield className="absolute left-4 h-4 w-4 text-[#1B2A22]/40" />
                   <input 
                     type="password" 
@@ -349,7 +349,7 @@ export default function UserManagementPage() {
               {/* Role Selection */}
               <div className="space-y-2">
                 <label className="block text-[10px] font-bold text-[#1B2A22] uppercase tracking-[0.15em]">Access Level</label>
-                <div className="bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#D4AF37] transition-all px-4 py-1">
+                <div className="bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all px-4 py-1">
                   <select
                     value={newUserRole}
                     onChange={(e) => setNewUserRole(e.target.value)}

@@ -113,7 +113,7 @@ function StaysList() {
       {/* Hero Header */}
       <div className="bg-[#1B2A22] pt-32 pb-20 px-6">
         <div className="max-w-[1280px] mx-auto text-center text-white">
-          <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#D4AF37] mb-4 block">
+          <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1B2A22] mb-4 block">
             Properties
           </span>
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-normal leading-tight">
@@ -129,7 +129,7 @@ function StaysList() {
         {/* Stays Grid */}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32 gap-4">
-            <div className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full"></div>
+            <div className="h-10 w-10 animate-spin border-t-2 border-[#1B2A22] rounded-full"></div>
             <p className="text-[11px] uppercase tracking-widest text-[#1B2A22]/60 font-bold">Loading Properties...</p>
           </div>
         ) : farms.length === 0 ? (
@@ -223,7 +223,7 @@ export default function FarmsListingPage() {
   return (
     <Suspense fallback={
       <div className="flex flex-col items-center justify-center min-h-screen bg-[#FAF9F6] gap-4">
-        <div className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full"></div>
+        <div className="h-10 w-10 animate-spin border-t-2 border-[#1B2A22] rounded-full"></div>
         <p className="text-[11px] uppercase tracking-widest text-[#1B2A22]/60 font-bold">Loading Properties...</p>
       </div>
     }>

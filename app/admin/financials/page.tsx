@@ -99,7 +99,7 @@ export default function AdminFinancialsPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center bg-[#FAF9F6]">
-        <div className="h-10 w-10 animate-spin border-t-2 border-[#D4AF37] rounded-full"></div>
+        <div className="h-10 w-10 animate-spin border-t-2 border-[#1B2A22] rounded-full"></div>
       </div>
     );
   }
@@ -138,7 +138,7 @@ export default function AdminFinancialsPage() {
                   <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#1B2A22]/60 mb-2">{stat.label}</p>
                   <p className="font-serif text-2xl text-[#1B2A22]">{stat.value}</p>
                 </div>
-                <div className="bg-[#D4AF37]/10 p-2 text-[#D4AF37]">
+                <div className="bg-[#1B2A22]/10 p-2 text-[#1B2A22]">
                   <stat.icon className="h-5 w-5" />
                 </div>
               </div>
@@ -177,7 +177,7 @@ export default function AdminFinancialsPage() {
                       <span className={`inline-block px-3 py-1 text-[9px] font-bold uppercase tracking-widest border ${
                         booking.paymentStatus === 'Paid'
                           ? 'bg-[#e6f4ea] text-[#00a877] border-[#00a877]/20'
-                          : 'bg-transparent text-[#D4AF37] border-[#D4AF37]'
+                          : 'bg-transparent text-[#1B2A22] border-[#1B2A22]'
                       }`}>
                         {booking.paymentStatus === 'Paid' ? 'Paid' : 'Pending'}
                       </span>
