@@ -4,11 +4,11 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function PropertiesPageRedirect() {
-  const router = useRouter();
+ const router = useRouter();
 
-  useEffect(() => {
-    router.replace('/farms');
-  }, [router]);
+ useEffect(() => {
+ router.replace('/farms');
+ }, [router]);
 
-  return null;
+ return null;
 }
