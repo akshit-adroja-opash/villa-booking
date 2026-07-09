@@ -433,7 +433,7 @@ export default function FarmDetailPage() {
  {/* About Home description */}
  <div className="border-b border-[#1B2A22]/10 pb-10 mb-10">
  <h3 className="font-serif text-2xl text-[#1B2A22] mb-6">About Enjoy Farm</h3>
- <p className="text-base leading-loose text-[#1B2A22]/70 font-medium whitespace-pre-line font-serif italic">
+ <p className="text-base leading-loose text-[#1B2A22]/70 font-medium whitespace-pre-line font-serif">
  {farm.description}
  </p>
  </div>

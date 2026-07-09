@@ -223,13 +223,13 @@ export default function UserManagementPage() {
  <tbody className="divide-y divide-[#1B2A22]/5 text-[13px] font-semibold text-[#1B2A22]">
  {loading ? (
  <tr>
- <td colSpan={5} className="text-center py-10 text-[#1B2A22]/40 font-serif italic">
+ <td colSpan={5} className="text-center py-10 text-[#1B2A22]/40 font-serif">
  Loading directory...
  </td>
  </tr>
  ) : filteredUsers.length === 0 ? (
  <tr>
- <td colSpan={5} className="text-center py-10 text-[#1B2A22]/40 font-serif italic">
+ <td colSpan={5} className="text-center py-10 text-[#1B2A22]/40 font-serif">
  No members matched your search criteria.
  </td>
  </tr>
@@ -255,7 +255,7 @@ export default function UserManagementPage() {
  {user.role}
  </span>
  </td>
- <td className="px-6 py-4 text-[#1B2A22]/50 font-medium font-serif italic">
+ <td className="px-6 py-4 text-[#1B2A22]/50 font-medium font-serif">
  {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '2024-01-15'}
  </td>
  <td className="px-6 py-4 text-right">

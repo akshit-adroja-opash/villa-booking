@@ -106,7 +106,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <h2 className="text-sm font-medium text-[#1B2A22]">
  {mode === 'signin' ? 'Login' : 'Sign Up'}
  </h2>
- <p className="text-sm text-[#1B2A22]/60 font-serif italic">
+ <p className="text-sm text-[#1B2A22]/60 font-serif">
  {mode === 'signin' ? 'Sign in to your account to continue.' : 'Create an account to continue.'}
  </p>
  </div>

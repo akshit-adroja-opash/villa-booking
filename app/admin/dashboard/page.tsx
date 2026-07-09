@@ -442,7 +442,7 @@ export default function AdminDashboard() {
  <tbody className="divide-y divide-[#1B2A22]/5 text-[13px] font-semibold text-[#1B2A22]">
  {bookings.length === 0 ? (
  <tr>
- <td colSpan={6} className="px-6 py-8 text-center text-[#1B2A22]/50 font-serif italic">No recent bookings.</td>
+ <td colSpan={6} className="px-6 py-8 text-center text-[#1B2A22]/50 font-serif">No recent bookings.</td>
  </tr>
  ) : bookings.slice(0, 5).map((booking, index) => {
  const farmTitle = booking.farmId?.title || 'Property stay';

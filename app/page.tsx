@@ -269,7 +269,7 @@ export default function Home() {
  <h2 className="font-serif text-4xl md:text-5xl text-[#1B2A22] font-normal leading-tight mb-6">
  Begin Your Journey
  </h2>
- <p className="text-[#1B2A22]/70 font-serif italic text-lg max-w-md mx-auto mb-10">
+ <p className="text-[#1B2A22]/70 font-serif text-lg max-w-md mx-auto mb-10">
  Speak with our support team to arrange your private viewing or secure your booking.
  </p>
 

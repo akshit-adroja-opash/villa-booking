@@ -122,7 +122,7 @@ export default function AdminPropertiesPage() {
  <section className="flex flex-col gap-6">
  {filteredFarms.length === 0 ? (
  <div className="bg-white border border-[#1B2A22]/10 p-10 text-center">
- <p className="text-[#1B2A22]/50 font-serif italic text-lg">No properties found.</p>
+ <p className="text-[#1B2A22]/50 font-serif text-lg">No properties found.</p>
  </div>
  ) : (
  filteredFarms.map((farm) => (

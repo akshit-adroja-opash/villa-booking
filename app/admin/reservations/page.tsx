@@ -179,7 +179,7 @@ export default function AdminReservationsPage() {
  <tbody className="divide-y divide-[#1B2A22]/5 text-[13px] font-semibold text-[#1B2A22]">
  {filteredBookings.length === 0 ? (
  <tr>
- <td colSpan={6} className="px-6 py-12 text-center text-[#1B2A22]/40 font-serif italic text-lg">
+ <td colSpan={6} className="px-6 py-12 text-center text-[#1B2A22]/40 font-serif text-lg">
  No bookings found.
  </td>
  </tr>

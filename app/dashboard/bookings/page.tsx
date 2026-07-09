@@ -276,7 +276,7 @@ export default function BookingsDashboardPage() {
  .footer {
  text-align: center;
  font-size: 13px;
- font-style: italic;
+ font-style:;
  color: #1B2A22;
  opacity: 0.7;
  margin-top: 40px;
@@ -408,7 +408,7 @@ export default function BookingsDashboardPage() {
  <h1 className="font-serif text-4xl md:text-5xl font-normal text-[#1B2A22] mt-3">
  Welcome, {session?.user?.name || 'Guest'}
  </h1>
- <p className="text-sm text-[#1B2A22]/70 font-medium mt-4 max-w-xl font-serif italic">
+ <p className="text-sm text-[#1B2A22]/70 font-medium mt-4 max-w-xl font-serif">
  Manage your upcoming bookings, review your past bookings, and view your saved properties.
  </p>
  </header>
@@ -453,7 +453,7 @@ export default function BookingsDashboardPage() {
  {activeTab === 'saved' ? (
  favorites.length === 0 ? (
  <div className="text-center py-24 border border-[#1B2A22]/10 bg-white/50 flex flex-col items-center">
- <p className="text-sm text-[#1B2A22]/60 font-medium mb-8 font-serif italic">
+ <p className="text-sm text-[#1B2A22]/60 font-medium mb-8 font-serif">
  You have not added any properties to your saved list yet.
  </p>
  <Link
@@ -540,7 +540,7 @@ export default function BookingsDashboardPage() {
  ) : (
  displayedBookings.length === 0 ? (
  <div className="text-center py-24 border border-[#1B2A22]/10 bg-white/50 flex flex-col items-center">
- <p className="text-sm text-[#1B2A22]/60 font-medium mb-8 font-serif italic">
+ <p className="text-sm text-[#1B2A22]/60 font-medium mb-8 font-serif">
  You do not have any {activeTab} bookings yet.
  </p>
  <Link
