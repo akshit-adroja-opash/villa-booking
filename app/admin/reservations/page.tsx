@@ -85,9 +85,10 @@ export default function AdminReservationsPage() {
 
  const filteredBookings = useMemo(() => {
  const normalizedQuery = query.trim().toLowerCase();
- if (!normalizedQuery) return bookings;
-
- return bookings.filter((booking) => {
+ let result = bookings;
+ 
+ if (normalizedQuery) {
+ result = bookings.filter((booking) => {
  const haystack = [
  booking.userId?.name,
  booking.userId?.email,
@@ -101,6 +102,10 @@ export default function AdminReservationsPage() {
 
  return haystack.includes(normalizedQuery);
  });
+ }
+
+ // Sort by startDate in descending order
+ return [...result].sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
  }, [bookings, query]);
 
  const totalRevenue = bookings.reduce((sum, booking) => sum + (booking.totalPrice || 0), 0);

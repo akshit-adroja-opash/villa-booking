@@ -146,17 +146,7 @@ export default function Home() {
  </Link>
  </div>
 
- {/* Carousel Indicators */}
- <div className="absolute bottom-12 left-0 right-0 z-20 flex justify-center gap-4">
- {heroImages.map((_, idx) => (
- <button
- key={idx}
- onClick={() => setCurrentSlide(idx)}
- className={`h-[1px] transition-all duration-500 ${currentSlide === idx ? 'w-12 bg-[#1B2A22]' : 'w-6 bg-white/40 hover:bg-white/70'}`}
- aria-label={`Go to slide ${idx + 1}`}
- />
- ))}
- </div>
+
  </section>
 
  {/* The Collection (Editorial Layout) */}
@@ -200,6 +190,12 @@ export default function Home() {
  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80';
  }}
  />
+
+ {/* Rating Badge */}
+ <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm text-[12px] font-bold text-[#1B2A22]">
+ <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+ {farm.rating || 4.5}
+ </div>
 
  {/* Favorite Button */}
  <button 

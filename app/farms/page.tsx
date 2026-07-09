@@ -14,7 +14,8 @@ import {
  ArrowRight,
  Search,
  ChevronDown,
- SlidersHorizontal
+ SlidersHorizontal,
+ Star
 } from 'lucide-react';
 
 function StaysList() {
@@ -26,6 +27,8 @@ function StaysList() {
  const [farms, setFarms] = useState<any[]>([]);
  const [loading, setLoading] = useState(true);
  const [favorites, setFavorites] = useState<string[]>([]);
+ const [searchQuery, setSearchQuery] = useState('');
+ const [sortOption, setSortOption] = useState('Most Popular');
 
  useEffect(() => {
  async function fetchFarms() {
@@ -111,6 +114,19 @@ function StaysList() {
  }
  };
 
+ const filteredFarms = farms.filter(farm => {
+ if (!searchQuery) return true;
+ const term = searchQuery.toLowerCase();
+ return farm.title?.toLowerCase().includes(term) || farm.location?.toLowerCase().includes(term);
+ }).sort((a, b) => {
+ if (sortOption === 'Price: Low to High') {
+ return (a.pricePerNight || 0) - (b.pricePerNight || 0);
+ } else if (sortOption === 'Price: High to Low') {
+ return (b.pricePerNight || 0) - (a.pricePerNight || 0);
+ }
+ return 0;
+ });
+
  return (
  <div className="bg-[#FAF9F6] min-h-screen">
  <div className="max-w-[1280px] mx-auto px-6 md:px-16 pt-32 pb-20">
@@ -125,26 +141,28 @@ function StaysList() {
  <Search className="w-5 h-5 text-gray-400 absolute left-4" />
  <input 
  type="text" 
+ value={searchQuery}
+ onChange={(e) => setSearchQuery(e.target.value)}
  placeholder="Search by location, city, or name..." 
  className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-[#002E1E]/30 text-sm bg-white" 
  />
  </div>
  <div className="flex items-center gap-4 w-full md:w-auto">
  <div className="relative">
- <select className="appearance-none bg-white border border-gray-200 rounded-lg px-4 py-3 pr-10 text-sm font-medium focus:outline-none cursor-pointer min-w-[160px]">
- <option>Most Popular</option>
- <option>Price: Low to High</option>
- <option>Price: High to Low</option>
+ <select 
+ value={sortOption}
+ onChange={(e) => setSortOption(e.target.value)}
+ className="appearance-none bg-white border border-gray-200 rounded-lg px-4 py-3 pr-10 text-sm font-medium focus:outline-none cursor-pointer min-w-[160px]"
+ >
+ <option value="Most Popular">Most Popular</option>
+ <option value="Price: Low to High">Price: Low to High</option>
+ <option value="Price: High to Low">Price: High to Low</option>
  </select>
  <ChevronDown className="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
  </div>
- <button className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm font-medium hover:bg-gray-50 transition-colors">
- <SlidersHorizontal className="w-4 h-4" />
- Filters
- </button>
  </div>
  </div>
- <p className="text-sm text-gray-500 font-medium">{farms.length} farmhouses found</p>
+ <p className="text-sm text-gray-500 font-medium">{filteredFarms.length} farmhouses found</p>
  </div>
 
  {/* Stays Grid */}
@@ -153,14 +171,14 @@ function StaysList() {
  <div className="h-10 w-10 animate-spin border-t-2 border-[#1B2A22] rounded-full"></div>
  <p className="text-sm font-medium text-[#1B2A22]/60 font-bold">Loading Farmhouses...</p>
  </div>
- ) : farms.length === 0 ? (
+ ) : filteredFarms.length === 0 ? (
  <div className="text-center py-32 border-y border-[#1B2A22]/10 max-w-2xl mx-auto">
  <h3 className="font-serif text-2xl text-[#1B2A22] mb-4">No farmhouses available</h3>
- <p className="text-[#1B2A22]/60 font-medium">Our Farmhouses list is currently being updated. Please check back later.</p>
+ <p className="text-[#1B2A22]/60 font-medium">Try adjusting your search filters to find more properties.</p>
  </div>
  ) : (
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
- {farms.map((farm) => {
+ {filteredFarms.map((farm) => {
  const isFav = favorites.includes(farm._id);
  const amenities = farm.amenities?.length ? farm.amenities : ['WiFi', 'Swimming Pool', 'Garden', 'Kitchen', 'Parking'];
  const displayAmenities = amenities.slice(0, 3);
@@ -183,6 +201,12 @@ function StaysList() {
  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80';
  }}
  />
+
+ {/* Rating Badge */}
+ <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm text-[12px] font-bold text-[#1B2A22]">
+ <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+ {farm.rating || 4.5}
+ </div>
 
  {/* Favorite Button */}
  <button 

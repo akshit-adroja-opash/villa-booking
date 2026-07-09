@@ -28,7 +28,7 @@ export default function Footer() {
  {/* Decorative subtle element */}
  <div className="absolute top-0 right-0 w-96 h-96 bg-[#D4AF37]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
 
- <div className="mx-auto max-w-[1280px] px-8 pt-20 pb-8 md:px-16 relative z-10">
+ <div className="mx-auto max-w-[1280px] px-8 pt-10 pb-8 md:px-16 relative z-10">
  <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 lg:gap-16 w-full">
  
  {/* Logo & Description */}

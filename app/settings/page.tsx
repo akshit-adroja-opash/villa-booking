@@ -169,7 +169,7 @@ export default function SettingsPage() {
  }
 
  return (
- <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22] font-sans antialiased">
+ <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22] font-sans antialiased mt-20">
  <main className="max-w-[760px] mx-auto px-6 pt-16 pb-24">
  
  {/* Title */}
