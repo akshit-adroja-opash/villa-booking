@@ -586,7 +586,7 @@ export default function FarmDetailPage() {
                     <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#D4AF37] block mb-2">Check-in</label>
                     <DatePicker
                       selected={startDate}
-                      onChange={(date) => setStartDate(date)}
+                      onChange={(date: Date | null) => setStartDate(date)}
                       selectsStart
                       startDate={startDate || undefined}
                       endDate={endDate || undefined}
@@ -600,7 +600,7 @@ export default function FarmDetailPage() {
                     <label className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#D4AF37] block mb-2">Checkout</label>
                     <DatePicker
                       selected={endDate}
-                      onChange={(date) => setEndDate(date)}
+                      onChange={(date: Date | null) => setEndDate(date)}
                       selectsEnd
                       startDate={startDate || undefined}
                       endDate={endDate || undefined}
