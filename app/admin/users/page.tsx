@@ -212,7 +212,7 @@ export default function UserManagementPage() {
  <div className="overflow-x-auto">
  <table className="w-full text-left border-collapse min-w-[900px]">
  <thead>
- <tr className="border-b border-gray-100 bg-[#fafafa] text-[10px] font-bold text-gray-400 tracking-wider uppercase">
+ <tr className="border-b border-gray-100 bg-[#fafafa] text-[10px] font-bold text-gray-500 tracking-wider uppercase">
  <th className="px-8 py-5">User Details</th>
  <th className="px-6 py-5">Email Address</th>
  <th className="px-6 py-5">Role Permission</th>
@@ -255,14 +255,14 @@ export default function UserManagementPage() {
  {user.role === 'customer' ? 'user' : user.role.toLowerCase()}
  </span>
  </td>
- <td className="px-6 py-4 text-gray-400 font-medium">
+ <td className="px-6 py-4 text-gray-500 font-medium">
  {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '7/6/2026'}
  </td>
  <td className="px-8 py-4 text-right">
  {user.role !== 'admin' && (
  <button
  onClick={() => handleDeleteUser(user._id)}
- className="p-2 text-gray-300 hover:text-red-500 transition-colors"
+ className="p-2 text-gray-500 hover:text-red-500 transition-colors"
  title="Revoke Access"
  >
  <Trash2 className="h-4 w-4"/>

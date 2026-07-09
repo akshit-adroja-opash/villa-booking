@@ -149,7 +149,7 @@ export default function AdminFinancialsPage() {
  <div className="overflow-x-auto">
  <table className="w-full text-left border-collapse min-w-[850px]">
  <thead>
- <tr className="bg-[#fafafa] text-[10px] uppercase tracking-wider font-bold text-gray-400 border-b border-gray-100">
+ <tr className="bg-[#fafafa] text-[10px] uppercase tracking-wider font-bold text-gray-500 border-b border-gray-100">
  <th className="px-8 py-5">Guest</th>
  <th className="px-6 py-5">Property</th>
  <th className="px-6 py-5">Order ID</th>

@@ -29,6 +29,9 @@ function StaysList() {
  const [favorites, setFavorites] = useState<string[]>([]);
  const [searchQuery, setSearchQuery] = useState('');
  const [sortOption, setSortOption] = useState('Most Popular');
+ const [isSortOpen, setIsSortOpen] = useState(false);
+ 
+ const sortOptions = ['Most Popular', 'Price: Low to High', 'Price: High to Low'];
 
  useEffect(() => {
  async function fetchFarms() {
@@ -149,16 +152,44 @@ function StaysList() {
  </div>
  <div className="flex items-center gap-4 w-full md:w-auto">
  <div className="relative">
- <select 
- value={sortOption}
- onChange={(e) => setSortOption(e.target.value)}
- className="appearance-none bg-white border border-gray-200 rounded-lg px-4 py-3 pr-10 text-sm font-medium focus:outline-none cursor-pointer min-w-[160px]"
+ <button 
+ onClick={() => setIsSortOpen(!isSortOpen)}
+ className="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-5 py-3 text-[14px] font-bold text-[#002E1E] focus:outline-none focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] cursor-pointer min-w-[190px] shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] transition-all hover:border-gray-300 group"
  >
- <option value="Most Popular">Most Popular</option>
- <option value="Price: Low to High">Price: Low to High</option>
- <option value="Price: High to Low">Price: High to Low</option>
- </select>
- <ChevronDown className="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+ <span>{sortOption}</span>
+ <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${isSortOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-gray-50 text-gray-500 group-hover:bg-[#e6f4ea] group-hover:text-[#00a877]'}`}>
+ <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isSortOpen ? 'rotate-180' : ''}`} />
+ </div>
+ </button>
+
+ {isSortOpen && (
+ <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden">
+ {sortOptions.map((option) => (
+ <button
+ key={option}
+ onClick={() => {
+ setSortOption(option);
+ setIsSortOpen(false);
+ }}
+ className={`w-full text-left px-5 py-2.5 text-[14px] font-semibold transition-colors ${
+ sortOption === option 
+ ? 'bg-[#e6f4ea] text-[#00a877]' 
+ : 'text-gray-600 hover:bg-gray-50'
+ }`}
+ >
+ {option}
+ </button>
+ ))}
+ </div>
+ )}
+ 
+ {/* Overlay to close dropdown when clicking outside */}
+ {isSortOpen && (
+ <div 
+ className="fixed inset-0 z-40" 
+ onClick={() => setIsSortOpen(false)}
+ ></div>
+ )}
  </div>
  </div>
  </div>

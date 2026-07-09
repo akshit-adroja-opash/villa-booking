@@ -269,7 +269,7 @@ export default function Home() {
  <div className="flex flex-col sm:flex-row gap-6 justify-center">
  <Link 
  href="/farms"
- className="bg-[#1B2A22] text-white hover:bg-[#00a877] px-10 py-4 text-sm font-medium transition-colors"
+ className="bg-[#00a877] text-white hover:bg-[#009669] px-10 py-4 text-sm font-medium transition-colors"
  >
  View Farmhouses
  </Link>

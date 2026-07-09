@@ -24,9 +24,9 @@ export default function Footer() {
  }
 
  return (
- <footer className="w-full bg-[#1B2A22] text-[#FAF9F6] border-t border-[#D4AF37]/20 relative overflow-hidden">
+ <footer className="w-full bg-[#1B2A22] text-[#FAF9F6] border-t border-[#00a877]/20 relative overflow-hidden">
  {/* Decorative subtle element */}
- <div className="absolute top-0 right-0 w-96 h-96 bg-[#D4AF37]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+ <div className="absolute top-0 right-0 w-96 h-96 bg-[#00a877]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
 
  <div className="mx-auto max-w-[1280px] px-8 pt-10 pb-8 md:px-16 relative z-10">
  <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 lg:gap-16 w-full">
@@ -43,7 +43,7 @@ export default function Footer() {
  Making Every Farmhouse Moment Special. An exclusive collection of private retreats designed for the discerning traveler.
  </p>
  <div className="pt-2">
- <a href="https://wa.me/918780493615"target="_blank"rel="noopener noreferrer"className="inline-flex items-center gap-2 bg-[#1B2A22] border border-[#D4AF37]/50 text-[#D4AF37] px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[#D4AF37] hover:text-[#1B2A22] transition-all">
+ <a href="https://wa.me/918780493615"target="_blank"rel="noopener noreferrer"className="inline-flex items-center gap-2 bg-[#1B2A22] border border-[#00a877]/50 text-[#00a877] px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[#00a877] hover:text-[#1B2A22] transition-all">
  <MessageCircle className="h-4 w-4"/>
  WhatsApp Us
  </a>
@@ -57,13 +57,13 @@ export default function Footer() {
  </h4>
  <ul className="space-y-4 text-[13px] text-white/60 font-medium">
  <li>
- <Link href="/"className="hover:text-[#D4AF37] transition-colors">Home</Link>
+ <Link href="/"className="hover:text-[#00a877] transition-colors">Home</Link>
  </li>
  <li>
- <Link href="/farms"className="hover:text-[#D4AF37] transition-colors">All Farm House</Link>
+ <Link href="/farms"className="hover:text-[#00a877] transition-colors">All Farm House</Link>
  </li>
  <li>
- <Link href="/contact" className="hover:text-[#D4AF37] transition-colors">Contact Us</Link>
+ <Link href="/contact" className="hover:text-[#00a877] transition-colors">Contact Us</Link>
  </li>
  </ul>
  </div>
@@ -75,25 +75,25 @@ export default function Footer() {
  </h4>
  <ul className="space-y-6 text-[13px] text-white/60 font-medium">
  <li className="flex flex-col gap-1.5">
- <div className="flex items-center gap-4 hover:text-[#D4AF37] transition-colors">
- <Phone className="h-4.5 w-4.5 text-[#D4AF37] shrink-0"/>
+ <div className="flex items-center gap-4 hover:text-[#00a877] transition-colors">
+ <Phone className="h-4.5 w-4.5 text-[#00a877] shrink-0"/>
  <a href="tel:+918780493615"className="font-semibold text-white/90 tracking-wide">+91 8780493615</a>
  </div>
- <span className="text-sm font-medium text-[#D4AF37]/70 ml-[34px] font-bold">Online Booking Inquiry (10 AM - 7 PM)</span>
+ <span className="text-sm font-medium text-[#00a877]/70 ml-[34px] font-bold">Online Booking Inquiry (10 AM - 7 PM)</span>
  </li>
  <li className="flex flex-col gap-1.5">
- <div className="flex items-center gap-4 hover:text-[#D4AF37] transition-colors">
- <Phone className="h-4.5 w-4.5 text-[#D4AF37] shrink-0"/>
+ <div className="flex items-center gap-4 hover:text-[#00a877] transition-colors">
+ <Phone className="h-4.5 w-4.5 text-[#00a877] shrink-0"/>
  <a href="tel:+918780493615"className="font-semibold text-white/90 tracking-wide">+91 8780493615</a>
  </div>
- <span className="text-sm font-medium text-[#D4AF37]/70 ml-[34px] font-bold">Any Other Queries (10 AM - 7 PM)</span>
+ <span className="text-sm font-medium text-[#00a877]/70 ml-[34px] font-bold">Any Other Queries (10 AM - 7 PM)</span>
  </li>
- <li className="flex items-center gap-4 hover:text-[#D4AF37] transition-colors mt-2">
- <Mail className="h-4.5 w-4.5 text-[#D4AF37] shrink-0"/>
+ <li className="flex items-center gap-4 hover:text-[#00a877] transition-colors mt-2">
+ <Mail className="h-4.5 w-4.5 text-[#00a877] shrink-0"/>
  <a href="mailto:info@enjoyfarm.in"className="font-semibold text-white/90">info@enjoyfarm.in</a>
  </li>
  <li className="flex items-start gap-4 mt-2">
- <MapPin className="h-4.5 w-4.5 text-[#D4AF37] mt-0.5 shrink-0"/>
+ <MapPin className="h-4.5 w-4.5 text-[#00a877] mt-0.5 shrink-0"/>
  <span className="leading-relaxed font-semibold text-white/90">Surat, Gujarat, India</span>
  </li>
  </ul>
