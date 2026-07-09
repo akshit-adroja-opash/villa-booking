@@ -107,25 +107,21 @@ export default function Home() {
  
  {/* Hero Section */}
  <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
- <div 
- className="absolute inset-0 z-0 flex transition-transform duration-[1500ms] ease-in-out"
- style={{ transform: `translateX(-${currentSlide * 100}%)` }}
- >
- {heroImages.map((src, idx) => (
- <div key={idx} className="min-w-full h-full relative">
- <img
- alt={`Estate View ${idx + 1}`}
- className="w-full h-full object-cover brightness-[0.6] scale-105"
- style={{
- transform: currentSlide === idx ? 'scale(1)' : 'scale(1.05)',
- transition: 'transform 6s ease-out'
- }}
- src={src}
- />
- <div className="absolute inset-0 bg-gradient-to-t from-[#1B2A22]/80 via-transparent to-transparent"></div>
- </div>
- ))}
- </div>
+  <div className="absolute inset-0 z-0">
+    {heroImages.map((src, idx) => (
+      <div 
+        key={idx} 
+        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${currentSlide === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+      >
+        <img
+          alt={`Estate View ${idx + 1}`}
+          className={`w-full h-full object-cover brightness-[0.6] transition-transform duration-[6000ms] ease-out ${currentSlide === idx ? 'scale-100' : 'scale-105'}`}
+          src={src}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1B2A22]/80 via-transparent to-transparent"></div>
+      </div>
+    ))}
+  </div>
 
  {/* Hero Content */}
  <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center mt-20">

@@ -34,12 +34,8 @@ export default function Footer() {
  {/* Logo & Description */}
  <div className="md:col-span-5 space-y-6">
  <Link className="flex items-center gap-3 tracking-tight text-white hover:opacity-80 transition-opacity"href="/">
- <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-sm bg-white">
- <svg width="22"height="22"viewBox="0 0 24 24"fill="none"xmlns="http://www.w3.org/2000/svg">
- <path d="M12 3L3 10.5H5V21H19V10.5H21L12 3Z"fill="#0a3124"/>
- <rect x="10.5"y="14"width="3"height="7"fill="white"/>
- <circle cx="12"cy="9.5"r="1.5"fill="#00a877"/>
- </svg>
+ <div className="w-10 h-10 flex items-center justify-center shrink-0">
+ <img src="/logo.png" alt="Enjoy Farm Logo" className="w-full h-full object-contain" />
  </div>
  <span className="font-serif text-[28px] font-bold tracking-tight">Enjoy Farm</span>
  </Link>
