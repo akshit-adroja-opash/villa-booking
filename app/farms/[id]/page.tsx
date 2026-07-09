@@ -373,9 +373,9 @@ export default function FarmDetailPage() {
  
  {/* Title & Metadata */}
  <div className="mb-8 max-w-4xl">
- <h1 className="font-serif text-4xl font-bold text-[#002E1E] md:text-[64px] leading-tight mb-4">{farm.title}</h1>
- <div className="flex items-center gap-2 text-[16px] font-medium text-[#002E1E]">
- <MapPin className="h-5 w-5 text-[#00a877]"/>
+ <h1 className="font-serif text-3xl font-bold text-[#002E1E] md:text-5xl leading-tight mb-4">{farm.title}</h1>
+ <div className="flex items-center gap-2 text-[14px] font-medium text-[#002E1E]">
+ <MapPin className="h-4 w-4 text-[#00a877]"/>
  {farm.location?.startsWith('http') ? (
  <a href={farm.location} target="_blank" rel="noopener noreferrer" className="hover:underline">
  View on Map
