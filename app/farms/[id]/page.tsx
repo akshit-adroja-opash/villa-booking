@@ -29,7 +29,11 @@ import {
  ExternalLink,
  Phone,
  MessageCircle,
- Info
+ Info,
+ FileText,
+ Ban,
+ ChevronLeft,
+ ChevronRight
 } from 'lucide-react';
 
 interface FarmDetails {
@@ -91,6 +95,8 @@ export default function FarmDetailPage() {
  const [bookingLoading, setBookingLoading] = useState(false);
  const [existingBookings, setExistingBookings] = useState<any[]>([]);
  const [showAllPhotosModal, setShowAllPhotosModal] = useState(false);
+ const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+ const [openPolicy, setOpenPolicy] = useState<'rules' | 'cancellation' | null>(null);
 
  useEffect(() => {
  if (!id) return;
@@ -187,26 +193,31 @@ export default function FarmDetailPage() {
  return dates;
  }, [existingBookings]);
 
- useEffect(() => {
- if (showAllPhotosModal) {
- document.body.style.overflow = 'hidden';
- } else {
- document.body.style.overflow = '';
- }
- return () => {
- document.body.style.overflow = '';
- };
- }, [showAllPhotosModal]);
+  useEffect(() => {
+    if (showAllPhotosModal || lightboxIndex !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showAllPhotosModal, lightboxIndex]);
 
- useEffect(() => {
- const handleKeyDown = (e: KeyboardEvent) => {
- if (e.key === 'Escape') {
- setShowAllPhotosModal(false);
- }
- };
- window.addEventListener('keydown', handleKeyDown);
- return () => window.removeEventListener('keydown', handleKeyDown);
- }, []);
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (lightboxIndex !== null) setLightboxIndex(null);
+        else setShowAllPhotosModal(false);
+      } else if (e.key === 'ArrowRight' && lightboxIndex !== null) {
+        setLightboxIndex((prev) => (prev! + 1) % (farm?.images?.length || 1));
+      } else if (e.key === 'ArrowLeft' && lightboxIndex !== null) {
+        setLightboxIndex((prev) => (prev! - 1 + (farm?.images?.length || 1)) % (farm?.images?.length || 1));
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxIndex, farm?.images?.length]);
 
  if (loading) {
  return (
@@ -373,26 +384,26 @@ export default function FarmDetailPage() {
 
  {/* Hero Photo Gallery */}
  <div className="relative mb-20 grid h-[500px] grid-cols-1 gap-4 overflow-hidden md:h-[600px] md:grid-cols-4 md:grid-rows-2">
- <div className="relative col-span-1 row-span-1 overflow-hidden md:col-span-3 md:row-span-2">
- <img 
- src={farm.images?.[0]} 
- alt="Main stay view"
- className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
- />
- </div>
- <div className="hidden overflow-hidden md:block">
- <img 
- src={farm.images?.[1] || farm.images?.[0]} 
- alt="Alternative exterior view"
- className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
- />
- </div>
- <div className="relative hidden overflow-hidden md:block">
- <img 
- src={farm.images?.[2] || farm.images?.[0]} 
- alt="Interior lounge"
- className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
- />
+  <div className="relative col-span-1 row-span-1 overflow-hidden md:col-span-3 md:row-span-2 cursor-pointer" onClick={() => setLightboxIndex(0)}>
+  <img 
+  src={farm.images?.[0]} 
+  alt="Main stay view"
+  className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
+  />
+  </div>
+  <div className="hidden overflow-hidden md:block cursor-pointer" onClick={() => setLightboxIndex(1)}>
+  <img 
+  src={farm.images?.[1] || farm.images?.[0]} 
+  alt="Alternative exterior view"
+  className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
+  />
+  </div>
+  <div className="relative hidden overflow-hidden md:block cursor-pointer" onClick={() => setLightboxIndex(2)}>
+  <img 
+  src={farm.images?.[2] || farm.images?.[0]} 
+  alt="Interior lounge"
+  className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
+  />
  {farm.images && farm.images.length > 3 && (
  <button 
  onClick={() => setShowAllPhotosModal(true)}
@@ -459,54 +470,83 @@ export default function FarmDetailPage() {
  </div>
  </div>
 
- {/* House Rules */}
- <div className="pb-10 mb-10 border-t border-[#1B2A22]/10 pt-10">
- <div className="flex items-center gap-3 mb-6">
- <div className="w-1.5 h-6 bg-[#1B2A22] rounded-sm"></div>
- <h3 className="font-sans text-xl font-bold text-[#1B2A22]">House Rules</h3>
- </div>
- <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
- {[
- 'No Alcohol Party',
- 'No Smoking',
- 'Self Cooking',
- 'Self Cleaning',
- 'Staircase only',
- 'No Pets',
- 'No Luggage Responsibility',
- 'Non-veg not allowed'
- ].map((rule, idx) => (
- <li key={idx} className="flex items-center gap-3 bg-[#fbf8ff] border border-[#eeedf7] p-4 rounded-xl">
- <div className="text-[#1B2A22]/40">
- <CheckCircle2 className="h-5 w-5"/>
- </div>
- <span className="text-sm font-semibold text-[#1B2A22]/80">{rule}</span>
- </li>
- ))}
- </ul>
- </div>
-
- {/* Cancellation Policy */}
- <div className="pb-10 mb-10 border-t border-[#1B2A22]/10 pt-10">
- <div className="flex items-center gap-3 mb-6">
- <div className="w-1.5 h-6 bg-red-500 rounded-sm"></div>
- <h3 className="font-sans text-xl font-bold text-[#1B2A22]">Cancellation Policy</h3>
- </div>
- <ul className="space-y-3">
- {[
- { label:"Within 20 mins of booking", value:"10% convenience fee will be applied."},
- { label:"15 days+ before check-in", value:"20% of the booking amount will be charged."},
- { label:"Less than 15 days before", value:"100% of the booking amount will be charged."},
- { label:"After check-in time", value:"No cancellation allowed."},
- { label:"Refund Processing", value:"Processed within 7 working days."}
- ].map((policy, idx) => (
- <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-red-50/30 border border-red-100 rounded-xl gap-2 hover:bg-red-50/80 transition-colors">
- <span className="text-sm font-bold text-red-950">{policy.label}</span>
- <span className="text-sm font-medium text-red-900/80">{policy.value}</span>
- </li>
- ))}
- </ul>
- </div>
+  {/* Policies Accordion */}
+  <div className="border border-[#eeedf7] rounded-xl p-6 bg-white mb-10 mt-10 shadow-sm">
+    <div className="flex items-center gap-3 mb-6">
+      <div className="w-1 h-6 bg-[#00a877] rounded-sm"></div>
+      <h3 className="font-sans text-xl font-bold text-[#1B2A22]">Policies</h3>
+    </div>
+    
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <button 
+      onClick={() => setOpenPolicy(openPolicy === 'rules' ? null : 'rules')}
+      className={`flex items-center gap-3 p-4 rounded-xl border transition-colors ${openPolicy === 'rules' ? 'border-[#00a877] bg-[#fbf8ff]' : 'border-[#eeedf7] hover:bg-slate-50'}`}
+      >
+        <FileText className={`h-5 w-5 ${openPolicy === 'rules' ? 'text-[#00a877]' : 'text-[#1B2A22]/60'}`}/>
+        <span className={`font-bold ${openPolicy === 'rules' ? 'text-[#00a877]' : 'text-[#1B2A22]'}`}>House Rules</span>
+      </button>
+      
+      <button 
+      onClick={() => setOpenPolicy(openPolicy === 'cancellation' ? null : 'cancellation')}
+      className={`flex items-center gap-3 p-4 rounded-xl border transition-colors ${openPolicy === 'cancellation' ? 'border-red-500 bg-red-50/30' : 'border-[#eeedf7] hover:bg-slate-50'}`}
+      >
+        <Ban className={`h-5 w-5 ${openPolicy === 'cancellation' ? 'text-red-500' : 'text-[#1B2A22]/60'}`}/>
+        <span className={`font-bold ${openPolicy === 'cancellation' ? 'text-red-500' : 'text-[#1B2A22]'}`}>Cancellation Policy</span>
+      </button>
+    </div>
+    
+    {/* Expanded Content */}
+    {openPolicy === 'rules' && (
+    <div className="mt-6 pt-6 border-t border-[#eeedf7] animate-fade-in">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-1.5 h-5 bg-[#1B2A22] rounded-sm"></div>
+        <h4 className="font-sans text-lg font-bold text-[#1B2A22]">House Rules</h4>
+      </div>
+      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {[
+        'No Alcohol Party',
+        'No Smoking',
+        'Self Cooking',
+        'Self Cleaning',
+        'Staircase only',
+        'No Pets',
+        'No Luggage Responsibility',
+        'Non-veg not allowed'
+        ].map((rule, idx) => (
+        <li key={idx} className="flex items-center gap-3 bg-[#fbf8ff] border border-[#eeedf7] p-4 rounded-xl">
+          <div className="text-[#1B2A22]/40">
+            <CheckCircle2 className="h-5 w-5"/>
+          </div>
+          <span className="text-sm font-semibold text-[#1B2A22]/80">{rule}</span>
+        </li>
+        ))}
+      </ul>
+    </div>
+    )}
+    
+    {openPolicy === 'cancellation' && (
+    <div className="mt-6 pt-6 border-t border-[#eeedf7] animate-fade-in">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-1.5 h-5 bg-red-500 rounded-sm"></div>
+        <h4 className="font-sans text-lg font-bold text-[#1B2A22]">Cancellation Policy</h4>
+      </div>
+      <ul className="space-y-3">
+        {[
+        { label:"Within 20 mins of booking", value:"10% convenience fee will be applied."},
+        { label:"15 days+ before check-in", value:"20% of the booking amount will be charged."},
+        { label:"Less than 15 days before", value:"100% of the booking amount will be charged."},
+        { label:"After check-in time", value:"No cancellation allowed."},
+        { label:"Refund Processing", value:"Processed within 7 working days."}
+        ].map((policy, idx) => (
+        <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-red-50/30 border border-red-100 rounded-xl gap-2 hover:bg-red-50/80 transition-colors">
+          <span className="text-sm font-bold text-red-950">{policy.label}</span>
+          <span className="text-sm font-medium text-red-900/80">{policy.value}</span>
+        </li>
+        ))}
+      </ul>
+    </div>
+    )}
+  </div>
 
  {/* Location */}
  <div className="pb-10 mb-10 border-t border-[#1B2A22]/10 pt-10">
@@ -710,26 +750,21 @@ export default function FarmDetailPage() {
  {/* Full-screen Photo Gallery Modal */}
  {showAllPhotosModal && (
  <div className="fixed inset-0 z-50 overflow-y-auto bg-[#1B2A22] flex flex-col transition-all duration-300">
- <div className="sticky top-0 z-10 flex items-center justify-between bg-[#1B2A22]/90 backdrop-blur-md px-8 py-6 border-b border-white/10 text-white">
- <div>
- <h2 className="font-serif text-2xl font-normal">{farm.title}</h2>
- <p className="text-sm font-medium text-[#1B2A22] font-bold mt-2">
- {farm.images?.length || 0} Photos
- </p>
- </div>
+ <div className="sticky top-0 z-10 flex items-center justify-between bg-[#1B2A22]/95 backdrop-blur-md px-6 py-4 border-b border-white/10 text-white">
+ <h2 className="font-sans text-sm font-semibold tracking-widest uppercase">{farm.title}</h2>
  <button 
  onClick={() => setShowAllPhotosModal(false)}
- className="p-3 bg-white/5 hover:bg-white/10 text-white transition-colors focus:outline-none"
+ className="p-2 bg-white/5 hover:bg-white/10 text-white transition-colors focus:outline-none"
  aria-label="Close photo gallery"
  >
- <X className="h-6 w-6"/>
+ <X className="h-5 w-5"/>
  </button>
  </div>
 
  <div className="max-w-[1280px] w-full mx-auto px-6 py-16 flex-1">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
  {farm.images?.map((imgUrl, index) => (
- <div key={index} className="overflow-hidden aspect-[4/3] bg-black/20 border border-white/5 group relative">
+ <div key={index} className="overflow-hidden aspect-[4/3] bg-black/20 border border-white/5 group relative cursor-pointer" onClick={() => setLightboxIndex(index)}>
  <img 
  src={imgUrl} 
  alt={`${farm.title} photo ${index + 1}`} 
@@ -744,6 +779,55 @@ export default function FarmDetailPage() {
  </div>
  </div>
  )}
+
+ {/* Fullscreen Lightbox */}
+ {lightboxIndex !== null && farm.images && farm.images.length > 0 && (
+  <div className="fixed inset-0 z-[60] bg-black/95 flex flex-col transition-all duration-300">
+    <div className="absolute top-0 right-0 z-[70] p-6">
+      <button 
+      onClick={() => setLightboxIndex(null)}
+      className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors focus:outline-none backdrop-blur-md"
+      aria-label="Close lightbox"
+      >
+        <X className="h-6 w-6"/>
+      </button>
+    </div>
+    
+    <div className="absolute top-1/2 left-6 z-[70] -translate-y-1/2">
+      <button 
+      onClick={(e) => { e.stopPropagation(); setLightboxIndex((prev) => (prev! - 1 + farm.images!.length) % farm.images!.length); }}
+      className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors focus:outline-none backdrop-blur-md"
+      aria-label="Previous photo"
+      >
+        <ChevronLeft className="h-8 w-8"/>
+      </button>
+    </div>
+
+    <div className="absolute top-1/2 right-6 z-[70] -translate-y-1/2">
+      <button 
+      onClick={(e) => { e.stopPropagation(); setLightboxIndex((prev) => (prev! + 1) % farm.images!.length); }}
+      className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors focus:outline-none backdrop-blur-md"
+      aria-label="Next photo"
+      >
+        <ChevronRight className="h-8 w-8"/>
+      </button>
+    </div>
+
+    <div className="flex-1 w-full h-full flex items-center justify-center p-4 md:p-12" onClick={() => setLightboxIndex(null)}>
+      <img 
+      src={farm.images[lightboxIndex]} 
+      alt={`${farm.title} photo ${lightboxIndex + 1}`} 
+      className="max-w-full max-h-full object-contain select-none"
+      onClick={(e) => e.stopPropagation()}
+      />
+    </div>
+
+    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-sm font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-md">
+      {lightboxIndex + 1} / {farm.images.length}
+    </div>
+  </div>
+  )}
+
  </div>
  );
 }
