@@ -136,7 +136,7 @@ function StaysList() {
  
  {/* Header & Search */}
  <div className="mb-8">
- <h1 className="font-serif text-3xl md:text-[32px] font-bold text-[#002E1E] mb-6">
+ <h1 className="font-sans text-3xl md:text-[28px] font-bold text-[#1B2A22] mb-6">
  Find Your Perfect Farmhouse
  </h1>
  <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
@@ -257,7 +257,7 @@ function StaysList() {
  </div>
 
  {/* Title */}
- <h3 className="font-serif text-[22px] text-[#002E1E] font-bold mb-4 leading-snug">
+ <h3 className="font-sans text-[19px] text-[#1B2A22] font-bold mb-4 leading-snug group-hover:text-[#00a877] transition-colors">
  {farm.title}
  </h3>
  

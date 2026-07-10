@@ -110,7 +110,7 @@ export default function Home() {
  <div className="bg-[#FAF9F6] text-[#1B2A22] min-h-screen">
  
  {/* Hero Section */}
- <section className="relative h-[80vh] min-h-[500px] md:h-[600px] md:min-h-[600px] lg:h-screen lg:min-h-[700px] flex items-center justify-center overflow-hidden">
+ <section className="relative h-[65vh] min-h-[450px] md:h-[70vh] md:min-h-[500px] lg:h-[75vh] lg:min-h-[600px] flex items-center justify-center overflow-hidden">
   <div className="absolute inset-0 z-0">
     {heroImages.map((src, idx) => (
       <div 
@@ -130,10 +130,10 @@ export default function Home() {
  {/* Hero Content */}
  <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center mt-12 md:mt-20">
  <span className="text-[11px] md:text-sm font-medium tracking-[0.3em] font-bold text-white/90 mb-4 md:mb-6 animate-fade-in uppercase">
- Exclusive Farmhouses
+LUXURY & NATURE
  </span>
- <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-normal text-white leading-tight mb-8 drop-shadow-lg">
- Explore Best Farmhouse
+ <h1 className="font-serif text-5xl md:text-7xl lg:text-7xl font-normal text-white leading-tight mb-8 drop-shadow-lg">
+ Explore Farmhouse
  </h1>
  <Link 
  href="/farms"
@@ -153,7 +153,7 @@ export default function Home() {
  <div className="max-w-[1280px] mx-auto px-6 md:px-16">
  <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 md:mb-8 gap-6">
  <div className="w-full md:w-auto text-center md:text-left">
- <h2 className="font-serif text-3xl md:text-4xl text-[#1B2A22]">Our Farmhouses</h2>
+ <h2 className="font-sans text-3xl md:text-4xl text-[#1B2A22]">Our Farmhouses</h2>
  </div>
  <div className="w-full md:w-auto flex justify-end mt-2 md:mt-0">
  <Link href="/farms"className="text-sm font-medium text-[#1B2A22] flex items-center gap-2 hover:text-[#1B2A22] transition-colors border-b border-[#1B2A22] hover:border-[#1B2A22] pb-1">
@@ -213,7 +213,7 @@ export default function Home() {
  </div>
 
  {/* Title */}
- <h3 className="font-serif text-2xl text-[#1B2A22] font-normal mb-4 leading-snug group-hover:text-[#00a877] transition-colors">
+ <h3 className="font-sans text-[19px] text-[#1B2A22] font-bold mb-4 leading-snug group-hover:text-[#00a877] transition-colors">
  {farm.title}
  </h3>
  
@@ -257,10 +257,10 @@ export default function Home() {
  <span className="text-sm font-medium text-[#00a877] mb-6 block">
  Contact Us
  </span>
- <h2 className="font-serif text-4xl md:text-5xl text-[#1B2A22] font-normal leading-tight mb-6">
+ <h2 className="font-sans text-4xl md:text-5xl text-[#1B2A22] font-bold leading-tight mb-6">
  Begin Your Journey
  </h2>
- <p className="text-[#1B2A22]/70 font-serif text-lg max-w-md mx-auto mb-10">
+ <p className="text-[#1B2A22]/70 font-sans text-lg max-w-md mx-auto mb-10">
  Speak with our support team to arrange your private viewing or secure your booking.
  </p>
 

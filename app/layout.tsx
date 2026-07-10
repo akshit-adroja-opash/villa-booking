@@ -1,15 +1,14 @@
 import type { Metadata } from"next";
-import { Playfair_Display, Roboto } from"next/font/google";
+import { Roboto, Cinzel } from "next/font/google";
 import"./globals.css";
 import { Providers } from"./providers";
 import Navbar from"@/components/Navbar";
 import Footer from"@/components/Footer";
 
-const playfair = Playfair_Display({
- weight: ["400","700"],
- style: ["normal","italic"],
- subsets: ["latin"],
- variable:"--font-playfair",
+const cinzel = Cinzel({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-cinzel",
 });
 
 const roboto = Roboto({
@@ -33,7 +32,7 @@ export default function RootLayout({
  return (
  <html
  lang="en"
- className={`${playfair.variable} ${roboto.variable} h-full antialiased`}
+ className={`${roboto.variable} h-full antialiased`}
  >
  <head>
  <link
@@ -54,4 +53,5 @@ export default function RootLayout({
  </html>
  );
 }
+
 

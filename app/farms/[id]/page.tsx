@@ -341,6 +341,16 @@ export default function FarmDetailPage() {
 
  if (res.ok) {
  toast.success('Reservation Confirmed Successfully!');
+ 
+ const checkInStr = startDate ? startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' at 6:00 PM' : '';
+ const checkOutStr = endDate ? endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' at 5:00 PM' : '';
+ const userEmail = (session.user as any).email || 'No email';
+ 
+ const text = `Hi! I want to book ${farm.title} Check-in: ${checkInStr} Check-out: ${checkOutStr} Duration: ${diffNights} Nights Guests: ${guestSelection} Email: ${userEmail}`;
+ const whatsappUrl = `https://api.whatsapp.com/send?phone=918780493615&text=${encodeURIComponent(text)}`;
+ 
+ window.open(whatsappUrl, '_blank');
+ 
  router.push('/dashboard/bookings');
  } else {
  const errorData = await res.json();
@@ -680,7 +690,7 @@ export default function FarmDetailPage() {
  {/* Alert Banners */}
  {hasConflict && (
  <div className="mb-6 p-4 bg-red-50 text-red-800 text-xs font-bold flex items-start gap-2 border border-red-200 rounded-xl">
- <span>This estate is already reserved for the selected dates.</span>
+ <span>This FarmHouse is already reserved for the selected dates.</span>
  </div>
  )}
  {isInvalidDates && (

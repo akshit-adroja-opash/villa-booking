@@ -73,15 +73,15 @@
 
   /* Font Families */
   --font-sans: var(--font-roboto), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+  --font-serif: var(--font-cinzel), ui-serif, Georgia, serif;
   --font-body-lg: var(--font-roboto);
   --font-label-md: var(--font-roboto);
-  --font-display-lg: var(--font-playfair);
-  --font-headline-sm: var(--font-playfair);
+  --font-display-lg: var(--font-roboto);
+  --font-headline-sm: var(--font-roboto);
   --font-label-sm: var(--font-roboto);
-  --font-headline-md: var(--font-playfair);
+  --font-headline-md: var(--font-roboto);
   --font-body-md: var(--font-roboto);
-  --font-display-lg-mobile: var(--font-playfair);
+  --font-display-lg-mobile: var(--font-roboto);
 
   /* Font Sizes */
   --text-body-lg: 18px;

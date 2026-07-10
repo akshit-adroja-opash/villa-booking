@@ -172,7 +172,7 @@ export default function AdminPropertiesPage() {
  {farm.location || 'Exclusive Location'}
  </div>
  
- <h3 className="font-serif text-[28px] font-normal text-[#1B2A22] mt-3">{farm.title}</h3>
+ <h3 className="font-sans text-[22px] font-medium text-[#1B2A22] mt-3">{farm.title}</h3>
  
  <div className="flex items-center gap-6 flex-wrap mt-5 text-[13px] font-bold text-gray-400">
  <span className="flex items-center gap-2">
