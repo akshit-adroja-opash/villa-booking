@@ -283,13 +283,17 @@ export default function BookingsDashboardPage() {
  border-top: 1px solid rgba(212, 175, 55, 0.3);
  padding-top: 20px;
  }
- @media print { @page { margin: 0; } body { margin: 0; padding: 1.5cm; } .container { border: none; box-shadow: none; padding: 0; } .footer { margin-top: 30px; } }
- .container { border: none; box-shadow: none; padding: 20px; }
- .footer { margin-top: 30px; }
- }
- </style>
- </head>
- <body><div style="text-align: right; font-size: 10px; font-family: sans-serif; color: #1B2A22; opacity: 0.6; margin-bottom: 20px;">Enjoy Farm Receipt - ${booking._id.slice(-6).toUpperCase()}</div><div class="container">
+  @media print { 
+    @page { margin: 0; } 
+    body { margin: 0; padding: 1.5cm; } 
+    .container { border: none; box-shadow: none; padding: 0; margin: 0 auto; max-width: 800px; } 
+    .footer { margin-top: 30px; } 
+  }
+  .container { border: none; box-shadow: none; padding: 20px; margin: 0 auto; max-width: 800px; }
+  .footer { margin-top: 30px; }
+  </style>
+  </head>
+  <body><div style="position: absolute; top: 0.8cm; right: 0.8cm; text-align: right; font-size: 10px; font-family: sans-serif; color: #1B2A22; opacity: 0.6;">Enjoy Farm Receipt - ${booking._id.slice(-6).toUpperCase()}</div><div class="container">
  <div class="header">
  <div>
  <div class="logo">
@@ -307,9 +311,9 @@ export default function BookingsDashboardPage() {
 
  <div class="grid">
  <div class="card">
- <div class="label">Esteemed Guest</div>
+ <div class="label">Guest Details</div>
  <div class="value"style="font-size: 18px; font-weight: normal; color: #1B2A22; margin-bottom: 8px;">
- ${session?.user?.name || 'Valued Patron'}
+ ${session?.user?.name || 'Guest'}
  </div>
  <div class="value"style="font-family: sans-serif; font-size: 13px; opacity: 0.8; line-height: 1.6;">
  ${session?.user?.email || ''}<br>
@@ -331,7 +335,7 @@ export default function BookingsDashboardPage() {
  <table class="table">
  <thead>
  <tr>
- <th>Sanctuary</th>
+ <th>Farmhouse</th>
  <th>Guests</th>
  <th>Check-In</th>
  <th>Check-Out</th>
@@ -342,7 +346,7 @@ export default function BookingsDashboardPage() {
  <tr>
  <td>
  <strong style="color: #1B2A22; font-size: 18px; font-weight: normal;">${farm.title}</strong><br>
- <span style="font-family: sans-serif; font-size: 12px; color: #1B2A22; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-top: 8px;">${farm.location || 'Exclusive Retreat'}</span>
+ <span style="font-family: sans-serif; font-size: 12px; color: #1B2A22; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-top: 8px;">${farm.location || 'Location'}</span>
  </td>
  <td style="font-family: sans-serif;">${farm.guests || 2} Adults</td>
  <td style="font-family: sans-serif;">${new Date(booking.startDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
@@ -359,17 +363,17 @@ export default function BookingsDashboardPage() {
  </div>
  <div class="summary-row"style="font-family: sans-serif;">
  <span>Support Service:</span>
- <span>Complimentary</span>
+ <span>Free</span>
  </div>
  <div class="total-box">
- <span class="total-label">Total Remitted:</span>
+ <span class="total-label">Total Paid:</span>
  <span class="total-value">₹${booking.totalPrice.toLocaleString('en-IN')}</span>
  </div>
  </div>
 
  <div class="footer">
- We look forward to welcoming you. Should you require bespoke arrangements prior to arrival, <br>
- please contact our concierge desk at concierge@theestate.com.
+ We look forward to welcoming you. If you need any special arrangements before you arrive, <br>
+ please contact us at support@enjoyfarm.com.
  </div>
  </div>
  <script>

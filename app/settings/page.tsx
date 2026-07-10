@@ -122,30 +122,35 @@ export default function SettingsPage() {
  const file = e.target.files?.[0];
  if (!file) return;
 
+ const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || '';
+ const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || '';
+
  const formData = new FormData();
  formData.append('file', file);
+ formData.append('upload_preset', UPLOAD_PRESET);
 
  setSaving(true);
  try {
- const res = await fetch('/api/upload', {
+ const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
  method: 'POST',
  body: formData,
  });
 
  if (!res.ok) throw new Error('Upload failed');
  const data = await res.json();
+ const imageUrl = data.secure_url;
  
  const profileRes = await fetch('/api/users/profile', {
  method: 'PUT',
  headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({ image: data.url }),
+ body: JSON.stringify({ image: imageUrl }),
  });
 
  if (profileRes.ok) {
- setImage(data.url);
+ setImage(imageUrl);
  if (update) {
  await update({
- image: data.url
+ image: imageUrl
  });
  }
  toast.success('Profile picture updated successfully!');
