@@ -6,11 +6,11 @@ import { signIn } from 'next-auth/react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
 const Logo = () => (
-  <div className="flex flex-col items-center gap-2 mb-6 text-[#1B2A22]">
-    <div className="w-16 h-16 flex items-center justify-center shrink-0">
-      <img src="/logo.png" alt="Enjoy Farm Logo" className="w-full h-full object-contain" />
-    </div>
-    <span className="font-serif text-3xl font-normal tracking-wide mt-2">Enjoy Farm</span>
+  <div className="flex flex-col items-center gap-2 mb-2 md:mb-6 text-[#1B2A22]">
+  <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center shrink-0">
+  <img src="/logo.png" alt="Enjoy Farm Logo" className="w-full h-full object-contain" />
+  </div>
+  <span className="font-serif text-2xl md:text-3xl font-normal tracking-wide mt-1 md:mt-2">Enjoy Farm</span>
   </div>
 );
 
@@ -88,19 +88,19 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  };
 
  return (
- <div className="flex-grow flex flex-col py-12 md:py-16 bg-[#FAF9F6] items-center justify-center p-6 text-[#1B2A22] font-sans antialiased relative overflow-hidden">
+ <div className="flex-grow flex flex-col md:py-16 bg-white md:bg-[#FAF9F6] items-center justify-center md:p-6 text-[#1B2A22] font-sans antialiased relative overflow-hidden min-h-screen">
  
  {/* Decorative subtle element */}
- <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#1B2A22]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
- <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#1B2A22]/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 pointer-events-none"></div>
+ <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#1B2A22]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none hidden md:block"></div>
+ <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#1B2A22]/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 pointer-events-none hidden md:block"></div>
 
  {/* Main Card */}
- <div className="w-full max-w-[480px] bg-white rounded-3xl border border-[#1B2A22]/10 p-8 md:p-10 shadow-2xl relative z-10">
+ <div className="w-full h-full min-h-screen md:min-h-0 md:max-w-[480px] bg-white md:rounded-3xl border-none md:border md:border-[#1B2A22]/10 p-6 md:p-10 shadow-none md:shadow-2xl relative z-10 flex flex-col justify-center">
  
  {/* Header Logo & Welcomes */}
- <div className="flex flex-col items-center text-center mb-8">
+ <div className="flex flex-col items-center text-center mb-6 md:mb-8">
  <Logo />
- <div className="space-y-2 mt-4">
+ <div className="space-y-1 md:space-y-2 mt-2 md:mt-4">
  <h2 className="text-sm font-medium text-[#1B2A22]">
  {mode === 'signin' ? 'Login' : 'Sign Up'}
  </h2>
@@ -112,7 +112,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
 
  {/* Dynamic Forms */}
  {mode === 'signin' ? (
- <form onSubmit={handleLogin} className="space-y-5">
+ <form onSubmit={handleLogin} className="space-y-4 md:space-y-5">
  {/* Email Address */}
  <div className="space-y-2">
  <label className="block text-sm font-medium font-bold text-[#1B2A22]"htmlFor="login-email">
@@ -178,13 +178,13 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <button 
  type="submit"
  disabled={loading}
- className="w-full h-14 bg-[#00a877] hover:bg-[#008f65] text-white text-sm font-medium transition-all active:scale-[0.99] disabled:opacity-50 mt-4 rounded-xl"
+ className="w-full h-12 md:h-14 bg-[#00a877] hover:bg-[#008f65] text-white text-sm font-medium transition-all active:scale-[0.99] disabled:opacity-50 mt-2 md:mt-4 rounded-xl"
  >
  {loading ? 'Authenticating...' : 'Sign In'}
  </button>
  </form>
  ) : (
- <form onSubmit={handleRegister} className="space-y-5">
+ <form onSubmit={handleRegister} className="space-y-4 md:space-y-5">
  {/* Full Name */}
  <div className="space-y-2">
  <label className="block text-sm font-medium font-bold text-[#1B2A22]"htmlFor="reg-name">
@@ -245,7 +245,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <button 
  type="submit"
  disabled={loading}
- className="w-full h-14 bg-[#00a877] hover:bg-[#008f65] text-white text-sm font-medium transition-all active:scale-[0.99] disabled:opacity-50 mt-4 rounded-xl"
+ className="w-full h-12 md:h-14 bg-[#00a877] hover:bg-[#008f65] text-white text-sm font-medium transition-all active:scale-[0.99] disabled:opacity-50 mt-2 md:mt-4 rounded-xl"
  >
  {loading ? 'Creating Account...' : 'Sign Up'}
  </button>
