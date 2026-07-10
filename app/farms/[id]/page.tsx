@@ -111,7 +111,7 @@ export default function FarmDetailPage() {
  if (res.ok) {
  const data = await res.json();
  if (!data) throw new Error('Not found');
- const cleanRating = data.rating === 4.8 && data._id ? (4.5 + (parseInt(data._id.slice(-4), 16) % 6) / 10).toFixed(1) : Number(data.rating || 4.7).toFixed(1);
+ const cleanRating = Number(data.rating === 4.8 && data._id ? (4.5 + (parseInt(data._id.slice(-4), 16) % 6) / 10).toFixed(1) : Number(data.rating || 4.7).toFixed(1));
  const cleanAcres = data.acres || Math.round((data.pricePerNight / 1000) + (data.bedrooms || 1));
  
  setFarm({
