@@ -330,7 +330,8 @@ export default function AddPropertyWizardPage() {
  'Swimming Pool', 'Children\'s Swimming Pool', 'Garden', 
  'Children\'s Playground', 'Gazebo', 'Extra Mattress',
  'WiFi', 'Air Conditioning', 'CCTV', 'Parking',
- 'Indoor Fireplace', 'Home Theater', 'Outdoor Kitchen', 'Sound System'
+ 'Indoor Fireplace', 'Home Theater', 'Outdoor Kitchen', 'Sound System',
+ 'Cricket Box', 'Online Food Delivery (Zomato/Swiggy)'
  ].map((amenity) => (
  <div key={amenity} className="flex items-center gap-3 bg-[#fbf8ff] p-4 rounded-lg border border-[#eeedf7] transition-all hover:bg-[#e3e1ec]/30 relative">
  <div className="relative flex items-center">

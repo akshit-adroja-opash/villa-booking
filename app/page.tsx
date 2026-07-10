@@ -200,9 +200,9 @@ export default function Home() {
  {/* Favorite Button */}
  <button 
  onClick={(e) => toggleFavorite(farm._id, e)}
- className="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-2 rounded-full text-[#1B2A22]/50 hover:text-red-500 transition-colors shadow-sm"
+ className="absolute top-4 right-4 text-white drop-shadow-md hover:scale-110 transition-transform active:scale-95"
  >
- <Heart className={`h-4 w-4 ${isFav ? 'fill-red-500 text-red-500' : ''}`} />
+ <Heart className={`h-6 w-6 ${isFav ? 'fill-red-500 text-red-500' : 'fill-black/20'}`} />
  </button>
  </div>
 

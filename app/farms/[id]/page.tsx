@@ -77,7 +77,9 @@ const AMENITY_ICONS: Record<string, React.ComponentType<any>> = {
  'Yoga Deck': Sparkles,
  'River View': Waves,
  'Fruit Picking': Trees,
- 'Beach Access': Compass
+ 'Beach Access': Compass,
+ 'Cricket Box': CheckCircle2,
+ 'Online Food Delivery (Zomato/Swiggy)': ChefHat
 };
 
 export default function FarmDetailPage() {
@@ -502,6 +504,7 @@ export default function FarmDetailPage() {
  </div>
  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
  {[
+ 'Check-in: 6 PM | Checkout: 5 PM',
  'No Alcohol Party',
  'No Smoking',
  'Self Cooking',
