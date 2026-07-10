@@ -111,7 +111,7 @@ export default function AdminPropertiesPage() {
  </div>
 
  {/* Stats Grid */}
- <div className="grid gap-6 md:grid-cols-3">
+ <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
  {[
  { label: 'LIVE LISTINGS', value: farms.length.toString() },
  { label: 'AVERAGE NIGHTLY RATE', value: `₹${averageRate.toLocaleString('en-IN')}` },
@@ -143,9 +143,9 @@ export default function AdminPropertiesPage() {
  </div>
  ) : (
  filteredFarms.map((farm) => (
- <article key={farm._id} className="flex flex-col sm:flex-row bg-white border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)] overflow-hidden">
+ <article key={farm._id} className="flex flex-col xl:flex-row bg-white border border-gray-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.02)] overflow-hidden rounded-xl">
  {/* Image */}
- <div className="shrink-0 w-full sm:w-[320px] h-56 sm:h-auto overflow-hidden bg-gray-100 relative p-4">
+ <div className="shrink-0 w-full xl:w-[360px] h-64 xl:h-auto overflow-hidden bg-gray-100 relative">
  {farm.images?.[0] ? (
  <img 
  src={farm.images[0]} 

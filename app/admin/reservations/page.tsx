@@ -179,7 +179,7 @@ export default function AdminReservationsPage() {
  </div>
 
  {/* Stats Grid */}
- <div className="grid gap-6 md:grid-cols-3">
+ <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
  <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">TOTAL RESERVATIONS</p>
  <p className="font-sans tracking-tight text-[28px] font-bold text-[#1B2A22]">{bookings.length}</p>
@@ -212,7 +212,7 @@ export default function AdminReservationsPage() {
 
  {/* Table */}
  <div className="overflow-x-auto">
- <table className="w-full min-w-[900px] text-left border-collapse">
+ <table className="w-full min-w-[900px] text-left border-collapse whitespace-nowrap">
  <thead>
  <tr className="bg-[#fafafa] text-[10px] font-bold text-gray-400 tracking-wider uppercase border-b border-gray-100">
  <th className="px-8 py-5">Guest</th>

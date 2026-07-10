@@ -389,44 +389,45 @@ export default function FarmDetailPage() {
  </div>
 
  {/* Hero Photo Gallery */}
- <div className="relative mb-20 grid h-[500px] grid-cols-1 gap-4 overflow-hidden md:h-[600px] md:grid-cols-4 md:grid-rows-2">
-  <div className="relative col-span-1 row-span-1 overflow-hidden md:col-span-3 md:row-span-2 cursor-pointer" onClick={() => setLightboxIndex(0)}>
+ <div className="relative mb-12 md:mb-20 grid h-[300px] sm:h-[400px] md:h-[600px] grid-cols-1 gap-2 md:gap-4 overflow-hidden rounded-2xl md:grid-cols-2 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-2">
+  <div className="relative col-span-1 row-span-1 overflow-hidden md:col-span-2 md:row-span-1 lg:col-span-3 lg:row-span-2 cursor-pointer" onClick={() => setLightboxIndex(0)}>
   <img 
   src={farm.images?.[0]} 
   alt="Main stay view"
   className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
   />
   </div>
-  <div className="hidden overflow-hidden md:block cursor-pointer" onClick={() => setLightboxIndex(1)}>
+  <div className="hidden overflow-hidden md:block cursor-pointer md:col-span-1 lg:col-span-1" onClick={() => setLightboxIndex(1)}>
   <img 
   src={farm.images?.[1] || farm.images?.[0]} 
   alt="Alternative exterior view"
   className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
   />
   </div>
-  <div className="relative hidden overflow-hidden md:block cursor-pointer" onClick={() => setLightboxIndex(2)}>
+  <div className="relative hidden overflow-hidden md:block cursor-pointer md:col-span-1 lg:col-span-1" onClick={() => setLightboxIndex(2)}>
   <img 
   src={farm.images?.[2] || farm.images?.[0]} 
   alt="Interior lounge"
   className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
   />
- {farm.images && farm.images.length > 3 && (
- <button 
- onClick={() => setShowAllPhotosModal(true)}
- className="absolute bottom-6 right-6 flex items-center space-x-2 bg-white/20 backdrop-blur-md px-6 py-3 text-sm font-medium text-white transition-all hover:bg-white hover:text-[#1B2A22]"
- >
- <Grid className="h-4 w-4"/>
- <span>View All</span>
- </button>
- )}
- </div>
+  </div>
+  
+  {farm.images && farm.images.length > 3 && (
+  <button 
+  onClick={() => setShowAllPhotosModal(true)}
+  className="absolute bottom-4 right-4 md:bottom-6 md:right-6 flex items-center space-x-2 bg-white/40 backdrop-blur-md px-4 py-2 md:px-6 md:py-3 text-[12px] md:text-sm font-bold text-[#1B2A22] transition-all hover:bg-white hover:scale-105 rounded-lg shadow-sm"
+  >
+  <Grid className="h-4 w-4"/>
+  <span>View All</span>
+  </button>
+  )}
  </div>
 
  {/* Detail Split Column Panel */}
- <div className="flex flex-col gap-16 md:flex-row mt-12">
+ <div className="flex flex-col gap-16 lg:flex-row mt-12">
  
  {/* Main Info */}
- <div className="w-full md:w-[60%] md:pr-10">
+ <div className="w-full lg:w-[60%] lg:pr-10">
  
  {/* Highlights Section */}
  <div className="mb-8">
@@ -480,18 +481,26 @@ export default function FarmDetailPage() {
  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
  <button 
  onClick={() => setOpenPolicy(openPolicy === 'rules' ? null : 'rules')}
- className={`flex items-center gap-3 p-4 rounded-xl border transition-colors ${openPolicy === 'rules' ? 'border-[#002E1E] bg-gray-50' : 'border-gray-100 hover:bg-slate-50'}`}
+ className={`flex items-center justify-center gap-2.5 p-3.5 rounded-xl border-2 transition-all font-bold shadow-sm active:scale-[0.98] ${
+  openPolicy === 'rules' 
+  ? 'border-[#00a877] bg-[#e6f4ea] text-[#00a877]' 
+  : 'border-gray-100 bg-gray-50 text-gray-600 hover:border-[#00a877]/30 hover:bg-white hover:shadow-md'
+ }`}
  >
- <FileText className={`h-5 w-5 ${openPolicy === 'rules' ? 'text-[#002E1E]' : 'text-gray-500'}`}/>
- <span className={`font-bold ${openPolicy === 'rules' ? 'text-[#002E1E]' : 'text-gray-700'}`}>House Rules</span>
+ <FileText className="h-5 w-5"/>
+ <span>House Rules</span>
  </button>
  
  <button 
  onClick={() => setOpenPolicy(openPolicy === 'cancellation' ? null : 'cancellation')}
- className={`flex items-center gap-3 p-4 rounded-xl border transition-colors ${openPolicy === 'cancellation' ? 'border-red-500 bg-red-50/30' : 'border-gray-100 hover:bg-slate-50'}`}
+ className={`flex items-center justify-center gap-2.5 p-3.5 rounded-xl border-2 transition-all font-bold shadow-sm active:scale-[0.98] ${
+  openPolicy === 'cancellation' 
+  ? 'border-red-500 bg-red-50 text-red-500' 
+  : 'border-gray-100 bg-gray-50 text-gray-600 hover:border-red-300 hover:bg-white hover:shadow-md'
+ }`}
  >
- <Ban className={`h-5 w-5 ${openPolicy === 'cancellation' ? 'text-red-500' : 'text-gray-500'}`}/>
- <span className={`font-bold ${openPolicy === 'cancellation' ? 'text-red-500' : 'text-gray-700'}`}>Cancellation Policy</span>
+ <Ban className="h-5 w-5"/>
+ <span>Cancellation Policy</span>
  </button>
  </div>
  
@@ -584,7 +593,7 @@ export default function FarmDetailPage() {
  </div>
 
  {/* Booking / Sticky Card Column */}
- <div className="w-full md:w-[40%]">
+ <div className="w-full lg:w-[40%]">
  <div className="sticky top-28">
  <div className="bg-white border border-gray-100 rounded-3xl p-7 shadow-sm">
  
@@ -771,7 +780,7 @@ export default function FarmDetailPage() {
  alt={`${farm.title} photo ${index + 1}`} 
  className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
  />
- <div className="absolute bottom-6 left-6 bg-[#1B2A22]/80 backdrop-blur-sm text-[#1B2A22] px-4 py-2 text-sm font-medium">
+ <div className="absolute bottom-6 left-6 text-white px-4 py-2 text-sm font-bold drop-shadow-lg">
  {index + 1} / {farm.images.length}
  </div>
  </div>

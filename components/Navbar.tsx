@@ -74,9 +74,9 @@ export default function Navbar() {
  </div>
 
  {/* Navigation Links - Center Aligned */}
- <nav className="hidden md:flex flex-1 justify-center items-center gap-10">
+ <nav className="hidden md:flex flex-1 justify-center items-center gap-5 lg:gap-10">
  <Link 
- className={`relative text-sm font-medium transition-all group ${
+ className={`relative text-sm font-medium transition-all whitespace-nowrap group ${
  pathname === '/' ? textColor : `${textColor} opacity-70 hover:opacity-100`
  }`} 
  href="/"
@@ -85,7 +85,7 @@ export default function Navbar() {
  <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname === '/' ? 'scale-x-100' : ''}`}></span>
  </Link>
  <Link 
- className={`relative text-sm font-medium transition-all group ${
+ className={`relative text-sm font-medium transition-all whitespace-nowrap group ${
  pathname === '/farms' || pathname === '/properties' ? textColor : `${textColor} opacity-70 hover:opacity-100`
  }`} 
  href="/farms"
@@ -94,7 +94,7 @@ export default function Navbar() {
  <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname === '/farms' || pathname === '/properties' ? 'scale-x-100' : ''}`}></span>
  </Link>
  <Link 
- className={`relative text-sm font-medium transition-all group ${
+ className={`relative text-sm font-medium transition-all whitespace-nowrap group ${
  pathname === '/contact' ? textColor : `${textColor} opacity-70 hover:opacity-100`
  }`} 
  href="/contact"
@@ -105,7 +105,7 @@ export default function Navbar() {
  </nav>
 
  {/* Actions - Right Aligned */}
- <div className="flex-1 flex justify-end items-center gap-6">
+ <div className="flex-1 flex justify-end items-center gap-4 lg:gap-6">
  {session ? (
  <div className="relative"ref={dropdownRef}>
  <button 
@@ -159,25 +159,55 @@ export default function Navbar() {
  )}
 
  <button
- onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+ onClick={() => setMobileMenuOpen(true)}
  className={`md:hidden p-2 ${textColor}`}
- aria-label="Toggle menu"
+ aria-label="Open menu"
  >
- {mobileMenuOpen ? <X className="h-6 w-6"/> : <Menu className="h-6 w-6"/>}
+ <Menu className="h-6 w-6"/>
  </button>
  </div>
  </div>
 
- {/* Mobile menu */}
+ {/* Mobile Sidebar Overlay */}
  {mobileMenuOpen && (
- <div className="absolute top-20 left-0 w-full bg-[#FAF9F6] border-b border-[#1B2A22]/10 md:hidden flex flex-col py-6 px-8 gap-6 z-40 shadow-2xl text-center">
- <Link className="text-sm font-semibold text-[#1B2A22]"href="/"onClick={() => setMobileMenuOpen(false)}>Home</Link>
- <Link className="text-sm font-semibold text-[#1B2A22]"href="/farms"onClick={() => setMobileMenuOpen(false)}>The Collection</Link>
- <Link className="text-sm font-semibold text-[#1B2A22]"href="/contact"onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
- {!isAdmin && <Link className="text-sm font-semibold text-[#1B2A22]"href={session ?"/dashboard/bookings":"/login"} onClick={() => setMobileMenuOpen(false)}>Reservations</Link>}
- {isAdmin && <Link className="text-sm font-bold text-[#1B2A22]"href="/admin/dashboard"onClick={() => setMobileMenuOpen(false)}>Admin Panel</Link>}
+ <div 
+ className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[55] md:hidden transition-opacity"
+ onClick={() => setMobileMenuOpen(false)}
+ ></div>
+ )}
+
+ {/* Mobile Sidebar Drawer */}
+ <div className={`fixed top-0 right-0 h-screen w-[280px] bg-white z-[60] shadow-2xl transform transition-transform duration-300 ease-in-out md:hidden flex flex-col py-6 px-6 overflow-y-auto ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+ <div className="flex justify-between items-center mb-8">
+ <span className="font-serif text-[20px] font-bold text-[#1B2A22]">Menu</span>
+ <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-[#1B2A22]/60 hover:text-[#1B2A22] rounded-full hover:bg-gray-100 transition-colors">
+ <X className="h-5 w-5"/>
+ </button>
+ </div>
+
+ <div className="flex flex-col gap-5 text-left">
+ <Link className="text-[15px] font-bold text-[#1B2A22] hover:opacity-70 transition-opacity"href="/"onClick={() => setMobileMenuOpen(false)}>Home</Link>
+ <Link className="text-[15px] font-bold text-[#1B2A22] hover:opacity-70 transition-opacity"href="/farms"onClick={() => setMobileMenuOpen(false)}>The Collection</Link>
+ <Link className="text-[15px] font-bold text-[#1B2A22] hover:opacity-70 transition-opacity"href="/contact"onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
+ 
+ {!isAdmin && (
+ <Link className="text-[15px] font-bold text-[#1B2A22] hover:opacity-70 transition-opacity"href={session ?"/dashboard/bookings":"/login"} onClick={() => setMobileMenuOpen(false)}>Reservations</Link>
+ )}
+
+ {isAdmin && (
+ <div className="flex flex-col gap-4 mt-2">
+ <div className="border-t border-gray-100"></div>
+ <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mt-1 mb-1">Admin Portal</span>
+ <Link className="text-[14px] font-semibold text-[#00a877] hover:text-[#008f65] transition-colors"href="/admin/dashboard"onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
+ <Link className="text-[14px] font-semibold text-[#00a877] hover:text-[#008f65] transition-colors"href="/admin/users"onClick={() => setMobileMenuOpen(false)}>Guests</Link>
+ <Link className="text-[14px] font-semibold text-[#00a877] hover:text-[#008f65] transition-colors"href="/admin/properties"onClick={() => setMobileMenuOpen(false)}>Farmhouses</Link>
+ <Link className="text-[14px] font-semibold text-[#00a877] hover:text-[#008f65] transition-colors"href="/admin/reservations"onClick={() => setMobileMenuOpen(false)}>Bookings</Link>
+ <Link className="text-[14px] font-semibold text-[#00a877] hover:text-[#008f65] transition-colors"href="/admin/financials"onClick={() => setMobileMenuOpen(false)}>Revenue</Link>
+ <Link className="text-[14px] font-semibold text-[#00a877] hover:text-[#008f65] transition-colors"href="/settings"onClick={() => setMobileMenuOpen(false)}>Settings</Link>
  </div>
  )}
+ </div>
+ </div>
  </header>
  );
 }

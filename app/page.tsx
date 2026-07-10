@@ -110,7 +110,7 @@ export default function Home() {
  <div className="bg-[#FAF9F6] text-[#1B2A22] min-h-screen">
  
  {/* Hero Section */}
- <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+ <section className="relative h-[80vh] min-h-[500px] md:h-[600px] md:min-h-[600px] lg:h-screen lg:min-h-[700px] flex items-center justify-center overflow-hidden">
   <div className="absolute inset-0 z-0">
     {heroImages.map((src, idx) => (
       <div 
@@ -128,16 +128,13 @@ export default function Home() {
   </div>
 
  {/* Hero Content */}
- <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center mt-20">
- <span className="text-sm font-medium tracking-[0.3em] font-bold text-[#1B2A22] mb-6 animate-fade-in">
+ <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center mt-12 md:mt-20">
+ <span className="text-[11px] md:text-sm font-medium tracking-[0.3em] font-bold text-white/90 mb-4 md:mb-6 animate-fade-in uppercase">
  Exclusive Farmhouses
  </span>
  <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-normal text-white leading-tight mb-8 drop-shadow-lg">
  Explore Best Farmhouse
  </h1>
- <p className="text-white/80 text-sm md:text-base font-medium max-w-lg mb-10 leading-relaxed">
- Discover our collection of private farmhouses, where luxury meets absolute tranquility.
- </p>
  <Link 
  href="/farms"
  className="group relative px-8 py-4 bg-white text-[#1B2A22] text-sm font-medium overflow-hidden transition-all hover:bg-[#1B2A22] hover:text-white"
@@ -152,15 +149,17 @@ export default function Home() {
  </section>
 
  {/* The Collection (Editorial Layout) */}
- <section className="py-20 bg-white">
+ <section className="py-12 md:py-20 bg-white">
  <div className="max-w-[1280px] mx-auto px-6 md:px-16">
- <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
- <div>
- <h2 className="font-serif text-4xl text-[#1B2A22]">Our Farmhouses</h2>
+ <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 md:mb-8 gap-6">
+ <div className="w-full md:w-auto text-center md:text-left">
+ <h2 className="font-serif text-3xl md:text-4xl text-[#1B2A22]">Our Farmhouses</h2>
  </div>
+ <div className="w-full md:w-auto flex justify-end mt-2 md:mt-0">
  <Link href="/farms"className="text-sm font-medium text-[#1B2A22] flex items-center gap-2 hover:text-[#1B2A22] transition-colors border-b border-[#1B2A22] hover:border-[#1B2A22] pb-1">
  View All Farmhouses <ArrowRight className="h-3 w-3"/>
  </Link>
+ </div>
  </div>
 
  {loading ? (
@@ -170,13 +169,13 @@ export default function Home() {
  </div>
  ) : (
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
- {farms.slice(0, 3).map((farm) => {
+ {farms.slice(0, 4).map((farm, index) => {
  const isFav = favorites.includes(farm._id);
  return (
  <Link
  key={farm._id}
  href={`/farms/${farm._id}`}
- className="group flex flex-col cursor-pointer bg-white rounded-xl border border-[#eeedf7] hover:shadow-md transition-shadow overflow-hidden"
+ className={`group flex-col cursor-pointer bg-white rounded-xl border border-[#eeedf7] hover:shadow-md transition-shadow overflow-hidden ${index === 3 ? 'hidden md:flex lg:hidden' : 'flex'}`}
  >
  
  {/* Photo & Badge Overlay */}

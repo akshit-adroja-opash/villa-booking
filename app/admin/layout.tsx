@@ -13,7 +13,9 @@ import {
  CalendarDays, 
  CreditCard, 
  Settings,
- ShieldAlert
+ ShieldAlert,
+ ChevronLeft,
+ ChevronRight
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -21,6 +23,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
  const { data: session, status } = useSession() || {};
  const router = useRouter();
  const adminUser = session?.user as ({ role?: string; name?: string | null } | undefined);
+ const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
  React.useEffect(() => {
  if (status === 'loading') return;
@@ -67,35 +70,41 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
  <div className="flex flex-1 pt-16">
  
  {/* Left Sidebar */}
- <aside className="fixed top-16 left-0 z-40 hidden h-[calc(100vh-64px)] w-64 flex-col border-r border-[#1B2A22]/10 bg-white p-4 md:flex">
+ <aside className={`fixed top-16 left-0 z-40 hidden h-[calc(100vh-64px)] flex-col border-r border-[#1B2A22]/10 bg-white md:flex transition-all duration-300 ${isSidebarOpen ? 'w-64 p-4' : 'w-20 p-2 items-center'}`}>
  
- {/* Sidebar Title */}
- <div className="px-3 py-6 mb-2">
- <h2 className="text-sm font-medium text-[#1B2A22]">Admin Portal</h2>
+ {/* Sidebar Title & Toggle */}
+ <div className={`w-full flex items-center mb-6 py-2 ${isSidebarOpen ? 'justify-between px-3' : 'justify-center px-0'}`}>
+ {isSidebarOpen && <h2 className="text-sm font-medium text-[#1B2A22] whitespace-nowrap overflow-hidden">Admin Portal</h2>}
+ <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-1.5 hover:bg-gray-100 rounded-md text-gray-500 transition-colors shrink-0">
+ {isSidebarOpen ? <ChevronLeft className="h-5 w-5"/> : <ChevronRight className="h-5 w-5"/>}
+ </button>
  </div>
 
  {/* Menu Items */}
- <nav className="flex-1 overflow-y-auto">
- <ul className="space-y-1.5">
+ <nav className="flex-1 overflow-y-auto w-full overflow-x-hidden">
+ <ul className="space-y-1.5 w-full">
  {menuItems.map((item) => {
  const isActive = pathname === item.href || (item.href !== '/admin/dashboard' && item.href !== '#' && pathname.startsWith(item.href));
  return (
- <li key={item.label}>
+ <li key={item.label} className="w-full">
  <Link
  href={item.href}
- className={`flex items-center justify-between rounded-none px-4 py-3 transition-all duration-200 border-l-2 ${
+ title={!isSidebarOpen ? item.label : undefined}
+ className={`flex items-center rounded-none py-3 transition-all duration-200 border-l-2 w-full ${
+ isSidebarOpen ? 'justify-between px-4' : 'justify-center px-0'
+ } ${
  isActive
  ? 'bg-[#FAF9F6] text-[#1B2A22] font-bold border-[#1B2A22]'
  : 'text-[#1B2A22]/60 hover:bg-[#FAF9F6] border-transparent font-semibold'
  }`}
  >
- <div className="flex items-center gap-4">
- <item.icon className={`h-4 w-4 ${isActive ? 'text-[#1B2A22]' : 'text-[#1B2A22]/40'}`} />
- <span className="text-sm font-medium">{item.label}</span>
+ <div className={`flex items-center ${isSidebarOpen ? 'gap-4' : 'gap-0'}`}>
+ <item.icon className={`h-[18px] w-[18px] shrink-0 ${isActive ? 'text-[#1B2A22]' : 'text-[#1B2A22]/40'}`} />
+ {isSidebarOpen && <span className="text-sm font-medium whitespace-nowrap">{item.label}</span>}
  </div>
  
- {item.badge && (
- <span className="text-sm font-medium font-bold bg-[#1B2A22]/10 text-[#1B2A22] rounded-full px-2 py-0.5 border border-[#1B2A22]/20">
+ {isSidebarOpen && item.badge && (
+ <span className="text-xs font-medium font-bold bg-[#1B2A22]/10 text-[#1B2A22] rounded-full px-2 py-0.5 border border-[#1B2A22]/20">
  {item.badge}
  </span>
  )}
@@ -108,7 +117,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
  </aside>
 
  {/* Right Content Panel */}
- <div className="flex-1 flex flex-col min-w-0 md:pl-64">
+ <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${isSidebarOpen ? 'md:pl-64' : 'md:pl-20'}`}>
+
  <div className="flex-grow">
  {children}
  </div>

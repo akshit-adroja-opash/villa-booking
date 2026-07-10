@@ -9,7 +9,8 @@ import {
  X,
  User,
  Mail,
- Shield
+ Shield,
+ ChevronDown
 } from 'lucide-react';
 
 interface Member {
@@ -25,6 +26,7 @@ export default function UserManagementPage() {
  const [loading, setLoading] = useState(true);
  const [searchTerm, setSearchTerm] = useState('');
  const [roleFilter, setRoleFilter] = useState('all');
+ const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
 
  // Add user modal states
  const [showModal, setShowModal] = useState(false);
@@ -192,19 +194,55 @@ export default function UserManagementPage() {
  />
  </div>
 
- {/* Role selector dropdown */}
- <div className="w-full md:w-auto min-w-[160px] relative">
- <select
- value={roleFilter}
- onChange={(e) => setRoleFilter(e.target.value)}
- className="w-full h-11 px-4 bg-[#f9fafb] rounded-xl border border-transparent text-[13px] font-bold text-[#1B2A22] outline-none cursor-pointer hover:bg-gray-100 transition-colors"
- >
- <option value="all">All Roles</option>
- <option value="admin">Administrators</option>
- <option value="owner">Farm Owners</option>
- <option value="customer">Customers</option>
- </select>
- </div>
+  {/* Role selector dropdown */}
+  <div className="w-full md:w-auto min-w-[180px] relative">
+  <div className="relative">
+  <button 
+  onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
+  className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] transition-all w-full"
+  >
+  <span>
+  {roleFilter === 'all' && 'All Roles'}
+  {roleFilter === 'admin' && 'Administrators'}
+  {roleFilter === 'customer' && 'Customers'}
+  </span>
+  <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isRoleDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}>
+  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isRoleDropdownOpen ? 'rotate-180' : ''}`} />
+  </div>
+  </button>
+ 
+  {isRoleDropdownOpen && (
+  <>
+  <div 
+  className="fixed inset-0 z-40"
+  onClick={() => setIsRoleDropdownOpen(false)}
+  ></div>
+  <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[160px]">
+  {[
+  { value: 'all', label: 'All Roles' },
+  { value: 'admin', label: 'Administrators' },
+  { value: 'customer', label: 'Customers' }
+  ].map((opt) => (
+  <button
+  key={opt.value}
+  onClick={() => {
+  setRoleFilter(opt.value);
+  setIsRoleDropdownOpen(false);
+  }}
+  className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${
+  roleFilter === opt.value
+  ? 'bg-[#e6f4ea] text-[#00a877]'
+  : 'text-gray-600 hover:bg-gray-50'
+  }`}
+  >
+  {opt.label}
+  </button>
+  ))}
+  </div>
+  </>
+  )}
+  </div>
+  </div>
  </div>
 
  {/* Table View Layout */}
