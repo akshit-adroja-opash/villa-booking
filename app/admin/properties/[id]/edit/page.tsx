@@ -105,17 +105,24 @@ export default function EditPropertyWizardPage() {
  const newUrls: string[] = [];
  for (let i = 0; i < files.length; i++) {
  const file = files[i];
+
+ // Use environment variables for Cloudinary
+ const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || '';
+ const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || '';
+ 
  const formData = new FormData();
  formData.append('file', file);
- const res = await fetch('/api/upload', {
+ formData.append('upload_preset', UPLOAD_PRESET);
+
+ const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
  method: 'POST',
  body: formData,
  });
  if (res.ok) {
  const data = await res.json();
- newUrls.push(data.url);
+ newUrls.push(data.secure_url);
  } else {
- toast.error(`Failed to upload ${file.name}. Please try again.`);
+ toast.error(`Failed to upload ${file.name} to Cloudinary.`);
  }
  }
  if (newUrls.length > 0) {
