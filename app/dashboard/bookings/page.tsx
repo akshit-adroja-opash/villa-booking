@@ -283,18 +283,19 @@ export default function BookingsDashboardPage() {
  border-top: 1px solid rgba(212, 175, 55, 0.3);
  padding-top: 20px;
  }
- @media print {
- body { margin: 0; padding: 20px; }
+ @media print { @page { margin: 0; } body { margin: 0; padding: 1.5cm; } .container { border: none; box-shadow: none; padding: 0; } .footer { margin-top: 30px; } }
  .container { border: none; box-shadow: none; padding: 20px; }
  .footer { margin-top: 30px; }
  }
  </style>
  </head>
- <body>
- <div class="container">
+ <body><div style="text-align: right; font-size: 10px; font-family: sans-serif; color: #1B2A22; opacity: 0.6; margin-bottom: 20px;">Enjoy Farm Receipt - ${booking._id.slice(-6).toUpperCase()}</div><div class="container">
  <div class="header">
  <div>
- <div class="logo">ENJOY FARM</div>
+ <div class="logo">
+ <img src="${window.location.origin}/logo.png" alt="Enjoy Farm Logo" style="height: 40px; width: 40px; object-fit: contain; margin-right: 12px;" />
+ ENJOY FARM
+ </div>
  <div style="margin-top: 15px; font-size: 13px; color: #1B2A22; opacity: 0.8; line-height: 1.6; font-family: sans-serif;">
  Enjoy Farm Headquarters<br>
  123 Emerald Valley, Countryside District<br>
@@ -652,3 +653,4 @@ export default function BookingsDashboardPage() {
  </div>
  );
 }
+
