@@ -154,9 +154,6 @@ export default function Home() {
  <div className="max-w-[1280px] mx-auto px-6 md:px-16">
  <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
  <div>
- <span className="text-sm font-medium text-[#1B2A22] mb-3 block">
- Farmhouses
- </span>
  <h2 className="font-serif text-4xl text-[#1B2A22]">Our Farmhouses</h2>
  </div>
  <Link href="/farms"className="text-sm font-medium text-[#1B2A22] flex items-center gap-2 hover:text-[#1B2A22] transition-colors border-b border-[#1B2A22] hover:border-[#1B2A22] pb-1">

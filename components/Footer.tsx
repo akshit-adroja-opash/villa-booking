@@ -102,7 +102,7 @@ export default function Footer() {
  </div>
 
  {/* Bottom bar */}
- <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-sm font-medium text-white/40 font-medium tracking-wider">
+ <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-sm font-normal text-white/40 tracking-wider">
  <p>© {new Date().getFullYear()}, Enjoy Farm. All rights reserved.</p>
  <div className="flex flex-wrap justify-center gap-8">
  <a href="#"className="hover:text-white transition-colors">Privacy Policy</a>

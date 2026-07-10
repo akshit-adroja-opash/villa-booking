@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { CalendarDays, Download, Search } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 type Booking = {
  _id: string;
@@ -112,6 +113,43 @@ export default function AdminReservationsPage() {
  const confirmedBookings = bookings.filter((booking) => booking.paymentStatus === 'Paid' || booking.paymentStatus?.toLowerCase() === 'confirmed').length;
  const upcomingBookings = bookings.filter((booking) => new Date(booking.startDate) >= new Date()).length;
 
+ const handleExport = () => {
+    try {
+      const headers = ['Guest Name', 'Email', 'Property', 'Check-in', 'Check-out', 'Nights', 'Total Amount', 'Status', 'Booking ID'];
+      const csvRows = [];
+      csvRows.push(headers.join(','));
+
+      filteredBookings.forEach((b) => {
+        const guestName = b.userId?.name ? `"${b.userId.name}"` : 'N/A';
+        const email = b.userId?.email ? `"${b.userId.email}"` : 'N/A';
+        const property = b.farmId?.title ? `"${b.farmId.title}"` : 'N/A';
+        const checkIn = new Date(b.startDate).toLocaleDateString('en-IN');
+        const checkOut = new Date(b.endDate).toLocaleDateString('en-IN');
+        const nights = Math.max(1, Math.ceil((new Date(b.endDate).getTime() - new Date(b.startDate).getTime()) / (1000 * 60 * 60 * 24)));
+        const amount = b.totalPrice;
+        const status = b.paymentStatus || 'Pending';
+        const bookingId = b._id;
+        csvRows.push([guestName, email, property, checkIn, checkOut, nights, amount, status, bookingId].join(','));
+      });
+
+      const csvContent = csvRows.join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `reservations_export_${new Date().getTime()}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      toast.success('Reservations exported successfully!');
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to export reservations');
+    }
+  };
+
  if (loading) {
  return (
  <div className="flex min-h-[60vh] items-center justify-center bg-[#FAF9F6]">
@@ -134,7 +172,7 @@ export default function AdminReservationsPage() {
  Track every guest stay, payment state, and booking window.
  </p>
  </div>
- <button className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-all shadow-sm self-start sm:self-auto">
+ <button onClick={handleExport} className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-all shadow-sm self-start sm:self-auto">
  <Download className="h-4 w-4"/>
  <span>Export</span>
  </button>

@@ -7,7 +7,8 @@ import {
  Activity, 
  TrendingUp,
  Banknote,
- Home
+ Home,
+ ChevronDown
 } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -16,6 +17,16 @@ export default function AdminDashboard() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [revenueTimeRange, setRevenueTimeRange] = useState('all');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const timeRangeOptions = [
+    { value: '1m', label: '1 Month' },
+    { value: '3m', label: '3 Months' },
+    { value: '6m', label: '6 Months' },
+    { value: '1y', label: '1 Year' },
+    { value: '5y', label: '5 Years' },
+    { value: 'all', label: 'All Time' },
+  ];
 
   useEffect(() => {
     async function loadDashboardData() {
@@ -296,18 +307,44 @@ export default function AdminDashboard() {
           <div className="lg:col-span-3 bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] p-6 md:p-8">
             <div className="flex justify-between items-center mb-8">
               <h3 className="font-serif text-[22px] font-bold text-[#1B2A22]">Revenue Trends</h3>
-              <select 
-                value={revenueTimeRange} 
-                onChange={(e) => setRevenueTimeRange(e.target.value)}
-                className="text-[13px] font-semibold text-[#1B2A22] bg-white border border-gray-200 rounded-lg px-3 py-1.5 outline-none cursor-pointer focus:ring-2 focus:ring-[#00a877]/20"
-              >
-                <option value="1m">1 Month</option>
-                <option value="3m">3 Months</option>
-                <option value="6m">6 Months</option>
-                <option value="1y">1 Year</option>
-                <option value="5y">5 Years</option>
-                <option value="all">All Time</option>
-              </select>
+              <div className="relative">
+                <button 
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-white border border-gray-200 rounded-xl px-4 py-2 hover:border-[#00a877] focus:outline-none focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] transition-all shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] min-w-[130px]"
+                >
+                  <span>{timeRangeOptions.find(opt => opt.value === revenueTimeRange)?.label}</span>
+                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-gray-50 text-gray-500'}`}>
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                  </div>
+                </button>
+
+                {isDropdownOpen && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-40"
+                      onClick={() => setIsDropdownOpen(false)}
+                    ></div>
+                    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden min-w-[150px]">
+                      {timeRangeOptions.map((opt) => (
+                        <button
+                          key={opt.value}
+                          onClick={() => {
+                            setRevenueTimeRange(opt.value);
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${
+                            revenueTimeRange === opt.value
+                              ? 'bg-[#e6f4ea] text-[#00a877]'
+                              : 'text-gray-600 hover:bg-gray-50'
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
             <div className="relative w-full h-[220px] pt-4">
               {/* SVG Line Graph */}
