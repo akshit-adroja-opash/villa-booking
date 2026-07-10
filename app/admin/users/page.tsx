@@ -221,7 +221,7 @@ export default function UserManagementPage() {
   {[
   { value: 'all', label: 'All Roles' },
   { value: 'admin', label: 'Administrators' },
-  { value: 'customer', label: 'Customers' }
+      { value: 'customer', label: 'Customers' }
   ].map((opt) => (
   <button
   key={opt.value}
