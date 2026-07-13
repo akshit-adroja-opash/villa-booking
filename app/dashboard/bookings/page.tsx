@@ -464,7 +464,7 @@ export default function BookingsDashboardPage() {
  </p>
  <Link
  href="/farms"
- className="flex items-center justify-center gap-3 bg-[#1B2A22] text-white px-8 py-4 text-sm font-medium hover:bg-[#2c4236] transition-colors"
+ className="flex items-center justify-center gap-3 bg-[#00a877] text-white px-8 py-4 text-sm font-medium hover:bg-[#009669] transition-colors"
  >
  <span>Find Farmhouses</span>
  <ArrowRight className="h-3.5 w-3.5"/>
@@ -551,7 +551,7 @@ export default function BookingsDashboardPage() {
  </p>
  <Link
  href="/farms"
- className="flex items-center justify-center gap-3 bg-[#1B2A22] text-white px-8 py-4 text-sm font-medium hover:bg-[#2c4236] transition-colors"
+ className="flex items-center justify-center gap-3 bg-[#00a877] text-white px-8 py-4 text-sm font-medium hover:bg-[#009669] transition-colors"
  >
  <span>Find Farmhouses</span>
  <ArrowRight className="h-3.5 w-3.5"/>
