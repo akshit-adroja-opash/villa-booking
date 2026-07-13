@@ -191,7 +191,7 @@ export default function AdminReservationsPage() {
  Track every guest stay, payment state, and booking window.
  </p>
  </div>
- <button onClick={handleExport} className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-all shadow-sm self-start sm:self-auto">
+ <button onClick={handleExport} className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-all shadow-sm self-end sm:self-auto">
  <Download className="h-4 w-4"/>
  <span>Export</span>
  </button>

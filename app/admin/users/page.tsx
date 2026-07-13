@@ -154,7 +154,7 @@ export default function UserManagementPage() {
  </div>
  <button
  onClick={() => setShowModal(true)}
- className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-all shadow-sm"
+ className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-all shadow-sm self-end sm:self-auto"
  >
  <UserPlus className="h-4 w-4"/>
  <span>Add New User</span>
@@ -320,8 +320,8 @@ export default function UserManagementPage() {
 
  {/* Add User Modal */}
  {showModal && (
- <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
- <div className="bg-white w-full max-w-[480px] rounded-2xl shadow-xl p-8 relative animate-fade-in">
+ <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm sm:p-4">
+ <div className="bg-white w-full h-full sm:h-auto sm:max-w-[480px] sm:rounded-2xl shadow-xl p-6 sm:p-8 relative animate-fade-in flex flex-col justify-center overflow-y-auto">
  
  <button 
  onClick={() => setShowModal(false)}
