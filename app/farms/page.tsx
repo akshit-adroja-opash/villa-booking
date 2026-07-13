@@ -147,14 +147,14 @@ function StaysList() {
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
  placeholder="Search by location, city, or name..." 
- className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-[#002E1E]/30 text-sm bg-white" 
+ className="w-full h-[52px] pl-12 pr-4 rounded-lg border border-gray-200 focus:outline-none focus:border-[#002E1E]/30 text-sm bg-white" 
  />
  </div>
  <div className="flex items-center gap-4 w-full md:w-auto">
  <div className="relative">
  <button 
  onClick={() => setIsSortOpen(!isSortOpen)}
- className="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-5 py-3 text-[14px] font-bold text-[#002E1E] focus:outline-none focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] cursor-pointer min-w-[190px] shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] transition-all hover:border-gray-300 group"
+ className="flex h-[52px] items-center justify-between bg-white border border-gray-200 rounded-xl px-5 text-[14px] font-bold text-[#002E1E] focus:outline-none focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] cursor-pointer min-w-[190px] shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] transition-all hover:border-gray-300 group"
  >
  <span>{sortOption}</span>
  <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${isSortOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-gray-50 text-gray-500 group-hover:bg-[#e6f4ea] group-hover:text-[#00a877]'}`}>
