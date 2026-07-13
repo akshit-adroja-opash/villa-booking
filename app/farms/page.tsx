@@ -252,8 +252,23 @@ function StaysList() {
  <div className="flex flex-col flex-grow px-2 pb-2">
  {/* Location */}
  <div className="flex items-center gap-1.5 text-xs font-medium mb-2.5">
- <MapPin className="h-3.5 w-3.5 text-[#00a877]"/>
- <span className="text-gray-500">{farm.location?.startsWith('http') ? 'Map Link Available' : farm.location}</span>
+ <MapPin className="h-3.5 w-3.5 text-[#00a877] shrink-0"/>
+ <span className="text-gray-500 line-clamp-1">
+ {farm.mapLink || farm.location?.startsWith('http') ? (
+ <button 
+ onClick={(e) => {
+ e.preventDefault();
+ e.stopPropagation();
+ window.open(farm.mapLink || farm.location, '_blank', 'noopener,noreferrer');
+ }}
+ className="hover:text-[#00a877] underline underline-offset-2 transition-colors cursor-pointer text-left"
+ >
+ {farm.location?.startsWith('http') ? 'View on Map' : farm.location}
+ </button>
+ ) : (
+ farm.location
+ )}
+ </span>
  </div>
 
  {/* Title */}

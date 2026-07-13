@@ -42,6 +42,7 @@ interface FarmDetails {
  id?: string;
  title: string;
  location: string;
+ mapLink?: string;
  pricePerNight: number;
  description: string;
  images: string[];
@@ -118,6 +119,7 @@ export default function FarmDetailPage() {
  _id: data._id,
  title: data.title,
  location: data.location,
+ mapLink: data.mapLink,
  pricePerNight: data.pricePerNight,
  description: data.description,
  images: data.images && data.images.length > 0 ? data.images : [
@@ -589,7 +591,7 @@ export default function FarmDetailPage() {
  ></iframe>
  
  <a
- href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(farm.location || 'Gujarat, India')}`}
+ href={farm.mapLink || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(farm.location || 'Gujarat, India')}`}
  target="_blank"
  rel="noopener noreferrer"
  className="absolute top-4 left-4 bg-white text-blue-600 px-4 py-2 text-sm font-semibold shadow-md hover:bg-slate-50 transition-colors flex items-center gap-2 rounded-sm"

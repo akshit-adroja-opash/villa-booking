@@ -22,6 +22,7 @@ export default function AddPropertyWizardPage() {
  const [title, setTitle] = useState('');
  const [description, setDescription] = useState('');
  const [location, setLocation] = useState('');
+ const [mapLink, setMapLink] = useState('');
  const [propertyType, setPropertyType] = useState('farmhouse');
  
  const [pricePerNight, setPricePerNight] = useState('');
@@ -113,6 +114,7 @@ export default function AddPropertyWizardPage() {
  title,
  description,
  location,
+ mapLink,
  category: propertyType,
  pricePerNight: Number(pricePerNight),
  guests: Number(guests),
@@ -216,7 +218,7 @@ export default function AddPropertyWizardPage() {
  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
  <div className="space-y-2">
  <label htmlFor="location"className="block text-xs font-bold tracking-wider text-[#1a1b22]">
- Location
+ Location Name
  </label>
  <div className="relative">
  <span className="absolute top-1/2 left-3 -translate-y-1/2 text-[#707974]">
@@ -228,13 +230,32 @@ export default function AddPropertyWizardPage() {
  required
  value={location}
  onChange={(e) => setLocation(e.target.value)}
- placeholder="City, Region or Google Maps Link"
+ placeholder="e.g. Surat, Gujarat"
  className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] pl-10 pr-4 py-3 text-sm text-[#1a1b22] placeholder-[#404944]/50 outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
  />
  </div>
  </div>
 
  <div className="space-y-2">
+ <label htmlFor="mapLink"className="block text-xs font-bold tracking-wider text-[#1a1b22]">
+ Google Maps Link
+ </label>
+ <div className="relative">
+ <span className="absolute top-1/2 left-3 -translate-y-1/2 text-[#707974]">
+ <MapPin className="h-4 w-4"/>
+ </span>
+ <input 
+ id="mapLink"
+ type="url"
+ value={mapLink}
+ onChange={(e) => setMapLink(e.target.value)}
+ placeholder="https://maps.app.goo.gl/..."
+ className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] pl-10 pr-4 py-3 text-sm text-[#1a1b22] placeholder-[#404944]/50 outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
+ />
+ </div>
+ </div>
+
+ <div className="space-y-2 md:col-span-2">
  <label htmlFor="property_type"className="block text-xs font-bold tracking-wider text-[#1a1b22]">
  Property Type
  </label>
@@ -340,8 +361,9 @@ export default function AddPropertyWizardPage() {
  'Indoor Fireplace', 'Home Theater', 'Outdoor Kitchen', 'Sound System',
  'Cricket Box', 'Online Food Delivery (Zomato/Swiggy)'
  ].map((amenity) => (
- <div key={amenity} className="flex items-center gap-3 bg-[#fbf8ff] p-4 rounded-lg border border-[#eeedf7] transition-all hover:bg-[#e3e1ec]/30 relative">
- <div className="relative flex items-center">
+ <div key={amenity} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#fbf8ff] p-4 rounded-lg border border-[#eeedf7] transition-all hover:bg-[#e3e1ec]/30 min-h-[56px]">
+ <div className="flex items-start gap-3 flex-grow">
+ <div className="relative flex items-center shrink-0 mt-0.5">
  <input 
  type="checkbox"
  id={`amenity-${amenity}`}
@@ -351,20 +373,21 @@ export default function AddPropertyWizardPage() {
  />
  <Check className="absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none"/>
  </div>
- <label htmlFor={`amenity-${amenity}`} className="text-sm font-semibold text-[#1a1b22] cursor-pointer select-none">
+ <label htmlFor={`amenity-${amenity}`} className="text-sm font-semibold text-[#1a1b22] cursor-pointer select-none leading-snug">
  {amenity}
  </label>
+ </div>
  {amenity === 'Extra Mattress' && selectedAmenities.includes('Extra Mattress') && (
-   <div className="absolute right-4 flex items-center gap-2">
-     <label className="text-xs font-semibold text-[#404944]">Qty:</label>
-     <input 
-       type="number" 
-       min="1" 
-       value={extraMattressCount}
-       onChange={(e) => setExtraMattressCount(Number(e.target.value) || 1)}
-       className="w-16 rounded border-[#bfc9c3]/60 bg-white px-2 py-1 text-sm outline-none focus:border-[#003527]"
-     />
-   </div>
+ <div className="flex items-center gap-2 shrink-0 pl-8 sm:pl-0">
+ <label className="text-xs font-semibold text-[#404944]">Qty:</label>
+ <input 
+ type="number" 
+ min="1" 
+ value={extraMattressCount}
+ onChange={(e) => setExtraMattressCount(Number(e.target.value) || 1)}
+ className="w-16 rounded border-[#bfc9c3]/60 bg-white px-2 py-1 text-sm outline-none focus:border-[#003527]"
+ />
+ </div>
  )}
  </div>
  ))}

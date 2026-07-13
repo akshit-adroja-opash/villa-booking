@@ -4,6 +4,7 @@ const FarmSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   location: { type: String, required: true },
+  mapLink: { type: String },
   pricePerNight: { type: Number, required: true },
   images: [{ type: String }], // Cloudinary URLs
   amenities: [{ type: String }],
@@ -14,4 +15,5 @@ const FarmSchema = new Schema({
   category: { type: String, default: 'Farmhouse' },
 }, { timestamps: true });
 
-export default models.Farm || model('Farm', FarmSchema);
+const Farm = models.Farm || model('Farm', FarmSchema);
+export default Farm;
