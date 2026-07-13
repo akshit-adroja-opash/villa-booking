@@ -34,6 +34,7 @@ export default function UserManagementPage() {
  const [newUserEmail, setNewUserEmail] = useState('');
  const [newUserPassword, setNewUserPassword] = useState('');
  const [newUserRole, setNewUserRole] = useState('customer');
+ const [isNewUserRoleDropdownOpen, setIsNewUserRoleDropdownOpen] = useState(false);
 
  const fetchUsers = async () => {
  try {
@@ -388,15 +389,39 @@ export default function UserManagementPage() {
  <div className="space-y-2">
  <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Access Level</label>
  <div className="relative">
- <select
- value={newUserRole}
- onChange={(e) => setNewUserRole(e.target.value)}
- className="w-full h-12 px-4 bg-[#f9fafb] rounded-xl border border-transparent text-[13px] font-bold text-[#1B2A22] outline-none cursor-pointer hover:bg-gray-100 transition-colors appearance-none"
+ <button
+ type="button"
+ onClick={() => setIsNewUserRoleDropdownOpen(!isNewUserRoleDropdownOpen)}
+ className="w-full h-12 px-4 pr-10 flex items-center justify-between bg-[#f9fafb] rounded-xl border border-transparent text-[13px] font-bold text-[#1B2A22] outline-none cursor-pointer hover:bg-gray-100 transition-colors"
  >
- <option value="customer">Customer / Guest</option>
- <option value="owner">Farm Owner / Host</option>
- <option value="admin">Administrator</option>
- </select>
+ <span>{newUserRole === 'admin' ? 'Administrator' : 'Customer / Guest'}</span>
+ <ChevronDown className={`absolute right-4 h-4 w-4 text-gray-400 transition-transform ${isNewUserRoleDropdownOpen ? 'rotate-180' : ''}`} />
+ </button>
+
+ {isNewUserRoleDropdownOpen && (
+ <>
+ <div 
+ className="fixed inset-0 z-40" 
+ onClick={() => setIsNewUserRoleDropdownOpen(false)}
+ ></div>
+ <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden">
+ <button
+ type="button"
+ onClick={() => { setNewUserRole('customer'); setIsNewUserRoleDropdownOpen(false); }}
+ className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${newUserRole === 'customer' ? 'bg-[#e6f4ea] text-[#00a877]' : 'text-gray-600 hover:bg-gray-50'}`}
+ >
+ Customer / Guest
+ </button>
+ <button
+ type="button"
+ onClick={() => { setNewUserRole('admin'); setIsNewUserRoleDropdownOpen(false); }}
+ className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${newUserRole === 'admin' ? 'bg-[#e6f4ea] text-[#00a877]' : 'text-gray-600 hover:bg-gray-50'}`}
+ >
+ Administrator
+ </button>
+ </div>
+ </>
+ )}
  </div>
  </div>
 
