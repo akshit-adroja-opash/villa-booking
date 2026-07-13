@@ -178,34 +178,45 @@ export default function Navbar() {
 
  {/* Mobile Sidebar Drawer */}
  <div className={`fixed top-0 right-0 h-screen w-[280px] bg-white z-[60] shadow-2xl transform transition-transform duration-300 ease-in-out md:hidden flex flex-col py-6 px-6 overflow-y-auto ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
- <div className="flex justify-between items-center mb-8">
- <span className="font-serif text-[20px] font-bold text-[#1B2A22]">Menu</span>
- <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-[#1B2A22]/60 hover:text-[#1B2A22] rounded-full hover:bg-gray-100 transition-colors">
- <X className="h-5 w-5"/>
+ <div className="flex justify-between items-center mb-6 pb-6 border-b border-[#1B2A22]/10">
+ <span className="font-serif text-[22px] font-bold text-[#1B2A22]">Menu</span>
+ <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-[#1B2A22]/60 hover:text-[#1B2A22] hover:bg-gray-100 rounded-full transition-colors">
+ <X className="h-6 w-6"/>
  </button>
  </div>
 
- <div className="flex flex-col gap-5 text-left">
- <Link className="text-[15px] font-bold text-[#1B2A22] hover:opacity-70 transition-opacity"href="/"onClick={() => setMobileMenuOpen(false)}>Home</Link>
- <Link className="text-[15px] font-bold text-[#1B2A22] hover:opacity-70 transition-opacity"href="/farms"onClick={() => setMobileMenuOpen(false)}>The Collection</Link>
- <Link className="text-[15px] font-bold text-[#1B2A22] hover:opacity-70 transition-opacity"href="/contact"onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
+ <div className="flex flex-col flex-grow text-left overflow-y-auto hide-scrollbar">
+ <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+ <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/farms" onClick={() => setMobileMenuOpen(false)}>The Collection</Link>
+ <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
  
  {!isAdmin && (
- <Link className="text-[15px] font-bold text-[#1B2A22] hover:opacity-70 transition-opacity"href={session ?"/dashboard/bookings":"/login"} onClick={() => setMobileMenuOpen(false)}>Reservations</Link>
+ <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href={session ?"/dashboard/bookings":"/login"} onClick={() => setMobileMenuOpen(false)}>Reservations</Link>
  )}
 
  {isAdmin && (
- <div className="flex flex-col gap-4 mt-2">
- <div className="border-t border-gray-100"></div>
- <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mt-1 mb-1">Admin Portal</span>
- <Link className="text-[14px] font-semibold text-[#00a877] hover:text-[#008f65] transition-colors"href="/admin/dashboard"onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
- <Link className="text-[14px] font-semibold text-[#00a877] hover:text-[#008f65] transition-colors"href="/admin/users"onClick={() => setMobileMenuOpen(false)}>Guests</Link>
- <Link className="text-[14px] font-semibold text-[#00a877] hover:text-[#008f65] transition-colors"href="/admin/properties"onClick={() => setMobileMenuOpen(false)}>Farmhouses</Link>
- <Link className="text-[14px] font-semibold text-[#00a877] hover:text-[#008f65] transition-colors"href="/admin/reservations"onClick={() => setMobileMenuOpen(false)}>Bookings</Link>
- <Link className="text-[14px] font-semibold text-[#00a877] hover:text-[#008f65] transition-colors"href="/admin/financials"onClick={() => setMobileMenuOpen(false)}>Revenue</Link>
- <Link className="text-[14px] font-semibold text-[#00a877] hover:text-[#008f65] transition-colors"href="/settings"onClick={() => setMobileMenuOpen(false)}>Settings</Link>
+ <div className="flex flex-col mt-6">
+ <span className="text-xs font-bold text-[#00a877] uppercase tracking-widest mb-2">Admin Portal</span>
+ <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/dashboard" onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
+ <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/users" onClick={() => setMobileMenuOpen(false)}>Guests</Link>
+ <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/properties" onClick={() => setMobileMenuOpen(false)}>Farmhouses</Link>
+ <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/reservations" onClick={() => setMobileMenuOpen(false)}>Bookings</Link>
+ <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/financials" onClick={() => setMobileMenuOpen(false)}>Revenue</Link>
+ <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/settings" onClick={() => setMobileMenuOpen(false)}>Settings</Link>
  </div>
  )}
+ 
+ <div className="mt-auto pt-8 pb-4">
+ {session ? (
+ <button onClick={() => { setMobileMenuOpen(false); signOut({ callbackUrl: '/' }); }} className="w-full flex items-center justify-center gap-2 bg-red-50 text-red-800 py-3.5 text-sm font-medium hover:bg-red-100 transition-colors border border-red-100">
+ <LogOut className="h-4 w-4"/> Logout
+ </button>
+ ) : (
+ <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="w-full flex items-center justify-center bg-[#00a877] text-white py-3.5 text-sm font-medium hover:bg-[#008f65] transition-colors">
+ Sign In
+ </Link>
+ )}
+ </div>
  </div>
  </div>
  </header>
