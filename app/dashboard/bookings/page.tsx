@@ -27,6 +27,7 @@ interface Booking {
  endDate: string;
  totalPrice: number;
  paymentStatus: 'Paid' | 'Pending';
+ adminConfirmed?: boolean;
 }
 
 export default function BookingsDashboardPage() {
@@ -599,12 +600,12 @@ export default function BookingsDashboardPage() {
 
  <span
  className={`inline-block px-3 py-1.5 text-sm font-medium border ${
- booking.paymentStatus === 'Paid'
+ booking.adminConfirmed
  ? 'border-[#00a877]/20 text-[#00a877] bg-[#e6f4ea]'
  : 'border-[#1B2A22]/50 text-[#1B2A22] bg-[#1B2A22]/5'
  }`}
  >
- {booking.paymentStatus === 'Paid' ? 'Confirmed' : 'Pending'}
+ {booking.adminConfirmed ? 'Confirmed' : 'Pending'}
  </span>
  </div>
 
@@ -620,14 +621,15 @@ export default function BookingsDashboardPage() {
  </div>
 
  <div className="flex flex-wrap gap-4 self-start sm:self-auto">
+ {booking.adminConfirmed && (
  <button
  onClick={() => handleDownloadReceipt(booking)}
- disabled={booking.paymentStatus !== 'Paid'}
- className="flex items-center gap-2 px-5 py-3 border border-[#1B2A22] text-sm font-medium text-[#1B2A22] hover:bg-[#1B2A22] hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-[#1B2A22] transition-colors"
+ className="flex items-center gap-2 px-5 py-3 border border-[#1B2A22] text-sm font-medium text-[#1B2A22] hover:bg-[#1B2A22] hover:text-white transition-colors"
  >
  <Download className="h-3.5 w-3.5"/>
  <span>Receipt</span>
  </button>
+ )}
 
  <Link 
  href="/support"

@@ -8,6 +8,7 @@ const BookingSchema = new Schema({
   totalPrice: { type: Number, required: true },
   paymentStatus: { type: String, enum: ['Pending', 'Paid', 'Failed'], default: 'Pending' },
   razorpayOrderId: { type: String },
+  adminConfirmed: { type: Boolean, default: false },
 }, { timestamps: true });
 
 export default models.Booking || model('Booking', BookingSchema);

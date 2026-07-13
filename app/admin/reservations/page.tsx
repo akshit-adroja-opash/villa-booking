@@ -19,6 +19,7 @@ type Booking = {
  name?: string;
  email?: string;
  };
+ adminConfirmed?: boolean;
 };
 
 function formatDateRange(startDate: string, endDate: string) {
@@ -62,6 +63,24 @@ export default function AdminReservationsPage() {
  const [bookings, setBookings] = useState<Booking[]>([]);
  const [loading, setLoading] = useState(true);
  const [query, setQuery] = useState('');
+
+ const toggleConfirm = async (id: string, currentStatus: boolean) => {
+   try {
+     const res = await fetch(`/api/bookings/${id}`, {
+       method: 'PATCH',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ adminConfirmed: !currentStatus })
+     });
+     if (res.ok) {
+       toast.success(currentStatus ? 'Booking unconfirmed' : 'Booking confirmed');
+       setBookings(bookings.map(b => b._id === id ? { ...b, adminConfirmed: !currentStatus } : b));
+     } else {
+       toast.error('Failed to update status');
+     }
+   } catch (error) {
+     toast.error('Error updating status');
+   }
+ };
 
  useEffect(() => {
  async function loadBookings() {
@@ -220,6 +239,7 @@ export default function AdminReservationsPage() {
  <th className="px-6 py-5">Dates</th>
  <th className="px-6 py-5">Total</th>
  <th className="px-6 py-5">Status</th>
+ <th className="px-6 py-5">Action</th>
  </tr>
  </thead>
  <tbody className="divide-y divide-gray-50 text-[13px] font-semibold text-[#1B2A22]">
@@ -269,8 +289,20 @@ export default function AdminReservationsPage() {
  ? 'bg-[#e6f4ea] text-[#00a877]'
  : 'bg-orange-50 text-orange-500'
  }`}>
- {isConfirmed ? 'confirmed' : 'pending'}
+ {isConfirmed ? 'paid' : 'pending'}
  </span>
+ </td>
+ <td className="px-6 py-5">
+ <button 
+   onClick={() => toggleConfirm(booking._id, !!booking.adminConfirmed)}
+   className={`px-4 py-1.5 text-[11px] font-bold rounded-lg transition-colors ${
+     booking.adminConfirmed 
+     ? 'bg-red-50 text-red-600 hover:bg-red-100' 
+     : 'bg-[#00a877] text-white hover:bg-[#009669]'
+   }`}
+ >
+   {booking.adminConfirmed ? 'Revoke' : 'Confirm'}
+ </button>
  </td>
  </tr>
  );
