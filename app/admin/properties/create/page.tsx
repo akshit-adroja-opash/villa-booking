@@ -238,7 +238,7 @@ export default function AddPropertyWizardPage() {
 
  <div className="space-y-2">
  <label htmlFor="mapLink"className="block text-xs font-bold tracking-wider text-[#1a1b22]">
- Google Maps Link
+ Google Maps Link 
  </label>
  <div className="relative">
  <span className="absolute top-1/2 left-3 -translate-y-1/2 text-[#707974]">
