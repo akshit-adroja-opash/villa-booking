@@ -164,20 +164,20 @@ export default function UserManagementPage() {
  {/* User Summary Stats Widgets */}
  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
  <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
- <h4 className="font-sans tracking-tight text-2xl font-bold text-[#1B2A22]">{users.length}</h4>
- <p className="text-[11px] font-bold text-gray-400 mt-1">Total Registered</p>
+ <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">Total Registered</p>
+ <h4 className="font-sans tracking-tight text-[28px] font-bold text-[#1B2A22]">{users.length}</h4>
  </div>
  <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
- <h4 className="font-sans tracking-tight text-2xl font-bold text-purple-600">{totalAdmins}</h4>
- <p className="text-[11px] font-bold text-gray-400 mt-1">Administrators</p>
+ <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">Administrators</p>
+ <h4 className="font-sans tracking-tight text-[28px] font-bold text-purple-600">{totalAdmins}</h4>
  </div>
  <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
- <h4 className="font-sans tracking-tight text-2xl font-bold text-orange-500">{totalOwners}</h4>
- <p className="text-[11px] font-bold text-gray-400 mt-1">Farm Owners / Hosts</p>
+ <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">Farm Owners / Hosts</p>
+ <h4 className="font-sans tracking-tight text-[28px] font-bold text-orange-500">{totalOwners}</h4>
  </div>
  <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
- <h4 className="font-sans tracking-tight text-2xl font-bold text-[#00a877]">{totalCustomers}</h4>
- <p className="text-[11px] font-bold text-gray-400 mt-1">Customers / Guests</p>
+ <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">Customers / Guests</p>
+ <h4 className="font-sans tracking-tight text-[28px] font-bold text-[#00a877]">{totalCustomers}</h4>
  </div>
  </div>
 
