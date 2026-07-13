@@ -332,7 +332,7 @@ export default function AdminDashboard() {
                             setRevenueTimeRange(opt.value);
                             setIsDropdownOpen(false);
                           }}
-                          className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${
+                          className={`w-full text-left px-4 py-1.5 text-[13px] font-semibold transition-colors ${
                             revenueTimeRange === opt.value
                               ? 'bg-[#e6f4ea] text-[#00a877]'
                               : 'text-gray-600 hover:bg-gray-50'
