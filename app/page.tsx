@@ -137,7 +137,7 @@ LUXURY & NATURE
  </h1>
  <Link 
  href="/farms"
- className="group relative px-8 py-4 bg-white text-[#1B2A22] text-sm font-medium overflow-hidden transition-all hover:bg-[#1B2A22] hover:text-white"
+ className="group relative px-8 py-4 bg-white text-[#1B2A22] text-sm font-medium overflow-hidden transition-all hover:bg-[#00a877] hover:text-white"
  >
  <span className="relative z-10 flex items-center gap-2">
  View Farmhouses <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1"/>
