@@ -188,26 +188,51 @@ export default function AdminDashboard() {
     return sorted;
   }, [bookings]);
 
+  const [animationProgress, setAnimationProgress] = useState(0);
+
+  useEffect(() => {
+    let startTime: number;
+    const duration = 1500; // 1.5 seconds for the donut chart to fill
+    
+    const animate = (time: number) => {
+      if (!startTime) startTime = time;
+      const progress = Math.min((time - startTime) / duration, 1);
+      
+      // easeOutQuart for a smooth decelerating curve
+      const easeProgress = 1 - Math.pow(1 - progress, 4);
+      setAnimationProgress(easeProgress);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    
+    const rafId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+
   const donutSegments = useMemo(() => {
     const colors = ['#10b981', '#f59e0b', '#3b82f6', '#8b5cf6', '#ec4899'];
     let currentOffset = 0;
     const totalPercentage = popularDestinations.reduce((sum, d) => sum + d.percentage, 0);
     
     return popularDestinations.map((dest, idx) => {
-      const percentage = totalPercentage > 0 ? Math.round((dest.percentage / totalPercentage) * 100) : 0;
+      const fullPercentage = totalPercentage > 0 ? Math.round((dest.percentage / totalPercentage) * 100) : 0;
+      const percentage = fullPercentage * animationProgress;
+      
       const strokeDasharray = `${percentage} ${100 - percentage}`;
       const strokeDashoffset = String(-currentOffset);
       currentOffset += percentage;
       
       return {
         name: dest.name,
-        percentage: dest.percentage,
+        percentage: fullPercentage,
         strokeDasharray,
         strokeDashoffset,
         color: colors[idx % colors.length]
       };
     });
-  }, [popularDestinations]);
+  }, [popularDestinations, animationProgress]);
 
   return (
     <main className="p-6 md:p-10 bg-[#FAF9F6]">
