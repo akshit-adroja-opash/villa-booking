@@ -421,10 +421,10 @@ export default function BookingsDashboardPage() {
 
  {/* Tab Controls */}
  <section className="flex flex-col gap-10">
- <div className="flex border-b border-[#1B2A22]/10 gap-10">
+ <div className="flex border-b border-[#1B2A22]/10 gap-5 md:gap-10 overflow-x-auto whitespace-nowrap scrollbar-hide">
  <button 
  onClick={() => setActiveTab('upcoming')}
- className={`text-sm font-medium pb-4 transition-all ${
+ className={`text-sm font-medium pb-4 transition-all whitespace-nowrap ${
  activeTab === 'upcoming' 
  ? 'text-[#1B2A22] border-b-2 border-[#1B2A22]' 
  : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
@@ -434,7 +434,7 @@ export default function BookingsDashboardPage() {
  </button>
  <button 
  onClick={() => setActiveTab('past')}
- className={`text-sm font-medium pb-4 transition-all ${
+ className={`text-sm font-medium pb-4 transition-all whitespace-nowrap ${
  activeTab === 'past' 
  ? 'text-[#1B2A22] border-b-2 border-[#1B2A22]' 
  : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
@@ -444,13 +444,13 @@ export default function BookingsDashboardPage() {
  </button>
  <button 
  onClick={() => setActiveTab('saved')}
- className={`text-sm font-medium pb-4 transition-all ${
+ className={`text-sm font-medium pb-4 transition-all whitespace-nowrap ${
  activeTab === 'saved' 
  ? 'text-[#1B2A22] border-b-2 border-[#1B2A22]' 
  : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
  }`}
  >
- saved farmhouses
+ Saved Farmhouses
  </button>
  </div>
 
@@ -610,7 +610,7 @@ export default function BookingsDashboardPage() {
  </div>
 
  {/* Footer Actions Row */}
- <div className="flex flex-col sm:flex-row sm:items-end justify-between border-t border-[#1B2A22]/10 pt-6 gap-6">
+ <div className="flex flex-col xl:flex-row xl:items-end justify-between border-t border-[#1B2A22]/10 pt-6 gap-6">
  <div>
  <p className="text-sm font-medium font-bold text-[#1B2A22]/50 mb-2">
  Total Amount
@@ -620,11 +620,11 @@ export default function BookingsDashboardPage() {
  </p>
  </div>
 
- <div className="flex flex-wrap gap-4 self-start sm:self-auto">
+ <div className="flex flex-row flex-wrap items-center gap-3 md:gap-4 w-full xl:w-auto">
  {booking.adminConfirmed && (
  <button
  onClick={() => handleDownloadReceipt(booking)}
- className="flex items-center gap-2 px-5 py-3 border border-[#1B2A22] text-sm font-medium text-[#1B2A22] hover:bg-[#1B2A22] hover:text-white transition-colors"
+ className="flex items-center justify-center gap-2 px-5 py-3 border border-[#1B2A22] text-sm font-medium text-[#1B2A22] hover:bg-[#00a877] hover:border-[#00a877] hover:text-white transition-colors flex-1 sm:flex-none"
  >
  <Download className="h-3.5 w-3.5"/>
  <span>Receipt</span>
@@ -633,14 +633,14 @@ export default function BookingsDashboardPage() {
 
  <Link 
  href="/support"
- className="flex items-center gap-2 px-5 py-3 text-sm font-medium text-[#1B2A22]/60 hover:text-[#1B2A22] transition-colors"
+ className="flex items-center justify-center gap-2 px-5 py-3 text-sm font-medium text-[#1B2A22]/60 hover:text-[#1B2A22] transition-colors flex-1 sm:flex-none border border-transparent sm:border-none"
  >
  <HelpCircle className="h-3.5 w-3.5"/>
  <span>Support</span>
  </Link>
 
  {booking.paymentStatus !== 'Paid' && (
- <button className="bg-[#1B2A22] hover:bg-[#c29f31] text-white px-6 py-3 text-sm font-medium transition-colors">
+ <button className="bg-[#1B2A22] hover:bg-[#c29f31] text-white px-6 py-3 text-sm font-medium transition-colors w-full sm:w-auto">
  Make Payment
  </button>
  )}

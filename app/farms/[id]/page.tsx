@@ -706,7 +706,7 @@ export default function FarmDetailPage() {
  </div>
  <div className="flex flex-col">
  <div className="flex items-center gap-2 mb-1 flex-wrap">
- <span className="font-bold text-[#333333] text-[14px]">₹5000 Security Deposit</span>
+ <span className="font-bold text-[#333333] text-[14px]">₹2000 Security Deposit</span>
  <span className="bg-[#f5a623] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">Pay at Check-in</span>
  </div>
  <span className="text-[13px] text-gray-500 font-medium">Refunded by host if no damage</span>
