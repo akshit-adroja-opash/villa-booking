@@ -197,14 +197,14 @@ export default function AdminPropertiesPage() {
  <div className="flex items-center gap-3">
  <button 
  onClick={() => handleDelete(farm._id)}
- className="h-10 w-10 flex items-center justify-center border border-red-100 text-red-500 hover:bg-red-50 transition-colors"
+ className="h-10 w-10 flex items-center justify-center rounded-xl border border-red-100 bg-red-50/50 text-red-500 hover:bg-red-500 hover:text-white transition-all active:scale-95"
  title="Delete Property"
  >
  <Trash2 className="h-4 w-4"/>
  </button>
  <Link 
  href={`/admin/properties/${farm._id}/edit`} 
- className="h-10 px-8 inline-flex items-center justify-center border border-gray-200 text-gray-600 hover:bg-gray-50 text-[13px] font-bold transition-all"
+ className="h-10 px-8 inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-700 hover:border-[#00a877] hover:text-[#00a877] hover:shadow-sm text-[13px] font-bold transition-all active:scale-95"
  >
  Edit
  </Link>

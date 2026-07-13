@@ -504,7 +504,7 @@ export default function AdminDashboard() {
                       <td className="px-6 py-5 text-gray-500">{dateRangeDisplay}</td>
                       <td className="px-6 py-5 font-sans tracking-tight font-bold">₹{amount.toLocaleString('en-IN')}</td>
                       <td className="px-6 md:px-8 py-5">
-                        <span className={`inline-block px-3 py-1 text-[10px] font-bold rounded-full tracking-wide ${
+                        <span className={`inline-block px-3 py-1 text-[11px] font-bold rounded-full tracking-wide ${
                           status.toLowerCase() === 'paid' || status.toLowerCase() === 'confirmed' || status.toLowerCase() === 'completed'
                             ? 'bg-[#e6f4ea] text-[#00a877]'
                             : status.toLowerCase() === 'pending'
