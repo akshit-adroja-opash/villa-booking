@@ -58,7 +58,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
  { href: '/admin/properties', icon: Home, label: 'Farmhouses' },
  { href: '/admin/reservations', icon: CalendarDays, label: 'Bookings' },
  { href: '/admin/financials', icon: CreditCard, label: 'Revenue' },
- { href: '/settings', icon: Settings, label: 'Settings' },
+ { href: '/admin/settings', icon: Settings, label: 'Settings' },
  ];
 
  return (

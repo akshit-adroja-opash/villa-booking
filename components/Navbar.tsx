@@ -137,7 +137,7 @@ export default function Navbar() {
  <CalendarDays className="h-4 w-4"/> My Reservations
  </Link>
  )}
- <Link href="/settings"onClick={() => setDropdownOpen(false)} className="flex items-center gap-3 px-3 py-2 text-xs font-semibold tracking-wide text-[#1B2A22] hover:bg-[#fbf8ff] rounded-md transition-colors">
+ <Link href={isAdmin ? "/admin/settings" : "/settings"} onClick={() => setDropdownOpen(false)} className="flex items-center gap-3 px-3 py-2 text-xs font-semibold tracking-wide text-[#1B2A22] hover:bg-[#fbf8ff] rounded-md transition-colors">
  <Settings className="h-4 w-4"/> Settings
  </Link>
  <button onClick={() => { setDropdownOpen(false); signOut({ callbackUrl: '/' }); }} className="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold tracking-wide text-red-800 hover:bg-red-50 rounded-md transition-colors text-left">
@@ -202,7 +202,7 @@ export default function Navbar() {
  <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/properties" onClick={() => setMobileMenuOpen(false)}>Farmhouses</Link>
  <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/reservations" onClick={() => setMobileMenuOpen(false)}>Bookings</Link>
  <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/financials" onClick={() => setMobileMenuOpen(false)}>Revenue</Link>
- <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/settings" onClick={() => setMobileMenuOpen(false)}>Settings</Link>
+ <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/settings" onClick={() => setMobileMenuOpen(false)}>Settings</Link>
  </div>
  )}
  
