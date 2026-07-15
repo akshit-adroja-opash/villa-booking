@@ -90,7 +90,7 @@ export default function Navbar() {
  }`} 
  href="/farms"
  >
- The Collection
+ Farmhouses
  <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname.startsWith('/farms') || pathname === '/properties' ? 'scale-x-100' : ''}`}></span>
  </Link>
  <Link 
@@ -195,7 +195,7 @@ export default function Navbar() {
 
  <div className="flex flex-col flex-grow text-left overflow-y-auto hide-scrollbar">
  <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
- <Link className={`text-lg font-medium py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/farms') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/farms" onClick={() => setMobileMenuOpen(false)}>The Collection</Link>
+ <Link className={`text-lg font-medium py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/farms') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/farms" onClick={() => setMobileMenuOpen(false)}>Farmhouses</Link>
  <Link className={`text-lg font-medium py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/contact') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
  
  {!isAdmin && (

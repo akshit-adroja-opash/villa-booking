@@ -136,7 +136,7 @@ function StaysList() {
  {/* Hero Section */}
  <section className="pt-40 pb-16 px-6 max-w-[1280px] mx-auto text-center">
  <h1 className="font-serif text-5xl md:text-7xl font-bold text-[#002E1E] tracking-tight mb-4">
- The <span className="text-[#00a877]">Collection</span>
+ Our <span className="text-[#00a877]">Farmhouses</span>
  </h1>
  <p className="text-gray-500 font-medium text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
  Discover our curated selection of premium farmhouses. Find your perfect escape from the city.
