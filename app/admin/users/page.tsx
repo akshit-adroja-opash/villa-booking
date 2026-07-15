@@ -335,7 +335,7 @@ export default function UserManagementPage() {
  <p className="text-[13px] font-semibold text-gray-400 mt-2">Create a new user account</p>
  </div>
 
- <form onSubmit={handleAddUser} className="space-y-5">
+ <form onSubmit={handleAddUser} className="space-y-5" autoComplete="off">
  
  {/* Full Name */}
  <div className="space-y-2">
@@ -361,6 +361,7 @@ export default function UserManagementPage() {
  <input 
  type="email"
  required
+ autoComplete="off"
  value={newUserEmail}
  onChange={(e) => setNewUserEmail(e.target.value)}
  placeholder="julianne@theestate.com"
@@ -377,6 +378,7 @@ export default function UserManagementPage() {
  <input 
  type="password"
  required
+ autoComplete="new-password"
  value={newUserPassword}
  onChange={(e) => setNewUserPassword(e.target.value)}
  placeholder="••••••••"
