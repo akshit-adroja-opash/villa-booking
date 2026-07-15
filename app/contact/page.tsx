@@ -122,6 +122,9 @@ export default function ContactPage() {
                     type="tel" 
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:border-[#00a877] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium"
                     placeholder="+91 8780493615"
+                    onInput={(e) => {
+                      e.currentTarget.value = e.currentTarget.value.replace(/[^0-9+\-\s()]/g, '');
+                    }}
                   />
                 </div>
 

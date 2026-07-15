@@ -16,7 +16,7 @@ export const authOptions: AuthOptions = {
         await connectDB();
         if (!credentials?.email || !credentials?.password) return null;
 
-        const user = await User.findOne({ email: credentials.email });
+        const user = await User.findOne({ email: { $regex: new RegExp(`^${credentials.email}$`, 'i') } });
         if (!user) return null;
 
         const isPasswordMatch = await bcrypt.compare(credentials.password, user.password);

@@ -323,8 +323,6 @@ export default function EditPropertyWizardPage() {
  className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] px-4 py-3 text-sm text-[#1a1b22] outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
  >
  <option value="farmhouse">Farmhouse</option>
- <option value="cabin">Cabin</option>
- <option value="estate">Estate</option>
  <option value="villa">Villa</option>
  </select>
  </div>

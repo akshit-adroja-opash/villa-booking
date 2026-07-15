@@ -75,6 +75,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
         });
 
         if (result?.ok) {
+        toast.success('Login successful!');
         if (loginEmail.toLowerCase() === 'admin@gmail.com') {
         router.push('/admin/dashboard');
         } else {
@@ -82,7 +83,8 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
         }
         router.refresh();
         } else {
-        toast.error(result?.error || 'Invalid credentials!');
+        const errorMessage = result?.error === 'CredentialsSignin' ? 'Login failed' : (result?.error || 'Login failed');
+        toast.error(errorMessage);
         }
     } catch (err) {
         console.error(err);

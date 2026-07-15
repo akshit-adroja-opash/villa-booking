@@ -7,12 +7,12 @@ export async function POST(req: Request) {
   try {
     await connectDB();
     const { name, email, password, role: requestedRole } = await req.json();
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ email: { $regex: new RegExp(`^${email}$`, 'i') } });
     if (userExists) return NextResponse.json({ error: 'User already exists' }, { status: 400 });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const role = requestedRole || (email.toLowerCase() === 'admin@gmail.com' ? 'admin' : 'user');
-    const newUser = await User.create({ name, email, password: hashedPassword, role });
+    const newUser = await User.create({ name, email: email.toLowerCase(), password: hashedPassword, role });
 
     return NextResponse.json({ message: 'User registered successfully' }, { status: 201 });
   } catch (error) {

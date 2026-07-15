@@ -52,7 +52,7 @@ export default function Navbar() {
  const role = (session?.user as any)?.role || 'customer';
  
  const displayName = session?.user?.name || (role === 'admin' ? 'Admin' : 'Guest');
- const displayEmail = session?.user?.email || (role === 'admin' ? 'admin@theestate.com' : 'guest@example.com');
+ const displayEmail = session?.user?.email || (role === 'admin' ? 'admin@enjoyfarm.com' : 'guest@example.com');
  const displayImage = session?.user?.image || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&h=80&q=80';
 
  const isHome = pathname === '/';
@@ -102,6 +102,18 @@ export default function Navbar() {
  Contact Us
  <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname.startsWith('/contact') ? 'scale-x-100' : ''}`}></span>
  </Link>
+
+ {session && !isAdmin && (
+ <Link 
+ className={`relative text-sm font-medium transition-all whitespace-nowrap group ${
+ pathname.startsWith('/dashboard/bookings') ? textColor : `${textColor} opacity-70 hover:opacity-100`
+ }`} 
+ href="/dashboard/bookings"
+ >
+ Bookings
+ <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname.startsWith('/dashboard/bookings') ? 'scale-x-100' : ''}`}></span>
+ </Link>
+ )}
  </nav>
 
  {/* Actions - Right Aligned */}
@@ -128,13 +140,9 @@ export default function Navbar() {
  <p className="text-sm font-medium text-[#1B2A22]/60 mt-0.5">{displayEmail}</p>
  </div>
  <div className="space-y-1">
- {isAdmin ? (
+ {isAdmin && (
  <Link href="/admin/dashboard"onClick={() => setDropdownOpen(false)} className="flex items-center gap-3 px-3 py-2 text-xs font-semibold tracking-wide text-[#1B2A22] hover:bg-[#fbf8ff] rounded-md transition-colors">
  <ShieldAlert className="h-4 w-4"/> Admin Panel
- </Link>
- ) : (
- <Link href="/dashboard/bookings"onClick={() => setDropdownOpen(false)} className="flex items-center gap-3 px-3 py-2 text-xs font-semibold tracking-wide text-[#1B2A22] hover:bg-[#fbf8ff] rounded-md transition-colors">
- <CalendarDays className="h-4 w-4"/> My Reservations
  </Link>
  )}
  <Link href={isAdmin ? "/admin/settings" : "/settings"} onClick={() => setDropdownOpen(false)} className="flex items-center gap-3 px-3 py-2 text-xs font-semibold tracking-wide text-[#1B2A22] hover:bg-[#fbf8ff] rounded-md transition-colors">

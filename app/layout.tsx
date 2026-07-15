@@ -19,7 +19,7 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
  title:"Enjoy Farm - Exclusive Sanctuaries",
- description:"Discover our curated portfolio of private estates, where uncompromising luxury meets absolute tranquility.",
+ description:"Discover our curated portfolio of private Farmhouses, where uncompromising luxury meets absolute tranquility.",
 };
 
 import { Toaster } from 'react-hot-toast';

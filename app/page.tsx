@@ -118,7 +118,7 @@ export default function Home() {
         className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${currentSlide === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
       >
         <img
-          alt={`Estate View ${idx + 1}`}
+          alt={`Farmhouse View ${idx + 1}`}
           className={`w-full h-full object-cover brightness-[0.6] transition-transform duration-[6000ms] ease-out ${currentSlide === idx ? 'scale-100' : 'scale-105'}`}
           src={src}
         />

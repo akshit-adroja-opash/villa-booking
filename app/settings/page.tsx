@@ -316,9 +316,9 @@ export default function SettingsPage() {
  <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
  <Phone className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input
- type="text"
+ type="tel"
  value={editPhone}
- onChange={(e) => setEditPhone(e.target.value)}
+ onChange={(e) => setEditPhone(e.target.value.replace(/[^0-9+\-\s()]/g, ''))}
  className="w-full h-11 pl-11 pr-4 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
  placeholder="+91"
  />

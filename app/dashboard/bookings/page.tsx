@@ -430,7 +430,7 @@ export default function BookingsDashboardPage() {
  : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
  }`}
  >
- Upcoming
+ My Bookings
  </button>
  <button 
  onClick={() => setActiveTab('past')}

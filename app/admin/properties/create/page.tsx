@@ -147,11 +147,11 @@ export default function AddPropertyWizardPage() {
  <div className="mb-4 flex items-center gap-2 text-[#404944] cursor-pointer"onClick={handleBack}>
  <ArrowLeft className="h-4 w-4"/>
  <span className="text-xs font-bold tracking-wider">
- {currentStep > 1 ? 'Previous Step' : 'Back to Dashboard'}
+ {currentStep > 1 ? 'Previous Step' : 'Back to Farmhouse'}
  </span>
  </div>
- <h2 className="font-serif text-3xl font-normal text-[#003527] mb-2">Add New Property</h2>
- <p className="text-sm text-[#404944]">Provide the details to list a new estate on the platform.</p>
+ <h2 className="font-serif text-3xl font-normal text-[#003527] mb-2">Add New Farmhouse</h2>
+ <p className="text-sm text-[#404944]">Provide the details to list a new Farmhouse on the platform.</p>
  </header>
 
  <div className="mx-auto max-w-3xl rounded-xl border border-[#eeedf7] bg-white p-6 md:p-10">
