@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { CalendarDays, Download, Search } from 'lucide-react';
+import { CalendarDays, Download, Search, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 type Booking = {
@@ -66,9 +66,12 @@ export default function AdminReservationsPage() {
  const [currentPage, setCurrentPage] = useState(1);
  const itemsPerPage = 8;
 
- useEffect(() => {
-   setCurrentPage(1);
- }, [query]);
+  const [sortFilter, setSortFilter] = useState('newest');
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, sortFilter]);
 
  const toggleConfirm = async (id: string, currentStatus: boolean) => {
    try {
@@ -130,9 +133,20 @@ export default function AdminReservationsPage() {
  });
  }
 
- // Sort by startDate in descending order
- return [...result].sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
- }, [bookings, query]);
+  // Sort
+  return [...result].sort((a, b) => {
+    if (sortFilter === 'newest') {
+      return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+    } else if (sortFilter === 'oldest') {
+      return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+    } else if (sortFilter === 'amount-high') {
+      return (b.totalPrice || 0) - (a.totalPrice || 0);
+    } else if (sortFilter === 'amount-low') {
+      return (a.totalPrice || 0) - (b.totalPrice || 0);
+    }
+    return 0;
+  });
+ }, [bookings, query, sortFilter]);
 
  const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
  const paginatedBookings = filteredBookings.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -225,18 +239,65 @@ export default function AdminReservationsPage() {
  {/* Table Layout Container */}
  <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
  
- {/* Search Row */}
- <div className="p-6 border-b border-gray-100">
- <div className="flex w-full max-w-md items-center gap-3 bg-white rounded-xl border border-gray-200 px-4 py-2.5 focus-within:border-gray-300 transition-all shadow-sm">
- <Search className="h-4 w-4 text-gray-400"/>
- <input
- value={query}
- onChange={(event) => setQuery(event.target.value)}
- placeholder="Search reservations..."
- className="w-full bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
- />
- </div>
- </div>
+  {/* Search Row */}
+  <div className="p-6 border-b border-gray-100 flex flex-col md:flex-row gap-4 items-center justify-between">
+  <div className="flex w-full md:w-1/2 items-center gap-3 bg-[#f9fafb] rounded-xl border border-transparent px-4 py-2.5 focus-within:border-gray-200 focus-within:bg-white transition-all">
+  <Search className="h-4 w-4 text-gray-400"/>
+  <input
+  value={query}
+  onChange={(event) => setQuery(event.target.value)}
+  placeholder="Search reservations..."
+  className="w-full bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
+  />
+  </div>
+  
+  {/* Sort selector dropdown */}
+  <div className="w-full md:w-auto min-w-[200px] relative">
+    <div className="relative">
+      <button 
+        onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+        className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 focus:outline-none focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] transition-all w-full"
+      >
+        <span>
+          {sortFilter === 'newest' && 'Newest First'}
+          {sortFilter === 'oldest' && 'Oldest First'}
+          {sortFilter === 'amount-high' && 'Amount (High to Low)'}
+          {sortFilter === 'amount-low' && 'Amount (Low to High)'}
+        </span>
+        <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isSortDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}>
+          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isSortDropdownOpen ? 'rotate-180' : ''}`} />
+        </div>
+      </button>
+     
+      {isSortDropdownOpen && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setIsSortDropdownOpen(false)}></div>
+          <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[200px]">
+            {[
+              { value: 'newest', label: 'Newest First' },
+              { value: 'oldest', label: 'Oldest First' },
+              { value: 'amount-high', label: 'Amount (High to Low)' },
+              { value: 'amount-low', label: 'Amount (Low to High)' }
+            ].map((opt) => (
+              <button
+                key={opt.value}
+                onClick={() => {
+                  setSortFilter(opt.value);
+                  setIsSortDropdownOpen(false);
+                }}
+                className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${
+                  sortFilter === opt.value ? 'bg-[#e6f4ea] text-[#00a877]' : 'text-gray-600 hover:bg-gray-50'
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+  </div>
 
  {/* Table */}
  <div className="overflow-x-auto">

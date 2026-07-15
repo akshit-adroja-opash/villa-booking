@@ -28,12 +28,17 @@ export default function UserManagementPage() {
  const [searchTerm, setSearchTerm] = useState('');
  const [roleFilter, setRoleFilter] = useState('all');
  const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
+  const [sortColumn, setSortColumn] = useState<string>("createdAt");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
  const [currentPage, setCurrentPage] = useState(1);
  const itemsPerPage = 8;
 
- useEffect(() => {
-   setCurrentPage(1);
- }, [searchTerm, roleFilter]);
+  const [sortFilter, setSortFilter] = useState('newest');
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, roleFilter, sortFilter]);
 
  // Add user modal states
  const [showModal, setShowModal] = useState(false);
@@ -196,7 +201,18 @@ export default function UserManagementPage() {
  const matchesRole = roleFilter === 'all' || user.role === roleFilter || (roleFilter === 'customer' && user.role === 'user');
 
  return matchesSearch && matchesRole;
- });
+ }).sort((a, b) => {
+    if (sortFilter === 'newest') {
+      return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+    } else if (sortFilter === 'oldest') {
+      return new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime();
+    } else if (sortFilter === 'name-asc') {
+      return a.name.localeCompare(b.name);
+    } else if (sortFilter === 'name-desc') {
+      return b.name.localeCompare(a.name);
+    }
+    return 0;
+  });
 
  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
  const paginatedUsers = filteredUsers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -264,54 +280,108 @@ export default function UserManagementPage() {
  />
  </div>
 
-  {/* Role selector dropdown */}
-  <div className="w-full md:w-auto min-w-[180px] relative">
-  <div className="relative">
-  <button 
-  onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-  className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] transition-all w-full"
-  >
-  <span>
-  {roleFilter === 'all' && 'All Roles'}
-  {roleFilter === 'admin' && 'Administrators'}
-  {roleFilter === 'customer' && 'Customers'}
-  </span>
-  <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isRoleDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}>
-  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isRoleDropdownOpen ? 'rotate-180' : ''}`} />
-  </div>
-  </button>
- 
-  {isRoleDropdownOpen && (
-  <>
-  <div 
-  className="fixed inset-0 z-40"
-  onClick={() => setIsRoleDropdownOpen(false)}
-  ></div>
-  <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[160px]">
-  {[
-  { value: 'all', label: 'All Roles' },
-  { value: 'admin', label: 'Administrators' },
-      { value: 'customer', label: 'Customers' }
-  ].map((opt) => (
-  <button
-  key={opt.value}
-  onClick={() => {
-  setRoleFilter(opt.value);
-  setIsRoleDropdownOpen(false);
-  }}
-  className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${
-  roleFilter === opt.value
-  ? 'bg-[#e6f4ea] text-[#00a877]'
-  : 'text-gray-600 hover:bg-gray-50'
-  }`}
-  >
-  {opt.label}
-  </button>
-  ))}
-  </div>
-  </>
-  )}
-  </div>
+  <div className="flex w-full md:w-auto items-center gap-4">
+    {/* Role selector dropdown */}
+    <div className="w-full md:w-auto min-w-[160px] relative">
+    <div className="relative">
+    <button 
+    onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
+    className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] transition-all w-full"
+    >
+    <span>
+    {roleFilter === 'all' && 'All Roles'}
+    {roleFilter === 'admin' && 'Administrators'}
+    {roleFilter === 'customer' && 'Customers'}
+    </span>
+    <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isRoleDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}>
+    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isRoleDropdownOpen ? 'rotate-180' : ''}`} />
+    </div>
+    </button>
+   
+    {isRoleDropdownOpen && (
+    <>
+    <div 
+    className="fixed inset-0 z-40"
+    onClick={() => setIsRoleDropdownOpen(false)}
+    ></div>
+    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[160px]">
+    {[
+    { value: 'all', label: 'All Roles' },
+    { value: 'admin', label: 'Administrators' },
+        { value: 'customer', label: 'Customers' }
+    ].map((opt) => (
+    <button
+    key={opt.value}
+    onClick={() => {
+    setRoleFilter(opt.value);
+    setIsRoleDropdownOpen(false);
+    }}
+    className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${
+    roleFilter === opt.value
+    ? 'bg-[#e6f4ea] text-[#00a877]'
+    : 'text-gray-600 hover:bg-gray-50'
+    }`}
+    >
+    {opt.label}
+    </button>
+    ))}
+    </div>
+    </>
+    )}
+    </div>
+    </div>
+
+    {/* Sort selector dropdown */}
+    <div className="w-full md:w-auto min-w-[160px] relative">
+    <div className="relative">
+    <button 
+    onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+    className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] transition-all w-full"
+    >
+    <span>
+    {sortFilter === 'newest' && 'Newest First'}
+    {sortFilter === 'oldest' && 'Oldest First'}
+    {sortFilter === 'name-asc' && 'Name (A-Z)'}
+    {sortFilter === 'name-desc' && 'Name (Z-A)'}
+    </span>
+    <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isSortDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}>
+    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isSortDropdownOpen ? 'rotate-180' : ''}`} />
+    </div>
+    </button>
+   
+    {isSortDropdownOpen && (
+    <>
+    <div 
+    className="fixed inset-0 z-40"
+    onClick={() => setIsSortDropdownOpen(false)}
+    ></div>
+    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[160px]">
+    {[
+    { value: 'newest', label: 'Newest First' },
+    { value: 'oldest', label: 'Oldest First' },
+    { value: 'name-asc', label: 'Name (A-Z)' },
+    { value: 'name-desc', label: 'Name (Z-A)' }
+    ].map((opt) => (
+    <button
+    key={opt.value}
+    onClick={() => {
+    setSortFilter(opt.value);
+    setIsSortDropdownOpen(false);
+    }}
+    className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${
+    sortFilter === opt.value
+    ? 'bg-[#e6f4ea] text-[#00a877]'
+    : 'text-gray-600 hover:bg-gray-50'
+    }`}
+    >
+    {opt.label}
+    </button>
+    ))}
+    </div>
+    </>
+    )}
+    </div>
+    </div>
   </div>
  </div>
 

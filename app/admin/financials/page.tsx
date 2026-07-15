@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { CreditCard, Download, IndianRupee, ReceiptText, WalletCards } from 'lucide-react';
+import { CreditCard, Download, IndianRupee, ReceiptText, WalletCards, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 type Booking = {
@@ -87,10 +87,27 @@ export default function AdminFinancialsPage() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
+  const [sortFilter, setSortFilter] = useState('newest');
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [sortFilter]);
 
   const sortedTransactions = useMemo(() => {
-    return [...bookings].sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
-  }, [bookings]);
+    return [...bookings].sort((a, b) => {
+      if (sortFilter === 'newest') {
+        return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+      } else if (sortFilter === 'oldest') {
+        return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+      } else if (sortFilter === 'amount-high') {
+        return (b.totalPrice || 0) - (a.totalPrice || 0);
+      } else if (sortFilter === 'amount-low') {
+        return (a.totalPrice || 0) - (b.totalPrice || 0);
+      }
+      return 0;
+    });
+  }, [bookings, sortFilter]);
 
   const totalPages = Math.ceil(sortedTransactions.length / itemsPerPage);
   const paginatedTransactions = sortedTransactions.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -145,9 +162,58 @@ export default function AdminFinancialsPage() {
 
  {/* Transaction History Section */}
  <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
- <div className="p-6 md:p-8 border-b border-gray-100">
- <h3 className="font-serif text-[22px] font-bold text-[#1B2A22]">Recent Transactions</h3>
+ <div className="p-6 md:p-8 border-b border-gray-100 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+ <div>
+ <h3 className="font-serif text-[22px] font-bold text-[#1B2A22]">All Transactions</h3>
  <p className="text-[13px] font-semibold text-gray-400 mt-1">Latest booking payments from guests.</p>
+ </div>
+ 
+ {/* Sort selector dropdown */}
+ <div className="w-full md:w-auto min-w-[200px] relative">
+ <div className="relative">
+ <button 
+ onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+ className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 focus:outline-none focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] transition-all w-full"
+ >
+ <span>
+ {sortFilter === 'newest' && 'Newest First'}
+ {sortFilter === 'oldest' && 'Oldest First'}
+ {sortFilter === 'amount-high' && 'Amount (High to Low)'}
+ {sortFilter === 'amount-low' && 'Amount (Low to High)'}
+ </span>
+ <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isSortDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}>
+ <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isSortDropdownOpen ? 'rotate-180' : ''}`} />
+ </div>
+ </button>
+ 
+ {isSortDropdownOpen && (
+ <>
+ <div className="fixed inset-0 z-40" onClick={() => setIsSortDropdownOpen(false)}></div>
+ <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[200px]">
+ {[
+ { value: 'newest', label: 'Newest First' },
+ { value: 'oldest', label: 'Oldest First' },
+ { value: 'amount-high', label: 'Amount (High to Low)' },
+ { value: 'amount-low', label: 'Amount (Low to High)' }
+ ].map((opt) => (
+ <button
+ key={opt.value}
+ onClick={() => {
+ setSortFilter(opt.value);
+ setIsSortDropdownOpen(false);
+ }}
+ className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${
+ sortFilter === opt.value ? 'bg-[#e6f4ea] text-[#00a877]' : 'text-gray-600 hover:bg-gray-50'
+ }`}
+ >
+ {opt.label}
+ </button>
+ ))}
+ </div>
+ </>
+ )}
+ </div>
+ </div>
  </div>
 
  <div className="overflow-x-auto">
