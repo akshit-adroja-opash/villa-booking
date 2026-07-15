@@ -418,22 +418,34 @@ export default function AdminDashboard() {
             <h3 className="font-serif text-[22px] font-bold text-[#1B2A22] mb-8">Popular Destinations</h3>
             
             {/* Donut SVG Rendering */}
-            <div className="relative flex-1 flex items-center justify-center min-h-[160px]">
-              <svg className="w-40 h-40 transform -rotate-90" viewBox="0 0 36 36">
-                {donutSegments.map((segment, idx) => (
-                  <circle 
-                    key={idx}
-                    cx="18"
-                    cy="18"
-                    r="15.915"
-                    fill="none"
-                    stroke={segment.color} 
-                    strokeWidth="4.5"
-                    strokeDasharray={segment.strokeDasharray} 
-                    strokeDashoffset={segment.strokeDashoffset} 
-                  />
-                ))}
-              </svg>
+            <div className="relative flex-1 flex items-center justify-center min-h-[160px] py-4">
+              <div className="relative w-44 h-44">
+                <svg className="w-full h-full transform -rotate-90 drop-shadow-sm" viewBox="0 0 36 36">
+                  {/* Background Track */}
+                  <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f8f9fa" strokeWidth="3.5" />
+                  
+                  {donutSegments.map((segment, idx) => (
+                    <circle 
+                      key={idx}
+                      cx="18"
+                      cy="18"
+                      r="15.915"
+                      fill="none"
+                      stroke={segment.color} 
+                      strokeWidth="3.5"
+                      strokeLinecap="round"
+                      strokeDasharray={segment.strokeDasharray} 
+                      strokeDashoffset={segment.strokeDashoffset} 
+                      className="transition-all duration-1000 ease-out cursor-pointer hover:stroke-[4]"
+                    />
+                  ))}
+                </svg>
+                {/* Center Content */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Total</span>
+                  <span className="text-3xl font-sans tracking-tight font-bold text-[#1B2A22] leading-none">{popularDestinations.length > 0 ? '100%' : '0%'}</span>
+                </div>
+              </div>
             </div>
 
             {/* Legend Block */}

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
  description:"Discover our curated portfolio of private Farmhouses, where uncompromising luxury meets absolute tranquility.",
 };
 
-import { Toaster } from 'react-hot-toast';
+import CustomToaster from '@/components/CustomToaster';
 
 export default function RootLayout({
  children,
@@ -47,7 +47,7 @@ export default function RootLayout({
  {children}
  </div>
  <Footer />
- <Toaster position="top-right" toastOptions={{ style: { marginTop: '70px' } }} />
+ <CustomToaster />
  </Providers>
  </body>
  </html>
