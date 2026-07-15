@@ -132,13 +132,21 @@ function StaysList() {
 
  return (
  <div className="bg-[#FAF9F6] min-h-screen">
- <div className="max-w-[1280px] mx-auto px-6 md:px-16 pt-32 pb-20">
+ 
+ {/* Hero Section */}
+ <section className="pt-40 pb-16 px-6 max-w-[1280px] mx-auto text-center">
+ <h1 className="font-serif text-5xl md:text-7xl font-bold text-[#002E1E] tracking-tight mb-4">
+ The <span className="text-[#00a877]">Collection</span>
+ </h1>
+ <p className="text-gray-500 font-medium text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+ Discover our curated selection of premium farmhouses. Find your perfect escape from the city.
+ </p>
+ </section>
+
+ <div className="max-w-[1280px] mx-auto px-6 md:px-16 pb-20">
  
  {/* Header & Search */}
  <div className="mb-8">
- <h1 className="font-sans text-3xl md:text-[28px] font-bold text-[#1B2A22] mb-6">
- Find Your Perfect Farmhouse
- </h1>
  <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
  <div className="flex-1 relative flex items-center w-full">
  <Search className="w-5 h-5 text-gray-400 absolute left-4" />

@@ -86,21 +86,21 @@ export default function Navbar() {
  </Link>
  <Link 
  className={`relative text-sm font-medium transition-all whitespace-nowrap group ${
- pathname === '/farms' || pathname === '/properties' ? textColor : `${textColor} opacity-70 hover:opacity-100`
+ pathname.startsWith('/farms') || pathname === '/properties' ? textColor : `${textColor} opacity-70 hover:opacity-100`
  }`} 
  href="/farms"
  >
  The Collection
- <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname === '/farms' || pathname === '/properties' ? 'scale-x-100' : ''}`}></span>
+ <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname.startsWith('/farms') || pathname === '/properties' ? 'scale-x-100' : ''}`}></span>
  </Link>
  <Link 
  className={`relative text-sm font-medium transition-all whitespace-nowrap group ${
- pathname === '/contact' ? textColor : `${textColor} opacity-70 hover:opacity-100`
+ pathname.startsWith('/contact') ? textColor : `${textColor} opacity-70 hover:opacity-100`
  }`} 
  href="/contact"
  >
  Contact Us
- <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname === '/contact' ? 'scale-x-100' : ''}`}></span>
+ <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname.startsWith('/contact') ? 'scale-x-100' : ''}`}></span>
  </Link>
  </nav>
 
@@ -187,8 +187,8 @@ export default function Navbar() {
 
  <div className="flex flex-col flex-grow text-left overflow-y-auto hide-scrollbar">
  <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
- <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/farms" onClick={() => setMobileMenuOpen(false)}>The Collection</Link>
- <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
+ <Link className={`text-lg font-medium py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/farms') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/farms" onClick={() => setMobileMenuOpen(false)}>The Collection</Link>
+ <Link className={`text-lg font-medium py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/contact') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
  
  {!isAdmin && (
  <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href={session ?"/dashboard/bookings":"/login"} onClick={() => setMobileMenuOpen(false)}>Reservations</Link>

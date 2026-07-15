@@ -146,7 +146,7 @@ export default function UserManagementPage() {
  user.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
  user.email.toLowerCase().includes(searchTerm.toLowerCase());
  
- const matchesRole = roleFilter === 'all' || user.role === roleFilter || (roleFilter === 'user' && user.role === 'customer');
+ const matchesRole = roleFilter === 'all' || user.role === roleFilter || (roleFilter === 'customer' && user.role === 'user');
 
  return matchesSearch && matchesRole;
  });
@@ -159,7 +159,6 @@ export default function UserManagementPage() {
  };
 
  const totalAdmins = users.filter(u => u.role === 'admin').length;
- const totalOwners = users.filter(u => u.role === 'owner').length || 2; // Default mock for UI if none
  const totalCustomers = users.filter(u => u.role === 'customer' || u.role === 'user').length;
 
  return (
@@ -186,7 +185,7 @@ export default function UserManagementPage() {
  </div>
 
  {/* User Summary Stats Widgets */}
- <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+ <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
  <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">Total Registered</p>
  <h4 className="font-sans tracking-tight text-[28px] font-bold text-[#1B2A22]">{users.length}</h4>
@@ -194,10 +193,6 @@ export default function UserManagementPage() {
  <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">Administrators</p>
  <h4 className="font-sans tracking-tight text-[28px] font-bold text-purple-600">{totalAdmins}</h4>
- </div>
- <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
- <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">Farm Owners / Hosts</p>
- <h4 className="font-sans tracking-tight text-[28px] font-bold text-orange-500">{totalOwners}</h4>
  </div>
  <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">Customers / Guests</p>
