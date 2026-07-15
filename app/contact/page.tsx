@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Mail, Phone, MapPin, MessageCircle, Clock, ArrowRight, PhoneCall } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function ContactPage() {
   return (
@@ -90,7 +91,7 @@ export default function ContactPage() {
           {/* Contact Form Container */}
           <div className="lg:col-span-7 bg-white p-8 md:p-10 rounded-3xl border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] order-2 lg:order-2">
             <h2 className="font-serif text-[28px] text-[#002E1E] font-bold mb-8">Send us a Message</h2>
-            <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); alert('Message sent successfully! We will get back to you soon.'); }}>
+            <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); toast.success('Message sent successfully! We will get back to you soon.'); }}>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-1.5">

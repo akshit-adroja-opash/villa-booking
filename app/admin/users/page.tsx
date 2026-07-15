@@ -89,32 +89,56 @@ export default function UserManagementPage() {
  }
  };
 
- const handleDeleteUser = async (id: string) => {
- const userToDelete = users.find(u => u._id === id);
- if (userToDelete && userToDelete.role === 'admin') {
- toast.error('Administrator accounts cannot be deleted.');
- return;
- }
+  const executeDeleteUser = async (id: string) => {
+  try {
+  const res = await fetch('/api/users', {
+  method: 'DELETE',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ id })
+  });
 
- if (!window.confirm('Are you sure you want to delete this user?')) return;
+  if (res.ok) {
+  toast.success('User deleted successfully!');
+  fetchUsers();
+  } else {
+  toast.error('Failed to delete user.');
+  }
+  } catch (err) {
+  console.error('Error deleting user:', err);
+  toast.error('Error deleting user.');
+  }
+  };
 
- try {
- const res = await fetch('/api/users', {
- method: 'DELETE',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({ id })
- });
+  const handleDeleteUser = (id: string) => {
+  const userToDelete = users.find(u => u._id === id);
+  if (userToDelete && userToDelete.role === 'admin') {
+  toast.error('Administrator accounts cannot be deleted.');
+  return;
+  }
 
- if (res.ok) {
- toast.success('User deleted successfully!');
- fetchUsers();
- } else {
- toast.error('Failed to delete user.');
- }
- } catch (err) {
- console.error('Error deleting user:', err);
- }
- };
+  toast((t) => (
+  <div className="flex flex-col gap-3">
+  <p className="text-[13px] font-semibold text-[#1B2A22]">Are you sure you want to delete this user?</p>
+  <div className="flex gap-2 justify-end mt-1">
+  <button 
+  onClick={() => toast.dismiss(t.id)}
+  className="px-4 py-2 text-[11px] font-bold uppercase tracking-wide text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+  >
+  Cancel
+  </button>
+  <button 
+  onClick={() => {
+  toast.dismiss(t.id);
+  executeDeleteUser(id);
+  }}
+  className="px-4 py-2 text-[11px] font-bold uppercase tracking-wide text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
+  >
+  Delete
+  </button>
+  </div>
+  </div>
+  ), { duration: Infinity, id: 'delete-confirm' });
+  };
 
  // Filtered members list
  const filteredUsers = users.filter(user => {
@@ -302,7 +326,6 @@ export default function UserManagementPage() {
  <button
  onClick={() => handleDeleteUser(user._id)}
  className="p-2 text-gray-500 hover:text-red-500 transition-colors"
- title="Revoke Access"
  >
  <Trash2 className="h-4 w-4"/>
  </button>

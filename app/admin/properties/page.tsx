@@ -46,8 +46,7 @@ export default function AdminPropertiesPage() {
  loadFarms();
  }, []);
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this property? This cannot be undone.')) return;
+  const executeDelete = async (id: string) => {
     try {
       const response = await fetch(`/api/farms/${id}`, { method: 'DELETE' });
       if (response.ok) {
@@ -60,6 +59,31 @@ export default function AdminPropertiesPage() {
       console.error('Delete error:', error);
       toast.error('An error occurred while deleting');
     }
+  };
+
+  const handleDelete = (id: string) => {
+    toast((t) => (
+      <div className="flex flex-col gap-3">
+        <p className="text-[13px] font-semibold text-[#1B2A22]">Are you sure you want to delete this property? This cannot be undone.</p>
+        <div className="flex gap-2 justify-end mt-1">
+          <button 
+            onClick={() => toast.dismiss(t.id)}
+            className="px-4 py-2 text-[11px] font-bold uppercase tracking-wide text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={() => {
+              toast.dismiss(t.id);
+              executeDelete(id);
+            }}
+            className="px-4 py-2 text-[11px] font-bold uppercase tracking-wide text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    ), { duration: Infinity, id: 'delete-confirm-prop' });
   };
 
  const filteredFarms = useMemo(() => {

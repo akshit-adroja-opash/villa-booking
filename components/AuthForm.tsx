@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const Logo = () => (
   <div className="flex flex-col items-center gap-2 mb-2 md:mb-6 text-[#1B2A22]">
@@ -51,11 +52,11 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  }
  router.refresh();
  } else {
- alert(result?.error || 'Invalid credentials!');
+ toast.error(result?.error || 'Invalid credentials!');
  }
  } catch (err) {
  console.error(err);
- alert('An error occurred during sign in.');
+ toast.error('An error occurred during sign in.');
  } finally {
  setLoading(false);
  }
@@ -72,16 +73,16 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  });
 
  if (res.ok) {
- alert('Registration successful! Please log in.');
+ toast.success('Registration successful! Please log in.');
  setMode('signin');
  router.push('/login');
  } else {
  const data = await res.json();
- alert(data.error || 'Registration error.');
+ toast.error(data.error || 'Registration error.');
  }
  } catch (err) {
  console.error(err);
- alert('An error occurred during registration.');
+ toast.error('An error occurred during registration.');
  } finally {
  setLoading(false);
  }
