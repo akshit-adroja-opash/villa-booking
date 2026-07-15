@@ -153,7 +153,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  onClick={() => setShowPassword(!showPassword)}
  className="absolute right-4 p-1 hover:bg-[#1B2A22]/5 rounded-full transition-colors"
  >
- {showPassword ? <EyeOff className="h-4 w-4 text-[#1B2A22]/50"/> : <Eye className="h-4 w-4 text-[#1B2A22]/50"/>}
+ {showPassword ? <Eye className="h-4 w-4 text-[#1B2A22]/50"/> : <EyeOff className="h-4 w-4 text-[#1B2A22]/50"/>}
  </button>
  </div>
  </div>

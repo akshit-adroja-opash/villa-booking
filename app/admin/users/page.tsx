@@ -67,7 +67,7 @@ export default function UserManagementPage() {
  name: newUserName,
  email: newUserEmail,
  password: newUserPassword,
- role: newUserRole
+ role: newUserRole === 'customer' ? 'user' : newUserRole
  })
  });
 
