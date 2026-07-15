@@ -204,10 +204,10 @@ export default function EditPropertyWizardPage() {
  <div className="mb-4 flex items-center gap-2 text-[#404944] cursor-pointer"onClick={handleBack}>
  <ArrowLeft className="h-4 w-4"/>
  <span className="text-xs font-bold tracking-wider">
- {currentStep > 1 ? 'Previous Step' : 'Back to Properties'}
+ {currentStep > 1 ? 'Previous Step' : 'Back to Farmhouses'}
  </span>
  </div>
- <h2 className="font-serif text-3xl font-normal text-[#003527] mb-2">Edit Property</h2>
+ <h2 className="font-serif text-3xl font-normal text-[#003527] mb-2">Edit Farmhouse</h2>
  <p className="text-sm text-[#404944]">Update the details for this estate.</p>
  </header>
 

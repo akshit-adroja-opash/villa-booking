@@ -63,6 +63,12 @@ export default function AdminReservationsPage() {
  const [bookings, setBookings] = useState<Booking[]>([]);
  const [loading, setLoading] = useState(true);
  const [query, setQuery] = useState('');
+ const [currentPage, setCurrentPage] = useState(1);
+ const itemsPerPage = 8;
+
+ useEffect(() => {
+   setCurrentPage(1);
+ }, [query]);
 
  const toggleConfirm = async (id: string, currentStatus: boolean) => {
    try {
@@ -127,6 +133,9 @@ export default function AdminReservationsPage() {
  // Sort by startDate in descending order
  return [...result].sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
  }, [bookings, query]);
+
+ const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
+ const paginatedBookings = filteredBookings.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
  const totalRevenue = bookings.reduce((sum, booking) => sum + (booking.totalPrice || 0), 0);
  const confirmedBookings = bookings.filter((booking) => booking.paymentStatus === 'Paid' || booking.paymentStatus?.toLowerCase() === 'confirmed').length;
@@ -250,7 +259,7 @@ export default function AdminReservationsPage() {
  </td>
  </tr>
  ) : (
- filteredBookings.map((booking) => {
+ paginatedBookings.map((booking) => {
  const status = booking.paymentStatus?.toLowerCase() || 'pending';
  const isConfirmed = status === 'paid' || status === 'confirmed';
  
@@ -313,9 +322,31 @@ export default function AdminReservationsPage() {
  </div>
 
  {/* Footer */}
- <div className="border-t border-gray-100 p-6 text-[12px] font-bold text-gray-400 bg-white">
- Showing {filteredBookings.length} of {bookings.length} reservations. {upcomingBookings} upcoming.
- </div>
+ {totalPages > 1 && (
+   <div className="flex items-center justify-between border-t border-gray-100 bg-white px-6 py-4">
+     <p className="text-[13px] font-medium text-gray-500">
+       Showing <span className="font-bold text-[#1B2A22]">{(currentPage - 1) * itemsPerPage + 1}</span> to{' '}
+       <span className="font-bold text-[#1B2A22]">{Math.min(currentPage * itemsPerPage, filteredBookings.length)}</span> of{' '}
+       <span className="font-bold text-[#1B2A22]">{filteredBookings.length}</span> results
+     </p>
+     <div className="flex items-center gap-2">
+       <button 
+         onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+         disabled={currentPage === 1}
+         className="px-3 py-1.5 text-[12px] font-bold text-gray-500 hover:text-[#002E1E] disabled:opacity-50 transition-colors bg-gray-50 hover:bg-gray-100 rounded-md"
+       >
+         Previous
+       </button>
+       <button 
+         onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+         disabled={currentPage === totalPages}
+         className="px-3 py-1.5 text-[12px] font-bold text-gray-500 hover:text-[#002E1E] disabled:opacity-50 transition-colors bg-gray-50 hover:bg-gray-100 rounded-md"
+       >
+         Next
+       </button>
+     </div>
+   </div>
+ )}
  </div>
  </div>
  </main>

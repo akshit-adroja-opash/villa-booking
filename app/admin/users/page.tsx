@@ -10,7 +10,8 @@ import {
  User,
  Mail,
  Shield,
- ChevronDown
+ ChevronDown,
+ Pencil
 } from 'lucide-react';
 
 interface Member {
@@ -27,9 +28,16 @@ export default function UserManagementPage() {
  const [searchTerm, setSearchTerm] = useState('');
  const [roleFilter, setRoleFilter] = useState('all');
  const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
+ const [currentPage, setCurrentPage] = useState(1);
+ const itemsPerPage = 8;
+
+ useEffect(() => {
+   setCurrentPage(1);
+ }, [searchTerm, roleFilter]);
 
  // Add user modal states
  const [showModal, setShowModal] = useState(false);
+ const [editingUserId, setEditingUserId] = useState<string | null>(null);
  const [newUserName, setNewUserName] = useState('');
  const [newUserEmail, setNewUserEmail] = useState('');
  const [newUserPassword, setNewUserPassword] = useState('');
@@ -57,35 +65,74 @@ export default function UserManagementPage() {
  fetchUsers();
  }, []);
 
+ const handleEditClick = (user: Member) => {
+   setEditingUserId(user._id);
+   setNewUserName(user.name);
+   setNewUserEmail(user.email);
+   setNewUserRole(user.role === 'user' ? 'customer' : user.role);
+   setNewUserPassword(''); // clear password field
+   setShowModal(true);
+ };
+
+ const handleOpenAddModal = () => {
+   setEditingUserId(null);
+   setNewUserName('');
+   setNewUserEmail('');
+   setNewUserPassword('');
+   setNewUserRole('customer');
+   setShowModal(true);
+ };
+
  const handleAddUser = async (e: React.FormEvent) => {
  e.preventDefault();
  try {
- const registerRes = await fetch('/api/auth/register', {
- method: 'POST',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({
- name: newUserName,
- email: newUserEmail,
- password: newUserPassword,
- role: newUserRole === 'customer' ? 'user' : newUserRole
- })
- });
-
- if (registerRes.ok) {
- toast.success('User created successfully!');
- setShowModal(false);
- setNewUserName('');
- setNewUserEmail('');
- setNewUserPassword('');
- setNewUserRole('customer');
- fetchUsers();
+ if (editingUserId) {
+   const res = await fetch('/api/users', {
+     method: 'PATCH',
+     headers: { 'Content-Type': 'application/json' },
+     body: JSON.stringify({
+       id: editingUserId,
+       name: newUserName,
+       email: newUserEmail,
+       role: newUserRole
+     })
+   });
+   if (res.ok) {
+     toast.success('User updated successfully!');
+     setShowModal(false);
+     fetchUsers();
+   } else {
+     const errData = await res.json();
+     toast.error(errData.error || 'Failed to update user.');
+   }
  } else {
- const errData = await registerRes.json();
- toast.error(errData.error || 'Failed to register user.');
+   const registerRes = await fetch('/api/auth/register', {
+   method: 'POST',
+   headers: { 'Content-Type': 'application/json' },
+   body: JSON.stringify({
+   name: newUserName,
+   email: newUserEmail,
+   password: newUserPassword,
+   role: newUserRole === 'customer' ? 'user' : newUserRole
+   })
+   });
+
+   if (registerRes.ok) {
+   toast.success('User created successfully!');
+   setShowModal(false);
+   setNewUserName('');
+   setNewUserEmail('');
+   setNewUserPassword('');
+   setNewUserRole('customer');
+   fetchUsers();
+   } else {
+   const errData = await registerRes.json();
+   toast.error(errData.error || 'Failed to register user.');
+   }
  }
  } catch (err) {
- console.error('Error creating user:', err);
- toast.error('Error connecting to registration API.');
+ console.error('Error saving user:', err);
+ toast.error('Error saving user.');
  }
  };
 
@@ -151,6 +198,9 @@ export default function UserManagementPage() {
  return matchesSearch && matchesRole;
  });
 
+ const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+ const paginatedUsers = filteredUsers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
  const getRoleBadgeStyle = (role: string) => {
  const r = role.toLowerCase();
  if (r === 'admin') return 'bg-purple-50 text-purple-600';
@@ -172,11 +222,11 @@ export default function UserManagementPage() {
  User Management
  </h1>
  <p className="text-[13px] font-semibold text-gray-400 mt-1">
- Manage roles, details, and permissions for AgriStay members.
+ Manage roles, details, and permissions for Enjoy Farm members.
  </p>
  </div>
  <button
- onClick={() => setShowModal(true)}
+ onClick={handleOpenAddModal}
  className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-all shadow-sm self-end sm:self-auto"
  >
  <UserPlus className="h-4 w-4"/>
@@ -292,7 +342,7 @@ export default function UserManagementPage() {
  </td>
  </tr>
  ) : (
- filteredUsers.map((user) => (
+ paginatedUsers.map((user) => (
  <tr key={user._id} className="hover:bg-[#fafafa] transition-colors">
  <td className="px-8 py-4">
  <div className="flex items-center gap-4">
@@ -316,22 +366,55 @@ export default function UserManagementPage() {
  <td className="px-6 py-4 text-gray-500 font-medium">
  {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '7/6/2026'}
  </td>
- <td className="px-8 py-4 text-right">
- {user.role !== 'admin' && (
- <button
- onClick={() => handleDeleteUser(user._id)}
- className="p-2 text-gray-500 hover:text-red-500 transition-colors"
- >
- <Trash2 className="h-4 w-4"/>
- </button>
- )}
- </td>
+  <td className="px-8 py-4 text-right flex justify-end gap-2">
+  <button
+  onClick={() => handleEditClick(user)}
+  className="p-2 text-gray-400 hover:text-[#00a877] transition-colors"
+  title="Edit user"
+  >
+  <Pencil className="h-4 w-4"/>
+  </button>
+  {user.role !== 'admin' && (
+  <button
+  onClick={() => handleDeleteUser(user._id)}
+  className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+  title="Delete user"
+  >
+  <Trash2 className="h-4 w-4"/>
+  </button>
+  )}
+  </td>
  </tr>
  ))
  )}
  </tbody>
  </table>
  </div>
+ {totalPages > 1 && (
+   <div className="flex items-center justify-between border-t border-gray-100 bg-white px-6 py-4">
+     <p className="text-[13px] font-medium text-gray-500">
+       Showing <span className="font-bold text-[#1B2A22]">{(currentPage - 1) * itemsPerPage + 1}</span> to{' '}
+       <span className="font-bold text-[#1B2A22]">{Math.min(currentPage * itemsPerPage, filteredUsers.length)}</span> of{' '}
+       <span className="font-bold text-[#1B2A22]">{filteredUsers.length}</span> results
+     </p>
+     <div className="flex items-center gap-2">
+       <button 
+         onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+         disabled={currentPage === 1}
+         className="px-3 py-1.5 text-[12px] font-bold text-gray-500 hover:text-[#002E1E] disabled:opacity-50 transition-colors bg-gray-50 hover:bg-gray-100 rounded-md"
+       >
+         Previous
+       </button>
+       <button 
+         onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+         disabled={currentPage === totalPages}
+         className="px-3 py-1.5 text-[12px] font-bold text-gray-500 hover:text-[#002E1E] disabled:opacity-50 transition-colors bg-gray-50 hover:bg-gray-100 rounded-md"
+       >
+         Next
+       </button>
+     </div>
+   </div>
+ )}
  </div>
 
  </div>
@@ -349,8 +432,12 @@ export default function UserManagementPage() {
  </button>
 
  <div className="mb-8 text-center">
- <h3 className="font-serif text-2xl font-bold text-[#1B2A22]">New User</h3>
- <p className="text-[13px] font-semibold text-gray-400 mt-2">Create a new user account</p>
+ <h3 className="font-serif text-2xl font-bold text-[#1B2A22]">
+   {editingUserId ? 'Edit User' : 'New User'}
+ </h3>
+ <p className="text-[13px] font-medium text-gray-400 mt-1">
+   {editingUserId ? 'Update user details and permissions.' : 'Add a new member to the platform.'}
+ </p>
  </div>
 
  <form onSubmit={handleAddUser} className="space-y-5" autoComplete="off">
@@ -389,21 +476,25 @@ export default function UserManagementPage() {
  </div>
 
  {/* Password */}
- <div className="space-y-2">
- <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Temporary Password</label>
- <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
- <Shield className="absolute left-4 h-4 w-4 text-gray-400"/>
- <input 
- type="password"
- required
- autoComplete="new-password"
- value={newUserPassword}
- onChange={(e) => setNewUserPassword(e.target.value)}
- placeholder="••••••••"
- className="w-full h-12 pl-11 pr-4 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
- />
- </div>
- </div>
+  {!editingUserId && (
+  <div className="space-y-2">
+  <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Security</label>
+  <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#00a877] transition-all overflow-hidden">
+  <div className="absolute left-4 text-gray-400 pointer-events-none">
+  <Shield className="h-4 w-4" />
+  </div>
+  <input
+  type="password"
+  required
+  autoComplete="new-password"
+  value={newUserPassword}
+  onChange={(e) => setNewUserPassword(e.target.value)}
+  placeholder="••••••••"
+  className="w-full h-12 pl-11 pr-4 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
+  />
+  </div>
+  </div>
+  )}
 
  {/* Role Selection */}
  <div className="space-y-2">
@@ -448,9 +539,14 @@ export default function UserManagementPage() {
  {/* Submit */}
  <button 
  type="submit"
- className="w-full h-12 bg-[#00a877] hover:bg-[#009669] rounded-xl text-white text-[13px] font-bold transition-all active:scale-[0.99] mt-6 shadow-sm"
+ className="w-full h-12 bg-[#00a877] hover:bg-[#009669] rounded-xl text-white text-[13px] font-bold transition-all active:scale-[0.99] mt-6 shadow-sm flex items-center justify-center gap-2"
  >
- Grant Access
+ {editingUserId ? 'Save Changes' : (
+   <>
+     <UserPlus className="h-4 w-4"/>
+     <span>Grant Access</span>
+   </>
+ )}
  </button>
 
  </form>

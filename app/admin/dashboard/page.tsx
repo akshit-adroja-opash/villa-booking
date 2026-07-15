@@ -244,7 +244,7 @@ export default function AdminDashboard() {
             Admin Dashboard
           </h1>
           <p className="text-[13px] font-medium text-gray-400 mt-1">
-            Overview of your AgriStay platform.
+            Overview of your Enjoy Farm platform.
           </p>
         </div>
 

@@ -85,11 +85,15 @@ export default function AdminFinancialsPage() {
     }
   };
 
- const recentTransactions = useMemo(() => {
- return [...bookings]
- .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
- .slice(0, 8);
- }, [bookings]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+
+  const sortedTransactions = useMemo(() => {
+    return [...bookings].sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+  }, [bookings]);
+
+  const totalPages = Math.ceil(sortedTransactions.length / itemsPerPage);
+  const paginatedTransactions = sortedTransactions.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
  if (loading) {
  return (
@@ -158,14 +162,14 @@ export default function AdminFinancialsPage() {
  </tr>
  </thead>
  <tbody className="divide-y divide-gray-50 text-[13px] font-semibold text-[#1B2A22]">
- {recentTransactions.length === 0 ? (
+ {paginatedTransactions.length === 0 ? (
  <tr>
  <td colSpan={5} className="px-8 py-12 text-center text-gray-400 font-medium">
  No recent transactions found.
  </td>
  </tr>
  ) : (
- recentTransactions.map((booking) => {
+ paginatedTransactions.map((booking) => {
  const status = booking.paymentStatus?.toLowerCase() || 'pending';
  const isPaid = status === 'paid' || status === 'confirmed';
 
