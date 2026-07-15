@@ -48,24 +48,31 @@ export default function AdminFinancialsPage() {
  const pendingBookings = bookings.filter((booking) => booking.paymentStatus !== 'Paid' && booking.paymentStatus?.toLowerCase() !== 'confirmed');
  const grossRevenue = paidBookings.reduce((sum, booking) => sum + (booking.totalPrice || 0), 0);
  const pendingRevenue = pendingBookings.reduce((sum, booking) => sum + (booking.totalPrice || 0), 0);
- const platformFees = Math.round(grossRevenue * 0.08);
- const netPayout = grossRevenue - platformFees;
 
- const handleExport = () => {
+  const handleExport = () => {
     try {
       const headers = ['Date', 'Farmhouse', 'Guest', 'Amount', 'Status', 'Booking ID'];
       const csvRows = [];
       csvRows.push(headers.join(','));
 
+      let totalAmount = 0;
+
       bookings.forEach((b) => {
-        const date = new Date(b.startDate).toLocaleDateString('en-IN');
+        // Format as "15 Jul 2026" to prevent Excel from showing #######
+        const date = new Date(b.startDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
         const farm = b.farmId?.title ? `"${b.farmId.title}"` : 'N/A';
         const guest = b.userId?.name ? `"${b.userId.name}"` : 'N/A';
-        const amount = b.totalPrice;
+        const amount = b.totalPrice || 0;
+        totalAmount += amount;
         const status = b.paymentStatus || 'Pending';
         const bookingId = b._id;
         csvRows.push([date, farm, guest, amount, status, bookingId].join(','));
       });
+
+      // Add summary rows at the bottom
+      csvRows.push(''); // Empty spacing line
+      csvRows.push(`,,Total Guests:,${bookings.length},,`);
+      csvRows.push(`,,Total Revenue:,"₹${totalAmount.toLocaleString('en-IN')}",,`);
 
       const csvContent = csvRows.join('\n');
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -131,7 +138,7 @@ export default function AdminFinancialsPage() {
  Financials
  </h1>
  <p className="text-[13px] font-semibold text-gray-400 mt-1">
- Revenue, pending payments, fees, and transaction activity.
+ Revenue, pending payments, and transaction activity.
  </p>
  </div>
  <button onClick={handleExport} className="flex items-center justify-center gap-2 bg-[#00a877] hover:bg-[#009669] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold transition-all shadow-sm self-end sm:self-auto">
@@ -140,13 +147,11 @@ export default function AdminFinancialsPage() {
  </button>
  </div>
 
- {/* 4 Stats Grid */}
- <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+ {/* Stats Grid */}
+ <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
  {[
- { label: 'GROSS REVENUE', value: `₹${grossRevenue.toLocaleString('en-IN')}`, icon: IndianRupee },
+ { label: 'TOTAL REVENUE', value: `₹${grossRevenue.toLocaleString('en-IN')}`, icon: IndianRupee },
  { label: 'PENDING REVENUE', value: `₹${pendingRevenue.toLocaleString('en-IN')}`, icon: WalletCards },
- { label: 'PLATFORM FEES', value: `₹${platformFees.toLocaleString('en-IN')}`, icon: ReceiptText },
- { label: 'NET PAYOUT', value: `₹${netPayout.toLocaleString('en-IN')}`, icon: CreditCard },
  ].map((stat) => (
  <div key={stat.label} className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex items-start justify-between min-h-[110px]">
  <div className="flex flex-col justify-between h-full">
@@ -263,10 +268,51 @@ export default function AdminFinancialsPage() {
  );
  })
  )}
- </tbody>
- </table>
- </div>
- </div>
+   </tbody>
+  </table>
+  </div>
+  {/* Footer */}
+  {totalPages > 1 && (
+    <div className="flex items-center justify-between border-t border-gray-100 bg-white px-6 py-4">
+      <p className="text-[13px] font-medium text-gray-500 hidden sm:block">
+        Showing <span className="font-bold text-[#1B2A22]">{(currentPage - 1) * itemsPerPage + 1}</span> to{' '}
+        <span className="font-bold text-[#1B2A22]">{Math.min(currentPage * itemsPerPage, sortedTransactions.length)}</span> of{' '}
+        <span className="font-bold text-[#1B2A22]">{sortedTransactions.length}</span> results
+      </p>
+      <div className="flex items-center gap-1.5 w-full sm:w-auto justify-center sm:justify-end">
+        <button 
+          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className="px-3 py-1.5 text-[12px] font-bold text-gray-500 hover:text-[#002E1E] disabled:opacity-50 transition-colors bg-gray-50 hover:bg-gray-100 rounded-md"
+        >
+          Previous
+        </button>
+        <div className="flex items-center gap-1 mx-1 hidden sm:flex">
+          {Array.from({ length: totalPages }).map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentPage(idx + 1)}
+              className={`w-8 h-8 flex items-center justify-center text-[12px] font-bold rounded-md transition-colors ${
+                currentPage === idx + 1
+                  ? 'bg-[#00a877] text-white shadow-sm'
+                  : 'text-gray-500 hover:bg-gray-100 hover:text-[#1B2A22]'
+              }`}
+            >
+              {idx + 1}
+            </button>
+          ))}
+        </div>
+        <button 
+          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className="px-3 py-1.5 text-[12px] font-bold text-gray-500 hover:text-[#002E1E] disabled:opacity-50 transition-colors bg-gray-50 hover:bg-gray-100 rounded-md"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  )}
+  </div>
 
  </div>
  </main>
