@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -20,8 +20,19 @@ interface AuthFormProps {
 }
 
 export default function AuthForm({ initialMode }: AuthFormProps) {
- const [mode, setMode] = useState<'signin' | 'signup'>(initialMode);
- const router = useRouter();
+  const [mode, setMode] = useState<'signin' | 'signup'>(initialMode);
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  React.useEffect(() => {
+    if (status === 'authenticated') {
+      if ((session?.user as any)?.role === 'admin') {
+        router.push('/admin/dashboard');
+      } else {
+        router.push('/farms');
+      }
+    }
+  }, [status, session, router]);
 
  // Input states
  const [loginEmail, setLoginEmail] = useState('');
@@ -35,9 +46,14 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  const [rememberMe, setRememberMe] = useState(false);
  const [errors, setErrors] = useState<{email?: string; password?: string; name?: string}>({});
 
- const switchMode = (newMode: 'signin' | 'signup') => {
+  const switchMode = (newMode: 'signin' | 'signup') => {
     setMode(newMode);
     setErrors({});
+    setLoginEmail('');
+    setLoginPassword('');
+    setRegName('');
+    setRegEmail('');
+    setRegPassword('');
  };
 
  const handleLogin = async (e: React.FormEvent) => {
@@ -97,6 +113,9 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
 
         if (res.ok) {
         toast.success('Registration successful! Please log in.');
+        setRegName('');
+        setRegEmail('');
+        setRegPassword('');
         setMode('signin');
         router.push('/login');
         } else {
@@ -135,7 +154,11 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  </div>
 
  {/* Dynamic Forms */}
- {mode === 'signin' ? (
+ {status === 'loading' || status === 'authenticated' ? (
+   <div className="flex flex-col items-center justify-center py-12">
+     <div className="w-8 h-8 border-4 border-[#00a877]/30 border-t-[#00a877] rounded-full animate-spin"></div>
+   </div>
+ ) : mode === 'signin' ? (
  <form onSubmit={handleLogin} className="space-y-4 md:space-y-5" noValidate>
  {/* Email Address */}
  <div className="space-y-2">
