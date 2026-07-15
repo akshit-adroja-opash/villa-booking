@@ -33,59 +33,82 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  const [showPassword, setShowPassword] = useState(false);
  const [loading, setLoading] = useState(false);
  const [rememberMe, setRememberMe] = useState(false);
+ const [errors, setErrors] = useState<{email?: string; password?: string; name?: string}>({});
+
+ const switchMode = (newMode: 'signin' | 'signup') => {
+    setMode(newMode);
+    setErrors({});
+ };
 
  const handleLogin = async (e: React.FormEvent) => {
- e.preventDefault();
- setLoading(true);
- try {
- const result = await signIn('credentials', {
- email: loginEmail,
- password: loginPassword,
- redirect: false
- });
+    e.preventDefault();
+    const newErrors: {email?: string; password?: string;} = {};
+    if (!loginEmail.trim()) newErrors.email = 'Email Address is required';
+    if (!loginPassword.trim()) newErrors.password = 'Password is required';
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    setErrors({});
+    setLoading(true);
+    try {
+        const result = await signIn('credentials', {
+        email: loginEmail,
+        password: loginPassword,
+        redirect: false
+        });
 
- if (result?.ok) {
- if (loginEmail.toLowerCase() === 'admin@gmail.com') {
- router.push('/admin/dashboard');
- } else {
- router.push('/farms');
- }
- router.refresh();
- } else {
- toast.error(result?.error || 'Invalid credentials!');
- }
- } catch (err) {
- console.error(err);
- toast.error('An error occurred during sign in.');
- } finally {
- setLoading(false);
- }
+        if (result?.ok) {
+        if (loginEmail.toLowerCase() === 'admin@gmail.com') {
+        router.push('/admin/dashboard');
+        } else {
+        router.push('/farms');
+        }
+        router.refresh();
+        } else {
+        toast.error(result?.error || 'Invalid credentials!');
+        }
+    } catch (err) {
+        console.error(err);
+        toast.error('An error occurred during sign in.');
+    } finally {
+        setLoading(false);
+    }
  };
 
  const handleRegister = async (e: React.FormEvent) => {
- e.preventDefault();
- setLoading(true);
- try {
- const res = await fetch('/api/auth/register', {
- method: 'POST',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({ name: regName, email: regEmail, password: regPassword }),
- });
+    e.preventDefault();
+    const newErrors: {email?: string; password?: string; name?: string;} = {};
+    if (!regName.trim()) newErrors.name = 'Full Name is required';
+    if (!regEmail.trim()) newErrors.email = 'Email Address is required';
+    if (!regPassword.trim()) newErrors.password = 'Password is required';
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    setErrors({});
+    setLoading(true);
+    try {
+        const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: regName, email: regEmail, password: regPassword }),
+        });
 
- if (res.ok) {
- toast.success('Registration successful! Please log in.');
- setMode('signin');
- router.push('/login');
- } else {
- const data = await res.json();
- toast.error(data.error || 'Registration error.');
- }
- } catch (err) {
- console.error(err);
- toast.error('An error occurred during registration.');
- } finally {
- setLoading(false);
- }
+        if (res.ok) {
+        toast.success('Registration successful! Please log in.');
+        setMode('signin');
+        router.push('/login');
+        } else {
+        const data = await res.json();
+        toast.error(data.error || 'Registration error.');
+        }
+    } catch (err) {
+        console.error(err);
+        toast.error('An error occurred during registration.');
+    } finally {
+        setLoading(false);
+    }
  };
 
  return (
@@ -113,14 +136,14 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
 
  {/* Dynamic Forms */}
  {mode === 'signin' ? (
- <form onSubmit={handleLogin} className="space-y-4 md:space-y-5">
+ <form onSubmit={handleLogin} className="space-y-4 md:space-y-5" noValidate>
  {/* Email Address */}
  <div className="space-y-2">
  <label className="block text-sm font-medium font-bold text-[#1B2A22]"htmlFor="login-email">
- Email Address
+ Email Address <span className="text-red-500">*</span>
  </label>
- <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all rounded-xl">
- <Mail className="absolute left-4 h-4 w-4 text-[#1B2A22]/40"/>
+ <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.email ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#1B2A22] transition-all rounded-xl`}>
+ <Mail className={`absolute left-4 h-4 w-4 ${errors.email ? 'text-red-500' : 'text-[#1B2A22]/40'}`}/>
  <input 
  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
  id="login-email"
@@ -128,18 +151,22 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  type="email"
  required
  value={loginEmail}
- onChange={(e) => setLoginEmail(e.target.value)}
+ onChange={(e) => {
+    setLoginEmail(e.target.value);
+    if (errors.email) setErrors({...errors, email: undefined});
+  }}
  />
  </div>
+ {errors.email && <p className="text-red-500 text-[11px] font-bold mt-1">{errors.email}</p>}
  </div>
 
  {/* Password */}
  <div className="space-y-2">
  <label className="block text-sm font-medium font-bold text-[#1B2A22]"htmlFor="login-pass">
- Password
+ Password <span className="text-red-500">*</span>
  </label>
- <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all rounded-xl">
- <Lock className="absolute left-4 h-4 w-4 text-[#1B2A22]/40"/>
+ <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.password ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#1B2A22] transition-all rounded-xl`}>
+ <Lock className={`absolute left-4 h-4 w-4 ${errors.password ? 'text-red-500' : 'text-[#1B2A22]/40'}`}/>
  <input 
  className="w-full h-12 pl-12 pr-12 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
  id="login-pass"
@@ -147,7 +174,10 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  type={showPassword ? 'text' : 'password'}
  required
  value={loginPassword}
- onChange={(e) => setLoginPassword(e.target.value)}
+ onChange={(e) => {
+    setLoginPassword(e.target.value);
+    if (errors.password) setErrors({...errors, password: undefined});
+  }}
  />
  <button
  type="button"
@@ -157,6 +187,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  {showPassword ? <Eye className="h-4 w-4 text-[#1B2A22]/50"/> : <EyeOff className="h-4 w-4 text-[#1B2A22]/50"/>}
  </button>
  </div>
+ {errors.password && <p className="text-red-500 text-[11px] font-bold mt-1">{errors.password}</p>}
  </div>
 
  {/* Checks & Remembers */}
@@ -185,13 +216,13 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  </button>
  </form>
  ) : (
- <form onSubmit={handleRegister} className="space-y-4 md:space-y-5">
+ <form onSubmit={handleRegister} className="space-y-4 md:space-y-5" noValidate>
  {/* Full Name */}
  <div className="space-y-2">
  <label className="block text-sm font-medium font-bold text-[#1B2A22]"htmlFor="reg-name">
- Full Name
+ Full Name <span className="text-red-500">*</span>
  </label>
- <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all rounded-xl">
+ <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.name ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#1B2A22] transition-all rounded-xl`}>
  <input 
  className="w-full h-12 px-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
  id="reg-name"
@@ -199,18 +230,22 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  type="text"
  required
  value={regName}
- onChange={(e) => setRegName(e.target.value)}
+ onChange={(e) => {
+    setRegName(e.target.value);
+    if (errors.name) setErrors({...errors, name: undefined});
+  }}
  />
  </div>
+ {errors.name && <p className="text-red-500 text-[11px] font-bold mt-1">{errors.name}</p>}
  </div>
 
  {/* Email Address */}
  <div className="space-y-2">
  <label className="block text-sm font-medium font-bold text-[#1B2A22]"htmlFor="reg-email">
- Email Address
+ Email Address <span className="text-red-500">*</span>
  </label>
- <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all rounded-xl">
- <Mail className="absolute left-4 h-4 w-4 text-[#1B2A22]/40"/>
+ <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.email ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#1B2A22] transition-all rounded-xl`}>
+ <Mail className={`absolute left-4 h-4 w-4 ${errors.email ? 'text-red-500' : 'text-[#1B2A22]/40'}`}/>
  <input 
  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
  id="reg-email"
@@ -218,18 +253,22 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  type="email"
  required
  value={regEmail}
- onChange={(e) => setRegEmail(e.target.value)}
+ onChange={(e) => {
+    setRegEmail(e.target.value);
+    if (errors.email) setErrors({...errors, email: undefined});
+  }}
  />
  </div>
+ {errors.email && <p className="text-red-500 text-[11px] font-bold mt-1">{errors.email}</p>}
  </div>
 
  {/* Password */}
  <div className="space-y-2">
  <label className="block text-sm font-medium font-bold text-[#1B2A22]"htmlFor="reg-pass">
- Password
+ Password <span className="text-red-500">*</span>
  </label>
- <div className="relative flex items-center bg-[#FAF9F6] border border-[#1B2A22]/10 focus-within:border-[#1B2A22] transition-all rounded-xl">
- <Lock className="absolute left-4 h-4 w-4 text-[#1B2A22]/40"/>
+ <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.password ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#1B2A22] transition-all rounded-xl`}>
+ <Lock className={`absolute left-4 h-4 w-4 ${errors.password ? 'text-red-500' : 'text-[#1B2A22]/40'}`}/>
  <input 
  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
  id="reg-pass"
@@ -237,9 +276,13 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  type="password"
  required
  value={regPassword}
- onChange={(e) => setRegPassword(e.target.value)}
+ onChange={(e) => {
+    setRegPassword(e.target.value);
+    if (errors.password) setErrors({...errors, password: undefined});
+  }}
  />
  </div>
+ {errors.password && <p className="text-red-500 text-[11px] font-bold mt-1">{errors.password}</p>}
  </div>
 
  {/* Submit */}
@@ -259,7 +302,8 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <p>
  Not a member yet?{' '}
  <button 
- onClick={() => setMode('signup')}
+ type="button"
+ onClick={() => switchMode('signup')}
  className="text-[#1B2A22] hover:text-[#00a877] font-semibold transition-colors ml-1"
  >
  Sign Up
@@ -269,7 +313,8 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <p>
  Already a member?{' '}
  <button 
- onClick={() => setMode('signin')}
+ type="button"
+ onClick={() => switchMode('signin')}
  className="text-[#1B2A22] hover:text-[#00a877] font-semibold transition-colors ml-1"
  >
  Sign In

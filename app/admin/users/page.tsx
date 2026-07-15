@@ -11,7 +11,9 @@ import {
  Mail,
  Shield,
  ChevronDown,
- Pencil
+ Pencil,
+ Eye,
+ EyeOff
 } from 'lucide-react';
 
 interface Member {
@@ -48,6 +50,8 @@ export default function UserManagementPage() {
  const [newUserPassword, setNewUserPassword] = useState('');
  const [newUserRole, setNewUserRole] = useState('customer');
  const [isNewUserRoleDropdownOpen, setIsNewUserRoleDropdownOpen] = useState(false);
+ const [showPassword, setShowPassword] = useState(false);
+ const [errors, setErrors] = useState<{name?: string; email?: string; password?: string;}>({});
 
  const fetchUsers = async () => {
  try {
@@ -76,6 +80,7 @@ export default function UserManagementPage() {
    setNewUserEmail(user.email);
    setNewUserRole(user.role === 'user' ? 'customer' : user.role);
    setNewUserPassword(''); // clear password field
+   setErrors({});
    setShowModal(true);
  };
 
@@ -85,13 +90,33 @@ export default function UserManagementPage() {
    setNewUserEmail('');
    setNewUserPassword('');
    setNewUserRole('customer');
+   setErrors({});
    setShowModal(true);
  };
 
  const handleAddUser = async (e: React.FormEvent) => {
- e.preventDefault();
- try {
- if (editingUserId) {
+  e.preventDefault();
+  const newErrors: {name?: string; email?: string; password?: string;} = {};
+  
+  if (!newUserName.trim()) {
+    newErrors.name = 'Full name is required';
+  }
+  if (!newUserEmail.trim()) {
+    newErrors.email = 'Email address is required';
+  }
+  if (!editingUserId && !newUserPassword.trim()) {
+    newErrors.password = 'Temporary password is required';
+  }
+
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+  }
+  
+  setErrors({});
+
+  try {
+  if (editingUserId) {
    const res = await fetch('/api/users', {
      method: 'PATCH',
      headers: { 'Content-Type': 'application/json' },
@@ -430,7 +455,7 @@ export default function UserManagementPage() {
  </td>
  <td className="px-6 py-4">
  <span className={`inline-block px-3 py-1 text-[10px] font-bold rounded-full tracking-wide ${getRoleBadgeStyle(user.role)}`}>
- {user.role === 'customer' ? 'user' : user.role.toLowerCase()}
+ {user.role === 'customer' || user.role === 'user' ? 'Customer' : user.role === 'admin' ? 'Admin' : user.role}
  </span>
  </td>
  <td className="px-6 py-4 text-gray-500 font-medium">
@@ -492,7 +517,7 @@ export default function UserManagementPage() {
  {/* Add User Modal */}
  {showModal && (
  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm sm:p-4">
- <div className="bg-white w-full h-full sm:h-auto sm:max-w-[480px] sm:rounded-2xl shadow-xl p-6 sm:p-8 relative animate-fade-in flex flex-col justify-center overflow-y-auto">
+ <div className="bg-white w-full h-full sm:h-auto sm:max-w-[480px] sm:rounded-2xl shadow-xl p-6 sm:p-8 relative animate-fade-in flex flex-col justify-center">
  
  <button 
  onClick={() => setShowModal(false)}
@@ -510,59 +535,78 @@ export default function UserManagementPage() {
  </p>
  </div>
 
- <form onSubmit={handleAddUser} className="space-y-5" autoComplete="off">
+ <form onSubmit={handleAddUser} className="space-y-5" autoComplete="off" noValidate>
  
  {/* Full Name */}
  <div className="space-y-2">
- <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Full Name</label>
- <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
- <User className="absolute left-4 h-4 w-4 text-gray-400"/>
+ <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Full Name <span className="text-red-500">*</span></label>
+ <div className={`relative flex items-center bg-[#f9fafb] rounded-xl border ${errors.name ? 'border-red-500' : 'border-transparent'} focus-within:border-gray-200 focus-within:bg-white transition-all`}>
+ <User className={`absolute left-4 h-4 w-4 ${errors.name ? 'text-red-500' : 'text-gray-400'}`}/>
  <input 
  type="text"
  required
  value={newUserName}
- onChange={(e) => setNewUserName(e.target.value)}
+ onChange={(e) => {
+    setNewUserName(e.target.value);
+    if (errors.name) setErrors({...errors, name: undefined});
+  }}
  placeholder="Julianne Smith"
  className="w-full h-12 pl-11 pr-4 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
  />
  </div>
+ {errors.name && <p className="text-red-500 text-[11px] font-bold mt-1">{errors.name}</p>}
  </div>
 
  {/* Email */}
  <div className="space-y-2">
- <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Email Address</label>
- <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
- <Mail className="absolute left-4 h-4 w-4 text-gray-400"/>
+ <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Email Address <span className="text-red-500">*</span></label>
+ <div className={`relative flex items-center bg-[#f9fafb] rounded-xl border ${errors.email ? 'border-red-500' : 'border-transparent'} focus-within:border-gray-200 focus-within:bg-white transition-all`}>
+ <Mail className={`absolute left-4 h-4 w-4 ${errors.email ? 'text-red-500' : 'text-gray-400'}`}/>
  <input 
  type="email"
  required
  autoComplete="off"
  value={newUserEmail}
- onChange={(e) => setNewUserEmail(e.target.value)}
+ onChange={(e) => {
+    setNewUserEmail(e.target.value);
+    if (errors.email) setErrors({...errors, email: undefined});
+  }}
  placeholder="julianne@theestate.com"
  className="w-full h-12 pl-11 pr-4 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
  />
  </div>
+ {errors.email && <p className="text-red-500 text-[11px] font-bold mt-1">{errors.email}</p>}
  </div>
 
  {/* Password */}
   {!editingUserId && (
   <div className="space-y-2">
-  <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Security</label>
-  <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#00a877] transition-all overflow-hidden">
+  <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Temporary Password <span className="text-red-500">*</span></label>
+  <div className={`relative flex items-center bg-[#f9fafb] rounded-xl border ${errors.password ? 'border-red-500' : 'border-transparent'} focus-within:border-[#00a877] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#00a877] transition-all overflow-hidden`}>
   <div className="absolute left-4 text-gray-400 pointer-events-none">
-  <Shield className="h-4 w-4" />
+  <Shield className={`h-4 w-4 ${errors.password ? 'text-red-500' : 'text-gray-400'}`} />
   </div>
   <input
-  type="password"
+  type={showPassword ? "text" : "password"}
   required
   autoComplete="new-password"
   value={newUserPassword}
-  onChange={(e) => setNewUserPassword(e.target.value)}
+  onChange={(e) => {
+     setNewUserPassword(e.target.value);
+     if (errors.password) setErrors({...errors, password: undefined});
+   }}
   placeholder="••••••••"
-  className="w-full h-12 pl-11 pr-4 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
+  className="w-full h-12 pl-11 pr-12 bg-transparent text-[13px] font-bold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
   />
+  <button
+    type="button"
+    onClick={() => setShowPassword(!showPassword)}
+    className="absolute right-4 text-gray-400 hover:text-[#00a877] transition-colors focus:outline-none"
+  >
+    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+  </button>
   </div>
+  {errors.password && <p className="text-red-500 text-[11px] font-bold mt-1">{errors.password}</p>}
   </div>
   )}
 
