@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { CreditCard, Download, IndianRupee, ReceiptText, WalletCards, ChevronDown } from 'lucide-react';
+import { Download, IndianRupee, WalletCards, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 type Booking = {
@@ -272,7 +272,7 @@ export default function AdminFinancialsPage() {
   </table>
   </div>
   {/* Footer */}
-  {totalPages > 1 && (
+  {totalPages > 0 && (
     <div className="flex items-center justify-between border-t border-gray-100 bg-white px-6 py-4">
       <p className="text-[13px] font-medium text-gray-500 hidden sm:block">
         Showing <span className="font-bold text-[#1B2A22]">{(currentPage - 1) * itemsPerPage + 1}</span> to{' '}

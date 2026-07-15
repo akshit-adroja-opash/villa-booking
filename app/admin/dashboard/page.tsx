@@ -64,7 +64,7 @@ export default function AdminDashboard() {
   const displayActiveUsers = String(users.length);
 
   const displayOccupancy = useMemo(() => {
-    if (farms.length === 0) return '50%';
+    if (farms.length === 0) return '0%';
     const now = new Date();
     const activeStays = bookings.filter(b => {
       const start = new Date(b.startDate);
@@ -72,7 +72,7 @@ export default function AdminDashboard() {
       return start <= now && end >= now;
     }).length;
     const percentage = Math.min(100, Math.round((activeStays / farms.length) * 100));
-    return percentage > 0 ? `${percentage}%` : '50%';
+    return `${percentage}%`;
   }, [bookings, farms]);
 
   // Generate dynamic chart data based on time range
