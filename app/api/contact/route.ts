@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/mongodb';
+import connectDB from '@/lib/mongodb';
 import Contact from '@/models/Contact';
 import nodemailer from 'nodemailer';
 
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    await connectToDatabase();
+    await connectDB();
     
     // Save to DB
     const newContact = await Contact.create({

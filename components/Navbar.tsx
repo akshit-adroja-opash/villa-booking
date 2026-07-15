@@ -103,14 +103,14 @@ export default function Navbar() {
  <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname.startsWith('/contact') ? 'scale-x-100' : ''}`}></span>
  </Link>
 
- {session && !isAdmin && (
+ {session && (
  <Link 
  className={`relative text-sm font-medium transition-all whitespace-nowrap group ${
  pathname.startsWith('/dashboard/bookings') ? textColor : `${textColor} opacity-70 hover:opacity-100`
  }`} 
  href="/dashboard/bookings"
  >
- Bookings
+ My Reservations
  <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname.startsWith('/dashboard/bookings') ? 'scale-x-100' : ''}`}></span>
  </Link>
  )}

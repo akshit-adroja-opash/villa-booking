@@ -6,10 +6,44 @@ import toast from 'react-hot-toast';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', comment: '' });
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
+    let hasErrors = false;
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Full Name is required';
+      hasErrors = true;
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email Address is required';
+      hasErrors = true;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+      hasErrors = true;
+    }
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Phone Number is required';
+      hasErrors = true;
+    }
+    if (!formData.subject.trim()) {
+      newErrors.subject = 'Subject is required';
+      hasErrors = true;
+    }
+    if (!formData.comment.trim()) {
+      newErrors.comment = 'Comment is required';
+      hasErrors = true;
+    }
+
+    if (hasErrors) {
+      setErrors(newErrors);
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const res = await fetch('/api/contact', {
@@ -20,6 +54,7 @@ export default function ContactPage() {
       if (res.ok) {
         toast.success('Message sent successfully! We will get back to you soon.');
         setFormData({ name: '', email: '', phone: '', subject: '', comment: '' });
+        setErrors({});
       } else {
         toast.error('Failed to send message. Please try again.');
       }
@@ -116,7 +151,7 @@ export default function ContactPage() {
           {/* Contact Form Container */}
           <div className="lg:col-span-7 bg-white p-8 md:p-10 rounded-3xl border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] order-2 lg:order-2">
             <h2 className="font-serif text-[28px] text-[#002E1E] font-bold mb-8">Send us a Message</h2>
-            <form className="space-y-5" onSubmit={handleSubmit}>
+            <form className="space-y-5" onSubmit={handleSubmit} noValidate>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-1.5">
@@ -126,9 +161,10 @@ export default function ContactPage() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:border-[#00a877] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium"
+                    className={`w-full bg-gray-50 border rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium ${errors.name ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#00a877]'}`}
                     placeholder="Your full name"
                   />
+                  {errors.name && <p className="text-[11px] font-bold text-red-500">{errors.name}</p>}
                 </div>
 
                 <div className="space-y-1.5">
@@ -138,25 +174,28 @@ export default function ContactPage() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:border-[#00a877] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium"
+                    className={`w-full bg-gray-50 border rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium ${errors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#00a877]'}`}
                     placeholder="your.email@example.com"
                   />
+                  {errors.email && <p className="text-[11px] font-bold text-red-500">{errors.email}</p>}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Phone number</label>
+                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Phone number*</label>
                   <input 
                     type="tel" 
+                    required
                     value={formData.phone}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:border-[#00a877] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium"
+                    className={`w-full bg-gray-50 border rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium ${errors.phone ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#00a877]'}`}
                     placeholder="+91 8780493615"
                     onChange={(e) => {
                       const val = e.currentTarget.value.replace(/[^0-9+\-\s()]/g, '');
                       setFormData({ ...formData, phone: val });
                     }}
                   />
+                  {errors.phone && <p className="text-[11px] font-bold text-red-500">{errors.phone}</p>}
                 </div>
 
                 <div className="space-y-1.5">
@@ -166,9 +205,10 @@ export default function ContactPage() {
                     required
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:border-[#00a877] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium"
+                    className={`w-full bg-gray-50 border rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium ${errors.subject ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#00a877]'}`}
                     placeholder="How can we help?"
                   />
+                  {errors.subject && <p className="text-[11px] font-bold text-red-500">{errors.subject}</p>}
                 </div>
               </div>
 
@@ -179,9 +219,10 @@ export default function ContactPage() {
                   rows={5}
                   value={formData.comment}
                   onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:border-[#00a877] focus:bg-white focus:outline-none transition-all resize-none placeholder:text-gray-400 placeholder:font-medium"
+                  className={`w-full bg-gray-50 border rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:bg-white focus:outline-none transition-all resize-none placeholder:text-gray-400 placeholder:font-medium ${errors.comment ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#00a877]'}`}
                   placeholder="Tell us more about your requirements..."
                 ></textarea>
+                {errors.comment && <p className="text-[11px] font-bold text-red-500">{errors.comment}</p>}
               </div>
 
               <button 
