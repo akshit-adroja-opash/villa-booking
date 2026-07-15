@@ -1,10 +1,35 @@
 'use client';
 
-import React from 'react';
-import { Mail, Phone, MapPin, MessageCircle, Clock, ArrowRight, PhoneCall } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Phone, MapPin, MessageCircle, Clock, ArrowRight, PhoneCall, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', comment: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      if (res.ok) {
+        toast.success('Message sent successfully! We will get back to you soon.');
+        setFormData({ name: '', email: '', phone: '', subject: '', comment: '' });
+      } else {
+        toast.error('Failed to send message. Please try again.');
+      }
+    } catch (err) {
+      toast.error('An error occurred. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22]">
       {/* Hero Section */}
@@ -91,7 +116,7 @@ export default function ContactPage() {
           {/* Contact Form Container */}
           <div className="lg:col-span-7 bg-white p-8 md:p-10 rounded-3xl border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] order-2 lg:order-2">
             <h2 className="font-serif text-[28px] text-[#002E1E] font-bold mb-8">Send us a Message</h2>
-            <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); toast.success('Message sent successfully! We will get back to you soon.'); }}>
+            <form className="space-y-5" onSubmit={handleSubmit}>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-1.5">
@@ -99,6 +124,8 @@ export default function ContactPage() {
                   <input 
                     type="text" 
                     required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:border-[#00a877] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium"
                     placeholder="Your full name"
                   />
@@ -109,6 +136,8 @@ export default function ContactPage() {
                   <input 
                     type="email" 
                     required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:border-[#00a877] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium"
                     placeholder="your.email@example.com"
                   />
@@ -120,10 +149,12 @@ export default function ContactPage() {
                   <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Phone number</label>
                   <input 
                     type="tel" 
+                    value={formData.phone}
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:border-[#00a877] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium"
                     placeholder="+91 8780493615"
-                    onInput={(e) => {
-                      e.currentTarget.value = e.currentTarget.value.replace(/[^0-9+\-\s()]/g, '');
+                    onChange={(e) => {
+                      const val = e.currentTarget.value.replace(/[^0-9+\-\s()]/g, '');
+                      setFormData({ ...formData, phone: val });
                     }}
                   />
                 </div>
@@ -133,6 +164,8 @@ export default function ContactPage() {
                   <input 
                     type="text" 
                     required
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:border-[#00a877] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium"
                     placeholder="How can we help?"
                   />
@@ -144,6 +177,8 @@ export default function ContactPage() {
                 <textarea 
                   required
                   rows={5}
+                  value={formData.comment}
+                  onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
                   className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:border-[#00a877] focus:bg-white focus:outline-none transition-all resize-none placeholder:text-gray-400 placeholder:font-medium"
                   placeholder="Tell us more about your requirements..."
                 ></textarea>
@@ -151,9 +186,17 @@ export default function ContactPage() {
 
               <button 
                 type="submit"
-                className="w-full bg-[#00a877] text-white py-3.5 rounded-xl text-[14px] font-bold hover:bg-[#009669] transition-colors mt-2 active:scale-[0.99] shadow-sm"
+                disabled={isSubmitting}
+                className="w-full bg-[#00a877] text-white py-3.5 rounded-xl text-[14px] font-bold hover:bg-[#009669] transition-colors mt-2 active:scale-[0.99] shadow-sm flex items-center justify-center gap-2 disabled:opacity-70"
               >
-                Send Message
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <span>Send Message</span>
+                )}
               </button>
             </form>
           </div>
