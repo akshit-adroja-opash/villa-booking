@@ -250,7 +250,7 @@ function StaysList() {
  {/* Favorite Button */}
  <button 
  onClick={(e) => toggleFavorite(farm._id, e)}
- className="absolute top-4 right-4 text-white drop-shadow-md hover:scale-110 transition-transform active:scale-95"
+ className="absolute top-4 right-4 text-white drop-shadow-md hover:scale-110 transition-transform active:scale-95 cursor-pointer z-10"
  >
  <Heart className={`h-6 w-6 ${isFav ? 'fill-red-500 text-red-500' : 'fill-black/20'}`} />
  </button>

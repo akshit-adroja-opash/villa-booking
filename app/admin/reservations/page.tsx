@@ -165,8 +165,8 @@ export default function AdminReservationsPage() {
         const guestName = b.userId?.name ? `"${b.userId.name}"` : 'N/A';
         const email = b.userId?.email ? `"${b.userId.email}"` : 'N/A';
         const property = b.farmId?.title ? `"${b.farmId.title}"` : 'N/A';
-        const checkIn = new Date(b.startDate).toLocaleDateString('en-IN');
-        const checkOut = new Date(b.endDate).toLocaleDateString('en-IN');
+        const checkIn = `"${new Date(b.startDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}"`;
+        const checkOut = `"${new Date(b.endDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}"`;
         const nights = Math.max(1, Math.ceil((new Date(b.endDate).getTime() - new Date(b.startDate).getTime()) / (1000 * 60 * 60 * 24)));
         const amount = b.totalPrice;
         const status = b.paymentStatus || 'Pending';

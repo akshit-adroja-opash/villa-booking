@@ -100,7 +100,7 @@ export default function AddPropertyWizardPage() {
  if (currentStep > 1) {
  setCurrentStep(prev => prev - 1);
  } else {
- router.push('/admin/dashboard');
+ router.push('/admin/properties');
  }
  };
 
@@ -127,7 +127,7 @@ export default function AddPropertyWizardPage() {
 
  if (res.ok) {
  toast.success('Property created successfully!');
- router.push('/admin/dashboard');
+ router.push('/admin/properties');
  } else {
  const data = await res.json();
  toast.error(data.error || 'Failed to create property.');
@@ -141,36 +141,36 @@ export default function AddPropertyWizardPage() {
  };
 
  return (
- <div className="p-6 md:p-16 pb-24 selection:bg-[#064e3b]/10 selection:text-[#0b513d]">
+ <div className="p-6 md:p-16 pb-24 selection:bg-[#1B2A22]/10 selection:text-[#0b513d]">
  
  <header className="mx-auto max-w-3xl mb-12">
- <div className="mb-4 flex items-center gap-2 text-[#404944] cursor-pointer"onClick={handleBack}>
+ <div className="mb-4 flex items-center gap-2 text-gray-500 hover:text-[#00a877] transition-colors cursor-pointer"onClick={handleBack}>
  <ArrowLeft className="h-4 w-4"/>
  <span className="text-xs font-bold tracking-wider">
  {currentStep > 1 ? 'Previous Step' : 'Back to Farmhouse'}
  </span>
  </div>
- <h2 className="font-serif text-3xl font-normal text-[#003527] mb-2">Add New Farmhouse</h2>
- <p className="text-sm text-[#404944]">Provide the details to list a new Farmhouse on the platform.</p>
+ <h2 className="font-serif text-3xl font-normal text-[#1B2A22] mb-2">Add New Farmhouse</h2>
+ <p className="text-sm text-gray-500">Provide the details to list a new Farmhouse on the platform.</p>
  </header>
 
- <div className="mx-auto max-w-3xl rounded-xl border border-[#eeedf7] bg-white p-6 md:p-10">
+ <div className="mx-auto max-w-3xl rounded-2xl border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] bg-white p-6 md:p-10">
  
  {/* Progress Tracker */}
  <div className="relative mb-12 flex items-center justify-between">
- <div className="absolute top-1/2 left-0 -z-10 h-px w-full -translate-y-1/2 bg-[#bfc9c3]/50"></div>
+ <div className="absolute top-1/2 left-0 -z-10 h-px w-full -translate-y-1/2 bg-gray-100"></div>
  {wizardSteps.map((step) => (
  <div key={step.number} className="flex flex-col items-center gap-2 bg-white px-3">
  <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold ${
  step.active 
- ? 'bg-[#003527] text-white font-semibold' 
+ ? 'bg-[#00a877] text-white font-semibold' 
  : step.number < currentStep 
- ? 'bg-[#064e3b] text-white' 
- : 'bg-[#fbf8ff] border border-[#bfc9c3]/50 text-[#707974]'
+ ? 'bg-[#1B2A22] text-white' 
+ : 'bg-gray-50 border border-gray-200 text-gray-400'
  }`}>
  {step.number < currentStep ? <Check className="h-4 w-4"/> : step.number}
  </div>
- <span className={`text-xs font-semibold ${step.active ? 'text-[#003527]' : 'text-[#707974]'}`}>
+ <span className={`text-xs font-semibold ${step.active ? 'text-[#00a877]' : 'text-gray-400'}`}>
  {step.label}
  </span>
  </div>
@@ -181,12 +181,12 @@ export default function AddPropertyWizardPage() {
  {/* STEP 1: BASICS */}
  {currentStep === 1 && (
  <div className="space-y-6">
- <h3 className="font-serif text-xl text-[#1a1b22] pb-2 border-b border-[#bfc9c3]/30 mb-6">
+ <h3 className="font-serif text-2xl text-[#1B2A22] pb-4 border-b border-gray-100 mb-8">
  Basic Information
  </h3>
 
  <div className="space-y-2">
- <label htmlFor="title"className="block text-xs font-bold tracking-wider text-[#1a1b22]">
+ <label htmlFor="title"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
  Property Title
  </label>
  <input 
@@ -196,12 +196,12 @@ export default function AddPropertyWizardPage() {
  value={title}
  onChange={(e) => setTitle(e.target.value)}
  placeholder="e.g. Whispering Pines Farmhouse"
- className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] px-4 py-3 text-sm text-[#1a1b22] placeholder-[#404944]/50 outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
  />
  </div>
 
  <div className="space-y-2">
- <label htmlFor="description"className="block text-xs font-bold tracking-wider text-[#1a1b22]">
+ <label htmlFor="description"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
  Description
  </label>
  <textarea 
@@ -211,17 +211,17 @@ export default function AddPropertyWizardPage() {
  value={description}
  onChange={(e) => setDescription(e.target.value)}
  placeholder="Describe the unique features and atmosphere of the farm..."
- className="w-full resize-none rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] px-4 py-3 text-sm text-[#1a1b22] placeholder-[#404944]/50 outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
+ className="w-full resize-none rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
  />
  </div>
 
  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
  <div className="space-y-2">
- <label htmlFor="location"className="block text-xs font-bold tracking-wider text-[#1a1b22]">
+ <label htmlFor="location"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
  Location Name
  </label>
  <div className="relative">
- <span className="absolute top-1/2 left-3 -translate-y-1/2 text-[#707974]">
+ <span className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400">
  <MapPin className="h-4 w-4"/>
  </span>
  <input 
@@ -231,17 +231,17 @@ export default function AddPropertyWizardPage() {
  value={location}
  onChange={(e) => setLocation(e.target.value)}
  placeholder="e.g. Surat, Gujarat"
- className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] pl-10 pr-4 py-3 text-sm text-[#1a1b22] placeholder-[#404944]/50 outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  pl-10 pr-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
  />
  </div>
  </div>
 
  <div className="space-y-2">
- <label htmlFor="mapLink"className="block text-xs font-bold tracking-wider text-[#1a1b22]">
+ <label htmlFor="mapLink"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
  Google Maps Link 
  </label>
  <div className="relative">
- <span className="absolute top-1/2 left-3 -translate-y-1/2 text-[#707974]">
+ <span className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400">
  <MapPin className="h-4 w-4"/>
  </span>
  <input 
@@ -250,20 +250,20 @@ export default function AddPropertyWizardPage() {
  value={mapLink}
  onChange={(e) => setMapLink(e.target.value)}
  placeholder="https://maps.app.goo.gl/..."
- className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] pl-10 pr-4 py-3 text-sm text-[#1a1b22] placeholder-[#404944]/50 outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  pl-10 pr-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
  />
  </div>
  </div>
 
  <div className="space-y-2 md:col-span-2">
- <label htmlFor="property_type"className="block text-xs font-bold tracking-wider text-[#1a1b22]">
+ <label htmlFor="property_type"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
  Property Type
  </label>
  <select 
  id="property_type"
  value={propertyType}
  onChange={(e) => setPropertyType(e.target.value)}
- className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] px-4 py-3 text-sm text-[#1a1b22] outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm text-[#1a1b22] outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
  >
  <option value="farmhouse">Farmhouse</option>
  <option value="cabin">Cabin</option>
@@ -278,13 +278,13 @@ export default function AddPropertyWizardPage() {
  {/* STEP 2: PRICING & CAPACITY */}
  {currentStep === 2 && (
  <div className="space-y-6">
- <h3 className="font-serif text-xl text-[#1a1b22] pb-2 border-b border-[#bfc9c3]/30 mb-6">
+ <h3 className="font-serif text-2xl text-[#1B2A22] pb-4 border-b border-gray-100 mb-8">
  Pricing & Capacity
  </h3>
 
  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
  <div className="space-y-2">
- <label htmlFor="price"className="block text-xs font-bold tracking-wider text-[#1a1b22]">
+ <label htmlFor="price"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
  Price Per Night (₹)
  </label>
  <input 
@@ -294,12 +294,12 @@ export default function AddPropertyWizardPage() {
  value={pricePerNight}
  onChange={(e) => setPricePerNight(e.target.value)}
  placeholder="e.g. 1500"
- className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] px-4 py-3 text-sm text-[#1a1b22] placeholder-[#404944]/50 outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
+ className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
  />
  </div>
 
  <div className="space-y-2">
- <label htmlFor="guests"className="block text-xs font-bold tracking-wider text-[#1a1b22]">
+ <label htmlFor="guests"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
  Max Guests
  </label>
  <input 
@@ -309,12 +309,12 @@ export default function AddPropertyWizardPage() {
  value={guests}
  onChange={(e) => setGuests(e.target.value)}
  placeholder="e.g. 4"
- className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] px-4 py-3 text-sm text-[#1a1b22] placeholder-[#404944]/50 outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
  />
  </div>
 
  <div className="space-y-2">
- <label htmlFor="bedrooms"className="block text-xs font-bold tracking-wider text-[#1a1b22]">
+ <label htmlFor="bedrooms"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
  Bedrooms
  </label>
  <input 
@@ -324,12 +324,12 @@ export default function AddPropertyWizardPage() {
  value={bedrooms}
  onChange={(e) => setBedrooms(e.target.value)}
  placeholder="e.g. 2"
- className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] px-4 py-3 text-sm text-[#1a1b22] placeholder-[#404944]/50 outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
  />
  </div>
 
  <div className="space-y-2">
- <label htmlFor="baths"className="block text-xs font-bold tracking-wider text-[#1a1b22]">
+ <label htmlFor="baths"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
  Bathrooms
  </label>
  <input 
@@ -339,7 +339,7 @@ export default function AddPropertyWizardPage() {
  value={baths}
  onChange={(e) => setBaths(e.target.value)}
  placeholder="e.g. 2"
- className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] px-4 py-3 text-sm text-[#1a1b22] placeholder-[#404944]/50 outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
  />
  </div>
  </div>
@@ -349,7 +349,7 @@ export default function AddPropertyWizardPage() {
  {/* STEP 3: AMENITIES */}
  {currentStep === 3 && (
  <div className="space-y-6">
- <h3 className="font-serif text-xl text-[#1a1b22] pb-2 border-b border-[#bfc9c3]/30 mb-6">
+ <h3 className="font-serif text-2xl text-[#1B2A22] pb-4 border-b border-gray-100 mb-8">
  Select Amenities
  </h3>
 
@@ -369,7 +369,7 @@ export default function AddPropertyWizardPage() {
  id={`amenity-${amenity}`}
  checked={selectedAmenities.includes(amenity)}
  onChange={() => handleAmenityChange(amenity)}
- className="peer h-5 w-5 cursor-pointer appearance-none rounded border border-[#bfc9c3]/60 checked:border-[#003527] checked:bg-[#003527] focus:outline-none transition-colors"
+ className="peer h-5 w-5 cursor-pointer appearance-none rounded border border-[#bfc9c3]/60 checked:border-[#003527] checked:bg-[#00a877] focus:outline-none transition-colors"
  />
  <Check className="absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none"/>
  </div>
@@ -379,7 +379,7 @@ export default function AddPropertyWizardPage() {
  </div>
  {amenity === 'Extra Mattress' && selectedAmenities.includes('Extra Mattress') && (
  <div className="flex items-center gap-2 shrink-0 pl-8 sm:pl-0">
- <label className="text-xs font-semibold text-[#404944]">Qty:</label>
+ <label className="text-xs font-semibold text-gray-500">Qty:</label>
  <input 
  type="number" 
  min="1" 
@@ -402,7 +402,7 @@ export default function AddPropertyWizardPage() {
  <h3 className="font-serif text-xl text-[#1a1b22]">
  Property Photos
  </h3>
- <span className="text-xs font-semibold text-[#707974]">
+ <span className="text-xs font-semibold text-gray-400">
  {images.length} {images.length === 1 ? 'photo' : 'photos'} uploaded
  </span>
  </div>
@@ -417,7 +417,7 @@ export default function AddPropertyWizardPage() {
  <button 
  type="button"
  onClick={() => setImages(prev => [prev[idx], ...prev.filter((_, i) => i !== idx)])}
- className="bg-[#003527] text-white rounded-lg px-3 py-1.5 text-xs font-bold hover:bg-[#0b513d] transition-colors shadow-sm"
+ className="bg-[#00a877] text-white rounded-lg px-3 py-1.5 text-xs font-bold hover:bg-[#0b513d] transition-colors shadow-sm"
  >
  Set as Cover
  </button>
@@ -431,7 +431,7 @@ export default function AddPropertyWizardPage() {
  </button>
  </div>
  {idx === 0 && (
- <span className="absolute top-2 left-2 bg-[#003527] text-white text-sm font-medium font-bold px-2 py-0.5 rounded-full">
+ <span className="absolute top-2 left-2 bg-[#00a877] text-white text-sm font-medium font-bold px-2 py-0.5 rounded-full">
  Cover
  </span>
  )}
@@ -443,17 +443,17 @@ export default function AddPropertyWizardPage() {
  <div className="flex flex-col items-center justify-center border-2 border-dashed border-[#bfc9c3] rounded-xl p-8 bg-[#fbf8ff] transition-all hover:border-[#003527]">
  {uploading ? (
  <div className="flex flex-col items-center gap-3 py-8">
- <Loader2 className="h-10 w-10 animate-spin text-[#003527]"/>
- <p className="text-sm text-[#404944] font-semibold">Uploading images...</p>
+ <Loader2 className="h-10 w-10 animate-spin text-[#00a877]"/>
+ <p className="text-sm text-gray-500 font-semibold">Uploading images...</p>
  </div>
  ) : (
  <div className="text-center space-y-4">
- <div className="bg-[#003527]/10 p-4 rounded-full w-fit mx-auto text-[#003527]">
+ <div className="bg-[#00a877]/10 p-4 rounded-full w-fit mx-auto text-[#00a877]">
  <Upload className="h-6 w-6"/>
  </div>
  <div>
  <p className="text-sm font-bold text-[#1a1b22]">Upload property photos</p>
- <p className="text-xs text-[#404944] mt-1">Select one or more images (PNG, JPG, JPEG up to 5MB each)</p>
+ <p className="text-xs text-gray-500 mt-1">Select one or more images (PNG, JPG, JPEG up to 5MB each)</p>
  </div>
  <input 
  type="file"
@@ -465,7 +465,7 @@ export default function AddPropertyWizardPage() {
  />
  <label 
  htmlFor="upload-file-input"
- className="inline-block bg-[#003527] text-white px-6 py-2.5 rounded-lg text-sm font-semibold cursor-pointer hover:bg-[#0b513d] transition-colors"
+ className="inline-block bg-[#00a877] text-white px-6 py-2.5 rounded-lg text-sm font-semibold cursor-pointer hover:bg-[#0b513d] transition-colors"
  >
  Select Images
  </label>
@@ -476,18 +476,18 @@ export default function AddPropertyWizardPage() {
  )}
 
  {/* Form Actions Footer */}
- <div className="mt-12 flex justify-end gap-4 border-t border-[#bfc9c3]/30 pt-8">
+ <div className="mt-12 flex justify-end gap-4 border-t border-gray-100 pt-8">
  <button 
  type="button"
  onClick={handleBack}
- className="rounded-lg border border-[#003527] px-6 py-3 text-sm font-semibold text-[#003527] transition-colors hover:bg-[#e3e1ec]/30"
+ className="rounded-xl border border-gray-200 px-6 py-3 text-[13px] font-bold text-gray-600 transition-colors hover:bg-gray-50"
  >
  {currentStep > 1 ? 'Back' : 'Cancel'}
  </button>
  {currentStep < 4 ? (
  <button 
  type="submit"
- className="flex items-center gap-2 rounded-lg bg-[#003527] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0b513d]"
+ className="flex items-center gap-2 rounded-xl bg-[#00a877] px-6 py-3 text-[13px] font-bold text-white transition-colors hover:bg-[#0b513d]"
  >
  <span>Next Step</span>
  <ArrowRight className="h-4 w-4"/>
@@ -497,7 +497,7 @@ export default function AddPropertyWizardPage() {
  type="button"
  disabled={saving || uploading}
  onClick={handleSubmit}
- className="flex items-center gap-2 rounded-lg bg-[#003527] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0b513d] disabled:opacity-70"
+ className="flex items-center gap-2 rounded-xl bg-[#00a877] px-6 py-3 text-[13px] font-bold text-white transition-colors hover:bg-[#0b513d] disabled:opacity-70"
  >
  {saving ? (
  <>
