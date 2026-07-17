@@ -15,8 +15,8 @@ export async function POST(req: Request) {
     const role = requestedRole || (email.toLowerCase() === 'admin@gmail.com' ? 'admin' : 'user');
     const newUser = await User.create({ name, email: email.toLowerCase(), password: hashedPassword, role });
 
-    // Send welcome email asynchronously
-    sendWelcomeEmail(email.toLowerCase(), name);
+    // Send welcome email synchronously to prevent Vercel from killing the process
+    await sendWelcomeEmail(email.toLowerCase(), name);
 
     return NextResponse.json({ message: 'User registered successfully' }, { status: 201 });
   } catch (error) {
