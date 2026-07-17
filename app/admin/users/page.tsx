@@ -446,7 +446,6 @@ export default function UserManagementPage() {
  </div>
  <div>
  <p className="font-bold text-[#1B2A22] text-[14px]">{user.name}</p>
- <p className="text-[10px] font-bold text-gray-400 mt-0.5">ID: {user._id.slice(-6).toUpperCase()}</p>
  </div>
  </div>
  </td>
@@ -459,7 +458,7 @@ export default function UserManagementPage() {
  </span>
  </td>
  <td className="px-6 py-4 text-gray-500 font-medium">
- {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '7/6/2026'}
+ {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
  </td>
   <td className="px-8 py-4 text-right flex justify-end gap-2">
   <button

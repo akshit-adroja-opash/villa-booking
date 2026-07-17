@@ -149,7 +149,7 @@ export default function ContactPage() {
           </div>
 
           {/* Contact Form Container */}
-          <div className="lg:col-span-7 bg-white p-8 md:p-10 rounded-3xl border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] order-2 lg:order-2">
+          <div id="contact-form" className="lg:col-span-7 bg-white p-8 md:p-10 rounded-3xl border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] order-2 lg:order-2">
             <h2 className="font-serif text-[28px] text-[#002E1E] font-bold mb-8">Send us a Message</h2>
             <form className="space-y-5" onSubmit={handleSubmit} noValidate>
               
@@ -254,7 +254,10 @@ export default function ContactPage() {
             <a href="https://wa.me/918780493615" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white border border-gray-200 text-[#1B2A22] px-6 py-3 rounded-full text-[13px] font-bold hover:bg-gray-50 transition-colors shadow-sm">
               <MessageCircle className="h-4 w-4" /> WhatsApp
             </a>
-            <a href="mailto:info@enjoyfarm.in" className="inline-flex items-center gap-2 bg-white border border-gray-200 text-[#1B2A22] px-6 py-3 rounded-full text-[13px] font-bold hover:bg-gray-50 transition-colors shadow-sm">
+            <a href="#contact-form" onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
+            }} className="inline-flex items-center gap-2 bg-white border border-gray-200 text-[#1B2A22] px-6 py-3 rounded-full text-[13px] font-bold hover:bg-gray-50 transition-colors shadow-sm">
               <Mail className="h-4 w-4" /> Email Us
             </a>
           </div>

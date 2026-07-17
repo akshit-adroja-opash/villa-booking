@@ -232,7 +232,9 @@ LUXURY & NATURE
  {/* Footer: Price & Guests */}
  <div className="flex items-center justify-between mt-auto pt-3">
  <div className="text-[#1B2A22]">
- <span className="text-lg font-bold">₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}</span>
+ <span className="text-lg font-bold">
+ {farm.pricePerNight ? `₹${farm.pricePerNight.toLocaleString('en-IN')}` : 'Price N/A'}
+ </span>
  <span className="text-sm font-medium text-[#1B2A22]/50 font-medium ml-1">/ night</span>
  </div>
  <div className="bg-[#fbf8ff] text-[#1B2A22]/70 text-sm font-medium font-bold px-3 py-1.5 rounded-md border border-[#eeedf7]">

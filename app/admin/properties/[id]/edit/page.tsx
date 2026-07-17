@@ -208,7 +208,6 @@ export default function EditPropertyWizardPage() {
  </span>
  </div>
  <h2 className="font-serif text-3xl font-normal text-[#1B2A22] mb-2">Edit Farmhouse</h2>
- <p className="text-sm text-gray-500">Update the details for this estate.</p>
  </header>
 
  <div className="mx-auto max-w-3xl rounded-2xl border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] bg-white p-6 md:p-10">
