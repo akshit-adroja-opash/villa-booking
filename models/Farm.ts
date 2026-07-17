@@ -13,6 +13,7 @@ const FarmSchema = new Schema({
   baths: { type: Number, default: 1 },
   rating: { type: Number, default: 4.8 },
   category: { type: String, default: 'Farmhouse' },
+  isActive: { type: Boolean, default: true },
 }, { timestamps: true });
 
 const Farm = models.Farm || model('Farm', FarmSchema);

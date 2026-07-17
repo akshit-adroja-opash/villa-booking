@@ -294,7 +294,7 @@ export default function UserManagementPage() {
  {/* Filter and Search Bar Row */}
  <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-4 flex flex-col md:flex-row gap-4 items-center justify-between">
  {/* Search bar */}
- <div className="w-full md:flex-1 relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
+ <div className="w-full md:flex-1 relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white transition-all">
  <Search className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input 
  type="text"
@@ -554,7 +554,7 @@ export default function UserManagementPage() {
  {/* Full Name */}
  <div className="space-y-2">
  <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Full Name <span className="text-red-500">*</span></label>
- <div className={`relative flex items-center bg-[#f9fafb] rounded-xl border ${errors.name ? 'border-red-500' : 'border-transparent'} focus-within:border-gray-200 focus-within:bg-white transition-all`}>
+ <div className={`relative flex items-center bg-[#f9fafb] rounded-xl border ${errors.name ? 'border-red-500' : 'border-transparent'} focus-within:border-[#00a877] focus-within:bg-white transition-all`}>
  <User className={`absolute left-4 h-4 w-4 ${errors.name ? 'text-red-500' : 'text-gray-400'}`}/>
  <input 
  type="text"
@@ -574,7 +574,7 @@ export default function UserManagementPage() {
  {/* Email */}
  <div className="space-y-2">
  <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Email Address <span className="text-red-500">*</span></label>
- <div className={`relative flex items-center bg-[#f9fafb] rounded-xl border ${errors.email ? 'border-red-500' : 'border-transparent'} focus-within:border-gray-200 focus-within:bg-white transition-all`}>
+ <div className={`relative flex items-center bg-[#f9fafb] rounded-xl border ${errors.email ? 'border-red-500' : 'border-transparent'} focus-within:border-[#00a877] focus-within:bg-white transition-all`}>
  <Mail className={`absolute left-4 h-4 w-4 ${errors.email ? 'text-red-500' : 'text-gray-400'}`}/>
  <input 
  type="email"
@@ -596,7 +596,7 @@ export default function UserManagementPage() {
   {!editingUserId && (
   <div className="space-y-2">
   <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">Temporary Password <span className="text-red-500">*</span></label>
-  <div className={`relative flex items-center bg-[#f9fafb] rounded-xl border ${errors.password ? 'border-red-500' : 'border-transparent'} focus-within:border-[#00a877] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#00a877] transition-all overflow-hidden`}>
+  <div className={`relative flex items-center bg-[#f9fafb] rounded-xl border ${errors.password ? 'border-red-500' : 'border-transparent'} focus-within:border-[#00a877] focus-within:bg-white transition-all overflow-hidden`}>
   <div className="absolute left-4 text-gray-400 pointer-events-none">
   <Shield className={`h-4 w-4 ${errors.password ? 'text-red-500' : 'text-gray-400'}`} />
   </div>
@@ -631,7 +631,7 @@ export default function UserManagementPage() {
  <button
  type="button"
  onClick={() => setIsNewUserRoleDropdownOpen(!isNewUserRoleDropdownOpen)}
- className="w-full h-12 px-4 pr-10 flex items-center justify-between bg-[#f9fafb] rounded-xl border border-transparent text-[13px] font-bold text-[#1B2A22] outline-none cursor-pointer hover:bg-gray-100 transition-colors"
+ className="w-full h-12 px-4 pr-10 flex items-center justify-between bg-[#f9fafb] rounded-xl border border-transparent text-[13px] font-bold text-[#1B2A22] outline-none cursor-pointer hover:bg-gray-100 focus:border-[#00a877] focus:bg-white transition-all"
  >
  <span>{newUserRole === 'admin' ? 'Administrator' : 'Customer / Guest'}</span>
  <ChevronDown className={`absolute right-4 h-4 w-4 text-gray-400 transition-transform ${isNewUserRoleDropdownOpen ? 'rotate-180' : ''}`} />

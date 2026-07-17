@@ -60,8 +60,18 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: {email?: string; password?: string;} = {};
-    if (!loginEmail.trim()) newErrors.email = 'Email Address is required';
-    if (!loginPassword.trim()) newErrors.password = 'Password is required';
+    if (!loginEmail.trim()) {
+      newErrors.email = 'Email Address is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginEmail)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    
+    if (!loginPassword.trim()) {
+      newErrors.password = 'Password is required';
+    } else if (loginPassword.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -99,8 +109,19 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
     e.preventDefault();
     const newErrors: {email?: string; password?: string; name?: string;} = {};
     if (!regName.trim()) newErrors.name = 'Full Name is required';
-    if (!regEmail.trim()) newErrors.email = 'Email Address is required';
-    if (!regPassword.trim()) newErrors.password = 'Password is required';
+    
+    if (!regEmail.trim()) {
+      newErrors.email = 'Email Address is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(regEmail)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    
+    if (!regPassword.trim()) {
+      newErrors.password = 'Password is required';
+    } else if (regPassword.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -168,7 +189,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <label className="block text-sm font-medium font-bold text-[#1B2A22]"htmlFor="login-email">
  Email Address <span className="text-red-500">*</span>
  </label>
- <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.email ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#1B2A22] transition-all rounded-xl`}>
+ <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.email ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#00a877] transition-all rounded-xl`}>
  <Mail className={`absolute left-4 h-4 w-4 ${errors.email ? 'text-red-500' : 'text-[#1B2A22]/40'}`}/>
  <input 
  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
@@ -191,7 +212,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <label className="block text-sm font-medium font-bold text-[#1B2A22]"htmlFor="login-pass">
  Password <span className="text-red-500">*</span>
  </label>
- <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.password ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#1B2A22] transition-all rounded-xl`}>
+ <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.password ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#00a877] transition-all rounded-xl`}>
  <Lock className={`absolute left-4 h-4 w-4 ${errors.password ? 'text-red-500' : 'text-[#1B2A22]/40'}`}/>
  <input 
  className="w-full h-12 pl-12 pr-12 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
@@ -248,7 +269,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <label className="block text-sm font-medium font-bold text-[#1B2A22]"htmlFor="reg-name">
  Full Name <span className="text-red-500">*</span>
  </label>
- <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.name ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#1B2A22] transition-all rounded-xl`}>
+ <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.name ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#00a877] transition-all rounded-xl`}>
  <input 
  className="w-full h-12 px-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
  id="reg-name"
@@ -270,7 +291,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <label className="block text-sm font-medium font-bold text-[#1B2A22]"htmlFor="reg-email">
  Email Address <span className="text-red-500">*</span>
  </label>
- <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.email ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#1B2A22] transition-all rounded-xl`}>
+ <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.email ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#00a877] transition-all rounded-xl`}>
  <Mail className={`absolute left-4 h-4 w-4 ${errors.email ? 'text-red-500' : 'text-[#1B2A22]/40'}`}/>
  <input 
  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
@@ -293,7 +314,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <label className="block text-sm font-medium font-bold text-[#1B2A22]"htmlFor="reg-pass">
  Password <span className="text-red-500">*</span>
  </label>
- <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.password ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#1B2A22] transition-all rounded-xl`}>
+ <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.password ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#00a877] transition-all rounded-xl`}>
  <Lock className={`absolute left-4 h-4 w-4 ${errors.password ? 'text-red-500' : 'text-[#1B2A22]/40'}`}/>
  <input 
  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"

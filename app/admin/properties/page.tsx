@@ -17,6 +17,7 @@ type Farm = {
  bedrooms?: number;
  baths?: number;
  category?: string;
+ isActive?: boolean;
  rating?: number;
 };
 

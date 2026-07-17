@@ -279,7 +279,7 @@ export default function SettingsPage() {
  <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">
  Full Name
  </label>
- <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
+ <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white transition-all">
  <User className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input
  type="text"
@@ -296,7 +296,7 @@ export default function SettingsPage() {
  <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">
  Email Address
  </label>
- <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
+ <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white transition-all">
  <Mail className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input
  type="email"
@@ -313,7 +313,7 @@ export default function SettingsPage() {
  <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">
  Phone Number
  </label>
- <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
+ <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white transition-all">
  <Phone className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input
  type="tel"
@@ -330,7 +330,7 @@ export default function SettingsPage() {
  <label className="block text-[11px] font-bold uppercase tracking-wide text-gray-500">
  Location
  </label>
- <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-gray-200 focus-within:bg-white transition-all">
+ <div className="relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white transition-all">
  <MapPin className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input
  type="text"

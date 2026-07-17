@@ -27,6 +27,7 @@ export default function EditPropertyWizardPage() {
  const [location, setLocation] = useState('');
  const [mapLink, setMapLink] = useState('');
  const [propertyType, setPropertyType] = useState('farmhouse');
+ const [isActive, setIsActive] = useState(true);
  
  const [pricePerNight, setPricePerNight] = useState('');
  const [guests, setGuests] = useState('4');
@@ -165,6 +166,7 @@ export default function EditPropertyWizardPage() {
  location,
  mapLink,
  category: propertyType,
+      isActive,
  pricePerNight: Number(pricePerNight),
  guests: Number(guests),
  bedrooms: Number(bedrooms),
@@ -567,6 +569,14 @@ export default function EditPropertyWizardPage() {
  </button>
  )}
  </div>
+ 
+ <div className="space-y-2 md:col-span-2 pt-2">
+ <label className="flex items-center gap-2 text-[13px] font-bold text-[#1B2A22] cursor-pointer w-max">
+ <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} className="h-4 w-4 accent-[#00a877] rounded" />
+ <span>Is Active (Visible to users)</span>
+ </label>
+ </div>
+ 
  </form>
 
  </div>
