@@ -9,6 +9,8 @@ const UserSchema = new Schema({
   phone: { type: String },
   location: { type: String },
   image: { type: String },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date },
 }, { timestamps: true });
 
 if (models.User && (!models.User.schema.paths.favorites || !models.User.schema.paths.phone)) {

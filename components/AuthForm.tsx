@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { signIn, useSession } from 'next-auth/react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -226,9 +227,9 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  />
  <span>Remember me</span>
  </label>
- <a href="#"className="hover:text-[#00a877] transition-colors">
+ <Link href="/forgot-password" className="hover:text-[#00a877] transition-colors">
  Forgot password?
- </a>
+ </Link>
  </div>
 
  {/* Submit */}

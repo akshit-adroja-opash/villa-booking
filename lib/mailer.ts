@@ -30,3 +30,23 @@ export async function sendBookingEmail(to: string, bookingDetails: any) {
     console.error('Error sending email:', error);
   }
 }
+
+export async function sendPasswordResetEmail(to: string, resetUrl: string) {
+  const mailOptions = {
+    from: process.env.EMAIL_FROM,
+    to,
+    subject: 'Password Reset Request',
+    html: `
+      <h1>Password Reset</h1>
+      <p>You requested a password reset. Please click the link below to reset your password. This link is valid for 1 hour.</p>
+      <a href="${resetUrl}">Reset Password</a>
+      <p>If you did not request this, please ignore this email.</p>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+  }
+}

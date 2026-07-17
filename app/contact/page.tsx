@@ -155,7 +155,7 @@ export default function ContactPage() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Name*</label>
+                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Name <span className="text-red-500">*</span></label>
                   <input 
                     type="text" 
                     required
@@ -168,7 +168,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Email Address*</label>
+                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Email Address <span className="text-red-500">*</span></label>
                   <input 
                     type="email" 
                     required
@@ -183,7 +183,7 @@ export default function ContactPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Phone number*</label>
+                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Phone number <span className="text-red-500">*</span></label>
                   <input 
                     type="tel" 
                     required
@@ -199,7 +199,7 @@ export default function ContactPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Subject*</label>
+                  <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Subject <span className="text-red-500">*</span></label>
                   <input 
                     type="text" 
                     required
@@ -213,7 +213,7 @@ export default function ContactPage() {
               </div>
 
               <div className="space-y-1.5 pt-2">
-                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Comment*</label>
+                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Comment <span className="text-red-500">*</span></label>
                 <textarea 
                   required
                   rows={5}
