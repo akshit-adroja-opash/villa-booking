@@ -1,3 +1,4 @@
+import path from 'path';
 import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
@@ -14,10 +15,16 @@ export async function sendBookingEmail(to: string, bookingDetails: any) {
     from: process.env.EMAIL_FROM,
     to,
     subject: `Booking Confirmed: ${bookingDetails.farmName}`,
+    attachments: [{
+      filename: 'logo.png',
+      path: path.join(process.cwd(), 'public', 'logo.png'),
+      cid: 'logo'
+    }],
     html: `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #FAF9F6; padding: 40px 20px; color: #1B2A22;">
         <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.04);">
           <div style="background-color: #1B2A22; padding: 30px; text-align: center;">
+            <img src="cid:logo" alt="Enjoy Farm Logo" style="height: 64px; margin-bottom: 12px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));" />
             <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 500; letter-spacing: 1px;">Booking Confirmed</h1>
           </div>
           <div style="padding: 40px 30px;">
@@ -70,10 +77,16 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string) {
     from: process.env.EMAIL_FROM,
     to,
     subject: 'Password Reset Request',
+    attachments: [{
+      filename: 'logo.png',
+      path: path.join(process.cwd(), 'public', 'logo.png'),
+      cid: 'logo'
+    }],
     html: `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #FAF9F6; padding: 40px 20px; color: #1B2A22;">
         <div style="max-width: 500px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.04);">
           <div style="background-color: #1B2A22; padding: 30px; text-align: center;">
+            <img src="cid:logo" alt="Enjoy Farm Logo" style="height: 64px; margin-bottom: 12px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));" />
             <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 500; letter-spacing: 1px;">Enjoy Farm</h1>
           </div>
           <div style="padding: 40px 30px;">
@@ -108,15 +121,22 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string) {
     console.error('Error sending password reset email:', error);
   }
 }
+
 export async function sendWelcomeEmail(to: string, name: string) {
   const mailOptions = {
     from: process.env.EMAIL_FROM,
     to,
     subject: 'Welcome to Enjoy Farm!',
+    attachments: [{
+      filename: 'logo.png',
+      path: path.join(process.cwd(), 'public', 'logo.png'),
+      cid: 'logo'
+    }],
     html: `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #FAF9F6; padding: 40px 20px; color: #1B2A22;">
         <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.04);">
           <div style="background-color: #1B2A22; padding: 30px; text-align: center;">
+            <img src="cid:logo" alt="Enjoy Farm Logo" style="height: 64px; margin-bottom: 12px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));" />
             <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 500; letter-spacing: 1px;">Welcome to Enjoy Farm</h1>
           </div>
           <div style="padding: 40px 30px;">

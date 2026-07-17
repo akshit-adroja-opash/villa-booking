@@ -215,10 +215,10 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.password ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#00a877] transition-all rounded-xl`}>
  <Lock className={`absolute left-4 h-4 w-4 ${errors.password ? 'text-red-500' : 'text-[#1B2A22]/40'}`}/>
  <input 
- className="w-full h-12 pl-12 pr-12 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
+ className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
  id="login-pass"
  placeholder="•••••"
- type={showPassword ? 'text' : 'password'}
+ type="password"
  required
  value={loginPassword}
  onChange={(e) => {
@@ -226,13 +226,6 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
     if (errors.password) setErrors({...errors, password: undefined});
   }}
  />
- <button
- type="button"
- onClick={() => setShowPassword(!showPassword)}
- className="absolute right-4 p-1 hover:bg-[#1B2A22]/5 rounded-full transition-colors"
- >
- {showPassword ? <Eye className="h-4 w-4 text-[#1B2A22]/50"/> : <EyeOff className="h-4 w-4 text-[#1B2A22]/50"/>}
- </button>
  </div>
  {errors.password && <p className="text-red-500 text-[11px] font-bold mt-1">{errors.password}</p>}
  </div>
@@ -317,10 +310,10 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <div className={`relative flex items-center bg-[#FAF9F6] border ${errors.password ? 'border-red-500' : 'border-[#1B2A22]/10'} focus-within:border-[#00a877] transition-all rounded-xl`}>
  <Lock className={`absolute left-4 h-4 w-4 ${errors.password ? 'text-red-500' : 'text-[#1B2A22]/40'}`}/>
  <input 
- className="w-full h-12 pl-12 pr-12 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
+ className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
  id="reg-pass"
  placeholder="At least 8 characters"
- type={showPassword ? 'text' : 'password'}
+ type="password"
  required
  value={regPassword}
  onChange={(e) => {
@@ -328,13 +321,6 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
     if (errors.password) setErrors({...errors, password: undefined});
   }}
  />
- <button
- type="button"
- onClick={() => setShowPassword(!showPassword)}
- className="absolute right-4 p-1 hover:bg-[#1B2A22]/5 rounded-full transition-colors"
- >
- {showPassword ? <Eye className="h-4 w-4 text-[#1B2A22]/50"/> : <EyeOff className="h-4 w-4 text-[#1B2A22]/50"/>}
- </button>
  </div>
  {errors.password && <p className="text-red-500 text-[11px] font-bold mt-1">{errors.password}</p>}
  </div>
