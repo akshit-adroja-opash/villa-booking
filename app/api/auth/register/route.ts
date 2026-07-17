@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 import bcrypt from 'bcryptjs';
+import { sendWelcomeEmail } from '@/lib/mailer';
 
 export async function POST(req: Request) {
   try {
@@ -13,6 +14,9 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const role = requestedRole || (email.toLowerCase() === 'admin@gmail.com' ? 'admin' : 'user');
     const newUser = await User.create({ name, email: email.toLowerCase(), password: hashedPassword, role });
+
+    // Send welcome email asynchronously
+    sendWelcomeEmail(email.toLowerCase(), name);
 
     return NextResponse.json({ message: 'User registered successfully' }, { status: 201 });
   } catch (error) {
