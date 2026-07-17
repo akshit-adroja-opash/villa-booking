@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { CalendarDays, Download, Search, ChevronDown } from 'lucide-react';
+import { CalendarDays, Download, Search, ChevronDown, CheckCircle2, IndianRupee } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 type Booking = {
@@ -222,18 +222,21 @@ export default function AdminReservationsPage() {
 
  {/* Stats Grid */}
  <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
- <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
- <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">TOTAL Bookings</p>
- <p className="font-sans tracking-tight text-[28px] font-bold text-[#1B2A22]">{bookings.length}</p>
+ {[
+ { label: 'TOTAL BOOKINGS', value: bookings.length, icon: CalendarDays },
+ { label: 'CONFIRMED', value: confirmedBookings, icon: CheckCircle2 },
+ { label: 'BOOKED REVENUE', value: `₹${totalRevenue.toLocaleString('en-IN')}`, icon: IndianRupee },
+ ].map((stat) => (
+ <div key={stat.label} className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex items-start justify-between min-h-[110px]">
+ <div className="flex flex-col justify-between h-full">
+ <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">{stat.label}</p>
+ <h3 className="font-sans tracking-tight text-[28px] font-bold text-[#1B2A22] leading-none">{stat.value}</h3>
  </div>
- <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
- <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">CONFIRMED</p>
- <p className="font-sans tracking-tight text-[28px] font-bold text-[#1B2A22]">{confirmedBookings}</p>
+ <div className="bg-[#e6f4ea] text-[#00a877] h-10 w-10 rounded-xl flex items-center justify-center shrink-0">
+ <stat.icon className="h-5 w-5 stroke-[2]"/>
  </div>
- <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-6 flex flex-col justify-center min-h-[110px]">
- <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-2">BOOKED REVENUE</p>
- <p className="font-sans tracking-tight text-[28px] font-bold text-[#1B2A22]">₹{totalRevenue.toLocaleString('en-IN')}</p>
  </div>
+ ))}
  </div>
 
  {/* Table Layout Container */}

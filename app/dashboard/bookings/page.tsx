@@ -407,21 +407,18 @@ export default function BookingsDashboardPage() {
  <main className="flex-grow mx-auto w-full max-w-[1280px] px-6 py-12 md:py-20 md:px-16">
  
  {/* Welcome Header */}
- <header className="mb-16">
- <span className="text-sm font-medium font-bold text-[#1B2A22] block mb-4">
- Bookings Dashboard
- </span>
- <h1 className="font-serif text-4xl md:text-5xl font-normal text-[#1B2A22] mt-3">
- Welcome, {session?.user?.name || 'Guest'}
+ <header className="mb-16 text-center max-w-3xl mx-auto flex flex-col items-center">
+ <h1 className="font-serif text-5xl md:text-6xl font-bold text-[#1B2A22] mt-3 tracking-tight">
+ Welcome, <span className="text-[#00a877]">{session?.user?.name ? session.user.name.split(' ')[0] : 'Guest'}</span>
  </h1>
- <p className="text-sm text-[#1B2A22]/70 font-medium mt-4 max-w-xl font-serif">
+ <p className="text-base text-[#1B2A22]/60 font-medium mt-6 max-w-2xl font-sans leading-relaxed">
  Manage your upcoming bookings, review your past bookings, and view your saved farmhouses.
  </p>
  </header>
 
  {/* Tab Controls */}
  <section className="flex flex-col gap-10">
- <div className="flex border-b border-[#1B2A22]/10 gap-5 md:gap-10 overflow-x-auto whitespace-nowrap scrollbar-hide">
+ <div className="flex justify-center border-b border-[#1B2A22]/10 gap-5 md:gap-10 overflow-x-auto whitespace-nowrap scrollbar-hide">
  <button 
  onClick={() => setActiveTab('upcoming')}
  className={`text-sm font-medium pb-4 transition-all whitespace-nowrap ${
