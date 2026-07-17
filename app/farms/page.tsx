@@ -40,8 +40,8 @@ function StaysList() {
  if (res.ok) {
  const data = await res.json();
  if (data && data.length > 0) {
- data = data.filter((f: any) => f.isActive !== false);
- const formatted = data.map((farm: any) => {
+ const activeData = data.filter((f: any) => f.isActive !== false);
+ const formatted = activeData.map((farm: any) => {
  const cleanTitle = farm.title || 'Premium Estate';
  const cleanRating = farm.rating === 4.8 && farm._id ? (4.5 + (parseInt(farm._id.slice(-4), 16) % 6) / 10).toFixed(1) : Number(farm.rating || 4.5).toFixed(1);
  const cleanAcres = farm.acres || Math.round((farm.pricePerNight / 1000) + (farm.bedrooms || 1));

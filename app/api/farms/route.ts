@@ -10,6 +10,7 @@ export async function GET(req: Request) {
     const pricePerNight = searchParams.get('pricePerNight');
     const guests = searchParams.get('guests');
     const amenities = searchParams.get('amenities');
+    const trending = searchParams.get('trending');
 
     const filter: any = {};
 
@@ -33,6 +34,28 @@ export async function GET(req: Request) {
       if (amenitiesList.length > 0) {
         filter.amenities = { $all: amenitiesList };
       }
+    }
+
+    if (trending === 'true') {
+      const farms = await Farm.aggregate([
+        { $match: filter },
+        {
+          $lookup: {
+            from: 'bookings',
+            localField: '_id',
+            foreignField: 'farmId',
+            as: 'bookings'
+          }
+        },
+        {
+          $addFields: {
+            bookingsCount: { $size: '$bookings' }
+          }
+        },
+        { $sort: { bookingsCount: -1 } },
+        { $project: { bookings: 0 } }
+      ]);
+      return NextResponse.json(farms, { status: 200 });
     }
 
     const farms = await Farm.find(filter);

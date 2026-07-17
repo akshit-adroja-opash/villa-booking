@@ -44,10 +44,11 @@ export default function Home() {
  useEffect(() => {
  async function fetchFarms() {
  try {
- const res = await fetch('/api/farms');
+ const res = await fetch('/api/farms?trending=true');
  if (res.ok) {
  const data = await res.json();
- const formatted = data.map((farm: any) => ({
+ const activeData = data.filter((f: any) => f.isActive !== false);
+ const formatted = activeData.map((farm: any) => ({
   ...farm,
   rating: farm.rating === 4.8 && farm._id ? (4.5 + (parseInt(farm._id.slice(-4), 16) % 6) / 10).toFixed(1) : Number(farm.rating || 4.5).toFixed(1)
  }));
