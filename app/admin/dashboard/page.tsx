@@ -335,7 +335,7 @@ export default function AdminDashboard() {
               <div className="relative">
                 <button 
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-white border border-gray-200 rounded-xl px-4 py-2 hover:border-[#00a877] focus:outline-none focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] transition-all shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] min-w-[130px]"
+                  className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-white border border-gray-200 rounded-xl px-4 py-2 hover:border-[#00a877] focus:outline-none focus:border-[#00a877] transition-all shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] min-w-[130px]"
                 >
                   <span>{timeRangeOptions.find(opt => opt.value === revenueTimeRange)?.label}</span>
                   <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-gray-50 text-gray-500'}`}>

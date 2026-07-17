@@ -196,7 +196,7 @@ export default function AddPropertyWizardPage() {
  value={title}
  onChange={(e) => setTitle(e.target.value)}
  placeholder="e.g. Whispering Pines Farmhouse"
- className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
  />
  </div>
 
@@ -211,7 +211,7 @@ export default function AddPropertyWizardPage() {
  value={description}
  onChange={(e) => setDescription(e.target.value)}
  placeholder="Describe the unique features and atmosphere of the farm..."
- className="w-full resize-none rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
+ className="w-full resize-none rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
  />
  </div>
 
@@ -231,7 +231,7 @@ export default function AddPropertyWizardPage() {
  value={location}
  onChange={(e) => setLocation(e.target.value)}
  placeholder="e.g. Surat, Gujarat"
- className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  pl-10 pr-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  pl-10 pr-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
  />
  </div>
  </div>
@@ -250,7 +250,7 @@ export default function AddPropertyWizardPage() {
  value={mapLink}
  onChange={(e) => setMapLink(e.target.value)}
  placeholder="https://maps.app.goo.gl/..."
- className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  pl-10 pr-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  pl-10 pr-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
  />
  </div>
  </div>
@@ -263,7 +263,7 @@ export default function AddPropertyWizardPage() {
  id="property_type"
  value={propertyType}
  onChange={(e) => setPropertyType(e.target.value)}
- className="w-full rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white cursor-pointer"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] outline-none transition-all border focus:border-[#00a877] focus:bg-white cursor-pointer"
  >
  <option value="farmhouse">Farmhouse</option>
  <option value="cabin">Cabin</option>
@@ -294,7 +294,7 @@ export default function AddPropertyWizardPage() {
  value={pricePerNight}
  onChange={(e) => setPricePerNight(e.target.value)}
  placeholder="e.g. 1500"
- className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
+ className="w-full rounded-lg border-[#bfc9c3]/60 bg-[#fbf8ff] px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
  />
  </div>
 
@@ -309,7 +309,7 @@ export default function AddPropertyWizardPage() {
  value={guests}
  onChange={(e) => setGuests(e.target.value)}
  placeholder="e.g. 4"
- className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
  />
  </div>
 
@@ -324,7 +324,7 @@ export default function AddPropertyWizardPage() {
  value={bedrooms}
  onChange={(e) => setBedrooms(e.target.value)}
  placeholder="e.g. 2"
- className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
  />
  </div>
 
@@ -339,7 +339,7 @@ export default function AddPropertyWizardPage() {
  value={baths}
  onChange={(e) => setBaths(e.target.value)}
  placeholder="e.g. 2"
- className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
  />
  </div>
  </div>

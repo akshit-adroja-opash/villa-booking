@@ -178,7 +178,7 @@ export default function AdminFinancialsPage() {
  <div className="relative">
  <button 
  onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
- className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] transition-all w-full"
+ className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none focus:border-[#00a877] transition-all w-full"
  >
  <span>
  {sortFilter === 'newest' && 'Newest First'}
