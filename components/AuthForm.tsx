@@ -236,7 +236,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <button 
  type="submit"
  disabled={loading}
- className="w-full h-12 md:h-14 bg-[#00a877] hover:bg-[#008f65] text-white text-sm font-medium transition-all active:scale-[0.99] disabled:opacity-50 mt-2 md:mt-4 rounded-xl"
+ className="w-full h-12 md:h-14 bg-[#00a877] hover:bg-[#009669] text-white text-sm font-medium transition-all active:scale-[0.99] disabled:opacity-50 mt-2 md:mt-4 rounded-xl"
  >
  {loading ? 'Authenticating...' : 'Sign In'}
  </button>
@@ -315,7 +315,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <button 
  type="submit"
  disabled={loading}
- className="w-full h-12 md:h-14 bg-[#00a877] hover:bg-[#008f65] text-white text-sm font-medium transition-all active:scale-[0.99] disabled:opacity-50 mt-2 md:mt-4 rounded-xl"
+ className="w-full h-12 md:h-14 bg-[#00a877] hover:bg-[#009669] text-white text-sm font-medium transition-all active:scale-[0.99] disabled:opacity-50 mt-2 md:mt-4 rounded-xl"
  >
  {loading ? 'Creating Account...' : 'Sign Up'}
  </button>

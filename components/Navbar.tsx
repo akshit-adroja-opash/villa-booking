@@ -159,7 +159,7 @@ export default function Navbar() {
  <Link 
  href="/login"
  className={`text-sm font-medium px-6 py-2.5 rounded-full transition-all duration-300 ${
- (isHome && !scrolled) ? 'bg-white text-[#1B2A22] hover:bg-white/90 shadow-md' : 'bg-[#00a877] text-white hover:bg-[#008f65] hover:shadow-lg hover:-translate-y-0.5'
+ (isHome && !scrolled) ? 'bg-white text-[#1B2A22] hover:bg-white/90 shadow-md' : 'bg-[#00a877] text-white hover:bg-[#009669] hover:shadow-lg hover:-translate-y-0.5'
  }`}
  >
  Sign In
@@ -220,7 +220,7 @@ export default function Navbar() {
  <LogOut className="h-4 w-4"/> Logout
  </button>
  ) : (
- <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="w-full flex items-center justify-center bg-[#00a877] text-white py-3.5 text-sm font-medium hover:bg-[#008f65] transition-colors">
+ <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="w-full flex items-center justify-center bg-[#00a877] text-white py-3.5 text-sm font-medium hover:bg-[#009669] transition-colors">
  Sign In
  </Link>
  )}

@@ -417,7 +417,7 @@ export default function AddPropertyWizardPage() {
  <button 
  type="button"
  onClick={() => setImages(prev => [prev[idx], ...prev.filter((_, i) => i !== idx)])}
- className="bg-[#00a877] text-white rounded-lg px-3 py-1.5 text-xs font-bold hover:bg-[#0b513d] transition-colors shadow-sm"
+ className="bg-[#00a877] text-white rounded-lg px-3 py-1.5 text-xs font-bold hover:bg-[#009669] transition-colors shadow-sm"
  >
  Set as Cover
  </button>
@@ -465,7 +465,7 @@ export default function AddPropertyWizardPage() {
  />
  <label 
  htmlFor="upload-file-input"
- className="inline-block bg-[#00a877] text-white px-6 py-2.5 rounded-lg text-sm font-semibold cursor-pointer hover:bg-[#0b513d] transition-colors"
+ className="inline-block bg-[#00a877] text-white px-6 py-2.5 rounded-lg text-sm font-semibold cursor-pointer hover:bg-[#009669] transition-colors"
  >
  Select Images
  </label>
@@ -487,7 +487,7 @@ export default function AddPropertyWizardPage() {
  {currentStep < 4 ? (
  <button 
  type="submit"
- className="flex items-center gap-2 rounded-xl bg-[#00a877] px-6 py-3 text-[13px] font-bold text-white transition-colors hover:bg-[#0b513d]"
+ className="flex items-center gap-2 rounded-xl bg-[#00a877] px-6 py-3 text-[13px] font-bold text-white transition-colors hover:bg-[#009669]"
  >
  <span>Next Step</span>
  <ArrowRight className="h-4 w-4"/>
@@ -497,7 +497,7 @@ export default function AddPropertyWizardPage() {
  type="button"
  disabled={saving || uploading}
  onClick={handleSubmit}
- className="flex items-center gap-2 rounded-xl bg-[#00a877] px-6 py-3 text-[13px] font-bold text-white transition-colors hover:bg-[#0b513d] disabled:opacity-70"
+ className="flex items-center gap-2 rounded-xl bg-[#00a877] px-6 py-3 text-[13px] font-bold text-white transition-colors hover:bg-[#009669] disabled:opacity-70"
  >
  {saving ? (
  <>
