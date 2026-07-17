@@ -110,7 +110,7 @@ export default function Navbar() {
  }`} 
  href="/dashboard/bookings"
  >
- My Reservations
+ {isAdmin ? 'My Reservations' : 'My Bookings'}
  <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname.startsWith('/dashboard/bookings') ? 'scale-x-100' : ''}`}></span>
  </Link>
  )}
@@ -199,7 +199,7 @@ export default function Navbar() {
  <Link className={`text-lg font-medium py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/contact') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
  
  {!isAdmin && (
- <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href={session ?"/dashboard/bookings":"/login"} onClick={() => setMobileMenuOpen(false)}>Reservations</Link>
+ <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href={session ?"/dashboard/bookings":"/login"} onClick={() => setMobileMenuOpen(false)}>My Bookings</Link>
  )}
 
  {isAdmin && (

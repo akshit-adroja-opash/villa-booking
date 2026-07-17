@@ -99,6 +99,11 @@ export default function Home() {
  if (res.ok) {
  const data = await res.json();
  setFavorites(data.favorites);
+ if (data.favorites.includes(id)) {
+   toast.success('Farmhouse saved to your collection!');
+ } else {
+   toast.success('Farmhouse removed from your collection.');
+ }
  } else {
  toast.error('Failed to toggle favorite.');
  }
