@@ -219,11 +219,15 @@ LUXURY & NATURE
  
  {/* Amenities Tags */}
  <div className="flex flex-wrap gap-2 mb-5">
- {(farm.amenities?.length ? farm.amenities : ['WiFi', 'Swimming Pool', 'Garden', 'Kitchen', 'Parking']).slice(0, 5).map((amenity: string, index: number) => (
- <span key={index} className="bg-[#fbf8ff] border border-[#eeedf7] text-[#1B2A22]/70 text-xs font-medium px-2 py-0.5 rounded-md whitespace-nowrap">
- {amenity}
- </span>
- ))}
+ {farm.amenities && farm.amenities.length > 0 ? (
+   farm.amenities.slice(0, 5).map((amenity: string, index: number) => (
+     <span key={index} className="bg-[#fbf8ff] border border-[#eeedf7] text-[#1B2A22]/70 text-xs font-medium px-2 py-0.5 rounded-md whitespace-nowrap">
+       {amenity}
+     </span>
+   ))
+ ) : (
+   <span className="text-xs text-gray-400 italic">No amenities listed</span>
+ )}
  </div>
 
  {/* Divider */}

@@ -52,7 +52,7 @@ function StaysList() {
  guests: farm.guests || 6,
  bedrooms: farm.bedrooms || 3,
  baths: farm.baths || 2,
- amenities: farm.amenities || ['WiFi', 'Kitchen']
+ amenities: farm.amenities || []
  };
  });
 
@@ -219,7 +219,7 @@ function StaysList() {
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
  {filteredFarms.map((farm) => {
  const isFav = favorites.includes(farm._id);
- const amenities = farm.amenities?.length ? farm.amenities : ['WiFi', 'Swimming Pool', 'Garden', 'Kitchen', 'Parking'];
+ const amenities = farm.amenities || [];
  const displayAmenities = amenities.slice(0, 3);
  const extraAmenities = amenities.length - 3;
  
@@ -311,8 +311,10 @@ function StaysList() {
  {/* Footer: Price & Details */}
  <div className="flex items-center justify-between">
  <div className="text-[#002E1E]">
- <span className="text-[18px] font-bold">₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}</span>
- <span className="text-[13px] font-medium text-gray-400 ml-0.5">/night</span>
+ <span className="text-[18px] font-bold">
+ {farm.pricePerNight ? `₹${farm.pricePerNight.toLocaleString('en-IN')}` : 'Price N/A'}
+ </span>
+ {farm.pricePerNight && <span className="text-[13px] font-medium text-gray-400 ml-0.5">/night</span>}
  </div>
  <span className="text-[13px] font-bold text-[#002E1E] group-hover:underline">
  Details

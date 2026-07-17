@@ -263,7 +263,7 @@ export default function AddPropertyWizardPage() {
  id="property_type"
  value={propertyType}
  onChange={(e) => setPropertyType(e.target.value)}
- className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm text-[#1a1b22] outline-none transition-colors border focus:border-[#003527] focus:ring-1 focus:ring-[#003527]"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] outline-none transition-all border focus:border-[#00a877] focus:ring-1 focus:ring-[#00a877] focus:bg-white cursor-pointer"
  >
  <option value="farmhouse">Farmhouse</option>
  <option value="cabin">Cabin</option>
