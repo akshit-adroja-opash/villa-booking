@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       });
 
       const mailOptions = {
-        from: process.env.EMAIL_FROM,
+        from: `"${name} (Contact Form)" <${process.env.EMAIL_FROM}>`,
         to: process.env.EMAIL_FROM || 'info@enjoyfarm.in', // Send to admin
         replyTo: email, // Allows admin to click "Reply" and email the user directly
         subject: `New Contact Form Submission: ${subject}`,
