@@ -101,7 +101,7 @@ export default function AdminAnalyticsPage() {
 
  return (
  <main className="p-6 md:p-10 bg-[#fdfbf7]">
- <div className="mx-auto max-w-[1280px] space-y-8">
+ <div className="w-full mx-auto space-y-8">
  
  {/* Title Block */}
  <div>

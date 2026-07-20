@@ -207,7 +207,7 @@ export default function AdminReservationsPage() {
 
  return (
  <main className="p-6 md:p-10 bg-[#FAF9F6] min-h-screen">
- <div className="mx-auto max-w-[1280px] space-y-8">
+ <div className="w-full mx-auto space-y-8">
  
  {/* Title Block */}
  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

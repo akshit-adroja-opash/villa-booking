@@ -236,7 +236,7 @@ export default function AdminDashboard() {
 
   return (
     <main className="p-6 md:p-10 bg-[#FAF9F6]">
-      <div className="mx-auto max-w-[1280px] space-y-8">
+      <div className="w-full mx-auto space-y-8">
         
         {/* Title Block */}
         <div>
