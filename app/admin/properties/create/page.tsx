@@ -28,7 +28,6 @@ export default function AddPropertyWizardPage() {
  
  const [pricePerNight, setPricePerNight] = useState('');
  const [guests, setGuests] = useState('4');
- const [rating, setRating] = useState('4.8');
  const [bedrooms, setBedrooms] = useState('2');
  const [baths, setBaths] = useState('2');
  
@@ -119,10 +118,9 @@ export default function AddPropertyWizardPage() {
  mapLink,
  category: propertyType,
       isActive,
- rating: Number(rating) || 4.8,
  pricePerNight: Number(pricePerNight),
- guests: Number(guests),
- bedrooms: Number(bedrooms),
+ guests: Number(guests) || 2,
+ bedrooms: Number(bedrooms) || 1,
  baths: Number(baths),
  amenities: selectedAmenities.map(a => a === 'Extra Mattress' ? `Extra Mattress: ${extraMattressCount}` : a),
  images: images.length > 0 ? images : ['https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80'],
@@ -165,16 +163,22 @@ export default function AddPropertyWizardPage() {
  <div className="absolute top-1/2 left-0 -z-10 h-px w-full -translate-y-1/2 bg-gray-100"></div>
  {wizardSteps.map((step) => (
  <div key={step.number} className="flex flex-col items-center gap-2 bg-white px-3">
- <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold ${
+ <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-colors ${
  step.active 
- ? 'bg-[#00a877] text-white font-semibold' 
+ ? 'bg-[#00a877] text-white shadow-md ring-4 ring-[#00a877]/20' 
  : step.number < currentStep 
- ? 'bg-[#1B2A22] text-white' 
- : 'bg-gray-50 border border-gray-200 text-gray-400'
+ ? 'bg-[#00a877] text-white shadow-sm' 
+ : 'bg-gray-50 border-2 border-gray-200 text-gray-400'
  }`}>
- {step.number < currentStep ? <Check className="h-4 w-4"/> : step.number}
+ {step.number < currentStep ? <Check className="h-4 w-4 stroke-[3]"/> : step.number}
  </div>
- <span className={`text-xs font-semibold ${step.active ? 'text-[#00a877]' : 'text-gray-400'}`}>
+ <span className={`text-xs font-bold transition-colors ${
+ step.active 
+ ? 'text-[#00a877]' 
+ : step.number < currentStep 
+ ? 'text-[#00a877]' 
+ : 'text-gray-400'
+ }`}>
  {step.label}
  </span>
  </div>
@@ -521,7 +525,7 @@ export default function AddPropertyWizardPage() {
  <div className="space-y-2 md:col-span-2 pt-2">
  <label className="flex items-center gap-2 text-[13px] font-bold text-[#1B2A22] cursor-pointer w-max">
  <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} className="h-4 w-4 accent-[#00a877] rounded" />
- <span>Is Active (Visible to users)</span>
+ <span>Show this farmhouse on the website</span>
  </label>
  </div>
  

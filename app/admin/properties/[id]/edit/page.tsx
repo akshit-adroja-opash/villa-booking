@@ -31,7 +31,6 @@ export default function EditPropertyWizardPage() {
  
  const [pricePerNight, setPricePerNight] = useState('');
  const [guests, setGuests] = useState('4');
- const [rating, setRating] = useState('4.8');
  const [bedrooms, setBedrooms] = useState('2');
  const [baths, setBaths] = useState('2');
  
@@ -66,7 +65,6 @@ export default function EditPropertyWizardPage() {
  setGuests(data.guests?.toString() || '');
  setBedrooms(data.bedrooms?.toString() || '');
  setBaths(data.baths?.toString() || '');
- setRating(data.rating?.toString() || '4.8');
  
  const loadedAmenities = data.amenities || [];
  const mattressAmenity = loadedAmenities.find((a: string) => a.startsWith('Extra Mattress'));
@@ -169,7 +167,6 @@ export default function EditPropertyWizardPage() {
  mapLink,
  category: propertyType,
       isActive,
- rating: Number(rating) || 4.8,
  pricePerNight: Number(pricePerNight),
  guests: Number(guests),
  bedrooms: Number(bedrooms),
@@ -222,16 +219,22 @@ export default function EditPropertyWizardPage() {
  <div className="absolute top-1/2 left-0 -z-10 h-px w-full -translate-y-1/2 bg-gray-100"></div>
  {wizardSteps.map((step) => (
  <div key={step.number} className="flex flex-col items-center gap-2 bg-white px-3">
- <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold ${
+ <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-colors ${
  step.active 
- ? 'bg-[#00a877] text-white font-semibold' 
+ ? 'bg-[#00a877] text-white shadow-md ring-4 ring-[#00a877]/20' 
  : step.number < currentStep 
- ? 'bg-[#1B2A22] text-white' 
- : 'bg-gray-50 border border-gray-200 text-gray-400'
+ ? 'bg-[#00a877] text-white shadow-sm' 
+ : 'bg-gray-50 border-2 border-gray-200 text-gray-400'
  }`}>
- {step.number < currentStep ? <Check className="h-4 w-4"/> : step.number}
+ {step.number < currentStep ? <Check className="h-4 w-4 stroke-[3]"/> : step.number}
  </div>
- <span className={`text-xs font-semibold ${step.active ? 'text-[#00a877]' : 'text-gray-400'}`}>
+ <span className={`text-xs font-bold transition-colors ${
+ step.active 
+ ? 'text-[#00a877]' 
+ : step.number < currentStep 
+ ? 'text-[#00a877]' 
+ : 'text-gray-400'
+ }`}>
  {step.label}
  </span>
  </div>
@@ -312,22 +315,6 @@ export default function EditPropertyWizardPage() {
  onChange={(e) => setMapLink(e.target.value)}
  placeholder="https://maps.app.goo.gl/..."
  className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  pl-10 pr-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
- />
- </div>
- <div className="space-y-2">
- <label htmlFor="rating"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
- Rating
- </label>
- <input 
- id="rating"
- type="number"
- step="0.1"
- min="1"
- max="5"
- value={rating}
- onChange={(e) => setRating(e.target.value)}
- placeholder="e.g. 4.8"
- className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
  />
  </div>
  </div>
@@ -592,7 +579,7 @@ export default function EditPropertyWizardPage() {
  <div className="space-y-2 md:col-span-2 pt-2">
  <label className="flex items-center gap-2 text-[13px] font-bold text-[#1B2A22] cursor-pointer w-max">
  <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} className="h-4 w-4 accent-[#00a877] rounded" />
- <span>Is Active (Visible to users)</span>
+ <span>Show this farmhouse on the website</span>
  </label>
  </div>
  
