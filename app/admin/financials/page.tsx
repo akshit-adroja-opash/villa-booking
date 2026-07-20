@@ -104,9 +104,9 @@ export default function AdminFinancialsPage() {
   const sortedTransactions = useMemo(() => {
     return [...bookings].sort((a, b) => {
       if (sortFilter === 'newest') {
-        return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
+        return new Date(b.createdAt || b.startDate).getTime() - new Date(a.createdAt || a.startDate).getTime();
       } else if (sortFilter === 'oldest') {
-        return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+        return new Date(a.createdAt || a.startDate).getTime() - new Date(b.createdAt || b.startDate).getTime();
       } else if (sortFilter === 'amount-high') {
         return (b.totalPrice || 0) - (a.totalPrice || 0);
       } else if (sortFilter === 'amount-low') {

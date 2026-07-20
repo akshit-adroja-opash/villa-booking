@@ -485,7 +485,7 @@ export default function AdminDashboard() {
                   <tr>
                     <td colSpan={6} className="px-8 py-8 text-center text-gray-400 font-medium">No recent bookings.</td>
                   </tr>
-                ) : [...bookings].sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()).slice(0, 5).map((booking, index) => {
+                ) : [...bookings].sort((a, b) => new Date(b.createdAt || b.startDate).getTime() - new Date(a.createdAt || a.startDate).getTime()).slice(0, 5).map((booking, index) => {
                   const farmTitle = booking.farmId?.title || 'Deleted Property';
                   const guestName = booking.userId?.name || 'Guest';
                   
