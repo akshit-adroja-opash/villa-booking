@@ -312,12 +312,12 @@ export default function AdminReservationsPage() {
  <table className="w-full min-w-[900px] text-left border-collapse whitespace-nowrap">
  <thead>
  <tr className="bg-[#fafafa] text-[10px] font-bold text-gray-400 tracking-wider uppercase border-b border-gray-100">
- <th className="px-8 py-5">Guest</th>
- <th className="px-6 py-5">Property</th>
- <th className="px-6 py-5">Dates</th>
- <th className="px-6 py-5">Total</th>
- <th className="px-6 py-5">Status</th>
- <th className="px-6 py-5">Action</th>
+ <th className="px-8 py-5 w-[25%]">Guest</th>
+ <th className="px-6 py-5 w-[25%]">Property</th>
+ <th className="px-6 py-5 w-[20%]">Dates</th>
+ <th className="px-6 py-5 w-[10%]">Total</th>
+ <th className="px-6 py-5 w-[10%]">Status</th>
+ <th className="px-6 py-5 w-[10%]">Action</th>
  </tr>
  </thead>
  <tbody className="divide-y divide-gray-50 text-[13px] font-semibold text-[#1B2A22]">

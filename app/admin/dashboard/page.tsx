@@ -472,12 +472,12 @@ export default function AdminDashboard() {
             <table className="w-full text-left border-collapse min-w-[800px]">
               <thead>
                 <tr className="bg-[#fafafa] text-[10px] uppercase tracking-wider font-bold text-gray-400">
-                  <th className="px-6 md:px-8 py-4">ID</th>
-                  <th className="px-6 py-4">Property</th>
-                  <th className="px-6 py-4">Guest</th>
-                  <th className="px-6 py-4">Dates</th>
-                  <th className="px-6 py-4">Amount</th>
-                  <th className="px-6 md:px-8 py-4">Status</th>
+                  <th className="px-6 md:px-8 py-4 w-[10%]">ID</th>
+                  <th className="px-6 py-4 w-[25%]">Property</th>
+                  <th className="px-6 py-4 w-[15%]">Guest</th>
+                  <th className="px-6 py-4 w-[20%]">Dates</th>
+                  <th className="px-6 py-4 w-[15%]">Amount</th>
+                  <th className="px-6 md:px-8 py-4 w-[15%] text-right">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 text-[13px] font-semibold text-[#1B2A22]">
@@ -515,7 +515,7 @@ export default function AdminDashboard() {
                       <td className="px-6 py-5 text-gray-500">{guestName}</td>
                       <td className="px-6 py-5 text-gray-500">{dateRangeDisplay}</td>
                       <td className="px-6 py-5 font-sans tracking-tight font-bold">₹{amount.toLocaleString('en-IN')}</td>
-                      <td className="px-6 md:px-8 py-5">
+                      <td className="px-6 md:px-8 py-5 text-right">
                         <span className={`inline-block px-3 py-1 text-[11px] font-bold rounded-full tracking-wide ${
                           status.toLowerCase() === 'paid' || status.toLowerCase() === 'confirmed' || status.toLowerCase() === 'completed'
                             ? 'bg-[#e6f4ea] text-[#00a877]'
