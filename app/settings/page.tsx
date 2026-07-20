@@ -233,7 +233,7 @@ export default function SettingsPage() {
  {role}
  </span>
  <span className="text-[11px] font-bold text-gray-400 mt-1">
- Member Profile Settings
+ user Profile Settings
  </span>
  </div>
  </div>

@@ -119,7 +119,7 @@ export default function FarmDetailPage() {
  const data = await res.json();
  if (!data) throw new Error('Not found');
  const cleanRating = Number(data.rating === 4.8 && data._id ? (4.5 + (parseInt(data._id.slice(-4), 16) % 6) / 10).toFixed(1) : Number(data.rating || 4.7).toFixed(1));
- const cleanAcres = data.acres || Math.round((data.pricePerNight / 1000) + (data.bedrooms || 1));
+
  
  setFarm({
  _id: data._id,
@@ -137,7 +137,7 @@ export default function FarmDetailPage() {
  baths: data.baths || 2,
  rating: cleanRating,
  reviewsCount: data.reviewsCount || Math.round(cleanRating * 30 + (data.pricePerNight % 100)),
- acres: cleanAcres
+ acres: data.acres
  });
  } else {
  setFarm(null);
@@ -502,10 +502,10 @@ export default function FarmDetailPage() {
  </div>
 
  {/* Detail Split Column Panel */}
- <div className="flex flex-col gap-16 lg:flex-row mt-12">
+ <div className="flex flex-col lg:grid lg:grid-cols-12 lg:gap-x-10 mt-12">
  
  {/* Main Info */}
- <div className="w-full lg:w-[60%] lg:pr-10">
+ <div className="w-full lg:col-span-7 order-1 flex flex-col">
  
  {/* Highlights Section */}
  <div className="mb-8">
@@ -514,6 +514,12 @@ export default function FarmDetailPage() {
  <span className="flex items-center gap-1.5"><Users className="h-4 w-4 text-gray-400"/> {farm.guests} guests</span>
  <span className="text-gray-300 mx-1">·</span>
  <span className="flex items-center gap-1.5"><Bed className="h-4 w-4 text-gray-400"/> {farm.bedrooms} bedrooms</span>
+ {farm.acres && (
+   <>
+     <span className="text-gray-300 mx-1">·</span>
+     <span className="flex items-center gap-1.5"><Compass className="h-4 w-4 text-gray-400"/> {farm.acres} Acres</span>
+   </>
+ )}
  </div>
  </div>
 
@@ -666,10 +672,12 @@ export default function FarmDetailPage() {
  </div>
  </div>
  </div>
+ </div>
 
-  {/* Guest Reviews Section */}
-  <div className="pb-10 mb-10 border-t border-gray-100 pt-10">
-    <div className="flex items-center gap-3 mb-8">
+ {/* Guest Reviews Section */}
+ <div className="w-full lg:col-span-7 order-3 mt-12 lg:mt-0">
+ <div className="pb-10 mb-10 border-t border-gray-100 pt-10">
+   <div className="flex items-center gap-3 mb-8">
       <div className="w-1.5 h-6 bg-[#002E1E] rounded-sm"></div>
       <h3 className="font-sans text-xl font-bold text-[#002E1E]">Guest Reviews</h3>
     </div>
@@ -737,8 +745,8 @@ export default function FarmDetailPage() {
   </div>
   </div>
 
-  {/* Booking / Sticky Card Column */}
- <div className="w-full lg:w-[40%]">
+ {/* Booking / Sticky Card Column */}
+ <div className="w-full lg:col-span-5 lg:row-span-2 order-2 mt-8 lg:mt-0">
  <div className="sticky top-28">
  <div className="bg-white border border-gray-100 rounded-3xl p-7 shadow-sm">
  

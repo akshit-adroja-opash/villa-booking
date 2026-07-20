@@ -11,6 +11,7 @@ const FarmSchema = new Schema({
   guests: { type: Number, default: 2 },
   bedrooms: { type: Number, default: 1 },
   baths: { type: Number, default: 1 },
+  acres: { type: Number },
   rating: { type: Number, default: 4.8 },
   category: { type: String, default: 'Farmhouse' },
   isActive: { type: Boolean, default: true },

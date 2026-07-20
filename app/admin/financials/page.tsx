@@ -46,8 +46,8 @@ export default function AdminFinancialsPage() {
  loadBookings();
  }, []);
 
- const paidBookings = bookings.filter((booking) => booking.paymentStatus === 'Paid' || booking.paymentStatus?.toLowerCase() === 'confirmed');
- const pendingBookings = bookings.filter((booking) => booking.paymentStatus !== 'Paid' && booking.paymentStatus?.toLowerCase() !== 'confirmed');
+ const paidBookings = bookings.filter((booking) => booking.adminConfirmed);
+ const pendingBookings = bookings.filter((booking) => !booking.adminConfirmed);
  const grossRevenue = paidBookings.reduce((sum, booking) => sum + (booking.totalPrice || 0), 0);
  const pendingRevenue = pendingBookings.reduce((sum, booking) => sum + (booking.totalPrice || 0), 0);
 

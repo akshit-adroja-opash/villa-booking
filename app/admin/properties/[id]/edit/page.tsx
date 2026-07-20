@@ -33,6 +33,7 @@ export default function EditPropertyWizardPage() {
  const [guests, setGuests] = useState('4');
  const [bedrooms, setBedrooms] = useState('2');
  const [baths, setBaths] = useState('2');
+ const [acres, setAcres] = useState('');
  
  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
  const [extraMattressCount, setExtraMattressCount] = useState<number>(1);
@@ -65,6 +66,7 @@ export default function EditPropertyWizardPage() {
  setGuests(data.guests?.toString() || '');
  setBedrooms(data.bedrooms?.toString() || '');
  setBaths(data.baths?.toString() || '');
+ setAcres(data.acres?.toString() || '');
  setIsActive(data.isActive !== undefined ? data.isActive : true);
  
  const loadedAmenities = data.amenities || [];
@@ -172,6 +174,7 @@ export default function EditPropertyWizardPage() {
  guests: Number(guests),
  bedrooms: Number(bedrooms),
  baths: Number(baths),
+ acres: acres ? Number(acres) : undefined,
  amenities: selectedAmenities.map(a => a === 'Extra Mattress' ? `Extra Mattress: ${extraMattressCount}` : a),
  images: images.length > 0 ? images : ['https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80'],
  }),
@@ -403,6 +406,22 @@ export default function EditPropertyWizardPage() {
  onChange={(e) => setBaths(e.target.value)}
  placeholder="e.g. 2"
  className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
+ />
+ </div>
+
+ <div className="space-y-2">
+ <label htmlFor="acres"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
+ Acres <span className="text-gray-400 font-normal">(Optional)</span>
+ </label>
+ <input 
+ id="acres"
+ type="number"
+ min="0"
+ step="0.1"
+ value={acres}
+ onChange={(e) => setAcres(e.target.value)}
+ placeholder="e.g. 5"
+ className="w-full rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
  />
  </div>
  </div>

@@ -312,7 +312,7 @@ export default function UserManagementPage() {
 
   <div className="flex w-full md:w-auto items-center gap-4">
     {/* Role selector dropdown */}
-    <div className="w-full md:w-auto min-w-[160px] relative">
+    <div className="flex-1 md:flex-none md:w-auto min-w-[140px] md:min-w-[160px] relative">
     <div className="relative">
     <button 
     onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
@@ -362,7 +362,7 @@ export default function UserManagementPage() {
     </div>
 
     {/* Sort selector dropdown */}
-    <div className="w-full md:w-auto min-w-[160px] relative">
+    <div className="flex-1 md:flex-none md:w-auto min-w-[140px] md:min-w-[160px] relative">
     <div className="relative">
     <button 
     onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
