@@ -34,7 +34,9 @@ import {
  Ban,
  ChevronLeft,
  ChevronRight,
- ChevronDown
+ ChevronDown,
+  Star,
+  StarHalf
 } from 'lucide-react';
 
 interface FarmDetails {
@@ -101,6 +103,10 @@ export default function FarmDetailPage() {
  const [showAllPhotosModal, setShowAllPhotosModal] = useState(false);
  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
  const [openPolicy, setOpenPolicy] = useState<'rules' | 'cancellation' | null>(null);
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviewText, setReviewText] = useState('');
+  const [reviewRating, setReviewRating] = useState(0);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
  useEffect(() => {
  if (!id) return;
@@ -165,7 +171,22 @@ export default function FarmDetailPage() {
  }
 
  fetchFarmBookings();
- }, [farm]);
+    
+    async function fetchReviews() {
+      try {
+        const farmId = farm?._id || (farm as any)?.id;
+        if (!farmId) return;
+        const res = await fetch(`/api/reviews?farmId=${farmId}`);
+        if (res.ok) {
+          const data = await res.json();
+          setReviews(data);
+        }
+      } catch (err) {
+        console.error('Error fetching reviews:', err);
+      }
+    }
+    fetchReviews();
+  }, [farm]);
 
  const checkInExcludeDates = useMemo(() => {
  const dates: Date[] = [];
@@ -180,7 +201,52 @@ export default function FarmDetailPage() {
  }
  });
  return dates;
- }, [existingBookings]);
+  }, [existingBookings]);
+
+  const submitReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!session?.user) {
+      toast.error('Please sign in to leave a review.');
+      router.push('/login');
+      return;
+    }
+    if (!reviewText.trim()) {
+      toast.error('Please enter your review text.');
+      return;
+    }
+    if (reviewRating === 0) {
+      toast.error('Please select a star rating.');
+      return;
+    }
+    setIsSubmittingReview(true);
+    try {
+      const farmId = farm?._id || (farm as any)?.id;
+      const res = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          farmId,
+          name: (session.user as any).name || 'Guest',
+          text: reviewText,
+          rating: reviewRating,
+          img: (session.user as any).image || undefined,
+        })
+      });
+      if (res.ok) {
+        const newReview = await res.json();
+        setReviews([newReview, ...reviews]);
+        setReviewText('');
+        setReviewRating(0);
+        toast.success('Review submitted successfully!');
+      } else {
+        toast.error('Failed to submit review.');
+      }
+    } catch (err) {
+      toast.error('Could not submit review.');
+    } finally {
+      setIsSubmittingReview(false);
+    }
+  };
 
  const checkOutExcludeDates = useMemo(() => {
  const dates: Date[] = [];
@@ -443,13 +509,11 @@ export default function FarmDetailPage() {
  
  {/* Highlights Section */}
  <div className="mb-8">
- <h2 className="font-serif text-[26px] font-bold text-[#002E1E] mb-4">Entire Farmhouse hosted by AgriStay</h2>
+ <h2 className="font-serif text-[26px] font-bold text-[#002E1E] mb-4">Entire Farmhouse hosted by Enjoy Farm</h2>
  <div className="flex items-center flex-wrap gap-2 text-[14px] text-gray-600 font-bold">
  <span className="flex items-center gap-1.5"><Users className="h-4 w-4 text-gray-400"/> {farm.guests} guests</span>
  <span className="text-gray-300 mx-1">·</span>
  <span className="flex items-center gap-1.5"><Bed className="h-4 w-4 text-gray-400"/> {farm.bedrooms} bedrooms</span>
- <span className="text-gray-300 mx-1">·</span>
- <span className="flex items-center gap-1.5"><Compass className="h-4 w-4 text-gray-400"/> {farm.acres || 8} Acres</span>
  </div>
  </div>
 
@@ -602,9 +666,78 @@ export default function FarmDetailPage() {
  </div>
  </div>
  </div>
- </div>
 
- {/* Booking / Sticky Card Column */}
+  {/* Guest Reviews Section */}
+  <div className="pb-10 mb-10 border-t border-gray-100 pt-10">
+    <div className="flex items-center gap-3 mb-8">
+      <div className="w-1.5 h-6 bg-[#002E1E] rounded-sm"></div>
+      <h3 className="font-sans text-xl font-bold text-[#002E1E]">Guest Reviews</h3>
+    </div>
+
+    <form onSubmit={submitReview} className="mb-10 p-6 bg-white border border-gray-100 rounded-xl shadow-sm">
+      <h4 className="font-bold text-[#1B2A22] mb-4">Leave a Review</h4>
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-[13px] font-bold text-gray-600">Rating:</span>
+        <div className="flex gap-1">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button
+              key={star}
+              type="button"
+              onClick={() => setReviewRating(star)}
+              className="focus:outline-none"
+            >
+              <Star className={`h-6 w-6 transition-colors ${star <= reviewRating ? 'fill-amber-400 text-amber-400' : 'text-gray-300 hover:text-amber-300'}`} />
+            </button>
+          ))}
+        </div>
+      </div>
+      <textarea
+        rows={3}
+        value={reviewText}
+        onChange={(e) => setReviewText(e.target.value)}
+        placeholder="Share your experience at this farmhouse..."
+        className="w-full rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white resize-none mb-4"
+      />
+      <button 
+        type="submit"
+        disabled={isSubmittingReview}
+        className="bg-[#00a877] hover:bg-[#009669] px-6 py-2.5 rounded-lg text-sm font-bold text-white transition-colors shadow-sm disabled:opacity-50"
+      >
+        {isSubmittingReview ? 'Submitting...' : 'Submit Review'}
+      </button>
+    </form>
+
+    {reviews.length > 0 ? (
+      <div className="space-y-6">
+        {reviews.map((rev: any, idx: number) => (
+          <div key={idx} className="p-6 bg-white border border-gray-100 rounded-xl shadow-sm">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <img src={rev.img || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'} alt={rev.name} className="w-10 h-10 rounded-full object-cover border border-gray-100" />
+                <div>
+                  <p className="font-bold text-[#1B2A22] text-sm">{rev.name}</p>
+                  <p className="text-[11px] text-gray-500 font-bold tracking-wide uppercase">{new Date(rev.createdAt || Date.now()).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-1 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-100">
+                <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                <span className="text-xs font-bold text-amber-900">{rev.rating || 5}</span>
+              </div>
+            </div>
+            <p className="text-[14px] text-gray-600 font-medium leading-relaxed mt-2">{rev.text}</p>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-100 border-dashed">
+        <MessageCircle className="h-8 w-8 text-gray-300 mx-auto mb-3" />
+        <p className="text-[14px] font-bold text-gray-500">No reviews yet. Be the first to review!</p>
+      </div>
+    )}
+  </div>
+  </div>
+
+  {/* Booking / Sticky Card Column */}
  <div className="w-full lg:w-[40%]">
  <div className="sticky top-28">
  <div className="bg-white border border-gray-100 rounded-3xl p-7 shadow-sm">
@@ -706,7 +839,7 @@ export default function FarmDetailPage() {
  <div className="shrink-0 pt-0.5">
  <Info className="w-[18px] h-[18px] fill-[#f5a623] text-white" />
  </div>
- <div className="flex flex-col">
+ <div className="flex flex-col">  
  <div className="flex items-center gap-2 mb-1 flex-wrap">
  <span className="font-bold text-[#333333] text-[14px]">₹2000 Security Deposit</span>
  <span className="bg-[#f5a623] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">Pay at Check-in</span>

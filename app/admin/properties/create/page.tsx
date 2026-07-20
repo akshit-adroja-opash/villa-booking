@@ -28,6 +28,7 @@ export default function AddPropertyWizardPage() {
  
  const [pricePerNight, setPricePerNight] = useState('');
  const [guests, setGuests] = useState('4');
+ const [rating, setRating] = useState('4.8');
  const [bedrooms, setBedrooms] = useState('2');
  const [baths, setBaths] = useState('2');
  
@@ -118,6 +119,7 @@ export default function AddPropertyWizardPage() {
  mapLink,
  category: propertyType,
       isActive,
+ rating: Number(rating) || 4.8,
  pricePerNight: Number(pricePerNight),
  guests: Number(guests),
  bedrooms: Number(bedrooms),

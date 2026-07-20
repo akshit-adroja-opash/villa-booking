@@ -2,10 +2,15 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Review from '@/models/Review';
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     await dbConnect();
-    const reviews = await Review.find({}).sort({ createdAt: -1 });
+    const { searchParams } = new URL(req.url);
+    const farmId = searchParams.get('farmId');
+    
+    const filter = farmId ? { farmId } : {};
+    
+    const reviews = await Review.find(filter).sort({ createdAt: -1 });
     return NextResponse.json(reviews, { status: 200 });
   } catch (error) {
     console.error('Failed to fetch reviews:', error);

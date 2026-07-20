@@ -50,7 +50,7 @@ export default function Home() {
  const activeData = data.filter((f: any) => f.isActive !== false);
  const formatted = activeData.map((farm: any) => ({
   ...farm,
-  rating: farm.rating === 4.8 && farm._id ? (4.5 + (parseInt(farm._id.slice(-4), 16) % 6) / 10).toFixed(1) : Number(farm.rating || 4.5).toFixed(1)
+  rating: Number(farm.rating || 4.5).toFixed(1)
  }));
  setFarms(formatted);
  }

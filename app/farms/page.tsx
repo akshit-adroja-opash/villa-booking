@@ -43,7 +43,7 @@ function StaysList() {
  const activeData = data.filter((f: any) => f.isActive !== false);
  const formatted = activeData.map((farm: any) => {
  const cleanTitle = farm.title || 'Premium Farmhouse';
- const cleanRating = farm.rating === 4.8 && farm._id ? (4.5 + (parseInt(farm._id.slice(-4), 16) % 6) / 10).toFixed(1) : Number(farm.rating || 4.5).toFixed(1);
+ const cleanRating = Number(farm.rating || 4.5).toFixed(1);
  const cleanAcres = farm.acres || Math.round((farm.pricePerNight / 1000) + (farm.bedrooms || 1));
  return {
  ...farm,
