@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronDown, MessageCircle, PhoneCall, Mail } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 const FAQS = [
   {

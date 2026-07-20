@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Bath, BedDouble, Home, MapPin, Plus, Search, Users, Trash2, ShieldCheck } from 'lucide-react';
+import { BedDouble, Home, MapPin, Plus, Search, Users, Trash2, ShieldCheck } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 type Farm = {

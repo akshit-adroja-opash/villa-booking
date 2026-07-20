@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, MessageCircle, Clock, ArrowRight, PhoneCall, Loader2 } from 'lucide-react';
+import { Mail, Phone, MapPin, MessageCircle, Clock, PhoneCall, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function ContactPage() {
