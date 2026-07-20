@@ -17,6 +17,8 @@ type Booking = {
  name?: string;
  email?: string;
  };
+ adminConfirmed?: boolean;
+ createdAt?: string;
 };
 
 export default function AdminFinancialsPage() {

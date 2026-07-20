@@ -20,6 +20,7 @@ type Booking = {
  email?: string;
  };
  adminConfirmed?: boolean;
+ createdAt?: string;
 };
 
 function formatDateRange(startDate: string, endDate: string) {
@@ -62,6 +63,7 @@ function getInitials(name?: string) {
 export default function AdminReservationsPage() {
  const [bookings, setBookings] = useState<Booking[]>([]);
  const [loading, setLoading] = useState(true);
+ const [updatingId, setUpdatingId] = useState<string | null>(null);
  const [query, setQuery] = useState('');
  const [currentPage, setCurrentPage] = useState(1);
  const itemsPerPage = 8;
@@ -75,6 +77,7 @@ export default function AdminReservationsPage() {
 
  const toggleConfirm = async (id: string, currentStatus: boolean) => {
    try {
+     setUpdatingId(id);
      const res = await fetch(`/api/bookings/${id}`, {
        method: 'PATCH',
        headers: { 'Content-Type': 'application/json' },
@@ -82,12 +85,14 @@ export default function AdminReservationsPage() {
      });
      if (res.ok) {
        toast.success(currentStatus ? 'Booking unconfirmed' : 'Booking confirmed');
-       setBookings(bookings.map(b => b._id === id ? { ...b, adminConfirmed: !currentStatus } : b));
+       setBookings(prev => prev.map(b => b._id === id ? { ...b, adminConfirmed: !currentStatus } : b));
      } else {
        toast.error('Failed to update status');
      }
    } catch (error) {
      toast.error('Could not update status.');
+   } finally {
+     setUpdatingId(null);
    }
  };
 
@@ -151,8 +156,8 @@ export default function AdminReservationsPage() {
  const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
  const paginatedBookings = filteredBookings.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
- const totalRevenue = bookings.reduce((sum, booking) => sum + (booking.totalPrice || 0), 0);
- const confirmedBookings = bookings.filter((booking) => booking.paymentStatus === 'Paid' || booking.paymentStatus?.toLowerCase() === 'confirmed').length;
+ const totalRevenue = bookings.filter(b => b.adminConfirmed).reduce((sum, booking) => sum + (booking.totalPrice || 0), 0);
+ const confirmedBookings = bookings.filter((booking) => booking.adminConfirmed).length;
  const upcomingBookings = bookings.filter((booking) => new Date(booking.startDate) >= new Date()).length;
 
  const handleExport = () => {
@@ -318,7 +323,7 @@ export default function AdminReservationsPage() {
  <tbody className="divide-y divide-gray-50 text-[13px] font-semibold text-[#1B2A22]">
  {filteredBookings.length === 0 ? (
  <tr>
- <td colSpan={5} className="px-8 py-12 text-center text-gray-400 font-medium">
+ <td colSpan={6} className="px-8 py-12 text-center text-gray-400 font-medium">
  No bookings found.
  </td>
  </tr>
@@ -366,16 +371,21 @@ export default function AdminReservationsPage() {
  </span>
  </td>
  <td className="px-6 py-5">
- <button 
-   onClick={() => toggleConfirm(booking._id, !!booking.adminConfirmed)}
-   className={`px-4 py-1.5 text-[11px] font-bold rounded-lg transition-colors ${
-     booking.adminConfirmed 
-     ? 'bg-red-50 text-red-600 hover:bg-red-100' 
-     : 'bg-[#00a877] text-white hover:bg-[#009669]'
-   }`}
- >
-   {booking.adminConfirmed ? 'Cancel' : 'Confirm'}
- </button>
+  <button 
+    onClick={() => toggleConfirm(booking._id, !!booking.adminConfirmed)}
+    disabled={updatingId === booking._id}
+    className={`px-4 py-1.5 text-[11px] font-bold rounded-lg transition-colors flex items-center justify-center min-w-[70px] ${
+      booking.adminConfirmed 
+      ? 'bg-red-50 text-red-600 hover:bg-red-100' 
+      : 'bg-[#00a877] text-white hover:bg-[#009669]'
+    } ${updatingId === booking._id ? 'opacity-70 cursor-not-allowed' : ''}`}
+  >
+    {updatingId === booking._id ? (
+      <div className="h-3.5 w-3.5 animate-spin border-2 border-current border-t-transparent rounded-full"></div>
+    ) : (
+      booking.adminConfirmed ? 'Cancel' : 'Confirm'
+    )}
+  </button>
  </td>
  </tr>
  );
