@@ -29,11 +29,11 @@ export async function sendBookingEmail(to: string, bookingDetails: any) {
           </div>
           <div style="padding: 40px 30px;">
             <p style="font-size: 16px; line-height: 1.6; margin-bottom: 24px; color: #4a5568;">
-              Thank you for choosing <strong>${bookingDetails.farmName}</strong>! We are thrilled to host you and have successfully confirmed your reservation.
+              Thank you for choosing <strong>${bookingDetails.farmName}</strong>! We are thrilled to host you and have successfully confirmed your booking.
             </p>
             
             <div style="background-color: #FAF9F6; border-radius: 12px; padding: 24px; margin-bottom: 30px; border: 1px solid #e2e8f0;">
-              <h3 style="margin-top: 0; color: #1B2A22; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 16px;">Reservation Details</h3>
+              <h3 style="margin-top: 0; color: #1B2A22; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 16px;">Booking Details</h3>
               
               <table style="width: 100%; border-collapse: collapse;">
                 <tr>
@@ -145,7 +145,7 @@ export async function sendWelcomeEmail(to: string, name: string) {
               Thank you for registering an account with us. We are absolutely thrilled to welcome you to the Enjoy Farm community!
             </p>
             <p style="font-size: 16px; line-height: 1.6; margin-bottom: 30px; color: #4a5568;">
-              With your new account, you can now explore our curated collection of premium farmhouses, save your favorites, and manage your reservations effortlessly.
+              With your new account, you can now explore our curated collection of premium farmhouses, save your favorites, and manage your bookings effortlessly.
             </p>
             
             <div style="text-align: center; margin-bottom: 30px;">

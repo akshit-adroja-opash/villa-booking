@@ -85,7 +85,7 @@ export default function Home() {
  e.preventDefault();
  e.stopPropagation();
  if (!session?.user) {
- toast.error('Please sign in to save estates to your collection.');
+ toast.error('Please sign in to save farmhouses to your collection.');
  router.push('/login');
  return;
  }
@@ -210,7 +210,7 @@ LUXURY & NATURE
  </button>
  </div>
 
- {/* Estate details */}
+ {/* Farmhouse details */}
  <div className="flex flex-col flex-grow p-5">
  {/* Location */}
  <div className="flex items-center gap-1.5 text-xs text-[#1B2A22]/50 font-medium mb-3">

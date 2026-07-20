@@ -28,7 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
  React.useEffect(() => {
  if (status === 'loading') return;
  if (!session || adminUser?.role !== 'admin') {
- toast.error('Access Denied: Admins Only');
+ toast.error('Admin access required');
  router.push('/');
  }
  }, [adminUser?.role, session, status, router]);
@@ -56,7 +56,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
  { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
  { href: '/admin/users', icon: Users, label: 'User Management' },
  { href: '/admin/properties', icon: Home, label: 'Farmhouses' },
- { href: '/admin/reservations', icon: CalendarDays, label: 'Bookings' },
+ { href: '/admin/bookings', icon: CalendarDays, label: 'Bookings' },
  { href: '/admin/financials', icon: CreditCard, label: 'Revenue' },
  { href: '/admin/settings', icon: Settings, label: 'Settings' },
  ];

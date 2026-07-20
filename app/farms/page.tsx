@@ -42,7 +42,7 @@ function StaysList() {
  if (data && data.length > 0) {
  const activeData = data.filter((f: any) => f.isActive !== false);
  const formatted = activeData.map((farm: any) => {
- const cleanTitle = farm.title || 'Premium Estate';
+ const cleanTitle = farm.title || 'Premium Farmhouse';
  const cleanRating = farm.rating === 4.8 && farm._id ? (4.5 + (parseInt(farm._id.slice(-4), 16) % 6) / 10).toFixed(1) : Number(farm.rating || 4.5).toFixed(1);
  const cleanAcres = farm.acres || Math.round((farm.pricePerNight / 1000) + (farm.bedrooms || 1));
  return {
@@ -96,7 +96,7 @@ function StaysList() {
  e.preventDefault();
  e.stopPropagation();
  if (!session?.user) {
- toast.error('Please sign in to save estates to your collection.');
+ toast.error('Please sign in to save farmhouses to your collection.');
  router.push('/login');
  return;
  }
@@ -262,7 +262,7 @@ function StaysList() {
  </button>
  </div>
 
- {/* Estate details */}
+ {/* Farmhouse details */}
  <div className="flex flex-col flex-grow px-2 pb-2">
  {/* Location */}
  <div className="flex items-center gap-1.5 text-xs font-medium mb-2.5">

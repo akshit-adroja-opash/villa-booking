@@ -84,7 +84,7 @@ export default function AddPropertyWizardPage() {
  }
  } catch (err) {
  console.error(err);
- toast.error('Error uploading image.');
+ toast.error('Could not upload image.');
  } finally {
  setUploading(false);
  }
@@ -128,15 +128,15 @@ export default function AddPropertyWizardPage() {
  });
 
  if (res.ok) {
- toast.success('Property created successfully!');
+ toast.success('Farmhouse created successfully!');
  router.push('/admin/properties');
  } else {
  const data = await res.json();
- toast.error(data.error || 'Failed to create property.');
+ toast.error(data.error || 'Failed to create farmhouse.');
  }
  } catch (err) {
  console.error(err);
- toast.error('Error creating property.');
+ toast.error('Could not create farmhouse.');
  } finally {
  setSaving(false);
  }
@@ -269,7 +269,7 @@ export default function AddPropertyWizardPage() {
  >
  <option value="farmhouse">Farmhouse</option>
  <option value="cabin">Cabin</option>
- <option value="estate">Estate</option>
+ <option value="farmhouse">Farmhouse</option>
  <option value="villa">Villa</option>
  </select>
  </div>

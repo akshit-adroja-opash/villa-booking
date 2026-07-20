@@ -73,7 +73,7 @@ function ResetPasswordContent() {
       }
     } catch (error) {
       console.error(error);
-      toast.error('An error occurred. Please try again.');
+      toast.error('Something went wrong, try again.');
     } finally {
       setLoading(false);
     }

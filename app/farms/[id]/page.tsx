@@ -235,7 +235,7 @@ export default function FarmDetailPage() {
  if (!farm) {
  return (
  <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
- <p className="font-serif text-2xl text-[#1B2A22]">Estate not found.</p>
+ <p className="font-serif text-2xl text-[#1B2A22]">Farmhouse not found.</p>
  </div>
  );
  }
@@ -267,7 +267,7 @@ export default function FarmDetailPage() {
 
  const handleBooking = async () => {
  if (!session?.user) {
- toast.error('Please sign in to complete your reservation.');
+ toast.error('Please sign in to complete your booking.');
  router.push('/login');
  return;
  }
@@ -288,7 +288,7 @@ export default function FarmDetailPage() {
  }
 
  if (hasConflict) {
- toast.error('This estate is already reserved for the selected dates. Please choose different dates.');
+ toast.error('This farmhouse is already reserved for the selected dates. Please choose different dates.');
  return;
  }
 
@@ -342,7 +342,7 @@ export default function FarmDetailPage() {
  });
 
  if (res.ok) {
- toast.success('Reservation Confirmed Successfully!');
+ toast.success('Booking Confirmed Successfully!');
  
  const checkInStr = startDate ? startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' at 6:00 PM' : '';
  const checkOutStr = endDate ? endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' at 5:00 PM' : '';
@@ -356,11 +356,11 @@ export default function FarmDetailPage() {
  router.push('/dashboard/bookings');
  } else {
  const errorData = await res.json();
- toast.error(errorData.error || 'Failed to place reservation.');
+ toast.error(errorData.error || 'Failed to place booking.');
  }
  } catch (err) {
  console.error(err);
- toast.error('Error confirming reservation.');
+ toast.error('Could not confirm booking.');
  } finally {
  setBookingLoading(false);
  }

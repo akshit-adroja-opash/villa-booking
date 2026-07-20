@@ -317,7 +317,7 @@ export default function BookingsDashboardPage() {
  GSTIN: 27AABCA1234D1Z5
  </div>
  </div>
- <div class="title">Reservation Receipt</div>
+ <div class="title">Booking Receipt</div>
  </div>
 
  <div class="grid">
@@ -332,7 +332,7 @@ export default function BookingsDashboardPage() {
  </div>
  </div>
  <div class="card">
- <div class="label">Reservation Details</div>
+ <div class="label">Booking Details</div>
  <div class="value"style="font-family: sans-serif; font-size: 13px; line-height: 1.8; opacity: 0.8;">
  <strong>Receipt No:</strong> EST-${booking._id.slice(-6).toUpperCase()}<br>
  <strong>Transaction ID:</strong> TXN-${booking._id.slice(0, 8).toUpperCase()}<br>
@@ -514,7 +514,7 @@ export default function BookingsDashboardPage() {
  </button>
  </div>
 
- {/* Estate details */}
+ {/* Farmhouse details */}
  <div className="flex flex-col flex-grow p-5">
  {/* Location */}
  <div className="flex items-center gap-1.5 text-xs text-[#1B2A22]/50 font-medium mb-3">

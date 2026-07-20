@@ -6,7 +6,7 @@ import { ChevronDown, MessageCircle, PhoneCall, Mail } from 'lucide-react';
 const FAQS = [
   {
     question: 'How do I book a farmhouse?',
-    answer: 'Browse our exclusive collection of farmhouses, select your preferred dates, choose the number of guests, and submit a booking request. Our team will contact you shortly to confirm your reservation.'
+    answer: 'Browse our exclusive collection of farmhouses, select your preferred dates, choose the number of guests, and submit a booking request. Our team will contact you shortly to confirm your booking.'
   },
   {
     question: 'What is the cancellation policy?',
@@ -18,7 +18,7 @@ const FAQS = [
   },
   {
     question: 'Are the farmhouses pet-friendly?',
-    answer: 'Many of our farmhouses welcome pets! Please check the specific amenities list on the farmhouse details page to confirm if pets are allowed before making your reservation.'
+    answer: 'Many of our farmhouses welcome pets! Please check the specific amenities list on the farmhouse details page to confirm if pets are allowed before making your booking.'
   },
   {
     question: 'Is there a limit to the number of guests?',

@@ -162,7 +162,7 @@ export default function UserManagementPage() {
  }
  } catch (err) {
  console.error('Error saving user:', err);
- toast.error('Error saving user.');
+ toast.error('Could not save user.');
  }
  };
 
@@ -182,7 +182,7 @@ export default function UserManagementPage() {
   }
   } catch (err) {
   console.error('Error deleting user:', err);
-  toast.error('Error deleting user.');
+  toast.error('Could not delete user.');
   }
   };
 

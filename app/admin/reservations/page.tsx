@@ -87,7 +87,7 @@ export default function AdminReservationsPage() {
        toast.error('Failed to update status');
      }
    } catch (error) {
-     toast.error('Error updating status');
+     toast.error('Could not update status.');
    }
  };
 
@@ -185,10 +185,10 @@ export default function AdminReservationsPage() {
       link.click();
       document.body.removeChild(link);
       
-      toast.success('Reservations exported successfully!');
+      toast.success('Bookings exported successfully!');
     } catch (err) {
       console.error(err);
-      toast.error('Failed to export reservations');
+      toast.error('Failed to export bookings');
     }
   };
 

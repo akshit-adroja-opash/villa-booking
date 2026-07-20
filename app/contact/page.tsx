@@ -59,7 +59,7 @@ export default function ContactPage() {
         toast.error('Failed to send message. Please try again.');
       }
     } catch (err) {
-      toast.error('An error occurred. Please try again later.');
+      toast.error('Something went wrong, please try again.');
     } finally {
       setIsSubmitting(false);
     }

@@ -108,7 +108,7 @@ export default function SettingsPage() {
  }
  } catch (err) {
  console.error(err);
- toast.error('Error connecting to database to save profile.');
+ toast.error('Could not save profile.');
  } finally {
  setSaving(false);
  }
@@ -159,7 +159,7 @@ export default function SettingsPage() {
  }
  } catch (err) {
  console.error(err);
- toast.error('Error uploading image.');
+ toast.error('Could not upload image.');
  } finally {
  setSaving(false);
  }

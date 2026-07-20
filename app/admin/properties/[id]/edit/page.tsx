@@ -80,12 +80,12 @@ export default function EditPropertyWizardPage() {
  
  setImages(data.images || []);
  } else {
- toast.error('Property not found');
+ toast.error('Farmhouse not found');
  router.push('/admin/properties');
  }
  } catch (err) {
  console.error('Error fetching property:', err);
- toast.error('Failed to load property details');
+ toast.error('Failed to load farmhouse details');
  } finally {
  setDataLoading(false);
  }
@@ -133,7 +133,7 @@ export default function EditPropertyWizardPage() {
  }
  } catch (err) {
  console.error(err);
- toast.error('Error uploading image.');
+ toast.error('Could not upload image.');
  } finally {
  setUploading(false);
  }
@@ -177,15 +177,15 @@ export default function EditPropertyWizardPage() {
  });
 
  if (res.ok) {
- toast.success('Property updated successfully!');
+ toast.success('Farmhouse updated successfully!');
  router.push('/admin/properties');
  } else {
  const data = await res.json();
- toast.error(data.error || 'Failed to update property.');
+ toast.error(data.error || 'Failed to update farmhouse.');
  }
  } catch (err) {
  console.error(err);
- toast.error('Error updating property.');
+ toast.error('Could not update farmhouse.');
  } finally {
  setSaving(false);
  }

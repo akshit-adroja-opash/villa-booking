@@ -99,7 +99,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
         }
     } catch (err) {
         console.error(err);
-        toast.error('An error occurred during sign in.');
+        toast.error('Could not sign in, please try again.');
     } finally {
         setLoading(false);
     }
@@ -148,7 +148,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
         }
     } catch (err) {
         console.error(err);
-        toast.error('An error occurred during registration.');
+        toast.error('Could not sign up, please try again.');
     } finally {
         setLoading(false);
     }

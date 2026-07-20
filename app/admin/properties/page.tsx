@@ -51,21 +51,21 @@ export default function AdminPropertiesPage() {
     try {
       const response = await fetch(`/api/farms/${id}`, { method: 'DELETE' });
       if (response.ok) {
-        toast.success('Property deleted successfully');
+        toast.success('Farmhouse deleted successfully');
         setFarms((prev) => prev.filter((farm) => farm._id !== id));
       } else {
-        toast.error('Failed to delete property');
+        toast.error('Failed to delete Farmhouse');
       }
     } catch (error) {
       console.error('Delete error:', error);
-      toast.error('An error occurred while deleting');
+      toast.error('Could not delete Farmhouse');
     }
   };
 
   const handleDelete = (id: string) => {
     toast((t) => (
       <div className="flex flex-col gap-3">
-        <p className="text-[13px] font-semibold text-[#1B2A22]">Are you sure you want to delete this property? This cannot be undone.</p>
+        <p className="text-[13px] font-semibold text-[#1B2A22]">Are you sure you want to delete this farmhouse? This cannot be undone.</p>
         <div className="flex gap-2 justify-end mt-1">
           <button 
             onClick={() => toast.dismiss(t.id)}

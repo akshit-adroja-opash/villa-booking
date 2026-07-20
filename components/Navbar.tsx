@@ -110,7 +110,7 @@ export default function Navbar() {
  }`} 
  href="/dashboard/bookings"
  >
- {isAdmin ? 'My Reservations' : 'My Bookings'}
+ {isAdmin ? 'My Bookings' : 'My Bookings'}
  <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname.startsWith('/dashboard/bookings') ? 'scale-x-100' : ''}`}></span>
  </Link>
  )}
@@ -208,7 +208,7 @@ export default function Navbar() {
  <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/dashboard" onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
  <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/users" onClick={() => setMobileMenuOpen(false)}>Guests</Link>
  <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/properties" onClick={() => setMobileMenuOpen(false)}>Farmhouses</Link>
- <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/reservations" onClick={() => setMobileMenuOpen(false)}>Bookings</Link>
+ <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/bookings" onClick={() => setMobileMenuOpen(false)}>Bookings</Link>
  <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/financials" onClick={() => setMobileMenuOpen(false)}>Revenue</Link>
  <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/settings" onClick={() => setMobileMenuOpen(false)}>Settings</Link>
  </div>
