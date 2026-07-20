@@ -143,10 +143,10 @@ LUXURY & NATURE
  </h1>
  <Link 
  href="/farms"
- className="group relative px-8 py-4 bg-white text-[#1B2A22] text-sm font-medium overflow-hidden transition-all hover:bg-[#00a877] hover:text-white"
+ className="group relative px-8 py-4 bg-white text-[#1B2A22] text-sm font-bold rounded-full shadow-xl shadow-black/20 overflow-hidden transition-all duration-300 hover:bg-[#00a877] hover:text-white hover:shadow-2xl hover:-translate-y-1 active:scale-[0.98]"
  >
  <span className="relative z-10 flex items-center gap-2">
- View Farmhouses <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1"/>
+ View Farmhouses <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5"/>
  </span>
  </Link>
  </div>
@@ -279,13 +279,13 @@ LUXURY & NATURE
  <div className="flex flex-col sm:flex-row gap-6 justify-center">
  <Link 
  href="/farms"
- className="bg-[#00a877] text-white hover:bg-[#009669] px-10 py-4 text-sm font-medium transition-colors"
+ className="bg-[#00a877] text-white hover:bg-[#009669] px-10 py-4 text-sm font-semibold rounded-xl shadow-lg shadow-[#00a877]/25 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] transition-all duration-300"
  >
  View Farmhouses
  </Link>
  <Link 
  href="/contact"
- className="bg-transparent border border-[#1B2A22]/30 hover:border-[#1B2A22] text-[#1B2A22] px-10 py-4 text-sm font-medium transition-colors"
+ className="bg-white border border-[#1B2A22]/10 hover:border-[#1B2A22]/30 text-[#1B2A22] px-10 py-4 text-sm font-semibold rounded-xl shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300"
  >
  Contact Support
  </Link>

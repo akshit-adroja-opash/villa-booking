@@ -471,10 +471,10 @@ export default function BookingsDashboardPage() {
  </p>
  <Link
  href="/farms"
- className="flex items-center justify-center gap-3 bg-[#00a877] text-white px-8 py-4 text-sm font-medium hover:bg-[#009669] transition-colors"
+ className="group flex items-center justify-center gap-3 bg-[#00a877] text-white px-8 py-4 text-sm font-semibold rounded-xl shadow-lg shadow-[#00a877]/25 hover:bg-[#009669] hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98]"
  >
  <span>Find Farmhouses</span>
- <ArrowRight className="h-3.5 w-3.5"/>
+ <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1"/>
  </Link>
  </div>
  ) : (
@@ -569,10 +569,10 @@ export default function BookingsDashboardPage() {
  </p>
  <Link
  href="/farms"
- className="flex items-center justify-center gap-3 bg-[#00a877] text-white px-8 py-4 text-sm font-medium hover:bg-[#009669] transition-colors"
+ className="group flex items-center justify-center gap-3 bg-[#00a877] text-white px-8 py-4 text-sm font-semibold rounded-xl shadow-lg shadow-[#00a877]/25 hover:bg-[#009669] hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98]"
  >
  <span>Find Farmhouses</span>
- <ArrowRight className="h-3.5 w-3.5"/>
+ <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1"/>
  </Link>
  </div>
  ) : (
