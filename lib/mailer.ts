@@ -45,7 +45,7 @@ export async function sendBookingEmail(to: string, bookingDetails: any) {
                   <td style="padding: 8px 0; color: #1B2A22; font-size: 15px; font-weight: 600; text-align: right;">${bookingDetails.endDate}</td>
                 </tr>
                 <tr>
-                  <td style="padding: 8px 0; color: #718096; font-size: 14px;">Total Paid:</td>
+                  <td style="padding: 8px 0; color: #718096; font-size: 14px;">Total Price:</td>
                   <td style="padding: 8px 0; color: #00a877; font-size: 16px; font-weight: 700; text-align: right;">₹${bookingDetails.totalPrice}</td>
                 </tr>
               </table>

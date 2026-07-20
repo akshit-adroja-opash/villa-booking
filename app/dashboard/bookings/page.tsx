@@ -335,10 +335,8 @@ export default function BookingsDashboardPage() {
  <div class="label">Booking Details</div>
  <div class="value"style="font-family: sans-serif; font-size: 13px; line-height: 1.8; opacity: 0.8;">
  <strong>Receipt No:</strong> EST-${booking._id.slice(-6).toUpperCase()}<br>
- <strong>Transaction ID:</strong> TXN-${booking._id.slice(0, 8).toUpperCase()}<br>
- <strong>Payment Method:</strong> Secure Online Transfer<br>
  <strong>Date Issued:</strong> ${new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}<br>
- <strong>Status:</strong> Confirmed & Paid
+ <strong>Status:</strong> Confirmed
  </div>
  </div>
  </div>
@@ -377,7 +375,7 @@ export default function BookingsDashboardPage() {
  <span>Free</span>
  </div>
  <div class="total-box">
- <span class="total-label">Total Paid:</span>
+ <span class="total-label">Total Price:</span>
  <span class="total-value">₹${booking.totalPrice.toLocaleString('en-IN')}</span>
  </div>
  </div>

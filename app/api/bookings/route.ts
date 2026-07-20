@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import Booking from '@/models/Booking';
 import Farm from '@/models/Farm';
 import User from '@/models/User';
-import { sendBookingEmail } from '@/lib/mailer';
+// Removed sendBookingEmail from here
 import { sendWhatsAppNotification } from '@/lib/whatsapp';
 
 
@@ -48,14 +48,7 @@ export async function POST(req: Request) {
     const farm = await Farm.findById(farmId);
     const user = await User.findById(userId);
 
-    const templateData = {
-      farmName: farm.title,
-      startDate,
-      endDate,
-      totalPrice
-    };
-
-    await sendBookingEmail(user.email, templateData);
+    // Email will be sent upon admin confirmation
     
     const confirmationText = `Hello ${user.name}, your stay at ${farm.title} from ${startDate} to ${endDate} is confirmed! Total: ₹${totalPrice}`;
     await sendWhatsAppNotification(process.env.ADMIN_PHONE_NUMBER!, `New Admin Alert: ${user.name} booked ${farm.title}.`);
