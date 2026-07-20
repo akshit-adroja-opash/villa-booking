@@ -287,20 +287,25 @@ export default function AdminFinancialsPage() {
         >
           Previous
         </button>
-        <div className="flex items-center gap-1 mx-1 hidden sm:flex">
-          {Array.from({ length: totalPages }).map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentPage(idx + 1)}
-              className={`w-8 h-8 flex items-center justify-center text-[12px] font-bold rounded-md transition-colors ${
-                currentPage === idx + 1
-                  ? 'bg-[#00a877] text-white shadow-sm'
-                  : 'text-gray-500 hover:bg-gray-100 hover:text-[#1B2A22]'
-              }`}
-            >
-              {idx + 1}
-            </button>
-          ))}
+        <div className="flex items-center gap-1 mx-1">
+          <span className="text-[12px] font-bold text-gray-500 sm:hidden mx-2">
+            Page {currentPage} of {totalPages}
+          </span>
+          <div className="hidden sm:flex items-center gap-1">
+            {Array.from({ length: totalPages }).map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentPage(idx + 1)}
+                className={`w-8 h-8 flex items-center justify-center text-[12px] font-bold rounded-md transition-colors ${
+                  currentPage === idx + 1
+                    ? 'bg-[#00a877] text-white shadow-sm'
+                    : 'text-gray-500 hover:bg-gray-100 hover:text-[#1B2A22]'
+                }`}
+              >
+                {idx + 1}
+              </button>
+            ))}
+          </div>
         </div>
         <button 
           onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}

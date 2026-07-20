@@ -65,6 +65,7 @@ export default function EditPropertyWizardPage() {
  setGuests(data.guests?.toString() || '');
  setBedrooms(data.bedrooms?.toString() || '');
  setBaths(data.baths?.toString() || '');
+ setIsActive(data.isActive !== undefined ? data.isActive : true);
  
  const loadedAmenities = data.amenities || [];
  const mattressAmenity = loadedAmenities.find((a: string) => a.startsWith('Extra Mattress'));

@@ -193,28 +193,33 @@ export default function UserManagementPage() {
   return;
   }
 
-  toast((t) => (
-  <div className="flex flex-col gap-3">
-  <p className="text-[13px] font-semibold text-[#1B2A22]">Are you sure you want to delete this user?</p>
-  <div className="flex gap-2 justify-end mt-1">
-  <button 
-  onClick={() => toast.dismiss(t.id)}
-  className="px-4 py-2 text-[11px] font-bold uppercase tracking-wide text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-  >
-  Cancel
-  </button>
-  <button 
-  onClick={() => {
-  toast.dismiss(t.id);
-  executeDeleteUser(id);
-  }}
-  className="px-4 py-2 text-[11px] font-bold uppercase tracking-wide text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
-  >
-  Delete
-  </button>
-  </div>
-  </div>
-  ), { duration: Infinity, id: 'delete-confirm' });
+  toast.custom((t) => (
+      <div 
+        className={`bg-white border border-gray-100 shadow-[0_10px_40px_rgb(0,0,0,0.12)] rounded-xl p-5 flex flex-col gap-3 max-w-sm w-full mb-4 transition-all duration-500 transform ${
+          t.visible ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'
+        }`}
+      >
+        <p className="text-[14px] font-bold text-[#1B2A22]">Delete User?</p>
+        <p className="text-[13px] text-gray-500 font-medium -mt-1">Are you sure you want to delete this user? This cannot be undone.</p>
+        <div className="flex gap-2 justify-end mt-2">
+          <button 
+            onClick={() => toast.dismiss(t.id)}
+            className="px-4 py-2 text-[12px] font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={() => {
+              toast.dismiss(t.id);
+              executeDeleteUser(id);
+            }}
+            className="px-4 py-2 text-[12px] font-bold text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors shadow-sm"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    ), { duration: Infinity, id: 'delete-confirm', position: 'bottom-center' });
   };
 
  // Filtered members list
@@ -499,20 +504,25 @@ export default function UserManagementPage() {
         >
           Previous
         </button>
-        <div className="flex items-center gap-1 mx-1 hidden sm:flex">
-          {Array.from({ length: totalPages }).map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentPage(idx + 1)}
-              className={`w-8 h-8 flex items-center justify-center text-[12px] font-bold rounded-md transition-colors ${
-                currentPage === idx + 1
-                  ? 'bg-[#00a877] text-white shadow-sm'
-                  : 'text-gray-500 hover:bg-gray-100 hover:text-[#1B2A22]'
-              }`}
-            >
-              {idx + 1}
-            </button>
-          ))}
+        <div className="flex items-center gap-1 mx-1">
+          <span className="text-[12px] font-bold text-gray-500 sm:hidden mx-2">
+            Page {currentPage} of {totalPages}
+          </span>
+          <div className="hidden sm:flex items-center gap-1">
+            {Array.from({ length: totalPages }).map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentPage(idx + 1)}
+                className={`w-8 h-8 flex items-center justify-center text-[12px] font-bold rounded-md transition-colors ${
+                  currentPage === idx + 1
+                    ? 'bg-[#00a877] text-white shadow-sm'
+                    : 'text-gray-500 hover:bg-gray-100 hover:text-[#1B2A22]'
+                }`}
+              >
+                {idx + 1}
+              </button>
+            ))}
+          </div>
         </div>
         <button 
           onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
