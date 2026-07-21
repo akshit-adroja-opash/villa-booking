@@ -6,12 +6,12 @@ import { Mail, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const Logo = () => (
-  <div className="flex flex-col items-center gap-2 mb-2 md:mb-6 text-[#1B2A22]">
+  <Link href="/" className="flex flex-col items-center gap-2 mb-2 md:mb-6 text-[#1B2A22] hover:opacity-80 transition-opacity">
     <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center shrink-0">
       <img src="/logo.png" alt="Enjoy Farm Logo" className="w-full h-full object-contain" />
     </div>
     <span className="font-serif text-2xl md:text-3xl font-normal tracking-wide mt-1 md:mt-2">Enjoy Farm</span>
-  </div>
+  </Link>
 );
 
 export default function ForgotPasswordPage() {
@@ -90,7 +90,7 @@ export default function ForgotPasswordPage() {
                 <input
                   className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
                   id="email"
-                  placeholder="member@theestate.com"
+                  placeholder="Enter your email"
                   type="email"
                   required
                   value={email}

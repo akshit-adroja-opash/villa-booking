@@ -1,19 +1,19 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { signIn, useSession } from 'next-auth/react';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const Logo = () => (
-  <div className="flex flex-col items-center gap-2 mb-2 md:mb-6 text-[#1B2A22]">
+  <Link href="/" className="flex flex-col items-center gap-2 mb-2 md:mb-6 text-[#1B2A22] hover:opacity-80 transition-opacity">
   <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center shrink-0">
   <img src="/logo.png" alt="Enjoy Farm Logo" className="w-full h-full object-contain" />
   </div>
   <span className="font-serif text-2xl md:text-3xl font-normal tracking-wide mt-1 md:mt-2">Enjoy Farm</span>
-  </div>
+  </Link>
 );
 
 interface AuthFormProps {
@@ -23,6 +23,8 @@ interface AuthFormProps {
 export default function AuthForm({ initialMode }: AuthFormProps) {
   const [mode, setMode] = useState<'signin' | 'signup'>(initialMode);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
   const { data: session, status } = useSession();
 
   React.useEffect(() => {
@@ -30,10 +32,10 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
       if ((session?.user as any)?.role === 'admin') {
         router.push('/admin/dashboard');
       } else {
-        router.push('/farms');
+        router.push(callbackUrl);
       }
     }
-  }, [status, session, router]);
+  }, [status, session, router, callbackUrl]);
 
  // Input states
  const [loginEmail, setLoginEmail] = useState('');
@@ -88,9 +90,9 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
         if (result?.ok) {
         toast.success('Login successful!');
         if (loginEmail.toLowerCase() === 'admin@gmail.com') {
-        router.push('/admin/dashboard');
+          router.push('/admin/dashboard');
         } else {
-        router.push('/farms');
+          router.push(callbackUrl);
         }
         router.refresh();
         } else {
@@ -194,7 +196,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <input 
  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
  id="login-email"
- placeholder="member@theestate.com"
+ placeholder="Enter your email"
  type="email"
  required
  value={loginEmail}
@@ -217,7 +219,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <input 
  className="w-full h-12 pl-12 pr-12 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
  id="login-pass"
- placeholder="•••••"
+ placeholder="Enter your password"
  type={showPassword ? 'text' : 'password'}
  required
  value={loginPassword}
@@ -250,7 +252,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <span>Remember me</span>
  </label>
  <Link href="/forgot-password" className="hover:text-[#00a877] transition-colors">
- Forgot password?
+ Forgot Password?
  </Link>
  </div>
 
@@ -297,7 +299,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <input 
  className="w-full h-12 pl-12 pr-4 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
  id="reg-email"
- placeholder="member@theestate.com"
+ placeholder="Enter your email"
  type="email"
  required
  value={regEmail}
@@ -320,7 +322,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <input 
  className="w-full h-12 pl-12 pr-12 bg-transparent text-sm font-semibold text-[#1B2A22] outline-none border-none placeholder:text-[#1B2A22]/30"
  id="reg-pass"
- placeholder="At least 8 characters"
+ placeholder="Enter your password"
  type={showPassword ? 'text' : 'password'}
  required
  value={regPassword}
@@ -356,7 +358,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  <div className="mt-8 text-center text-sm font-medium text-[#1B2A22]/50 border-t border-[#1B2A22]/10 pt-4">
  {mode === 'signin' ? (
  <p>
- Not a member yet?{' '}
+ Don't have an account?{' '}
  <button 
  type="button"
  onClick={() => switchMode('signup')}
@@ -367,7 +369,7 @@ export default function AuthForm({ initialMode }: AuthFormProps) {
  </p>
  ) : (
  <p>
- Already a member?{' '}
+ Already have an account?{' '}
  <button 
  type="button"
  onClick={() => switchMode('signin')}

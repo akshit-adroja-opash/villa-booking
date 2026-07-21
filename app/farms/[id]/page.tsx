@@ -211,7 +211,7 @@ export default function FarmDetailPage() {
     e.preventDefault();
     if (!session?.user) {
       toast.error('Please sign in to leave a review.');
-      router.push('/login');
+      router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
       return;
     }
     if (!reviewText.trim()) {
@@ -338,7 +338,7 @@ export default function FarmDetailPage() {
  const handleBooking = async () => {
  if (!session?.user) {
  toast.error('Please sign in to complete your booking.');
- router.push('/login');
+ router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
  return;
  }
 
