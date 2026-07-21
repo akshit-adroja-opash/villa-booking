@@ -11,7 +11,8 @@ import {
  Grid, 
  Wifi, 
  Snowflake, 
- Flame, 
+ Wind,
+ Flame,
  Trees, 
  ChefHat, 
  Waves, 
@@ -517,15 +518,11 @@ export default function FarmDetailPage() {
  <div className="flex items-center flex-wrap gap-2 text-[14px] text-gray-600 font-bold">
  <span className="flex items-center gap-1.5"><Users className="h-4 w-4 text-gray-400"/> {farm.guests} guests</span>
  <span className="text-gray-300 mx-1">·</span>
- <span className="flex items-center gap-1.5"><Bed className="h-4 w-4 text-gray-400"/> {farm.bedrooms} bedrooms</span>
- {(farm.acRooms || farm.nonAcRooms) ? (
-   <>
-     <span className="text-gray-300 mx-1">·</span>
-     <span className="flex items-center gap-1.5"><Snowflake className="h-4 w-4 text-gray-400"/> {farm.acRooms || 0} AC Bedrooms</span>
-     <span className="text-gray-300 mx-1">·</span>
-     <span className="flex items-center gap-1.5"><Flame className="h-4 w-4 text-gray-400"/> {farm.nonAcRooms || 0} Non-AC Bedrooms</span>
-   </>
- ) : null}
+  <span className="flex items-center gap-1.5">
+    <Bed className="h-4 w-4 text-gray-400"/> 
+    {farm.bedrooms} bedrooms
+    {(farm.acRooms || farm.nonAcRooms) ? <span className="text-gray-500 font-medium ml-0.5">({farm.acRooms || 0} AC, {farm.nonAcRooms || 0} Non-AC)</span> : null}
+  </span>
  {farm.acres && (
    <>
      <span className="text-gray-300 mx-1">·</span>

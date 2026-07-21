@@ -93,16 +93,6 @@ export default function Navbar() {
  Farmhouses
  <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname.startsWith('/farms') || pathname === '/properties' ? 'scale-x-100' : ''}`}></span>
  </Link>
- <Link 
- className={`relative text-sm font-medium transition-all whitespace-nowrap group ${
- pathname.startsWith('/contact') ? textColor : `${textColor} opacity-70 hover:opacity-100`
- }`} 
- href="/contact"
- >
- Contact Us
- <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname.startsWith('/contact') ? 'scale-x-100' : ''}`}></span>
- </Link>
-
  {session && (
  <Link 
  className={`relative text-sm font-medium transition-all whitespace-nowrap group ${
@@ -114,6 +104,16 @@ export default function Navbar() {
  <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname.startsWith('/dashboard/bookings') ? 'scale-x-100' : ''}`}></span>
  </Link>
  )}
+
+ <Link 
+ className={`relative text-sm font-medium transition-all whitespace-nowrap group ${
+ pathname.startsWith('/contact') ? textColor : `${textColor} opacity-70 hover:opacity-100`
+ }`} 
+ href="/contact"
+ >
+ Contact Us
+ <span className={`absolute -bottom-2 left-0 w-full h-[2px] bg-[#00a877] scale-x-0 group-hover:scale-x-100 transition-transform origin-left ${pathname.startsWith('/contact') ? 'scale-x-100' : ''}`}></span>
+ </Link>
  </nav>
 
  {/* Actions - Right Aligned */}
@@ -145,9 +145,7 @@ export default function Navbar() {
  <ShieldAlert className="h-4 w-4"/> Admin Panel
  </Link>
  )}
- <Link href={isAdmin ? "/admin/settings" : "/settings"} onClick={() => setDropdownOpen(false)} className="flex items-center gap-3 px-3 py-2 text-xs font-semibold tracking-wide text-[#1B2A22] hover:bg-[#fbf8ff] rounded-md transition-colors">
- <Settings className="h-4 w-4"/> Settings
- </Link>
+
  <button onClick={() => { setDropdownOpen(false); signOut({ callbackUrl: '/' }); }} className="w-full flex items-center gap-3 px-3 py-2 text-xs font-semibold tracking-wide text-red-800 hover:bg-red-50 rounded-md transition-colors text-left">
  <LogOut className="h-4 w-4"/> Logout
  </button>
@@ -196,11 +194,11 @@ export default function Navbar() {
  <div className="flex flex-col flex-grow text-left overflow-y-auto hide-scrollbar">
  <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
  <Link className={`text-lg font-medium py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/farms') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/farms" onClick={() => setMobileMenuOpen(false)}>Farmhouses</Link>
- <Link className={`text-lg font-medium py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/contact') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
- 
  {!isAdmin && (
  <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href={session ?"/dashboard/bookings":"/login"} onClick={() => setMobileMenuOpen(false)}>My Bookings</Link>
  )}
+
+ <Link className={`text-lg font-medium py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/contact') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
 
  {isAdmin && (
  <div className="flex flex-col mt-6">
@@ -210,7 +208,7 @@ export default function Navbar() {
  <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/properties" onClick={() => setMobileMenuOpen(false)}>Farmhouses</Link>
  <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/bookings" onClick={() => setMobileMenuOpen(false)}>Bookings</Link>
  <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/financials" onClick={() => setMobileMenuOpen(false)}>Revenue</Link>
- <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/settings" onClick={() => setMobileMenuOpen(false)}>Settings</Link>
+ <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/settings" onClick={() => setMobileMenuOpen(false)}>My Profile</Link>
  </div>
  )}
  

@@ -413,18 +413,19 @@ export default function BookingsDashboardPage() {
  });
 
  return (
- <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22] font-sans flex flex-col pt-32">
- <main className="flex-grow mx-auto w-full max-w-[1280px] px-6 py-12 md:py-20 md:px-16">
+ <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22] font-sans flex flex-col">
  
- {/* Welcome Header */}
- <header className="mb-16 text-center max-w-3xl mx-auto flex flex-col items-center">
- <h1 className="font-serif text-5xl md:text-6xl font-bold text-[#1B2A22] mt-3 tracking-tight">
+ {/* Welcome Header Section */}
+ <section className="pt-40 pb-20 px-6 max-w-[1280px] mx-auto text-center w-full">
+ <h1 className="font-serif text-5xl md:text-7xl font-bold text-[#002E1E] tracking-tight mb-4">
  Welcome, <span className="text-[#00a877]">{session?.user?.name ? session.user.name.split(' ')[0] : 'Guest'}</span>
  </h1>
- <p className="text-base text-[#1B2A22]/60 font-medium mt-6 max-w-2xl font-sans leading-relaxed">
+ <p className="text-gray-500 font-medium text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
  Manage your upcoming bookings, review your past bookings, and view your saved farmhouses.
  </p>
- </header>
+ </section>
+
+ <main className="flex-grow mx-auto w-full max-w-[1280px] px-6 pb-32">
 
  {/* Tab Controls */}
  <section className="flex flex-col gap-10">
