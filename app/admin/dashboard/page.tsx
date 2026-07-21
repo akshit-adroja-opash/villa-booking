@@ -58,7 +58,7 @@ export default function AdminDashboard() {
   }, []);
 
   const dbRevenue = bookings.reduce((sum, b) => sum + (b.totalPrice || 0), 0);
-  const displayRevenue = `₹${(dbRevenue / 1000).toFixed(0)}K`;
+  const displayRevenue = `₹${dbRevenue.toLocaleString('en-IN')}`;
 
   const displayBookingsCount = String(bookings.length);
   const displayActiveUsers = String(users.length);

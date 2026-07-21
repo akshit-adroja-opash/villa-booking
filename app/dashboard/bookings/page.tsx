@@ -174,7 +174,7 @@ export default function BookingsDashboardPage() {
  background-color: #FAF9F6;
  }
  .container {
- max-width: 800px;
+ max-width: 1000px;
  margin: 0 auto;
  background: white;
  border: 1px solid rgba(27, 42, 34, 0.1);
@@ -299,10 +299,10 @@ export default function BookingsDashboardPage() {
   @media print { 
     @page { margin: 0; } 
     body { margin: 0; padding: 1.5cm; } 
-    .container { border: none; box-shadow: none; padding: 0; margin: 0 auto; max-width: 800px; } 
+    .container { border: none; box-shadow: none; padding: 0; margin: 0 auto; max-width: 1000px; } 
     .footer { margin-top: 30px; } 
   }
-  .container { border: none; box-shadow: none; padding: 20px; margin: 0 auto; max-width: 800px; }
+  .container { border: none; box-shadow: none; padding: 20px; margin: 0 auto; max-width: 1000px; }
   .footer { margin-top: 30px; }
   </style>
   </head>
@@ -337,7 +337,7 @@ export default function BookingsDashboardPage() {
  <div class="label">Booking Details</div>
  <div class="value"style="font-family: sans-serif; font-size: 13px; line-height: 1.8; opacity: 0.8;">
  <strong>Receipt No:</strong> EST-${booking._id.slice(-6).toUpperCase()}<br>
- <strong>Date Issued:</strong> ${new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}<br>
+ <strong>Date Issued:</strong> ${new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}<br>
  <strong>Status:</strong> Confirmed
  </div>
  </div>
@@ -359,9 +359,9 @@ export default function BookingsDashboardPage() {
  <strong style="color: #1B2A22; font-size: 18px; font-weight: normal;">${farm.title}</strong><br>
  <span style="font-family: sans-serif; font-size: 12px; color: #1B2A22; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-top: 8px;">${farm.location || 'Location'}</span>
  </td>
- <td style="font-family: sans-serif;">${farm.guests || 2} Adults</td>
- <td style="font-family: sans-serif;">${new Date(booking.startDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
- <td style="font-family: sans-serif;">${new Date(booking.endDate).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+ <td style="font-family: sans-serif; white-space: nowrap;">${farm.guests || 2} Persons</td>
+ <td style="font-family: sans-serif; white-space: nowrap;">${new Date(booking.startDate).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}</td>
+ <td style="font-family: sans-serif; white-space: nowrap;">${new Date(booking.endDate).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}</td>
  <td style="text-align: right; font-weight: bold; font-family: sans-serif;">₹${booking.totalPrice.toLocaleString('en-IN')}</td>
  </tr>
  </tbody>
