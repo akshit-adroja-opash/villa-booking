@@ -60,7 +60,7 @@ export default function Navbar() {
  const textColor = (isHome && !scrolled) ? 'text-white' : 'text-[#1B2A22]';
 
  return (
- <header className={`fixed top-0 left-0 w-full z-50 h-[60px] flex items-center transition-all duration-500 ${navBg}`}>
+ <header className={`fixed top-0 left-0 w-full z-[99999] h-[60px] flex items-center transition-all duration-500 ${navBg}`}>
  <div className="flex items-center justify-between w-full px-8 md:px-12 lg:px-16 h-full">
  
  {/* Brand Logo - Left Aligned */}
@@ -134,7 +134,7 @@ export default function Navbar() {
  </button>
 
  {dropdownOpen && (
- <div className="absolute right-0 top-12 mt-2 w-56 bg-white border border-[#1B2A22]/10 shadow-xl p-2 z-50 animate-fade-in rounded-xl">
+ <div className="absolute right-0 top-12 mt-2 w-56 bg-white border border-[#1B2A22]/10 shadow-xl p-2 z-[99999] animate-fade-in rounded-xl">
  <div className="px-3 pb-3 pt-2 border-b border-[#1B2A22]/5 mb-2">
  <h4 className="text-sm font-serif font-bold text-[#1B2A22]">{displayName}</h4>
  <p className="text-sm font-medium text-[#1B2A22]/60 mt-0.5">{displayEmail}</p>

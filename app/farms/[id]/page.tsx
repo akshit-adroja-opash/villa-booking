@@ -58,6 +58,8 @@ interface FarmDetails {
  rating: number;
  reviewsCount?: number;
  acres?: number;
+ houseRules?: string[];
+ cancellationPolicy?: string;
 }
 
 const AMENITY_ICONS: Record<string, React.ComponentType<any>> = {
@@ -142,7 +144,9 @@ export default function FarmDetailPage() {
  baths: data.baths || 2,
  rating: cleanRating,
  reviewsCount: data.reviewsCount || Math.round(cleanRating * 30 + (data.pricePerNight % 100)),
- acres: data.acres
+ acres: data.acres,
+ houseRules: data.houseRules,
+ cancellationPolicy: data.cancellationPolicy
  });
  } else {
  setFarm(null);
@@ -603,7 +607,7 @@ export default function FarmDetailPage() {
  <h4 className="font-sans text-lg font-bold text-[#002E1E]">House Rules</h4>
  </div>
  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
- {[
+ {(farm.houseRules && farm.houseRules.length > 0 ? farm.houseRules : [
  'Check-in: 6 PM | Checkout: 5 PM',
  'No Alcohol Party',
  'No Smoking',
@@ -613,7 +617,7 @@ export default function FarmDetailPage() {
  'No Pets',
  'No Luggage Responsibility',
  'Non-veg not allowed'
- ].map((rule, idx) => (
+ ]).map((rule: string, idx: number) => (
  <li key={idx} className="flex items-center gap-3 bg-gray-50 border border-gray-100 p-4 rounded-xl">
  <div className="text-[#002E1E]/40">
  <CheckCircle2 className="h-5 w-5"/>
@@ -631,20 +635,34 @@ export default function FarmDetailPage() {
  <div className="w-1.5 h-5 bg-red-500 rounded-sm"></div>
  <h4 className="font-sans text-lg font-bold text-[#002E1E]">Cancellation Policy</h4>
  </div>
- <ul className="space-y-3">
- {[
- { label:"Within 20 mins of booking", value:"10% convenience fee will be applied."},
- { label:"15 days+ before check-in", value:"20% of the booking amount will be charged."},
- { label:"Less than 15 days before", value:"100% of the booking amount will be charged."},
- { label:"After check-in time", value:"No cancellation allowed."},
- { label:"Refund Processing", value:"Processed within 7 working days."}
- ].map((policy, idx) => (
- <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-red-50/30 border border-red-100 rounded-xl gap-2 hover:bg-red-50/80 transition-colors">
- <span className="text-sm font-bold text-red-950">{policy.label}</span>
- <span className="text-sm font-medium text-red-900/80">{policy.value}</span>
- </li>
- ))}
- </ul>
+  <ul className="space-y-3">
+  {farm.cancellationPolicy ? (
+    farm.cancellationPolicy.split('\n').filter(Boolean).map((line: string, idx: number) => {
+      const parts = line.split(':');
+      const label = parts[0]?.trim();
+      const value = parts.slice(1).join(':')?.trim();
+      return (
+        <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-red-50/30 border border-red-100 rounded-xl gap-2 hover:bg-red-50/80 transition-colors">
+          <span className="text-sm font-bold text-red-950">{label}</span>
+          {value && <span className="text-sm font-medium text-red-900/80">{value}</span>}
+        </li>
+      );
+    })
+  ) : (
+    [
+      { label:"Within 20 mins of booking", value:"10% convenience fee will be applied."},
+      { label:"15 days+ before check-in", value:"20% of the booking amount will be charged."},
+      { label:"Less than 15 days before", value:"100% of the booking amount will be charged."},
+      { label:"After check-in time", value:"No cancellation allowed."},
+      { label:"Refund Processing", value:"Processed within 7 working days."}
+    ].map((policy, idx) => (
+      <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-red-50/30 border border-red-100 rounded-xl gap-2 hover:bg-red-50/80 transition-colors">
+        <span className="text-sm font-bold text-red-950">{policy.label}</span>
+        <span className="text-sm font-medium text-red-900/80">{policy.value}</span>
+      </li>
+    ))
+  )}
+  </ul>
  </div>
  )}
  </div>

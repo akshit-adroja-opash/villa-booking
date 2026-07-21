@@ -34,8 +34,10 @@ export default function AddPropertyWizardPage() {
  const [baths, setBaths] = useState('2');
  const [acres, setAcres] = useState('');
  
- const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
  const [extraMattressCount, setExtraMattressCount] = useState<number>(1);
+ const [houseRules, setHouseRules] = useState('');
+ const [cancellationPolicy, setCancellationPolicy] = useState('');
  
  const [images, setImages] = useState<string[]>([]);
  const [uploading, setUploading] = useState(false);
@@ -139,6 +141,8 @@ export default function AddPropertyWizardPage() {
  nonAcRooms: Number(nonAcRooms) || 0,
  baths: Number(baths),
  acres: acres ? Number(acres) : undefined,
+ houseRules: houseRules.split('\n').filter(r => r.trim() !== ''),
+ cancellationPolicy,
  amenities: selectedAmenities.map(a => a === 'Extra Mattress' ? `Extra Mattress: ${extraMattressCount}` : a),
  images: images.length > 0 ? images : ['https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80'],
  }),
@@ -297,6 +301,8 @@ export default function AddPropertyWizardPage() {
  </select>
  </div>
  </div>
+ 
+
  </div>
  )}
 
@@ -418,6 +424,8 @@ export default function AddPropertyWizardPage() {
  />
  </div>
  </div>
+ 
+
  </div>
  )}
 
@@ -467,6 +475,8 @@ export default function AddPropertyWizardPage() {
  </div>
  ))}
  </div>
+ 
+
  </div>
  )}
 
@@ -547,6 +557,8 @@ export default function AddPropertyWizardPage() {
  </div>
  )}
  </div>
+ 
+
  </div>
  )}
 

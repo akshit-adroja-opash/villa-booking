@@ -17,6 +17,8 @@ const FarmSchema = new Schema({
   rating: { type: Number, default: 4.8 },
   category: { type: String, default: 'Farmhouse' },
   isActive: { type: Boolean, default: true },
+  houseRules: [{ type: String }],
+  cancellationPolicy: { type: String },
 }, { timestamps: true });
 
 const Farm = models.Farm || model('Farm', FarmSchema);

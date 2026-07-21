@@ -31,6 +31,19 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     if (!updatedFarm) {
       return NextResponse.json({ error: 'Farmhouse not found' }, { status: 404 });
     }
+
+    // Sync policies across all farms
+    const syncPayload: any = {};
+    if (body.houseRules !== undefined) syncPayload.houseRules = body.houseRules;
+    if (body.cancellationPolicy !== undefined) syncPayload.cancellationPolicy = body.cancellationPolicy;
+    
+    if (Object.keys(syncPayload).length > 0) {
+      await Farm.updateMany(
+        { _id: { $ne: id } },
+        { $set: syncPayload }
+      );
+    }
+    
     
     return NextResponse.json(updatedFarm, { status: 200 });
   } catch (error) {

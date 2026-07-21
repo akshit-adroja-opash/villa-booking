@@ -37,8 +37,10 @@ export default function EditPropertyWizardPage() {
  const [baths, setBaths] = useState('2');
  const [acres, setAcres] = useState('');
  
- const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
  const [extraMattressCount, setExtraMattressCount] = useState<number>(1);
+ const [houseRules, setHouseRules] = useState('');
+ const [cancellationPolicy, setCancellationPolicy] = useState('');
  
  const [images, setImages] = useState<string[]>([]);
  const [uploading, setUploading] = useState(false);
@@ -72,6 +74,8 @@ export default function EditPropertyWizardPage() {
  setBaths(data.baths?.toString() || '');
  setAcres(data.acres?.toString() || '');
  setIsActive(data.isActive !== undefined ? data.isActive : true);
+ setHouseRules(data.houseRules ? data.houseRules.join('\n') : '');
+ setCancellationPolicy(data.cancellationPolicy || '');
  
  const loadedAmenities = data.amenities || [];
  const mattressAmenity = loadedAmenities.find((a: string) => a.startsWith('Extra Mattress'));
@@ -192,6 +196,8 @@ export default function EditPropertyWizardPage() {
  nonAcRooms: Number(nonAcRooms) || 0,
  baths: Number(baths),
  acres: acres ? Number(acres) : undefined,
+ houseRules: houseRules.split('\n').filter(r => r.trim() !== ''),
+ cancellationPolicy,
  amenities: selectedAmenities.map(a => a === 'Extra Mattress' ? `Extra Mattress: ${extraMattressCount}` : a),
  images: images.length > 0 ? images : ['https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80'],
  }),
@@ -355,6 +361,35 @@ export default function EditPropertyWizardPage() {
  </select>
  </div>
  </div>
+ 
+
+ <div className="mt-8 border-t border-gray-100 pt-8 space-y-6">
+    <h3 className="font-serif text-2xl text-[#1B2A22] pb-4 border-b border-gray-100 mb-4">
+        Policies
+    </h3>
+    <div className="space-y-4">
+        <div>
+            <label className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">House Rules</label>
+            <textarea 
+                rows={4}
+                value={houseRules}
+                onChange={(e) => setHouseRules(e.target.value)}
+                placeholder="e.g. No Smoking\nNo Pets Allowed"
+                className="w-full rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white resize-none"
+            />
+        </div>
+        <div>
+            <label className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">Cancellation Policy</label>
+            <textarea 
+                rows={4}
+                value={cancellationPolicy}
+                onChange={(e) => setCancellationPolicy(e.target.value)}
+                placeholder="e.g. Free cancellation within 48 hours..."
+                className="w-full rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white resize-none"
+            />
+        </div>
+    </div>
+ </div>
  </div>
  )}
 
@@ -476,6 +511,8 @@ export default function EditPropertyWizardPage() {
  />
  </div>
  </div>
+ 
+
  </div>
  )}
 
@@ -525,6 +562,8 @@ export default function EditPropertyWizardPage() {
  </div>
  ))}
  </div>
+ 
+
  </div>
  )}
 
@@ -605,6 +644,8 @@ export default function EditPropertyWizardPage() {
  </div>
  )}
  </div>
+ 
+
  </div>
  )}
 

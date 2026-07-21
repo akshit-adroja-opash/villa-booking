@@ -70,7 +70,37 @@ export async function POST(req: Request) {
   await connectDB();
   try {
     const body = await req.json();
+    
+    const isHouseRulesEmpty = !body.houseRules || body.houseRules.length === 0;
+    const isCancellationPolicyEmpty = !body.cancellationPolicy || body.cancellationPolicy.trim() === '';
+    
+    if (isHouseRulesEmpty || isCancellationPolicyEmpty) {
+      const existingFarm = await Farm.findOne({ 
+        $and: [
+          { houseRules: { $exists: true, $not: { $size: 0 } } },
+          { cancellationPolicy: { $exists: true, $ne: '' } }
+        ]
+      });
+      
+      if (existingFarm) {
+        if (isHouseRulesEmpty) body.houseRules = existingFarm.houseRules;
+        if (isCancellationPolicyEmpty) body.cancellationPolicy = existingFarm.cancellationPolicy;
+      }
+    }
+
     const newFarm = await Farm.create(body);
+    
+    const syncPayload: any = {};
+    if (body.houseRules !== undefined) syncPayload.houseRules = body.houseRules;
+    if (body.cancellationPolicy !== undefined) syncPayload.cancellationPolicy = body.cancellationPolicy;
+    
+    if (Object.keys(syncPayload).length > 0) {
+      await Farm.updateMany(
+        { _id: { $ne: newFarm._id } },
+        { $set: syncPayload }
+      );
+    }
+    
     return NextResponse.json(newFarm, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create farm' }, { status: 400 });
