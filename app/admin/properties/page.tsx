@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { BedDouble, Home, MapPin, Plus, Search, Users, Trash2, ShieldCheck } from 'lucide-react';
+import { BedDouble, Home, MapPin, Plus, Search, Users, Trash2, ShieldCheck, Snowflake, Flame } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 type Farm = {
@@ -15,6 +15,8 @@ type Farm = {
  amenities?: string[];
  guests?: number;
  bedrooms?: number;
+ acRooms?: number;
+ nonAcRooms?: number;
  baths?: number;
  category?: string;
  isActive?: boolean;
@@ -213,6 +215,18 @@ export default function AdminPropertiesPage() {
  <BedDouble className="h-4 w-4 text-gray-300"/>
  {farm.bedrooms || 0} Beds
  </span>
+ {(farm.acRooms || farm.nonAcRooms) ? (
+   <>
+      <span className="flex items-center gap-2">
+        <Snowflake className="h-4 w-4 text-gray-300"/>
+        {farm.acRooms || 0} AC Bedrooms
+      </span>
+      <span className="flex items-center gap-2">
+        <Flame className="h-4 w-4 text-gray-300"/>
+        {farm.nonAcRooms || 0} Non-AC Bedrooms
+      </span>
+   </>
+ ) : null}
  <span className="flex items-center gap-1.5 text-[#00a877]">
  <ShieldCheck className="h-4 w-4"/>
  Verified

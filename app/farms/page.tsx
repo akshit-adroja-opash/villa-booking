@@ -15,7 +15,9 @@ import {
  Search,
  ChevronDown,
  SlidersHorizontal,
- Star
+ Star,
+ Snowflake,
+ Flame
 } from 'lucide-react';
 
 function StaysList() {
@@ -50,6 +52,8 @@ function StaysList() {
  reviewsCount: farm.reviewsCount || Math.round(Number(cleanRating) * 30 + (farm.pricePerNight % 100)),
  guests: farm.guests || 6,
  bedrooms: farm.bedrooms || 3,
+ acRooms: farm.acRooms || 0,
+ nonAcRooms: farm.nonAcRooms || 0,
  baths: farm.baths || 2,
  amenities: farm.amenities || []
  };
@@ -289,9 +293,15 @@ function StaysList() {
  </h3>
  
  {/* Stats: beds, guests, acres */}
- <div className="flex items-center gap-4 text-[13px] font-medium text-gray-500 mb-5">
+ <div className="flex items-center flex-wrap gap-4 text-[13px] font-medium text-gray-500 mb-5">
  <span className="flex items-center gap-1.5"><Bed className="w-4 h-4" /> {farm.bedrooms || 3} beds</span>
  <span className="flex items-center gap-1.5"><Users className="w-4 h-4" /> {farm.guests || 6} guests</span>
+ {(farm.acRooms || farm.nonAcRooms) ? (
+   <>
+     <span className="flex items-center gap-1.5"><Snowflake className="w-4 h-4" /> {farm.acRooms || 0} AC Bedrooms</span>
+     <span className="flex items-center gap-1.5"><Flame className="w-4 h-4" /> {farm.nonAcRooms || 0} Non-AC Bedrooms</span>
+   </>
+ ) : null}
  {farm.acres && (
    <span className="flex items-center gap-1.5"><Compass className="w-4 h-4" /> {farm.acres} Acres</span>
  )}

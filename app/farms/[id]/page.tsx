@@ -51,6 +51,8 @@ interface FarmDetails {
  amenities: string[];
  guests: number;
  bedrooms: number;
+ acRooms?: number;
+ nonAcRooms?: number;
  baths: number;
  rating: number;
  reviewsCount?: number;
@@ -134,6 +136,8 @@ export default function FarmDetailPage() {
  amenities: data.amenities && data.amenities.length > 0 ? data.amenities : ['WiFi', 'Pool'],
  guests: data.guests || 6,
  bedrooms: data.bedrooms || 3,
+ acRooms: data.acRooms || 0,
+ nonAcRooms: data.nonAcRooms || 0,
  baths: data.baths || 2,
  rating: cleanRating,
  reviewsCount: data.reviewsCount || Math.round(cleanRating * 30 + (data.pricePerNight % 100)),
@@ -514,6 +518,14 @@ export default function FarmDetailPage() {
  <span className="flex items-center gap-1.5"><Users className="h-4 w-4 text-gray-400"/> {farm.guests} guests</span>
  <span className="text-gray-300 mx-1">·</span>
  <span className="flex items-center gap-1.5"><Bed className="h-4 w-4 text-gray-400"/> {farm.bedrooms} bedrooms</span>
+ {(farm.acRooms || farm.nonAcRooms) ? (
+   <>
+     <span className="text-gray-300 mx-1">·</span>
+     <span className="flex items-center gap-1.5"><Snowflake className="h-4 w-4 text-gray-400"/> {farm.acRooms || 0} AC Bedrooms</span>
+     <span className="text-gray-300 mx-1">·</span>
+     <span className="flex items-center gap-1.5"><Flame className="h-4 w-4 text-gray-400"/> {farm.nonAcRooms || 0} Non-AC Bedrooms</span>
+   </>
+ ) : null}
  {farm.acres && (
    <>
      <span className="text-gray-300 mx-1">·</span>

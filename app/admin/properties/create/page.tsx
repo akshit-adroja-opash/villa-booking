@@ -29,6 +29,8 @@ export default function AddPropertyWizardPage() {
  const [pricePerNight, setPricePerNight] = useState('');
  const [guests, setGuests] = useState('4');
  const [bedrooms, setBedrooms] = useState('2');
+ const [acRooms, setAcRooms] = useState('0');
+ const [nonAcRooms, setNonAcRooms] = useState('0');
  const [baths, setBaths] = useState('2');
  const [acres, setAcres] = useState('');
  
@@ -93,6 +95,12 @@ export default function AddPropertyWizardPage() {
 
  const handleNext = (e: React.FormEvent) => {
  e.preventDefault();
+ if (currentStep === 2) {
+   if (Number(acRooms) + Number(nonAcRooms) > Number(bedrooms)) {
+     toast.error(`AC and Non-AC bedrooms combined (${Number(acRooms) + Number(nonAcRooms)}) cannot exceed total bedrooms (${bedrooms}).`);
+     return;
+   }
+ }
  if (currentStep < 4) {
  setCurrentStep(prev => prev + 1);
  }
@@ -107,6 +115,11 @@ export default function AddPropertyWizardPage() {
  };
 
  const handleSubmit = async () => {
+ if (Number(acRooms) + Number(nonAcRooms) > Number(bedrooms)) {
+   toast.error(`AC and Non-AC bedrooms combined cannot exceed total bedrooms.`);
+   setCurrentStep(2);
+   return;
+ }
  setSaving(true);
  try {
  const res = await fetch('/api/farms', {
@@ -122,6 +135,8 @@ export default function AddPropertyWizardPage() {
  pricePerNight: Number(pricePerNight),
  guests: Number(guests) || 2,
  bedrooms: Number(bedrooms) || 1,
+ acRooms: Number(acRooms) || 0,
+ nonAcRooms: Number(nonAcRooms) || 0,
  baths: Number(baths),
  acres: acres ? Number(acres) : undefined,
  amenities: selectedAmenities.map(a => a === 'Extra Mattress' ? `Extra Mattress: ${extraMattressCount}` : a),
@@ -336,6 +351,40 @@ export default function AddPropertyWizardPage() {
  placeholder="e.g. 2"
  className="w-full rounded-xl border-gray-200 bg-[#f9fafb]  px-4 py-3 text-sm  text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
  />
+ </div>
+
+ <div className="space-y-2">
+ <label htmlFor="acRooms"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
+ AC Bedrooms
+ </label>
+ <input 
+ id="acRooms"
+ type="number"
+ value={acRooms}
+ onChange={(e) => setAcRooms(e.target.value)}
+ placeholder="e.g. 1"
+ className={`w-full rounded-xl bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border ${Number(acRooms) + Number(nonAcRooms) > Number(bedrooms) ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#00a877] focus:bg-white'}`}
+ />
+ {Number(acRooms) + Number(nonAcRooms) > Number(bedrooms) && (
+   <p className="text-[12px] font-bold text-red-500 mt-1.5 px-1">Must not exceed total bedrooms.</p>
+ )}
+ </div>
+
+ <div className="space-y-2">
+ <label htmlFor="nonAcRooms"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
+ Non-AC Bedrooms
+ </label>
+ <input 
+ id="nonAcRooms"
+ type="number"
+ value={nonAcRooms}
+ onChange={(e) => setNonAcRooms(e.target.value)}
+ placeholder="e.g. 1"
+ className={`w-full rounded-xl bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border ${Number(acRooms) + Number(nonAcRooms) > Number(bedrooms) ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#00a877] focus:bg-white'}`}
+ />
+ {Number(acRooms) + Number(nonAcRooms) > Number(bedrooms) && (
+   <p className="text-[12px] font-bold text-red-500 mt-1.5 px-1">Must not exceed total bedrooms.</p>
+ )}
  </div>
 
  <div className="space-y-2">

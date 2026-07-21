@@ -16,6 +16,8 @@ interface Farm {
  rating?: number;
  guests?: number;
  bedrooms?: number;
+ acRooms?: number;
+ nonAcRooms?: number;
  baths?: number;
  category?: string;
  amenities?: string[];

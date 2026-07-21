@@ -10,6 +10,8 @@ const FarmSchema = new Schema({
   amenities: [{ type: String }],
   guests: { type: Number, default: 2 },
   bedrooms: { type: Number, default: 1 },
+  acRooms: { type: Number, default: 0 },
+  nonAcRooms: { type: Number, default: 0 },
   baths: { type: Number, default: 1 },
   acres: { type: Number },
   rating: { type: Number, default: 4.8 },
