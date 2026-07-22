@@ -36,9 +36,36 @@ export async function GET(req: Request) {
       }
     }
 
+    // Common aggregation pipeline with rating calculation
+    const getAggregationPipeline = (sortStage?: any) => [
+      { $match: filter },
+      {
+        $lookup: {
+          from: 'reviews',
+          localField: '_id',
+          foreignField: 'farmId',
+          as: 'reviews'
+        }
+      },
+      {
+        $addFields: {
+          rating: {
+            $cond: [
+              { $eq: [{ $size: '$reviews' }, 0] },
+              5, // Default to 5 if no reviews
+              { $avg: '$reviews.rating' }
+            ]
+          },
+          reviewsCount: { $size: '$reviews' }
+        }
+      },
+      { $project: { reviews: 0 } },
+      ...(sortStage ? [sortStage] : [])
+    ];
+
     if (trending === 'true') {
       const farms = await Farm.aggregate([
-        { $match: filter },
+        ...getAggregationPipeline(),
         {
           $lookup: {
             from: 'bookings',
@@ -58,7 +85,7 @@ export async function GET(req: Request) {
       return NextResponse.json(farms, { status: 200 });
     }
 
-    const farms = await Farm.find(filter);
+    const farms = await Farm.aggregate(getAggregationPipeline());
     return NextResponse.json(farms, { status: 200 });
   } catch (error) {
     console.error('Failed to fetch/seed farms:', error);
