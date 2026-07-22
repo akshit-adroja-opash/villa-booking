@@ -11,8 +11,12 @@ import {
  Loader2,
  Check,
  Upload,
- Sparkles
+ Sparkles,
+ Home,
+ Building,
+ Tent
 } from 'lucide-react';
+import CustomSelect from '@/components/CustomSelect';
 
 export default function AddPropertyWizardPage() {
  const router = useRouter();
@@ -284,22 +288,21 @@ export default function AddPropertyWizardPage() {
  </div>
  </div>
 
- <div className="space-y-2 md:col-span-2">
- <label htmlFor="property_type"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
- Property Type
- </label>
- <select 
- id="property_type"
- value={propertyType}
- onChange={(e) => setPropertyType(e.target.value)}
- className="w-full rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] outline-none transition-all border focus:border-[#00a877] focus:bg-white cursor-pointer"
- >
- <option value="farmhouse">Farmhouse</option>
- <option value="cabin">Cabin</option>
- <option value="farmhouse">Farmhouse</option>
- <option value="villa">Villa</option>
- </select>
- </div>
+  <div className="space-y-2 md:col-span-2">
+  <label htmlFor="property_type"className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
+  Property Type
+  </label>
+  <CustomSelect
+    id="property_type"
+    value={propertyType}
+    onChange={(val) => setPropertyType(val)}
+    options={[
+      { value: 'farmhouse', label: 'Farmhouse', description: 'Cozy countryside farmhouse stay', icon: Home },
+      { value: 'villa', label: 'Villa', description: 'Luxurious retreat with premium amenities', icon: Building },
+      { value: 'cabin', label: 'Cabin', description: 'Rustic wooden cabin surrounded by nature', icon: Tent }
+    ]}
+  />
+  </div>
  </div>
  
 
