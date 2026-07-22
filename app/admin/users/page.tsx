@@ -425,7 +425,7 @@ export default function UserManagementPage() {
  <th className="px-6 py-5">Email Address</th>
  <th className="px-6 py-5">Role Permission</th>
  <th className="px-6 py-5">Date Joined</th>
- <th className="px-8 py-5 text-right">Actions</th>
+ <th className="px-10 py-5 text-right">Actions</th>
  </tr>
  </thead>
  <tbody className="divide-y divide-gray-50 text-[13px] text-gray-600 font-semibold">

@@ -317,7 +317,7 @@ export default function AdminReservationsPage() {
  <th className="px-6 py-5 w-[20%]">Dates</th>
  <th className="px-6 py-5 w-[10%]">Total</th>
  <th className="px-6 py-5 w-[10%]">Status</th>
- <th className="px-6 py-5 w-[10%]">Action</th>
+ <th className="px-9 py-5 w-[10%]">Action</th>
  </tr>
  </thead>
  <tbody className="divide-y divide-gray-50 text-[13px] font-semibold text-[#1B2A22]">

@@ -477,7 +477,7 @@ export default function AdminDashboard() {
                   <th className="px-6 py-4 w-[15%]">Guest</th>
                   <th className="px-6 py-4 w-[20%]">Dates</th>
                   <th className="px-6 py-4 w-[15%]">Amount</th>
-                  <th className="px-6 md:px-8 py-4 w-[15%] text-right">Status</th>
+                  <th className="px-6 md:px-13 py-4 w-[15%]  text-right">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 text-[13px] font-semibold text-[#1B2A22]">
