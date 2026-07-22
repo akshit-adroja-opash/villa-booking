@@ -37,7 +37,8 @@ import {
  ChevronRight,
  ChevronDown,
   Star,
-  StarHalf
+  StarHalf,
+  Trash2
 } from 'lucide-react';
 
 interface FarmDetails {
@@ -220,7 +221,7 @@ export default function FarmDetailPage() {
       return;
     }
     if (!reviewText.trim()) {
-      toast.error('Please enter your review text.');
+      toast.error('Please enter your review.');
       return;
     }
     if (reviewRating === 0) {
@@ -235,6 +236,7 @@ export default function FarmDetailPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           farmId,
+          userId: (session.user as any).id,
           name: (session.user as any).name || 'Guest',
           text: reviewText,
           rating: reviewRating,
@@ -254,6 +256,25 @@ export default function FarmDetailPage() {
       toast.error('Could not submit review.');
     } finally {
       setIsSubmittingReview(false);
+    }
+  };
+
+  const deleteReview = async (reviewId: string) => {
+    if (!confirm('Are you sure you want to delete this review?')) return;
+    
+    try {
+      const res = await fetch(`/api/reviews/${reviewId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (res.ok) {
+        setReviews(reviews.filter((r: any) => r._id !== reviewId));
+        toast.success('Review deleted successfully!');
+      } else {
+        toast.error('Failed to delete review.');
+      }
+    } catch (err) {
+      toast.error('Could not delete review.');
     }
   };
 
@@ -744,24 +765,38 @@ export default function FarmDetailPage() {
 
     {reviews.length > 0 ? (
       <div className="space-y-6">
-        {reviews.map((rev: any, idx: number) => (
-          <div key={idx} className="p-6 bg-white border border-gray-100 rounded-xl shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-3">
-                <img src={rev.img || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'} alt={rev.name} className="w-10 h-10 rounded-full object-cover border border-gray-100" />
-                <div>
-                  <p className="font-bold text-[#1B2A22] text-sm">{rev.name}</p>
-                  <p className="text-[11px] text-gray-500 font-bold tracking-wide uppercase">{new Date(rev.createdAt || Date.now()).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+        {reviews.map((rev: any, idx: number) => {
+          const isOwner = session?.user && (session.user as any).id === rev.userId;
+          return (
+            <div key={idx} className="p-6 bg-white border border-gray-100 rounded-xl shadow-sm">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-3">
+                  <img src={rev.img || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'} alt={rev.name} className="w-10 h-10 rounded-full object-cover border border-gray-100" />
+                  <div>
+                    <p className="font-bold text-[#1B2A22] text-sm">{rev.name}</p>
+                    <p className="text-[11px] text-gray-500 font-bold tracking-wide uppercase">{new Date(rev.createdAt || Date.now()).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-100">
+                    <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                    <span className="text-xs font-bold text-amber-900">{rev.rating || 5}</span>
+                  </div>
+                  {isOwner && (
+                    <button
+                      onClick={() => deleteReview(rev._id)}
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors"
+                      title="Delete review"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  )}
                 </div>
               </div>
-              <div className="flex items-center gap-1 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-100">
-                <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                <span className="text-xs font-bold text-amber-900">{rev.rating || 5}</span>
-              </div>
+              <p className="text-[14px] text-gray-600 font-medium leading-relaxed mt-2">{rev.text}</p>
             </div>
-            <p className="text-[14px] text-gray-600 font-medium leading-relaxed mt-2">{rev.text}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     ) : (
       <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-100 border-dashed">

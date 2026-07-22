@@ -96,7 +96,7 @@ export default function AdminReservationsPage() {
      setUpdatingId(null);
    }
  };
-
+ 
  useEffect(() => {
  async function loadBookings() {
  try {

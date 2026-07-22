@@ -11,7 +11,15 @@ export async function GET(req: Request) {
     const filter = farmId ? { farmId } : {};
     
     const reviews = await Review.find(filter).sort({ createdAt: -1 });
-    return NextResponse.json(reviews, { status: 200 });
+    const reviewsWithStringIds = reviews.map((review: any) => {
+      const obj = review.toObject();
+      return {
+        ...obj,
+        userId: obj.userId ? obj.userId.toString() : null,
+        _id: obj._id ? obj._id.toString() : null,
+      };
+    });
+    return NextResponse.json(reviewsWithStringIds, { status: 200 });
   } catch (error) {
     console.error('Failed to fetch reviews:', error);
     return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });

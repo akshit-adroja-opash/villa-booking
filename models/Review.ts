@@ -7,6 +7,7 @@ export interface IReview extends Document {
   img: string;
   rating: number;
   farmId?: mongoose.Types.ObjectId;
+  userId?: mongoose.Types.ObjectId;
 }
 
 const ReviewSchema: Schema = new Schema({
@@ -16,6 +17,7 @@ const ReviewSchema: Schema = new Schema({
   img: { type: String, default: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80' },
   rating: { type: Number, default: 5 },
   farmId: { type: Schema.Types.ObjectId, ref: 'Farm' },
+  userId: { type: Schema.Types.ObjectId, ref: 'User' },
 }, {
   timestamps: true,
 });
