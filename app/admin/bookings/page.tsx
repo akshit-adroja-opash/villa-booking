@@ -23,6 +23,9 @@ type Booking = {
  createdAt?: string;
 };
 
+type SortColumn = 'guest' | 'property' | 'dates' | 'total' | 'status' | 'createdAt';
+type SortOrder = 'asc' | 'desc';
+
 function formatDateRange(startDate: string, endDate: string) {
  const start = new Date(startDate);
  const end = new Date(endDate);
@@ -70,10 +73,8 @@ export default function AdminReservationsPage() {
 
   const [sortFilter, setSortFilter] = useState('newest');
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [query, sortFilter]);
+  const [sortColumn, setSortColumn] = useState<SortColumn>('createdAt');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
  const toggleConfirm = async (id: string, currentStatus: boolean) => {
    try {
@@ -117,6 +118,62 @@ export default function AdminReservationsPage() {
  loadBookings();
  }, []);
 
+ const handleSortPresetChange = (value: string) => {
+ setCurrentPage(1);
+ setSortFilter(value);
+
+ if (value === 'newest') {
+ setSortColumn('createdAt');
+ setSortOrder('desc');
+ } else if (value === 'oldest') {
+ setSortColumn('createdAt');
+ setSortOrder('asc');
+ } else if (value === 'amount-high') {
+ setSortColumn('total');
+ setSortOrder('desc');
+ } else if (value === 'amount-low') {
+ setSortColumn('total');
+ setSortOrder('asc');
+ }
+ };
+
+ const handleHeaderSort = (column: SortColumn) => {
+ const nextOrder = sortColumn === column
+ ? (sortOrder === 'asc' ? 'desc' : 'asc')
+ : (column === 'total' || column === 'dates' || column === 'createdAt' ? 'desc' : 'asc');
+
+ setCurrentPage(1);
+ setSortColumn(column);
+ setSortOrder(nextOrder);
+ setSortFilter('custom');
+ };
+
+ const getSortLabel = () => {
+ if (sortColumn === 'createdAt') return sortOrder === 'desc' ? 'Newest First' : 'Oldest First';
+ if (sortColumn === 'total') return sortOrder === 'desc' ? 'Amount (High to Low)' : 'Amount (Low to High)';
+ if (sortColumn === 'guest') return sortOrder === 'asc' ? 'Guest (A-Z)' : 'Guest (Z-A)';
+ if (sortColumn === 'property') return sortOrder === 'asc' ? 'Property (A-Z)' : 'Property (Z-A)';
+ if (sortColumn === 'dates') return sortOrder === 'desc' ? 'Dates (Newest First)' : 'Dates (Oldest First)';
+ return sortOrder === 'asc' ? 'Status (A-Z)' : 'Status (Z-A)';
+ };
+
+ const renderSortHeader = (column: SortColumn, label: string) => {
+ const active = sortColumn === column;
+
+ return (
+ <button
+ type="button"
+ onClick={() => handleHeaderSort(column)}
+ className={`inline-flex items-center gap-1.5 font-bold uppercase tracking-wider transition-colors hover:text-[#00a877] ${
+ active ? 'text-[#1B2A22]' : 'text-gray-400'
+ }`}
+ >
+ <span>{label}</span>
+ <ChevronDown className={`h-3.5 w-3.5 transition-all ${active ? 'opacity-100' : 'opacity-35'} ${active && sortOrder === 'asc' ? 'rotate-180' : ''}`} />
+ </button>
+ );
+ };
+
  const filteredBookings = useMemo(() => {
  const normalizedQuery = query.trim().toLowerCase();
  let result = bookings;
@@ -138,20 +195,26 @@ export default function AdminReservationsPage() {
  });
  }
 
-  // Sort
   return [...result].sort((a, b) => {
-    if (sortFilter === 'newest') {
-      return new Date(b.createdAt || b.startDate).getTime() - new Date(a.createdAt || a.startDate).getTime();
-    } else if (sortFilter === 'oldest') {
-      return new Date(a.createdAt || a.startDate).getTime() - new Date(b.createdAt || b.startDate).getTime();
-    } else if (sortFilter === 'amount-high') {
-      return (b.totalPrice || 0) - (a.totalPrice || 0);
-    } else if (sortFilter === 'amount-low') {
-      return (a.totalPrice || 0) - (b.totalPrice || 0);
+    let comparison = 0;
+
+    if (sortColumn === 'createdAt') {
+      comparison = new Date(a.createdAt || a.startDate).getTime() - new Date(b.createdAt || b.startDate).getTime();
+    } else if (sortColumn === 'guest') {
+      comparison = (a.userId?.name || 'Guest').localeCompare(b.userId?.name || 'Guest');
+    } else if (sortColumn === 'property') {
+      comparison = (a.farmId?.title || 'Property').localeCompare(b.farmId?.title || 'Property');
+    } else if (sortColumn === 'dates') {
+      comparison = new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+    } else if (sortColumn === 'total') {
+      comparison = (a.totalPrice || 0) - (b.totalPrice || 0);
+    } else if (sortColumn === 'status') {
+      comparison = (a.paymentStatus || 'pending').localeCompare(b.paymentStatus || 'pending');
     }
-    return 0;
+
+    return sortOrder === 'asc' ? comparison : -comparison;
   });
- }, [bookings, query, sortFilter]);
+ }, [bookings, query, sortColumn, sortOrder]);
 
  const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
  const paginatedBookings = filteredBookings.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -253,7 +316,10 @@ export default function AdminReservationsPage() {
   <Search className="h-4 w-4 text-gray-400"/>
   <input
   value={query}
-  onChange={(event) => setQuery(event.target.value)}
+  onChange={(event) => {
+  setQuery(event.target.value);
+  setCurrentPage(1);
+  }}
   placeholder="Search Bookings..."
   className="w-full bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
   />
@@ -266,12 +332,7 @@ export default function AdminReservationsPage() {
         onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
         className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none focus:border-[#00a877] transition-all w-full"
       >
-        <span>
-          {sortFilter === 'newest' && 'Newest First'}
-          {sortFilter === 'oldest' && 'Oldest First'}
-          {sortFilter === 'amount-high' && 'Amount (High to Low)'}
-          {sortFilter === 'amount-low' && 'Amount (Low to High)'}
-        </span>
+        <span>{getSortLabel()}</span>
         <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isSortDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}>
           <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isSortDropdownOpen ? 'rotate-180' : ''}`} />
         </div>
@@ -290,7 +351,7 @@ export default function AdminReservationsPage() {
               <button
                 key={opt.value}
                 onClick={() => {
-                  setSortFilter(opt.value);
+                  handleSortPresetChange(opt.value);
                   setIsSortDropdownOpen(false);
                 }}
                 className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${
@@ -312,11 +373,11 @@ export default function AdminReservationsPage() {
  <table className="w-full min-w-[900px] text-left border-collapse whitespace-nowrap">
  <thead>
  <tr className="bg-[#fafafa] text-[10px] font-bold text-gray-400 tracking-wider uppercase border-b border-gray-100">
- <th className="px-8 py-5 w-[25%]">Guest</th>
- <th className="px-6 py-5 w-[25%]">Property</th>
- <th className="px-6 py-5 w-[20%]">Dates</th>
- <th className="px-6 py-5 w-[10%]">Total</th>
- <th className="px-6 py-5 w-[10%]">Status</th>
+ <th className="px-8 py-5 w-[25%]">{renderSortHeader('guest', 'Guest')}</th>
+ <th className="px-6 py-5 w-[25%]">{renderSortHeader('property', 'Property')}</th>
+ <th className="px-6 py-5 w-[20%]">{renderSortHeader('dates', 'Dates')}</th>
+ <th className="px-6 py-5 w-[10%]">{renderSortHeader('total', 'Total')}</th>
+ <th className="px-6 py-5 w-[10%]">{renderSortHeader('status', 'Status')}</th>
  <th className="px-9 py-5 w-[10%]">Action</th>
  </tr>
  </thead>

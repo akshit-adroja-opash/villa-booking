@@ -24,23 +24,22 @@ interface Member {
  createdAt?: string;
 }
 
+type SortColumn = 'name' | 'email' | 'role' | 'createdAt';
+type SortOrder = 'asc' | 'desc';
+
 export default function UserManagementPage() {
  const [users, setUsers] = useState<Member[]>([]);
  const [loading, setLoading] = useState(true);
  const [searchTerm, setSearchTerm] = useState('');
  const [roleFilter, setRoleFilter] = useState('all');
  const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
-  const [sortColumn, setSortColumn] = useState<string>("createdAt");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [sortColumn, setSortColumn] = useState<SortColumn>('createdAt');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
  const [currentPage, setCurrentPage] = useState(1);
  const itemsPerPage = 8;
 
   const [sortFilter, setSortFilter] = useState('newest');
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm, roleFilter, sortFilter]);
 
  // Add user modal states
  const [showModal, setShowModal] = useState(false);
@@ -222,6 +221,62 @@ export default function UserManagementPage() {
     ), { duration: Infinity, id: 'delete-confirm', position: 'bottom-center' });
   };
 
+ const getNormalizedRole = (role: string) => (role === 'user' ? 'customer' : role);
+
+ const handleSortPresetChange = (value: string) => {
+ setCurrentPage(1);
+ setSortFilter(value);
+
+ if (value === 'newest') {
+ setSortColumn('createdAt');
+ setSortOrder('desc');
+ } else if (value === 'oldest') {
+ setSortColumn('createdAt');
+ setSortOrder('asc');
+ } else if (value === 'name-asc') {
+ setSortColumn('name');
+ setSortOrder('asc');
+ } else if (value === 'name-desc') {
+ setSortColumn('name');
+ setSortOrder('desc');
+ }
+ };
+
+ const handleHeaderSort = (column: SortColumn) => {
+ const nextOrder = sortColumn === column
+ ? (sortOrder === 'asc' ? 'desc' : 'asc')
+ : (column === 'createdAt' ? 'desc' : 'asc');
+
+ setCurrentPage(1);
+ setSortColumn(column);
+ setSortOrder(nextOrder);
+ setSortFilter('custom');
+ };
+
+ const getSortLabel = () => {
+ if (sortColumn === 'createdAt') return sortOrder === 'desc' ? 'Newest First' : 'Oldest First';
+ if (sortColumn === 'name') return sortOrder === 'asc' ? 'Name (A-Z)' : 'Name (Z-A)';
+ if (sortColumn === 'email') return sortOrder === 'asc' ? 'Email (A-Z)' : 'Email (Z-A)';
+ return sortOrder === 'asc' ? 'Role (A-Z)' : 'Role (Z-A)';
+ };
+
+ const renderSortHeader = (column: SortColumn, label: string) => {
+ const active = sortColumn === column;
+
+ return (
+ <button
+ type="button"
+ onClick={() => handleHeaderSort(column)}
+ className={`inline-flex items-center gap-1.5 font-bold uppercase tracking-wider transition-colors hover:text-[#00a877] ${
+ active ? 'text-[#1B2A22]' : 'text-gray-500'
+ }`}
+ >
+ <span>{label}</span>
+ <ChevronDown className={`h-3.5 w-3.5 transition-all ${active ? 'opacity-100' : 'opacity-35'} ${active && sortOrder === 'asc' ? 'rotate-180' : ''}`} />
+ </button>
+ );
+ };
+
  // Filtered members list
  const filteredUsers = users.filter(user => {
  const matchesSearch = 
@@ -232,16 +287,19 @@ export default function UserManagementPage() {
 
  return matchesSearch && matchesRole;
  }).sort((a, b) => {
-    if (sortFilter === 'newest') {
-      return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
-    } else if (sortFilter === 'oldest') {
-      return new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime();
-    } else if (sortFilter === 'name-asc') {
-      return a.name.localeCompare(b.name);
-    } else if (sortFilter === 'name-desc') {
-      return b.name.localeCompare(a.name);
+    let comparison = 0;
+
+    if (sortColumn === 'createdAt') {
+      comparison = new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime();
+    } else if (sortColumn === 'name') {
+      comparison = a.name.localeCompare(b.name);
+    } else if (sortColumn === 'email') {
+      comparison = a.email.localeCompare(b.email);
+    } else if (sortColumn === 'role') {
+      comparison = getNormalizedRole(a.role).localeCompare(getNormalizedRole(b.role));
     }
-    return 0;
+
+    return sortOrder === 'asc' ? comparison : -comparison;
   });
 
  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
@@ -305,7 +363,10 @@ export default function UserManagementPage() {
  type="text"
  placeholder="Search by name or email..."
  value={searchTerm}
- onChange={(e) => setSearchTerm(e.target.value)}
+ onChange={(e) => {
+ setSearchTerm(e.target.value);
+ setCurrentPage(1);
+ }}
  className="w-full h-11 pl-11 pr-4 bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400 placeholder:font-medium"
  />
  </div>
@@ -344,6 +405,7 @@ export default function UserManagementPage() {
     key={opt.value}
     onClick={() => {
     setRoleFilter(opt.value);
+    setCurrentPage(1);
     setIsRoleDropdownOpen(false);
     }}
     className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${
@@ -368,12 +430,7 @@ export default function UserManagementPage() {
     onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
     className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none focus:border-[#00a877] transition-all w-full"
     >
-    <span>
-    {sortFilter === 'newest' && 'Newest First'}
-    {sortFilter === 'oldest' && 'Oldest First'}
-    {sortFilter === 'name-asc' && 'Name (A-Z)'}
-    {sortFilter === 'name-desc' && 'Name (Z-A)'}
-    </span>
+    <span>{getSortLabel()}</span>
     <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isSortDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}>
     <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isSortDropdownOpen ? 'rotate-180' : ''}`} />
     </div>
@@ -395,7 +452,7 @@ export default function UserManagementPage() {
     <button
     key={opt.value}
     onClick={() => {
-    setSortFilter(opt.value);
+    handleSortPresetChange(opt.value);
     setIsSortDropdownOpen(false);
     }}
     className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${
@@ -421,10 +478,10 @@ export default function UserManagementPage() {
  <table className="w-full text-left border-collapse min-w-[900px]">
  <thead>
  <tr className="border-b border-gray-100 bg-[#fafafa] text-[10px] font-bold text-gray-500 tracking-wider uppercase">
- <th className="px-8 py-5">User Details</th>
- <th className="px-6 py-5">Email Address</th>
- <th className="px-6 py-5">Role Permission</th>
- <th className="px-6 py-5">Date Joined</th>
+ <th className="px-8 py-5">{renderSortHeader('name', 'User Details')}</th>
+ <th className="px-6 py-5">{renderSortHeader('email', 'Email Address')}</th>
+ <th className="px-6 py-5">{renderSortHeader('role', 'Role Permission')}</th>
+ <th className="px-6 py-5">{renderSortHeader('createdAt', 'Date Joined')}</th>
  <th className="px-10 py-5 text-right">Actions</th>
  </tr>
  </thead>

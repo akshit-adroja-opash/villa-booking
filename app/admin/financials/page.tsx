@@ -21,6 +21,9 @@ type Booking = {
  createdAt?: string;
 };
 
+type SortColumn = 'guest' | 'property' | 'orderId' | 'status' | 'amount' | 'createdAt';
+type SortOrder = 'asc' | 'desc';
+
 export default function AdminFinancialsPage() {
  const [bookings, setBookings] = useState<Booking[]>([]);
  const [loading, setLoading] = useState(true);
@@ -98,25 +101,88 @@ export default function AdminFinancialsPage() {
   const itemsPerPage = 8;
   const [sortFilter, setSortFilter] = useState('newest');
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+  const [sortColumn, setSortColumn] = useState<SortColumn>('createdAt');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
-  useEffect(() => {
+  const getOrderId = (booking: Booking) => booking.razorpayOrderId || `order_${booking._id.slice(-10)}`;
+
+  const handleSortPresetChange = (value: string) => {
     setCurrentPage(1);
-  }, [sortFilter]);
+    setSortFilter(value);
+
+    if (value === 'newest') {
+      setSortColumn('createdAt');
+      setSortOrder('desc');
+    } else if (value === 'oldest') {
+      setSortColumn('createdAt');
+      setSortOrder('asc');
+    } else if (value === 'amount-high') {
+      setSortColumn('amount');
+      setSortOrder('desc');
+    } else if (value === 'amount-low') {
+      setSortColumn('amount');
+      setSortOrder('asc');
+    }
+  };
+
+  const handleHeaderSort = (column: SortColumn) => {
+    const nextOrder = sortColumn === column
+      ? (sortOrder === 'asc' ? 'desc' : 'asc')
+      : (column === 'amount' || column === 'createdAt' ? 'desc' : 'asc');
+
+    setCurrentPage(1);
+    setSortColumn(column);
+    setSortOrder(nextOrder);
+    setSortFilter('custom');
+  };
+
+  const getSortLabel = () => {
+    if (sortColumn === 'createdAt') return sortOrder === 'desc' ? 'Newest First' : 'Oldest First';
+    if (sortColumn === 'amount') return sortOrder === 'desc' ? 'Amount (High to Low)' : 'Amount (Low to High)';
+    if (sortColumn === 'guest') return sortOrder === 'asc' ? 'Guest (A-Z)' : 'Guest (Z-A)';
+    if (sortColumn === 'property') return sortOrder === 'asc' ? 'Property (A-Z)' : 'Property (Z-A)';
+    if (sortColumn === 'orderId') return sortOrder === 'asc' ? 'Order ID (A-Z)' : 'Order ID (Z-A)';
+    return sortOrder === 'asc' ? 'Status (A-Z)' : 'Status (Z-A)';
+  };
+
+  const renderSortHeader = (column: SortColumn, label: string, align: 'left' | 'right' = 'left') => {
+    const active = sortColumn === column;
+
+    return (
+      <button
+        type="button"
+        onClick={() => handleHeaderSort(column)}
+        className={`inline-flex items-center gap-1.5 font-bold uppercase tracking-wider transition-colors hover:text-[#00a877] ${
+          align === 'right' ? 'justify-end' : 'justify-start'
+        } ${active ? 'text-[#1B2A22]' : 'text-gray-500'}`}
+      >
+        <span>{label}</span>
+        <ChevronDown className={`h-3.5 w-3.5 transition-all ${active ? 'opacity-100' : 'opacity-35'} ${active && sortOrder === 'asc' ? 'rotate-180' : ''}`} />
+      </button>
+    );
+  };
 
   const sortedTransactions = useMemo(() => {
     return [...bookings].sort((a, b) => {
-      if (sortFilter === 'newest') {
-        return new Date(b.createdAt || b.startDate).getTime() - new Date(a.createdAt || a.startDate).getTime();
-      } else if (sortFilter === 'oldest') {
-        return new Date(a.createdAt || a.startDate).getTime() - new Date(b.createdAt || b.startDate).getTime();
-      } else if (sortFilter === 'amount-high') {
-        return (b.totalPrice || 0) - (a.totalPrice || 0);
-      } else if (sortFilter === 'amount-low') {
-        return (a.totalPrice || 0) - (b.totalPrice || 0);
+      let comparison = 0;
+
+      if (sortColumn === 'createdAt') {
+        comparison = new Date(a.createdAt || a.startDate).getTime() - new Date(b.createdAt || b.startDate).getTime();
+      } else if (sortColumn === 'guest') {
+        comparison = (a.userId?.name || 'Guest').localeCompare(b.userId?.name || 'Guest');
+      } else if (sortColumn === 'property') {
+        comparison = (a.farmId?.title || 'Property').localeCompare(b.farmId?.title || 'Property');
+      } else if (sortColumn === 'orderId') {
+        comparison = getOrderId(a).localeCompare(getOrderId(b));
+      } else if (sortColumn === 'status') {
+        comparison = (a.paymentStatus || 'pending').localeCompare(b.paymentStatus || 'pending');
+      } else if (sortColumn === 'amount') {
+        comparison = (a.totalPrice || 0) - (b.totalPrice || 0);
       }
-      return 0;
+
+      return sortOrder === 'asc' ? comparison : -comparison;
     });
-  }, [bookings, sortFilter]);
+  }, [bookings, sortColumn, sortOrder]);
 
   const totalPages = Math.ceil(sortedTransactions.length / itemsPerPage);
   const paginatedTransactions = sortedTransactions.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -182,12 +248,7 @@ export default function AdminFinancialsPage() {
  onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
  className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none focus:border-[#00a877] transition-all w-full"
  >
- <span>
- {sortFilter === 'newest' && 'Newest First'}
- {sortFilter === 'oldest' && 'Oldest First'}
- {sortFilter === 'amount-high' && 'Amount (High to Low)'}
- {sortFilter === 'amount-low' && 'Amount (Low to High)'}
- </span>
+ <span>{getSortLabel()}</span>
  <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isSortDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}>
  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isSortDropdownOpen ? 'rotate-180' : ''}`} />
  </div>
@@ -206,7 +267,7 @@ export default function AdminFinancialsPage() {
  <button
  key={opt.value}
  onClick={() => {
- setSortFilter(opt.value);
+ handleSortPresetChange(opt.value);
  setIsSortDropdownOpen(false);
  }}
  className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${
@@ -227,11 +288,11 @@ export default function AdminFinancialsPage() {
  <table className="w-full text-left border-collapse min-w-[850px]">
  <thead>
  <tr className="bg-[#fafafa] text-[10px] uppercase tracking-wider font-bold text-gray-500 border-b border-gray-100">
- <th className="px-8 py-5">Guest</th>
- <th className="px-6 py-5">Property</th>
- <th className="px-6 py-5">Order ID</th>
- <th className="px-6 py-5">Status</th>
- <th className="px-8 py-5 text-right">Amount</th>
+ <th className="px-8 py-5">{renderSortHeader('guest', 'Guest')}</th>
+ <th className="px-6 py-5">{renderSortHeader('property', 'Property')}</th>
+ <th className="px-6 py-5">{renderSortHeader('orderId', 'Order ID')}</th>
+ <th className="px-6 py-5">{renderSortHeader('status', 'Status')}</th>
+ <th className="px-8 py-5 text-right">{renderSortHeader('amount', 'Amount', 'right')}</th>
  </tr>
  </thead>
  <tbody className="divide-y divide-gray-50 text-[13px] font-semibold text-[#1B2A22]">
@@ -253,7 +314,7 @@ export default function AdminFinancialsPage() {
  <p className="text-[11px] font-bold text-gray-400 mt-0.5">{booking.userId?.email || 'No email'}</p>
  </td>
  <td className="px-6 py-5 font-bold text-[#1B2A22] text-[14px]">{booking.farmId?.title || 'Property'}</td>
- <td className="px-6 py-5 text-gray-400 font-medium">{booking.razorpayOrderId || `order_${booking._id.slice(-10)}`}</td>
+ <td className="px-6 py-5 text-gray-400 font-medium">{getOrderId(booking)}</td>
  <td className="px-6 py-5">
  <span className={`inline-block px-3 py-1 text-[10px] font-bold rounded-full tracking-wide ${
  isPaid
