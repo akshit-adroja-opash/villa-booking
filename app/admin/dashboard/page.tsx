@@ -23,6 +23,8 @@ export default function AdminDashboard() {
   const [bookingSortFilter, setBookingSortFilter] = useState('newest');
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
   const [isBookingSortDropdownOpen, setIsBookingSortDropdownOpen] = useState(false);
+  const [bookingSortColumn, setBookingSortColumn] = useState<'property' | 'guest' | 'dates' | 'amount' | 'status'>('dates');
+  const [bookingSortOrder, setBookingSortOrder] = useState<'asc' | 'desc'>('desc');
 
   const timeRangeOptions = [
     { value: '1m', label: '1 Month' },
@@ -210,6 +212,27 @@ export default function AdminDashboard() {
     const rafId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafId);
   }, []);
+
+  const handleBookingHeaderSort = (col: 'property' | 'guest' | 'dates' | 'amount' | 'status') => {
+    if (bookingSortColumn === col) {
+      setBookingSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+    } else {
+      setBookingSortColumn(col);
+      setBookingSortOrder(col === 'amount' || col === 'dates' ? 'desc' : 'asc');
+    }
+    setBookingSortFilter('custom');
+  };
+
+  const renderBookingHeader = (col: 'property' | 'guest' | 'dates' | 'amount' | 'status', label: string) => {
+    const active = bookingSortColumn === col;
+    return (
+      <button type="button" onClick={() => handleBookingHeaderSort(col)}
+        className={`inline-flex items-center gap-1.5 font-bold uppercase tracking-wider transition-colors hover:text-[#00a877] ${active ? 'text-[#1B2A22]' : 'text-gray-400'}`}>
+        <span>{label}</span>
+        <ChevronDown className={`h-3.5 w-3.5 transition-all ${active ? 'opacity-100' : 'opacity-35'} ${active && bookingSortOrder === 'asc' ? 'rotate-180' : ''}`} />
+      </button>
+    );
+  };
 
   const donutSegments = useMemo(() => {
     const colors = ['#10b981', '#f59e0b', '#3b82f6', '#8b5cf6', '#ec4899'];
@@ -507,11 +530,11 @@ export default function AdminDashboard() {
               <thead>
                 <tr className="bg-[#fafafa] text-[10px] uppercase tracking-wider font-bold text-gray-400">
                   <th className="px-6 md:px-8 py-4 w-[10%]">ID</th>
-                  <th className="px-6 py-4 w-[25%]">Property</th>
-                  <th className="px-6 py-4 w-[15%]">Guest</th>
-                  <th className="px-6 py-4 w-[20%]">Dates</th>
-                  <th className="px-6 py-4 w-[15%]">Amount</th>
-                  <th className="px-6 md:px-13 py-4 w-[15%]  text-right">Status</th>
+                  <th className="px-6 py-4 w-[25%]">{renderBookingHeader('property', 'Property')}</th>
+                  <th className="px-6 py-4 w-[15%]">{renderBookingHeader('guest', 'Guest')}</th>
+                  <th className="px-6 py-4 w-[20%]">{renderBookingHeader('dates', 'Dates')}</th>
+                  <th className="px-6 py-4 w-[15%]">{renderBookingHeader('amount', 'Amount')}</th>
+                  <th className="px-6 md:px-13 py-4 w-[15%] text-right">{renderBookingHeader('status', 'Status')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 text-[13px] font-semibold text-[#1B2A22]">
@@ -528,10 +551,23 @@ export default function AdminDashboard() {
                       return matchSearch && matchStatus;
                     })
                     .sort((a, b) => {
-                      if (bookingSortFilter === 'amount-high') return (b.totalPrice || 0) - (a.totalPrice || 0);
-                      if (bookingSortFilter === 'amount-low') return (a.totalPrice || 0) - (b.totalPrice || 0);
-                      if (bookingSortFilter === 'oldest') return new Date(a.createdAt || a.startDate).getTime() - new Date(b.createdAt || b.startDate).getTime();
-                      return new Date(b.createdAt || b.startDate).getTime() - new Date(a.createdAt || a.startDate).getTime();
+                      if (bookingSortFilter !== 'custom') {
+                        if (bookingSortFilter === 'amount-high') return (b.totalPrice || 0) - (a.totalPrice || 0);
+                        if (bookingSortFilter === 'amount-low') return (a.totalPrice || 0) - (b.totalPrice || 0);
+                        if (bookingSortFilter === 'oldest') return new Date(a.createdAt || a.startDate).getTime() - new Date(b.createdAt || b.startDate).getTime();
+                        return new Date(b.createdAt || b.startDate).getTime() - new Date(a.createdAt || a.startDate).getTime();
+                      }
+                      let cmp = 0;
+                      if (bookingSortColumn === 'property') cmp = (a.farmId?.title || '').localeCompare(b.farmId?.title || '');
+                      else if (bookingSortColumn === 'guest') cmp = (a.userId?.name || '').localeCompare(b.userId?.name || '');
+                      else if (bookingSortColumn === 'dates') cmp = new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+                      else if (bookingSortColumn === 'amount') cmp = (a.totalPrice || 0) - (b.totalPrice || 0);
+                      else if (bookingSortColumn === 'status') {
+                        const aConf = (a.paymentStatus === 'paid' || a.paymentStatus === 'confirmed' || !!a.adminConfirmed) ? 1 : 0;
+                        const bConf = (b.paymentStatus === 'paid' || b.paymentStatus === 'confirmed' || !!b.adminConfirmed) ? 1 : 0;
+                        cmp = aConf - bConf;
+                      }
+                      return bookingSortOrder === 'asc' ? cmp : -cmp;
                     })
                     .slice(0, 5);
                   if (filtered.length === 0) return <tr><td colSpan={6} className="px-8 py-8 text-center text-gray-400 font-medium">No bookings found.</td></tr>;
