@@ -18,6 +18,11 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [revenueTimeRange, setRevenueTimeRange] = useState('all');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [bookingSearch, setBookingSearch] = useState('');
+  const [bookingStatusFilter, setBookingStatusFilter] = useState('all');
+  const [bookingSortFilter, setBookingSortFilter] = useState('newest');
+  const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
+  const [isBookingSortDropdownOpen, setIsBookingSortDropdownOpen] = useState(false);
 
   const timeRangeOptions = [
     { value: '1m', label: '1 Month' },
@@ -57,21 +62,16 @@ export default function AdminDashboard() {
     loadDashboardData();
   }, []);
 
-  const dbRevenue = bookings.reduce((sum, b) => sum + (b.totalPrice || 0), 0);
+  const dbRevenue = bookings.filter(b => b.adminConfirmed).reduce((sum, b) => sum + (b.totalPrice || 0), 0);
   const displayRevenue = `₹${dbRevenue.toLocaleString('en-IN')}`;
 
-  const displayBookingsCount = String(bookings.length);
+  const displayBookingsCount = String(bookings.filter(b => b.adminConfirmed).length);
   const displayActiveUsers = String(users.length);
 
   const displayOccupancy = useMemo(() => {
     if (farms.length === 0) return '0%';
-    const now = new Date();
-    const activeStays = bookings.filter(b => {
-      const start = new Date(b.startDate);
-      const end = new Date(b.endDate);
-      return start <= now && end >= now;
-    }).length;
-    const percentage = Math.min(100, Math.round((activeStays / farms.length) * 100));
+    const confirmedCount = bookings.filter(b => b.adminConfirmed).length;
+    const percentage = Math.min(100, Math.round((confirmedCount / farms.length) * 100));
     return `${percentage}%`;
   }, [bookings, farms]);
 
@@ -464,8 +464,42 @@ export default function AdminDashboard() {
 
         {/* Recent Bookings Table View Layout */}
         <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] overflow-hidden">
-          <div className="p-6 md:p-8 border-b border-gray-100">
-            <h3 className="font-serif text-[22px] font-bold text-[#1B2A22]">Recent Bookings</h3>
+          <div className="p-6 md:p-8 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <h3 className="font-serif text-[22px] font-bold text-[#1B2A22] shrink-0">Recent Bookings</h3>
+            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+              <div className="flex items-center gap-2 bg-[#f9fafb] rounded-xl border border-transparent px-4 h-11 focus-within:border-[#00a877] focus-within:bg-white transition-all flex-1 sm:min-w-[180px]">
+                <svg className="h-4 w-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input value={bookingSearch} onChange={(e) => setBookingSearch(e.target.value)} placeholder="Search bookings..." className="w-full bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400" />
+              </div>
+              <div className="relative min-w-[130px]">
+                <button onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)} className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none transition-all w-full">
+                  <span>{bookingStatusFilter === 'all' ? 'All Status' : bookingStatusFilter === 'confirmed' ? 'Confirmed' : 'Pending'}</span>
+                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isStatusDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}><ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isStatusDropdownOpen ? 'rotate-180' : ''}`} /></div>
+                </button>
+                {isStatusDropdownOpen && (<>
+                  <div className="fixed inset-0 z-40" onClick={() => setIsStatusDropdownOpen(false)} />
+                  <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 w-full min-w-[130px]">
+                    {[{ value: 'all', label: 'All Status' }, { value: 'confirmed', label: 'Confirmed' }, { value: 'pending', label: 'Pending' }].map((opt) => (
+                      <button key={opt.value} onClick={() => { setBookingStatusFilter(opt.value); setIsStatusDropdownOpen(false); }} className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${bookingStatusFilter === opt.value ? 'bg-[#e6f4ea] text-[#00a877]' : 'text-gray-600 hover:bg-gray-50'}`}>{opt.label}</button>
+                    ))}
+                  </div>
+                </>)}
+              </div>
+              <div className="relative min-w-[150px]">
+                <button onClick={() => setIsBookingSortDropdownOpen(!isBookingSortDropdownOpen)} className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none transition-all w-full">
+                  <span>{bookingSortFilter === 'newest' ? 'Newest First' : bookingSortFilter === 'oldest' ? 'Oldest First' : bookingSortFilter === 'amount-high' ? 'Amount (High)' : 'Amount (Low)'}</span>
+                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isBookingSortDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}><ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isBookingSortDropdownOpen ? 'rotate-180' : ''}`} /></div>
+                </button>
+                {isBookingSortDropdownOpen && (<>
+                  <div className="fixed inset-0 z-40" onClick={() => setIsBookingSortDropdownOpen(false)} />
+                  <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 w-full min-w-[150px]">
+                    {[{ value: 'newest', label: 'Newest First' }, { value: 'oldest', label: 'Oldest First' }, { value: 'amount-high', label: 'Amount (High to Low)' }, { value: 'amount-low', label: 'Amount (Low to High)' }].map((opt) => (
+                      <button key={opt.value} onClick={() => { setBookingSortFilter(opt.value); setIsBookingSortDropdownOpen(false); }} className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${bookingSortFilter === opt.value ? 'bg-[#e6f4ea] text-[#00a877]' : 'text-gray-600 hover:bg-gray-50'}`}>{opt.label}</button>
+                    ))}
+                  </div>
+                </>)}
+              </div>
+            </div>
           </div>
 
           <div className="overflow-x-auto">
@@ -482,10 +516,26 @@ export default function AdminDashboard() {
               </thead>
               <tbody className="divide-y divide-gray-100 text-[13px] font-semibold text-[#1B2A22]">
                 {bookings.length === 0 ? (
-                  <tr>
-                    <td colSpan={6} className="px-8 py-8 text-center text-gray-400 font-medium">No recent bookings.</td>
-                  </tr>
-                ) : [...bookings].sort((a, b) => new Date(b.createdAt || b.startDate).getTime() - new Date(a.createdAt || a.startDate).getTime()).slice(0, 5).map((booking, index) => {
+                  <tr><td colSpan={6} className="px-8 py-8 text-center text-gray-400 font-medium">No recent bookings.</td></tr>
+                ) : (() => {
+                  const filtered = [...bookings]
+                    .filter(b => {
+                      const q = bookingSearch.toLowerCase();
+                      const matchSearch = !q || (b.farmId?.title || '').toLowerCase().includes(q) || (b.userId?.name || '').toLowerCase().includes(q);
+                      const s = b.paymentStatus?.toLowerCase() || 'pending';
+                      const isConfirmed = s === 'paid' || s === 'confirmed';
+                      const matchStatus = bookingStatusFilter === 'all' || (bookingStatusFilter === 'confirmed' ? isConfirmed : !isConfirmed);
+                      return matchSearch && matchStatus;
+                    })
+                    .sort((a, b) => {
+                      if (bookingSortFilter === 'amount-high') return (b.totalPrice || 0) - (a.totalPrice || 0);
+                      if (bookingSortFilter === 'amount-low') return (a.totalPrice || 0) - (b.totalPrice || 0);
+                      if (bookingSortFilter === 'oldest') return new Date(a.createdAt || a.startDate).getTime() - new Date(b.createdAt || b.startDate).getTime();
+                      return new Date(b.createdAt || b.startDate).getTime() - new Date(a.createdAt || a.startDate).getTime();
+                    })
+                    .slice(0, 5);
+                  if (filtered.length === 0) return <tr><td colSpan={6} className="px-8 py-8 text-center text-gray-400 font-medium">No bookings found.</td></tr>;
+                  return filtered.map((booking, index) => {
                   const farmTitle = booking.farmId?.title || 'Deleted Property';
                   const guestName = booking.userId?.name || 'Guest';
                   
@@ -528,7 +578,8 @@ export default function AdminDashboard() {
                       </td>
                     </tr>
                   );
-                })}
+                  });
+                })()}
               </tbody>
             </table>
           </div>
