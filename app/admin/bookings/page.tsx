@@ -479,11 +479,11 @@ export default function AdminReservationsPage() {
  </span>
  </td>
  <td className="px-6 py-5">
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-6">
        <button 
          onClick={() => toggleConfirm(booking._id, !!booking.adminConfirmed)}
          disabled={updatingId === booking._id || deletingId === booking._id}
-         className={`px-4 py-1.5 text-[11px] font-bold rounded-lg transition-colors flex items-center justify-center min-w-[70px] ${
+         className={`px-4 py-1.5 text-[11px] font-bold rounded-lg transition-colors flex items-center justify-center w-[85px] ${
            booking.adminConfirmed 
            ? 'bg-red-50 text-red-600 hover:bg-red-100' 
            : 'bg-[#00a877] text-white hover:bg-[#009669]'

@@ -156,16 +156,16 @@ export default function AdminPropertiesPage() {
  ))}
  </div>
 
- {/* Search Input bar */}
- <div className="flex w-full max-w-md items-center gap-3 bg-white rounded-xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 px-4 py-2.5 focus-within:border-gray-200 transition-all">
- <Search className="h-4 w-4 text-gray-400"/>
- <input
- value={query}
- onChange={(event) => setQuery(event.target.value)}
- placeholder="Search properties by name, location..."
- className="w-full bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
- />
- </div>
+  {/* Search Input bar */}
+  <div className="flex w-full max-w-md items-center gap-3 bg-[#f9fafb] rounded-xl border border-transparent px-4 h-11 focus-within:border-[#00a877] focus-within:bg-white transition-all shadow-[0_2px_10px_-4px_rgba(0,0,0,0.03)]">
+    <Search className="h-4 w-4 text-gray-400 shrink-0"/>
+    <input
+      value={query}
+      onChange={(event) => setQuery(event.target.value)}
+      placeholder="Search properties by name, location..."
+      className="w-full bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
+    />
+  </div>
 
  {/* Listings Grid Layout */}
  <section className="flex flex-col gap-6">
@@ -189,10 +189,17 @@ export default function AdminPropertiesPage() {
  <Home className="h-8 w-8"/>
  </div>
  )}
- <div className="absolute top-4 left-4 bg-white/95 px-3 py-1.5 text-[12px] font-bold text-[#00a877] flex items-center gap-1.5 shadow-sm">
- <span className="h-1.5 w-1.5 rounded-full bg-[#00a877]"></span>
- Active
- </div>
+  {farm.isActive !== false ? (
+    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-bold text-[#00a877] flex items-center gap-1.5 shadow-sm border border-white/20">
+      <span className="h-1.5 w-1.5 rounded-full bg-[#00a877] animate-pulse"></span>
+      Active
+    </div>
+  ) : (
+    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-bold text-red-500 flex items-center gap-1.5 shadow-sm border border-white/20">
+      <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>
+      Inactive
+    </div>
+  )}
  </div>
  
  {/* Content */}
