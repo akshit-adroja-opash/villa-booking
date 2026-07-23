@@ -331,8 +331,9 @@ function StaysList() {
                         </span>
                         {farm.pricePerNight && <span className="text-[13px] font-medium text-gray-400 ml-0.5">/night</span>}
                       </div>
-                      <span className="text-[13px] font-bold text-[#002E1E] group-hover:underline">
-                        Details
+                      <span className="flex items-center gap-1.5 text-[13px] font-bold text-[#002E1E] group-hover:text-[#00a877] transition-colors">
+                        View
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                       </span>
                     </div>
                   </div>

@@ -390,8 +390,7 @@ export default function AdminReservationsPage() {
  </tr>
  ) : (
  paginatedBookings.map((booking) => {
- const status = booking.paymentStatus?.toLowerCase() || 'pending';
- const isConfirmed = status === 'paid' || status === 'confirmed';
+ const isConfirmed = !!booking.adminConfirmed;
  
  return (
  <tr key={booking._id} className="hover:bg-[#fafafa] transition-colors">
@@ -428,7 +427,7 @@ export default function AdminReservationsPage() {
  ? 'bg-[#e6f4ea] text-[#00a877]'
  : 'bg-orange-50 text-orange-500'
  }`}>
- {isConfirmed ? 'paid' : 'pending'}
+ {isConfirmed ? 'confirmed' : 'pending'}
  </span>
  </td>
  <td className="px-6 py-5">

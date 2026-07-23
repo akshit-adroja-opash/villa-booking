@@ -6,182 +6,182 @@ import { useParams, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { 
- MapPin, 
- Grid, 
- Wifi, 
- Snowflake, 
- Wind,
- Flame,
- Trees, 
- ChefHat, 
- Waves, 
- ShieldCheck, 
- Loader2,
- Compass,
- Sparkles,
- Users,
- Bed,
- X,
- CalendarDays,
- CheckCircle2,
- Car,
- Camera,
- ExternalLink,
- Phone,
- MessageCircle,
- Info,
- FileText,
- Ban,
- ChevronLeft,
- ChevronRight,
- ChevronDown,
+import {
+  MapPin,
+  Grid,
+  Wifi,
+  Snowflake,
+  Wind,
+  Flame,
+  Trees,
+  ChefHat,
+  Waves,
+  ShieldCheck,
+  Loader2,
+  Compass,
+  Sparkles,
+  Users,
+  Bed,
+  X,
+  CalendarDays,
+  CheckCircle2,
+  Car,
+  Camera,
+  ExternalLink,
+  Phone,
+  MessageCircle,
+  Info,
+  FileText,
+  Ban,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
   Star,
   StarHalf,
   Trash2
 } from 'lucide-react';
 
 interface FarmDetails {
- _id?: string;
- id?: string;
- title: string;
- location: string;
- mapLink?: string;
- pricePerNight: number;
- description: string;
- images: string[];
- amenities: string[];
- guests: number;
- bedrooms: number;
- acRooms?: number;
- nonAcRooms?: number;
- baths: number;
- rating: number;
- reviewsCount?: number;
- acres?: number;
- houseRules?: string[];
- cancellationPolicy?: string;
+  _id?: string;
+  id?: string;
+  title: string;
+  location: string;
+  mapLink?: string;
+  pricePerNight: number;
+  description: string;
+  images: string[];
+  amenities: string[];
+  guests: number;
+  bedrooms: number;
+  acRooms?: number;
+  nonAcRooms?: number;
+  baths: number;
+  rating: number;
+  reviewsCount?: number;
+  acres?: number;
+  houseRules?: string[];
+  cancellationPolicy?: string;
 }
 
 const AMENITY_ICONS: Record<string, React.ComponentType<any>> = {
- 'WiFi': Wifi,
- 'Swimming Pool': Waves,
- 'Pool': Waves,
- 'Children\'s Swimming Pool': Waves,
- 'Kids Swimming Pool': Waves,
- 'Kitchen': ChefHat,
- 'Hot Tub': Sparkles,
- 'Fireplace': Flame,
- 'Indoor Fireplace': Flame,
- 'Air Conditioning': Snowflake,
- 'AC': Snowflake,
- 'Garden': Trees,
- 'Children\'s Playground': Trees,
- 'Gazebo': Compass,
- 'Extra Mattress': Bed,
- 'Parking': Car,
- 'CCTV': Camera,
- 'Tea Tasting': Compass,
- 'Plantation Walk': Trees,
- 'Yoga Deck': Sparkles,
- 'River View': Waves,
- 'Fruit Picking': Trees,
- 'Beach Access': Compass,
- 'Cricket Box': CheckCircle2,
- 'Online Food Delivery (Zomato/Swiggy)': ChefHat
+  'WiFi': Wifi,
+  'Swimming Pool': Waves,
+  'Pool': Waves,
+  'Children\'s Swimming Pool': Waves,
+  'Kids Swimming Pool': Waves,
+  'Kitchen': ChefHat,
+  'Hot Tub': Sparkles,
+  'Fireplace': Flame,
+  'Indoor Fireplace': Flame,
+  'Air Conditioning': Snowflake,
+  'AC': Snowflake,
+  'Garden': Trees,
+  'Children\'s Playground': Trees,
+  'Gazebo': Compass,
+  'Extra Mattress': Bed,
+  'Parking': Car,
+  'CCTV': Camera,
+  'Tea Tasting': Compass,
+  'Plantation Walk': Trees,
+  'Yoga Deck': Sparkles,
+  'River View': Waves,
+  'Fruit Picking': Trees,
+  'Beach Access': Compass,
+  'Cricket Box': CheckCircle2,
+  'Online Food Delivery (Zomato/Swiggy)': ChefHat
 };
 
 export default function FarmDetailPage() {
- const { id } = useParams() || {};
- const { data: session } = useSession() || {};
- const router = useRouter();
+  const { id } = useParams() || {};
+  const { data: session } = useSession() || {};
+  const router = useRouter();
 
- const [farm, setFarm] = useState<FarmDetails | null>(null);
- const [loading, setLoading] = useState(true);
+  const [farm, setFarm] = useState<FarmDetails | null>(null);
+  const [loading, setLoading] = useState(true);
 
- // Booking states
- const [startDate, setStartDate] = useState<Date | null>(null);
- const [endDate, setEndDate] = useState<Date | null>(null);
- const [guestSelection, setGuestSelection] = useState(0);
- const [showGuestDropdown, setShowGuestDropdown] = useState(false);
- const [bookingLoading, setBookingLoading] = useState(false);
- const [existingBookings, setExistingBookings] = useState<any[]>([]);
- const [showAllPhotosModal, setShowAllPhotosModal] = useState(false);
- const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
- const [openPolicy, setOpenPolicy] = useState<'rules' | 'cancellation' | null>(null);
+  // Booking states
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [guestSelection, setGuestSelection] = useState(0);
+  const [showGuestDropdown, setShowGuestDropdown] = useState(false);
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [existingBookings, setExistingBookings] = useState<any[]>([]);
+  const [showAllPhotosModal, setShowAllPhotosModal] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [openPolicy, setOpenPolicy] = useState<'rules' | 'cancellation' | null>(null);
   const [reviews, setReviews] = useState<any[]>([]);
   const [reviewText, setReviewText] = useState('');
   const [reviewRating, setReviewRating] = useState(0);
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
- useEffect(() => {
- if (!id) return;
+  useEffect(() => {
+    if (!id) return;
 
- async function getFarm() {
- setLoading(true);
- try {
- const res = await fetch(`/api/farms/${id}`);
- if (res.ok) {
- const data = await res.json();
- if (!data) throw new Error('Not found');
- const cleanRating = Number(data.rating === 4.8 && data._id ? (4.5 + (parseInt(data._id.slice(-4), 16) % 6) / 10).toFixed(1) : Number(data.rating || 4.7).toFixed(1));
+    async function getFarm() {
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/farms/${id}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (!data) throw new Error('Not found');
+          const cleanRating = Number(data.rating === 4.8 && data._id ? (4.5 + (parseInt(data._id.slice(-4), 16) % 6) / 10).toFixed(1) : Number(data.rating || 4.7).toFixed(1));
 
- 
- setFarm({
- _id: data._id,
- title: data.title,
- location: data.location,
- mapLink: data.mapLink,
- pricePerNight: data.pricePerNight,
- description: data.description,
- images: data.images && data.images.length > 0 ? data.images : [
- 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80'
- ],
- amenities: data.amenities && data.amenities.length > 0 ? data.amenities : ['WiFi', 'Pool'],
- guests: data.guests || 6,
- bedrooms: data.bedrooms || 3,
- acRooms: data.acRooms || 0,
- nonAcRooms: data.nonAcRooms || 0,
- baths: data.baths || 2,
- rating: cleanRating,
- reviewsCount: data.reviewsCount || Math.round(cleanRating * 30 + (data.pricePerNight % 100)),
- acres: data.acres,
- houseRules: data.houseRules,
- cancellationPolicy: data.cancellationPolicy
- });
- } else {
- setFarm(null);
- }
- } catch (err) {
- console.error('Error fetching farm details:', err);
- setFarm(null);
- } finally {
- setLoading(false);
- }
- }
 
- getFarm();
- }, [id]);
+          setFarm({
+            _id: data._id,
+            title: data.title,
+            location: data.location,
+            mapLink: data.mapLink,
+            pricePerNight: data.pricePerNight,
+            description: data.description,
+            images: data.images && data.images.length > 0 ? data.images : [
+              'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80'
+            ],
+            amenities: data.amenities && data.amenities.length > 0 ? data.amenities : ['WiFi', 'Pool'],
+            guests: data.guests || 6,
+            bedrooms: data.bedrooms || 3,
+            acRooms: data.acRooms || 0,
+            nonAcRooms: data.nonAcRooms || 0,
+            baths: data.baths || 2,
+            rating: cleanRating,
+            reviewsCount: data.reviewsCount || Math.round(cleanRating * 30 + (data.pricePerNight % 100)),
+            acres: data.acres,
+            houseRules: data.houseRules,
+            cancellationPolicy: data.cancellationPolicy
+          });
+        } else {
+          setFarm(null);
+        }
+      } catch (err) {
+        console.error('Error fetching farm details:', err);
+        setFarm(null);
+      } finally {
+        setLoading(false);
+      }
+    }
 
- useEffect(() => {
- if (!farm) return;
+    getFarm();
+  }, [id]);
 
- async function fetchFarmBookings() {
- try {
- const farmId = farm?._id || (farm as any)?.id;
- if (!farmId) return;
- const res = await fetch(`/api/bookings?farmId=${farmId}`);
- if (res.ok) {
- const data = await res.json();
- setExistingBookings(data || []);
- }
- } catch (err) {
- console.error('Error fetching bookings for this farm:', err);
- }
- }
+  useEffect(() => {
+    if (!farm) return;
 
- fetchFarmBookings();
-    
+    async function fetchFarmBookings() {
+      try {
+        const farmId = farm?._id || (farm as any)?.id;
+        if (!farmId) return;
+        const res = await fetch(`/api/bookings?farmId=${farmId}`);
+        if (res.ok) {
+          const data = await res.json();
+          setExistingBookings(data || []);
+        }
+      } catch (err) {
+        console.error('Error fetching bookings for this farm:', err);
+      }
+    }
+
+    fetchFarmBookings();
+
     async function fetchReviews() {
       try {
         const farmId = farm?._id || (farm as any)?.id;
@@ -198,19 +198,19 @@ export default function FarmDetailPage() {
     fetchReviews();
   }, [farm]);
 
- const checkInExcludeDates = useMemo(() => {
- const dates: Date[] = [];
- existingBookings.forEach((b: any) => {
- if (b.paymentStatus === 'Failed') return;
- const bStart = new Date(b.startDate);
- const bEnd = new Date(b.endDate);
- let curr = new Date(bStart);
- while (curr < bEnd) {
- dates.push(new Date(curr));
- curr.setDate(curr.getDate() + 1);
- }
- });
- return dates;
+  const checkInExcludeDates = useMemo(() => {
+    const dates: Date[] = [];
+    existingBookings.forEach((b: any) => {
+      if (b.paymentStatus === 'Failed') return;
+      const bStart = new Date(b.startDate);
+      const bEnd = new Date(b.endDate);
+      let curr = new Date(bStart);
+      while (curr < bEnd) {
+        dates.push(new Date(curr));
+        curr.setDate(curr.getDate() + 1);
+      }
+    });
+    return dates;
   }, [existingBookings]);
 
   const submitReview = async (e: React.FormEvent) => {
@@ -261,7 +261,7 @@ export default function FarmDetailPage() {
 
   const deleteReview = async (reviewId: string) => {
     if (!confirm('Are you sure you want to delete this review?')) return;
-    
+
     try {
       const res = await fetch(`/api/reviews/${reviewId}`, {
         method: 'DELETE',
@@ -278,21 +278,21 @@ export default function FarmDetailPage() {
     }
   };
 
- const checkOutExcludeDates = useMemo(() => {
- const dates: Date[] = [];
- existingBookings.forEach((b: any) => {
- if (b.paymentStatus === 'Failed') return;
- const bStart = new Date(b.startDate);
- const bEnd = new Date(b.endDate);
- let curr = new Date(bStart);
- curr.setDate(curr.getDate() + 1);
- while (curr <= bEnd) {
- dates.push(new Date(curr));
- curr.setDate(curr.getDate() + 1);
- }
- });
- return dates;
- }, [existingBookings]);
+  const checkOutExcludeDates = useMemo(() => {
+    const dates: Date[] = [];
+    existingBookings.forEach((b: any) => {
+      if (b.paymentStatus === 'Failed') return;
+      const bStart = new Date(b.startDate);
+      const bEnd = new Date(b.endDate);
+      let curr = new Date(bStart);
+      curr.setDate(curr.getDate() + 1);
+      while (curr <= bEnd) {
+        dates.push(new Date(curr));
+        curr.setDate(curr.getDate() + 1);
+      }
+    });
+    return dates;
+  }, [existingBookings]);
 
   useEffect(() => {
     if (showAllPhotosModal || lightboxIndex !== null) {
@@ -320,151 +320,152 @@ export default function FarmDetailPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [lightboxIndex, farm?.images?.length]);
 
- if (loading) {
- return (
- <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
- <Loader2 className="h-10 w-10 animate-spin text-[#1B2A22]"/>
- </div>
- );
- }
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
+        <Loader2 className="h-10 w-10 animate-spin text-[#1B2A22]" />
+      </div>
+    );
+  }
 
- if (!farm) {
- return (
- <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
- <p className="font-serif text-2xl text-[#1B2A22]">Farmhouse not found.</p>
- </div>
- );
- }
+  if (!farm) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#FAF9F6]">
+        <p className="font-serif text-2xl text-[#1B2A22]">Farmhouse not found.</p>
+      </div>
+    );
+  }
 
- // Calculate pricing breakdown
- const start = startDate;
- const end = endDate;
+  // Calculate pricing breakdown
+  const start = startDate;
+  const end = endDate;
 
- const hasValidDates = start && end && !isNaN(start.getTime()) && !isNaN(end.getTime()) && start < end;
- const isInvalidDates = start && end && (isNaN(start.getTime()) || isNaN(end.getTime()) || start >= end);
+  const hasValidDates = start && end && !isNaN(start.getTime()) && !isNaN(end.getTime()) && start < end;
+  const isInvalidDates = start && end && (isNaN(start.getTime()) || isNaN(end.getTime()) || start >= end);
 
- const hasConflict = startDate && endDate && !isInvalidDates && existingBookings.some((b: any) => {
- if (b.paymentStatus === 'Failed') return false;
- const bStart = new Date(b.startDate).getTime();
- const bEnd = new Date(b.endDate).getTime();
- const sTime = startDate.getTime();
- const eTime = endDate.getTime();
- return sTime < bEnd && eTime > bStart;
- });
+  const hasConflict = startDate && endDate && !isInvalidDates && existingBookings.some((b: any) => {
+    if (b.paymentStatus === 'Failed') return false;
+    const bStart = new Date(b.startDate).getTime();
+    const bEnd = new Date(b.endDate).getTime();
+    const sTime = startDate.getTime();
+    const eTime = endDate.getTime();
+    return sTime < bEnd && eTime > bStart;
+  });
 
- const diffTime = hasValidDates ? Math.abs(end!.getTime() - start!.getTime()) : 0;
- const diffNights = hasValidDates ? Math.ceil(diffTime / (1000 * 60 * 60 * 24)) : 0;
- const accommodationTotal = farm.pricePerNight * diffNights;
- const grandTotal = accommodationTotal;
+  const diffTime = hasValidDates ? Math.abs(end!.getTime() - start!.getTime()) : 0;
+  const diffNights = hasValidDates ? Math.ceil(diffTime / (1000 * 60 * 60 * 24)) : 0;
+  const accommodationTotal = farm.pricePerNight * diffNights;
+  const grandTotal = accommodationTotal;
 
- const priceBreakdown = [
- { label: `₹${farm.pricePerNight.toLocaleString('en-IN')} x ${diffNights} night${diffNights > 1 ? 's' : ''}`, value: accommodationTotal }
- ];
+  const priceBreakdown = [
+    { label: `₹${farm.pricePerNight.toLocaleString('en-IN')} x ${diffNights} night${diffNights > 1 ? 's' : ''}`, value: accommodationTotal }
+  ];
 
- const handleBooking = async () => {
- if (!session?.user) {
- toast.error('Please sign in to complete your booking.');
- router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
- return;
- }
+  const handleBooking = async () => {
+    if (!session?.user) {
+      toast.error('Please sign in to complete your booking.');
+      router.push(`/login?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
+      return;
+    }
 
- if (!startDate || !endDate) {
- toast.error('Please select check-in and checkout dates.');
- return;
- }
+    if (!startDate || !endDate) {
+      toast.error('Please select check-in and checkout dates.');
+      return;
+    }
 
- if (guestSelection === 0) {
- toast.error('Please select the number of guests.');
- return;
- }
+    if (guestSelection === 0) {
+      toast.error('Please select the number of guests.');
+      return;
+    }
 
- if (isInvalidDates) {
- toast.error('Checkout date must be after check-in date.');
- return;
- }
+    if (isInvalidDates) {
+      toast.error('Checkout date must be after check-in date.');
+      return;
+    }
 
- if (hasConflict) {
- toast.error('This farmhouse is already reserved for the selected dates. Please choose different dates.');
- return;
- }
+    if (hasConflict) {
+      toast.error('This farmhouse is already reserved for the selected dates. Please choose different dates.');
+      return;
+    }
 
- setBookingLoading(true);
- try {
- let finalFarmId = farm._id || farm.id;
+    setBookingLoading(true);
+    try {
+      let finalFarmId = farm._id || farm.id;
 
- // Register mock farms on the fly if needed
- if (['1', '2', '3'].includes(finalFarmId as string)) {
- const checkRes = await fetch(`/api/farms`);
- if (checkRes.ok) {
- const list = await checkRes.json();
- const existing = list.find((item: any) => item.title === farm.title);
- if (existing) {
- finalFarmId = existing._id;
- } else {
- const createRes = await fetch('/api/farms', {
- method: 'POST',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({
- title: farm.title,
- description: farm.description,
- location: farm.location,
- pricePerNight: farm.pricePerNight,
- images: farm.images,
- amenities: farm.amenities,
- guests: farm.guests,
- bedrooms: farm.bedrooms,
- baths: farm.baths,
- rating: farm.rating
- })
- });
- if (createRes.ok) {
- const newFarm = await createRes.json();
- finalFarmId = newFarm._id;
- }
- }
- }
- }
+      // Register mock farms on the fly if needed
+      if (['1', '2', '3'].includes(finalFarmId as string)) {
+        const checkRes = await fetch(`/api/farms`);
+        if (checkRes.ok) {
+          const list = await checkRes.json();
+          const existing = list.find((item: any) => item.title === farm.title);
+          if (existing) {
+            finalFarmId = existing._id;
+          } else {
+            const createRes = await fetch('/api/farms', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                title: farm.title,
+                description: farm.description,
+                location: farm.location,
+                pricePerNight: farm.pricePerNight,
+                images: farm.images,
+                amenities: farm.amenities,
+                guests: farm.guests,
+                bedrooms: farm.bedrooms,
+                baths: farm.baths,
+                rating: farm.rating
+              })
+            });
+            if (createRes.ok) {
+              const newFarm = await createRes.json();
+              finalFarmId = newFarm._id;
+            }
+          }
+        }
+      }
 
- const res = await fetch('/api/bookings', {
- method: 'POST',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({
- userId: (session.user as any).id,
- farmId: finalFarmId,
- startDate: startDate ? startDate.toISOString() : null,
- endDate: endDate ? endDate.toISOString() : null,
- totalPrice: grandTotal
- })
- });
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: (session.user as any).id,
+          farmId: finalFarmId,
+          startDate: startDate ? startDate.toISOString() : null,
+          endDate: endDate ? endDate.toISOString() : null,
+          totalPrice: grandTotal
+        })
+      });
 
- if (res.ok) {
- toast.success('Booking Confirmed Successfully!');
- 
- const checkInStr = startDate ? startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' at 6:00 PM' : '';
- const checkOutStr = endDate ? endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' at 5:00 PM' : '';
- const userEmail = (session.user as any).email || 'No email';
- 
- const text = `Hi! I want to book ${farm.title} Check-in: ${checkInStr} Check-out: ${checkOutStr} Duration: ${diffNights} Nights Guests: ${guestSelection} Email: ${userEmail}`;
- const whatsappUrl = `https://api.whatsapp.com/send?phone=918780493615&text=${encodeURIComponent(text)}`;
- 
- window.open(whatsappUrl, '_blank');
- 
- router.push('/dashboard/bookings');
- } else {
- const errorData = await res.json();
- toast.error(errorData.error || 'Failed to place booking.');
- }
- } catch (err) {
- console.error(err);
- toast.error('Could not confirm booking.');
- } finally {
- setBookingLoading(false);
- }
- };
+      if (res.ok) {
+        toast.success('Booking Confirmed Successfully!');
 
- return (
- <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22] font-sans antialiased">
- <style dangerouslySetInnerHTML={{__html: `
+        const checkInStr = startDate ? startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' at 6:00 PM' : '';
+        const checkOutStr = endDate ? endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' at 5:00 PM' : '';
+        const userEmail = (session.user as any).email || 'No email';
+
+        const text = `Hi! I want to book ${farm.title} Check-in: ${checkInStr} Check-out: ${checkOutStr} Duration: ${diffNights} Nights Guests: ${guestSelection} Email: ${userEmail}`;
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=918780493615&text=${encodeURIComponent(text)}`;
+
+        window.open(whatsappUrl, '_blank');
+
+        router.push('/dashboard/bookings');
+      } else {
+        const errorData = await res.json();
+        toast.error(errorData.error || 'Failed to place booking.');
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('Could not confirm booking.');
+    } finally {
+      setBookingLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#FAF9F6] text-[#1B2A22] font-sans antialiased">
+      <style dangerouslySetInnerHTML={{
+        __html: `
  .react-datepicker-wrapper { width: 100%; }
  .react-datepicker-popper { z-index: 9999 !important; }
  .react-datepicker { font-family: inherit; border: 1px solid #f3f4f6; background-color: white; color: #002E1E; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); overflow: hidden; }
@@ -479,580 +480,578 @@ export default function FarmDetailPage() {
  .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle::before { border-bottom-color: #f3f4f6; }
  .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle::after { border-bottom-color: white; }
  `}} />
- <main className="mx-auto max-w-[1280px] px-6 pt-32 pb-24 md:px-16">
- 
- {/* Title & Metadata */}
- <div className="mb-8 max-w-4xl">
- <h1 className="font-serif text-3xl font-bold text-[#002E1E] md:text-5xl leading-tight mb-4">{farm.title}</h1>
- <div className="flex items-center gap-2 text-[14px] font-medium text-[#002E1E]">
- <MapPin className="h-4 w-4 text-[#00a877]"/>
- {farm.location?.startsWith('http') ? (
- <a href={farm.location} target="_blank" rel="noopener noreferrer" className="hover:underline">
- View on Map
- </a>
- ) : (
- <span>{farm.location}</span>
- )}
- </div>
- </div>
+      <main className="mx-auto max-w-[1280px] px-6 pt-32 pb-24 md:px-16">
 
- {/* Hero Photo Gallery */}
- <div className="relative mb-12 md:mb-20 grid h-[300px] sm:h-[400px] md:h-[600px] grid-cols-1 gap-2 md:gap-4 overflow-hidden rounded-2xl md:grid-cols-2 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-2">
-  <div className="relative col-span-1 row-span-1 overflow-hidden md:col-span-2 md:row-span-1 lg:col-span-3 lg:row-span-2 cursor-pointer" onClick={() => setLightboxIndex(0)}>
-  <img 
-  src={farm.images?.[0]} 
-  alt="Main stay view"
-  className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
-  />
-  </div>
-  <div className="hidden overflow-hidden md:block cursor-pointer md:col-span-1 lg:col-span-1" onClick={() => setLightboxIndex(1)}>
-  <img 
-  src={farm.images?.[1] || farm.images?.[0]} 
-  alt="Alternative exterior view"
-  className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
-  />
-  </div>
-  <div className="relative hidden overflow-hidden md:block cursor-pointer md:col-span-1 lg:col-span-1" onClick={() => setLightboxIndex(2)}>
-  <img 
-  src={farm.images?.[2] || farm.images?.[0]} 
-  alt="Interior lounge"
-  className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
-  />
-  </div>
-  
-  {farm.images && farm.images.length > 3 && (
-  <button 
-  onClick={() => setShowAllPhotosModal(true)}
-  className="absolute bottom-4 right-4 md:bottom-6 md:right-6 flex items-center space-x-2 bg-white/40 backdrop-blur-md px-4 py-2 md:px-6 md:py-3 text-[12px] md:text-sm font-bold text-[#1B2A22] transition-all hover:bg-white hover:scale-105 rounded-lg shadow-sm"
-  >
-  <Grid className="h-4 w-4"/>
-  <span>View All</span>
-  </button>
-  )}
- </div>
-
- {/* Detail Split Column Panel */}
- <div className="flex flex-col lg:grid lg:grid-cols-12 lg:gap-x-10 mt-12">
- 
- {/* Main Info */}
- <div className="w-full lg:col-span-7 order-1 flex flex-col">
- 
- {/* Highlights Section */}
- <div className="mb-8">
- <h2 className="font-serif text-[26px] font-bold text-[#002E1E] mb-4">Entire Farmhouse hosted by Enjoy Farm</h2>
- <div className="flex items-center flex-wrap gap-2 text-[14px] text-gray-600 font-bold">
- <span className="flex items-center gap-1.5"><Users className="h-4 w-4 text-gray-400"/> {farm.guests} guests</span>
- <span className="text-gray-300 mx-1">·</span>
-  <span className="flex items-center gap-1.5">
-    <Bed className="h-4 w-4 text-gray-400"/> 
-    {farm.bedrooms} bedrooms
-    {(farm.acRooms || farm.nonAcRooms) ? <span className="text-gray-500 font-medium ml-0.5">({farm.acRooms || 0} AC, {farm.nonAcRooms || 0} Non-AC)</span> : null}
-  </span>
- {farm.acres && (
-   <>
-     <span className="text-gray-300 mx-1">·</span>
-     <span className="flex items-center gap-1.5"><Compass className="h-4 w-4 text-gray-400"/> {farm.acres} Acres</span>
-   </>
- )}
- </div>
- </div>
-
- <div className="border-t border-gray-100 my-8"></div>
-
- {/* About Home description */}
- <div className="mb-8">
- <h3 className="font-serif text-[22px] font-bold text-[#002E1E] mb-4">About this farmhouse stay</h3>
- <p className="text-[14px] font-medium text-gray-600 leading-relaxed whitespace-pre-line">
- {farm.description}
- </p>
- </div>
-
- <div className="border-t border-gray-100 my-8"></div>
-
- {/* Amenities Grid */}
- <div className="mb-8">
- <h3 className="font-serif text-[22px] font-bold text-[#002E1E] mb-6">What this farmhouse offers</h3>
- <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8">
- {farm.amenities?.map((amenity, index) => {
- const IconComponent = AMENITY_ICONS[amenity] || CheckCircle2;
- return (
- <div key={index} className="flex items-center gap-4">
- <div className="bg-[#e6f4ea] p-2.5 rounded-full text-[#002E1E]">
- <IconComponent className="h-5 w-5 stroke-[1.5]"/>
- </div>
- <span className="text-[14px] font-bold text-gray-700">{amenity}</span>
- </div>
- );
- })}
- </div>
- </div>
-
- {/* Policies Accordion */}
- <div className="border border-gray-100 rounded-xl p-6 bg-white mb-10 mt-12 shadow-sm">
- <div className="flex items-center gap-3 mb-6">
- <div className="w-1 h-6 bg-[#002E1E] rounded-sm"></div>
- <h3 className="font-sans text-xl font-bold text-[#002E1E]">Policies</h3>
- </div>
- 
- <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
- <button 
- onClick={() => setOpenPolicy(openPolicy === 'rules' ? null : 'rules')}
- className={`flex items-center justify-center gap-2.5 p-3.5 rounded-xl border-2 transition-all font-bold shadow-sm active:scale-[0.98] ${
-  openPolicy === 'rules' 
-  ? 'border-[#00a877] bg-[#e6f4ea] text-[#00a877]' 
-  : 'border-gray-100 bg-gray-50 text-gray-600 hover:border-[#00a877]/30 hover:bg-white hover:shadow-md'
- }`}
- >
- <FileText className="h-5 w-5"/>
- <span>House Rules</span>
- </button>
- 
- <button 
- onClick={() => setOpenPolicy(openPolicy === 'cancellation' ? null : 'cancellation')}
- className={`flex items-center justify-center gap-2.5 p-3.5 rounded-xl border-2 transition-all font-bold shadow-sm active:scale-[0.98] ${
-  openPolicy === 'cancellation' 
-  ? 'border-red-500 bg-red-50 text-red-500' 
-  : 'border-gray-100 bg-gray-50 text-gray-600 hover:border-red-300 hover:bg-white hover:shadow-md'
- }`}
- >
- <Ban className="h-5 w-5"/>
- <span>Cancellation Policy</span>
- </button>
- </div>
- 
- {/* Expanded Content */}
- {openPolicy === 'rules' && (
- <div className="mt-6 pt-6 border-t border-gray-100 animate-fade-in">
- <div className="flex items-center gap-3 mb-6">
- <div className="w-1.5 h-5 bg-[#002E1E] rounded-sm"></div>
- <h4 className="font-sans text-lg font-bold text-[#002E1E]">House Rules</h4>
- </div>
- <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
- {(farm.houseRules && farm.houseRules.length > 0 ? farm.houseRules : [
- 'Check-in: 6 PM | Checkout: 5 PM',
- 'No Alcohol Party',
- 'No Smoking',
- 'Self Cooking',
- 'Self Cleaning',
- 'Staircase only',
- 'No Pets',
- 'No Luggage Responsibility',
- 'Non-veg not allowed'
- ]).map((rule: string, idx: number) => (
- <li key={idx} className="flex items-center gap-3 bg-gray-50 border border-gray-100 p-4 rounded-xl">
- <div className="text-[#002E1E]/40">
- <CheckCircle2 className="h-5 w-5"/>
- </div>
- <span className="text-sm font-bold text-gray-700">{rule}</span>
- </li>
- ))}
- </ul>
- </div>
- )}
- 
- {openPolicy === 'cancellation' && (
- <div className="mt-6 pt-6 border-t border-gray-100 animate-fade-in">
- <div className="flex items-center gap-3 mb-6">
- <div className="w-1.5 h-5 bg-red-500 rounded-sm"></div>
- <h4 className="font-sans text-lg font-bold text-[#002E1E]">Cancellation Policy</h4>
- </div>
-  <ul className="space-y-3">
-  {farm.cancellationPolicy ? (
-    farm.cancellationPolicy.split('\n').filter(Boolean).map((line: string, idx: number) => {
-      const parts = line.split(':');
-      const label = parts[0]?.trim();
-      const value = parts.slice(1).join(':')?.trim();
-      return (
-        <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-red-50/30 border border-red-100 rounded-xl gap-2 hover:bg-red-50/80 transition-colors">
-          <span className="text-sm font-bold text-red-950">{label}</span>
-          {value && <span className="text-sm font-medium text-red-900/80">{value}</span>}
-        </li>
-      );
-    })
-  ) : (
-    [
-      { label:"Within 20 mins of booking", value:"10% convenience fee will be applied."},
-      { label:"15 days+ before check-in", value:"20% of the booking amount will be charged."},
-      { label:"Less than 15 days before", value:"100% of the booking amount will be charged."},
-      { label:"After check-in time", value:"No cancellation allowed."},
-      { label:"Refund Processing", value:"Processed within 7 working days."}
-    ].map((policy, idx) => (
-      <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-red-50/30 border border-red-100 rounded-xl gap-2 hover:bg-red-50/80 transition-colors">
-        <span className="text-sm font-bold text-red-950">{policy.label}</span>
-        <span className="text-sm font-medium text-red-900/80">{policy.value}</span>
-      </li>
-    ))
-  )}
-  </ul>
- </div>
- )}
- </div>
-
- {/* Location */}
- <div className="pb-10 mb-10 border-t border-gray-100 pt-10">
- <div className="border border-gray-100 rounded-xl p-6 bg-white shadow-sm">
- <div className="flex items-center gap-3 mb-6">
- <div className="w-1.5 h-6 bg-[#002E1E] rounded-sm"></div>
- <h3 className="font-sans text-xl font-bold text-[#002E1E]">Location</h3>
- </div>
- 
- <div className="relative w-full h-[350px] rounded-lg overflow-hidden bg-gray-50">
- <iframe
- title="Property Location Map"
- width="100%"
- height="100%"
- style={{ border: 0 }}
- loading="lazy"
- allowFullScreen
- referrerPolicy="no-referrer-when-downgrade"
- src={`https://maps.google.com/maps?q=${encodeURIComponent(farm.location || 'Gujarat, India')}&t=k&z=15&ie=UTF8&iwloc=&output=embed`}
- ></iframe>
- 
- <a
- href={farm.mapLink || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(farm.location || 'Gujarat, India')}`}
- target="_blank"
- rel="noopener noreferrer"
- className="absolute top-4 left-4 bg-white text-blue-600 px-4 py-2 text-sm font-semibold shadow-md hover:bg-slate-50 transition-colors flex items-center gap-2 rounded-sm"
- >
- Open in Maps
- <ExternalLink className="w-4 h-4"/>
- </a>
- </div>
- </div>
- </div>
- </div>
-
- {/* Guest Reviews Section */}
- <div className="w-full lg:col-span-7 order-3 mt-12 lg:mt-0">
- <div className="pb-10 mb-10 border-t border-gray-100 pt-10">
-   <div className="flex items-center gap-3 mb-8">
-      <div className="w-1.5 h-6 bg-[#002E1E] rounded-sm"></div>
-      <h3 className="font-sans text-xl font-bold text-[#002E1E]">Guest Reviews</h3>
-    </div>
-
-    <form onSubmit={submitReview} className="mb-10 p-6 bg-white border border-gray-100 rounded-xl shadow-sm">
-      <h4 className="font-bold text-[#1B2A22] mb-4">Leave a Review</h4>
-      <div className="flex items-center gap-2 mb-4">
-        <span className="text-[13px] font-bold text-gray-600">Rating:</span>
-        <div className="flex gap-1">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              type="button"
-              onClick={() => setReviewRating(star)}
-              className="focus:outline-none"
-            >
-              <Star className={`h-6 w-6 transition-colors ${star <= reviewRating ? 'fill-amber-400 text-amber-400' : 'text-gray-300 hover:text-amber-300'}`} />
-            </button>
-          ))}
+        {/* Title & Metadata */}
+        <div className="mb-8 max-w-4xl">
+          <h1 className="font-serif text-3xl font-bold text-[#002E1E] md:text-5xl leading-tight mb-4">{farm.title}</h1>
+          <div className="flex items-center gap-2 text-[14px] font-medium text-[#002E1E]">
+            <MapPin className="h-4 w-4 text-[#00a877]" />
+            {farm.location?.startsWith('http') ? (
+              <a href={farm.location} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                View on Map
+              </a>
+            ) : (
+              <span>{farm.location}</span>
+            )}
+          </div>
         </div>
-      </div>
-      <textarea
-        rows={3}
-        value={reviewText}
-        onChange={(e) => setReviewText(e.target.value)}
-        placeholder="Share your experience at this farmhouse..."
-        className="w-full rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white resize-none mb-4"
-      />
-      <button 
-        type="submit"
-        disabled={isSubmittingReview}
-        className="bg-[#00a877] hover:bg-[#009669] px-6 py-2.5 rounded-lg text-sm font-bold text-white transition-colors shadow-sm disabled:opacity-50"
-      >
-        {isSubmittingReview ? 'Submitting...' : 'Submit Review'}
-      </button>
-    </form>
 
-    {reviews.length > 0 ? (
-      <div className="space-y-6">
-        {reviews.map((rev: any, idx: number) => {
-          const isOwner = session?.user && (session.user as any).id === rev.userId;
-          return (
-            <div key={idx} className="p-6 bg-white border border-gray-100 rounded-xl shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <img src={rev.img || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'} alt={rev.name} className="w-10 h-10 rounded-full object-cover border border-gray-100" />
-                  <div>
-                    <p className="font-bold text-[#1B2A22] text-sm">{rev.name}</p>
-                    <p className="text-[11px] text-gray-500 font-bold tracking-wide uppercase">{new Date(rev.createdAt || Date.now()).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+        {/* Hero Photo Gallery */}
+        <div className="relative mb-12 md:mb-20 grid h-[300px] sm:h-[400px] md:h-[600px] grid-cols-1 gap-2 md:gap-4 overflow-hidden rounded-2xl md:grid-cols-2 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-2">
+          <div className="relative col-span-1 row-span-1 overflow-hidden md:col-span-2 md:row-span-1 lg:col-span-3 lg:row-span-2 cursor-pointer" onClick={() => setLightboxIndex(0)}>
+            <img
+              src={farm.images?.[0]}
+              alt="Main stay view"
+              className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
+            />
+          </div>
+          <div className="hidden overflow-hidden md:block cursor-pointer md:col-span-1 lg:col-span-1" onClick={() => setLightboxIndex(1)}>
+            <img
+              src={farm.images?.[1] || farm.images?.[0]}
+              alt="Alternative exterior view"
+              className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
+            />
+          </div>
+          <div className="relative hidden overflow-hidden md:block cursor-pointer md:col-span-1 lg:col-span-1" onClick={() => setLightboxIndex(2)}>
+            <img
+              src={farm.images?.[2] || farm.images?.[0]}
+              alt="Interior lounge"
+              className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
+            />
+          </div>
+
+          {farm.images && farm.images.length > 3 && (
+            <button
+              onClick={() => setShowAllPhotosModal(true)}
+              className="absolute bottom-4 right-4 md:bottom-6 md:right-6 flex items-center space-x-2 bg-white/40 backdrop-blur-md px-4 py-2 md:px-6 md:py-3 text-[12px] md:text-sm font-bold text-[#1B2A22] transition-all hover:bg-white hover:scale-105 rounded-lg shadow-sm"
+            >
+              <Grid className="h-4 w-4" />
+              <span>View All</span>
+            </button>
+          )}
+        </div>
+
+        {/* Detail Split Column Panel */}
+        <div className="flex flex-col lg:grid lg:grid-cols-12 lg:gap-x-10 mt-12">
+
+          {/* Main Info */}
+          <div className="w-full lg:col-span-7 order-1 flex flex-col">
+
+            {/* Highlights Section */}
+            <div className="mb-8">
+              <h2 className="font-serif text-[26px] font-bold text-[#002E1E] mb-4">Entire Farmhouse hosted by Enjoy Farm</h2>
+              <div className="flex items-center flex-wrap gap-2 text-[14px] text-gray-600 font-bold">
+                <span className="flex items-center gap-1.5"><Users className="h-4 w-4 text-gray-400" /> {farm.guests} guests</span>
+                <span className="text-gray-300 mx-1">·</span>
+                <span className="flex items-center gap-1.5">
+                  <Bed className="h-4 w-4 text-gray-400" />
+                  {farm.bedrooms} bedrooms
+                  {(farm.acRooms || farm.nonAcRooms) ? <span className="text-gray-500 font-medium ml-0.5">({farm.acRooms || 0} AC, {farm.nonAcRooms || 0} Non-AC)</span> : null}
+                </span>
+                {farm.acres && (
+                  <>
+                    <span className="text-gray-300 mx-1">·</span>
+                    <span className="flex items-center gap-1.5"><Compass className="h-4 w-4 text-gray-400" /> {farm.acres} Acres</span>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <div className="border-t border-gray-100 my-8"></div>
+
+            {/* About Home description */}
+            <div className="mb-8">
+              <h3 className="font-serif text-[22px] font-bold text-[#002E1E] mb-4">About this farmhouse stay</h3>
+              <p className="text-[14px] font-medium text-gray-600 leading-relaxed whitespace-pre-line">
+                {farm.description}
+              </p>
+            </div>
+
+            <div className="border-t border-gray-100 my-8"></div>
+
+            {/* Amenities Grid */}
+            <div className="mb-8">
+              <h3 className="font-serif text-[22px] font-bold text-[#002E1E] mb-6">What this farmhouse offers</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8">
+                {farm.amenities?.map((amenity, index) => {
+                  const IconComponent = AMENITY_ICONS[amenity] || CheckCircle2;
+                  return (
+                    <div key={index} className="flex items-center gap-4">
+                      <div className="bg-[#e6f4ea] p-2.5 rounded-full text-[#002E1E]">
+                        <IconComponent className="h-5 w-5 stroke-[1.5]" />
+                      </div>
+                      <span className="text-[14px] font-bold text-gray-700">{amenity}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Policies Accordion */}
+            <div className="border border-gray-100 rounded-xl p-6 bg-white mb-10 mt-12 shadow-sm">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-1 h-6 bg-[#002E1E] rounded-sm"></div>
+                <h3 className="font-sans text-xl font-bold text-[#002E1E]">Policies</h3>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button
+                  onClick={() => setOpenPolicy(openPolicy === 'rules' ? null : 'rules')}
+                  className={`flex items-center justify-center gap-2.5 p-3.5 rounded-xl border-2 transition-all font-bold shadow-sm active:scale-[0.98] ${openPolicy === 'rules'
+                    ? 'border-[#00a877] bg-[#e6f4ea] text-[#00a877]'
+                    : 'border-gray-100 bg-gray-50 text-gray-600 hover:border-[#00a877]/30 hover:bg-white hover:shadow-md'
+                    }`}
+                >
+                  <FileText className="h-5 w-5" />
+                  <span>House Rules</span>
+                </button>
+
+                <button
+                  onClick={() => setOpenPolicy(openPolicy === 'cancellation' ? null : 'cancellation')}
+                  className={`flex items-center justify-center gap-2.5 p-3.5 rounded-xl border-2 transition-all font-bold shadow-sm active:scale-[0.98] ${openPolicy === 'cancellation'
+                    ? 'border-red-500 bg-red-50 text-red-500'
+                    : 'border-gray-100 bg-gray-50 text-gray-600 hover:border-red-300 hover:bg-white hover:shadow-md'
+                    }`}
+                >
+                  <Ban className="h-5 w-5" />
+                  <span>Cancellation Policy</span>
+                </button>
+              </div>
+
+              {/* Expanded Content */}
+              {openPolicy === 'rules' && (
+                <div className="mt-6 pt-6 border-t border-gray-100 animate-fade-in">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-1.5 h-5 bg-[#002E1E] rounded-sm"></div>
+                    <h4 className="font-sans text-lg font-bold text-[#002E1E]">House Rules</h4>
                   </div>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {(farm.houseRules && farm.houseRules.length > 0 ? farm.houseRules : [
+                      'Check-in: 6 PM | Checkout: 5 PM',
+                      'No Alcohol Party',
+                      'No Smoking',
+                      'Self Cooking',
+                      'Self Cleaning',
+                      'Staircase only',
+                      'No Pets',
+                      'No Luggage Responsibility',
+                      'Non-veg not allowed'
+                    ]).map((rule: string, idx: number) => (
+                      <li key={idx} className="flex items-center gap-3 bg-gray-50 border border-gray-100 p-4 rounded-xl">
+                        <div className="text-[#002E1E]/40">
+                          <CheckCircle2 className="h-5 w-5" />
+                        </div>
+                        <span className="text-sm font-bold text-gray-700">{rule}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-100">
-                    <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                    <span className="text-xs font-bold text-amber-900">{rev.rating || 5}</span>
+              )}
+
+              {openPolicy === 'cancellation' && (
+                <div className="mt-6 pt-6 border-t border-gray-100 animate-fade-in">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-1.5 h-5 bg-red-500 rounded-sm"></div>
+                    <h4 className="font-sans text-lg font-bold text-[#002E1E]">Cancellation Policy</h4>
                   </div>
-                  {isOwner && (
-                    <button
-                      onClick={() => deleteReview(rev._id)}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors"
-                      title="Delete review"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  )}
+                  <ul className="space-y-3">
+                    {farm.cancellationPolicy ? (
+                      farm.cancellationPolicy.split('\n').filter(Boolean).map((line: string, idx: number) => {
+                        const parts = line.split(':');
+                        const label = parts[0]?.trim();
+                        const value = parts.slice(1).join(':')?.trim();
+                        return (
+                          <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-red-50/30 border border-red-100 rounded-xl gap-2 hover:bg-red-50/80 transition-colors">
+                            <span className="text-sm font-bold text-red-950">{label}</span>
+                            {value && <span className="text-sm font-medium text-red-900/80">{value}</span>}
+                          </li>
+                        );
+                      })
+                    ) : (
+                      [
+                        { label: "Within 20 mins of booking", value: "10% convenience fee will be applied." },
+                        { label: "15 days+ before check-in", value: "20% of the booking amount will be charged." },
+                        { label: "Less than 15 days before", value: "100% of the booking amount will be charged." },
+                        { label: "After check-in time", value: "No cancellation allowed." },
+                        { label: "Refund Processing", value: "Processed within 7 working days." }
+                      ].map((policy, idx) => (
+                        <li key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-red-50/30 border border-red-100 rounded-xl gap-2 hover:bg-red-50/80 transition-colors">
+                          <span className="text-sm font-bold text-red-950">{policy.label}</span>
+                          <span className="text-sm font-medium text-red-900/80">{policy.value}</span>
+                        </li>
+                      ))
+                    )}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Location */}
+            <div className="pb-10 mb-10 border-t border-gray-100 pt-10">
+              <div className="border border-gray-100 rounded-xl p-6 bg-white shadow-sm">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-1.5 h-6 bg-[#002E1E] rounded-sm"></div>
+                  <h3 className="font-sans text-xl font-bold text-[#002E1E]">Location</h3>
+                </div>
+
+                <div className="relative w-full h-[350px] rounded-lg overflow-hidden bg-gray-50">
+                  <iframe
+                    title="Property Location Map"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    allowFullScreen
+                    referrerPolicy="no-referrer-when-downgrade"
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(farm.location || 'Gujarat, India')}&t=k&z=15&ie=UTF8&iwloc=&output=embed`}
+                  ></iframe>
+
+                  <a
+                    href={farm.mapLink || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(farm.location || 'Gujarat, India')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute top-4 left-4 bg-white text-blue-600 px-4 py-2 text-sm font-semibold shadow-md hover:bg-slate-50 transition-colors flex items-center gap-2 rounded-sm"
+                  >
+                    Open in Maps
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
                 </div>
               </div>
-              <p className="text-[14px] text-gray-600 font-medium leading-relaxed mt-2">{rev.text}</p>
             </div>
-          );
-        })}
-      </div>
-    ) : (
-      <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-100 border-dashed">
-        <MessageCircle className="h-8 w-8 text-gray-300 mx-auto mb-3" />
-        <p className="text-[14px] font-bold text-gray-500">No reviews yet. Be the first to review!</p>
-      </div>
-    )}
-  </div>
-  </div>
+          </div>
 
- {/* Booking / Sticky Card Column */}
- <div className="w-full lg:col-span-5 lg:row-span-2 order-2 mt-8 lg:mt-0">
- <div className="sticky top-28">
- <div className="bg-white border border-gray-100 rounded-3xl p-7 shadow-sm">
- 
- <div className="mb-6 flex items-baseline gap-2">
- <span className="font-sans tracking-tight text-3xl font-bold text-[#002E1E]">
- ₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}
- </span>
- <span className="text-[13px] font-bold text-gray-500">/ night</span>
- </div>
+          {/* Guest Reviews Section */}
+          <div className="w-full lg:col-span-7 order-3 mt-12 lg:mt-0">
+            <div className="pb-10 mb-10 border-t border-gray-100 pt-10">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-1.5 h-6 bg-[#002E1E] rounded-sm"></div>
+                <h3 className="font-sans text-xl font-bold text-[#002E1E]">Guest Reviews</h3>
+              </div>
 
- {/* Date Inputs Card */}
- <div className={`mb-6 border rounded-xl transition-all duration-200 ${hasConflict ? 'border-red-500/50 bg-red-50/50' : isInvalidDates ? 'border-amber-500/50 bg-amber-50/50' : 'border-gray-200'}`}>
- <div className="flex border-b border-gray-200">
- <div className="w-1/2 border-r border-gray-200 p-3 relative">
- <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1 tracking-wider">Check-in</label>
- <DatePicker
- selected={startDate}
- onChange={(date: Date | null) => setStartDate(date)}
- selectsStart
- startDate={startDate || undefined}
- endDate={endDate || undefined}
- minDate={new Date()}
- excludeDates={checkInExcludeDates}
- placeholderText="dd-mm-yyyy"
- className="text-[13px] font-bold text-[#002E1E] bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-gray-400"
- />
- <CalendarDays className="h-3.5 w-3.5 text-[#002E1E] absolute right-3 bottom-3.5 pointer-events-none" />
- </div>
- <div className="w-1/2 p-3 relative">
- <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1 tracking-wider">Checkout</label>
- <DatePicker
- selected={endDate}
- onChange={(date: Date | null) => setEndDate(date)}
- selectsEnd
- startDate={startDate || undefined}
- endDate={endDate || undefined}
- minDate={startDate || new Date()}
- excludeDates={checkOutExcludeDates}
- placeholderText="dd-mm-yyyy"
- className="text-[13px] font-bold text-[#002E1E] bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-gray-400"
- />
- <CalendarDays className="h-3.5 w-3.5 text-[#002E1E] absolute right-3 bottom-3.5 pointer-events-none" />
- </div>
- </div>
- <div 
- className="p-3 relative cursor-pointer"
- tabIndex={0}
- onBlur={(e) => {
- if (!e.currentTarget.contains(e.relatedTarget)) {
- setShowGuestDropdown(false);
- }
- }}
- >
- <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1 tracking-wider">Guests Limit</label>
- <div 
- onClick={() => setShowGuestDropdown(!showGuestDropdown)}
- className="text-[13px] font-bold text-[#002E1E] w-full flex justify-between items-center"
- >
- <span>
- {guestSelection === 0 ? 'Select guests' : `${guestSelection} guest${guestSelection > 1 ? 's' : ''}`}
- </span>
- <ChevronDown className={`w-4 h-4 text-[#002E1E] transition-transform duration-200 ${showGuestDropdown ? 'rotate-180' : ''}`} />
- </div>
- 
- {showGuestDropdown && (
- <div className="absolute top-full left-0 w-full bg-white border border-gray-100 shadow-xl z-50 max-h-60 overflow-y-auto mt-2 rounded-xl">
- {[...Array(farm.guests || 6)].map((_, i) => (
- <div 
- key={i + 1}
- onClick={() => {
- setGuestSelection(i + 1);
- setShowGuestDropdown(false);
- }}
- className={`px-4 py-3 text-[13px] font-bold cursor-pointer transition-colors ${guestSelection === i + 1 ? 'bg-[#e6f4ea] text-[#002E1E]' : 'text-[#002E1E] hover:bg-gray-50'}`}
- >
- {i + 1} guest{i > 0 ? 's' : ''}
- </div>
- ))}
- </div>
- )}
- </div>
- </div>
+              <form onSubmit={submitReview} className="mb-10 p-6 bg-white border border-gray-100 rounded-xl shadow-sm">
+                <h4 className="font-bold text-[#1B2A22] mb-4">Leave a Review</h4>
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-[13px] font-bold text-gray-600">Rating:</span>
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setReviewRating(star)}
+                        className="focus:outline-none"
+                      >
+                        <Star className={`h-6 w-6 transition-colors ${star <= reviewRating ? 'fill-amber-400 text-amber-400' : 'text-gray-300 hover:text-amber-300'}`} />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <textarea
+                  rows={3}
+                  value={reviewText}
+                  onChange={(e) => setReviewText(e.target.value)}
+                  placeholder="Share your experience at this farmhouse..."
+                  className="w-full rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white resize-none mb-4"
+                />
+                <button
+                  type="submit"
+                  disabled={isSubmittingReview}
+                  className="bg-[#00a877] hover:bg-[#009669] px-6 py-2.5 rounded-lg text-sm font-bold text-white transition-colors shadow-sm disabled:opacity-50"
+                >
+                  {isSubmittingReview ? 'Submitting...' : 'Submit Review'}
+                </button>
+              </form>
 
- {/* Alert Banners */}
- {hasConflict && (
- <div className="mb-6 p-4 bg-red-50 text-red-800 text-xs font-bold flex items-start gap-2 border border-red-200 rounded-xl">
- <span>This FarmHouse is already reserved for the selected dates.</span>
- </div>
- )}
- {isInvalidDates && (
- <div className="mb-6 p-4 bg-amber-50 text-amber-800 text-xs font-bold flex items-start gap-2 border border-amber-200 rounded-xl">
- <span>Checkout date must be after check-in date.</span>
- </div>
- )}
+              {reviews.length > 0 ? (
+                <div className="space-y-6">
+                  {reviews.map((rev: any, idx: number) => {
+                    const isOwner = session?.user && (session.user as any).id === rev.userId;
+                    return (
+                      <div key={idx} className="p-6 bg-white border border-gray-100 rounded-xl shadow-sm">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-3">
+                            <img src={rev.img || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'} alt={rev.name} className="w-10 h-10 rounded-full object-cover border border-gray-100" />
+                            <div>
+                              <p className="font-bold text-[#1B2A22] text-sm">{rev.name}</p>
+                              <p className="text-[11px] text-gray-500 font-bold tracking-wide uppercase">{new Date(rev.createdAt || Date.now()).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-1 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-100">
+                              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                              <span className="text-xs font-bold text-amber-900">{rev.rating || 5}</span>
+                            </div>
+                            {isOwner && (
+                              <button
+                                onClick={() => deleteReview(rev._id)}
+                                className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors"
+                                title="Delete review"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                        <p className="text-[14px] text-gray-600 font-medium leading-relaxed mt-2">{rev.text}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-100 border-dashed">
+                  <MessageCircle className="h-8 w-8 text-gray-300 mx-auto mb-3" />
+                  <p className="text-[14px] font-bold text-gray-500">No reviews yet. Be the first to review!</p>
+                </div>
+              )}
+            </div>
+          </div>
 
- {/* Security Deposit Notice */}
- <div className="mb-6 bg-[#fffaf0] border border-[#f5a623]/60 rounded-xl p-4 flex gap-3">
- <div className="shrink-0 pt-0.5">
- <Info className="w-[18px] h-[18px] fill-[#f5a623] text-white" />
- </div>
- <div className="flex flex-col">  
- <div className="flex items-center gap-2 mb-1 flex-wrap">
- <span className="font-bold text-[#333333] text-[14px]">₹2000 Security Deposit</span>
- <span className="bg-[#f5a623] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">Pay at Check-in</span>
- </div>
- <span className="text-[13px] text-gray-500 font-medium">Refunded by host if no damage</span>
- </div>
- </div>
+          {/* Booking / Sticky Card Column */}
+          <div className="w-full lg:col-span-5 lg:row-span-2 order-2 mt-8 lg:mt-0">
+            <div className="sticky top-28">
+              <div className="bg-white border border-gray-100 rounded-3xl p-7 shadow-sm">
 
- {/* Booking Actions */}
- <button 
- onClick={handleBooking}
- disabled={bookingLoading || hasConflict || isInvalidDates || !startDate || !endDate || guestSelection === 0}
- className="w-full bg-[#00a877] hover:bg-[#009669] py-3.5 rounded-[10px] text-[15px] font-bold text-white transition-colors active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed mb-4 shadow-sm"
- >
- {bookingLoading ? 'Reserving...' : hasConflict ? 'Dates Unavailable' : 'Book Your Stay'}
- </button>
- 
- <div className="text-center text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-6">
- No payment charged yet
- </div>
+                <div className="mb-6 flex items-baseline gap-2">
+                  <span className="font-sans tracking-tight text-3xl font-bold text-[#002E1E]">
+                    ₹{(farm.pricePerNight || 3000).toLocaleString('en-IN')}
+                  </span>
+                  <span className="text-[13px] font-bold text-gray-500">/ night</span>
+                </div>
 
- {/* Price Breakdown */}
- {hasValidDates && diffNights > 0 && (
- <>
- <div className="space-y-4 border-t border-gray-100 pt-6 pb-6 text-xs font-bold text-gray-500 tracking-wider">
- {priceBreakdown.map((item, index) => (
- <div key={index} className="flex justify-between">
- <span>{item.label}</span>
- <span className="text-[#002E1E]">₹{item.value.toLocaleString('en-IN')}</span>
- </div>
- ))}
- </div>
+                {/* Date Inputs Card */}
+                <div className={`mb-6 border rounded-xl transition-all duration-200 ${hasConflict ? 'border-red-500/50 bg-red-50/50' : isInvalidDates ? 'border-amber-500/50 bg-amber-50/50' : 'border-gray-200'}`}>
+                  <div className="flex border-b border-gray-200">
+                    <div className="w-1/2 border-r border-gray-200 p-3 relative">
+                      <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1 tracking-wider">Check-in</label>
+                      <DatePicker
+                        selected={startDate}
+                        onChange={(date: Date | null) => setStartDate(date)}
+                        selectsStart
+                        startDate={startDate || undefined}
+                        endDate={endDate || undefined}
+                        minDate={new Date()}
+                        excludeDates={checkInExcludeDates}
+                        placeholderText="dd-mm-yyyy"
+                        className="text-[13px] font-bold text-[#002E1E] bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-gray-400"
+                      />
+                      <CalendarDays className="h-3.5 w-3.5 text-[#002E1E] absolute right-3 bottom-3.5 pointer-events-none" />
+                    </div>
+                    <div className="w-1/2 p-3 relative">
+                      <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1 tracking-wider">Checkout</label>
+                      <DatePicker
+                        selected={endDate}
+                        onChange={(date: Date | null) => setEndDate(date)}
+                        selectsEnd
+                        startDate={startDate || undefined}
+                        endDate={endDate || undefined}
+                        minDate={startDate || new Date()}
+                        excludeDates={checkOutExcludeDates}
+                        placeholderText="dd-mm-yyyy"
+                        className="text-[13px] font-bold text-[#002E1E] bg-transparent outline-none border-none w-full p-0 cursor-pointer placeholder:text-gray-400"
+                      />
+                      <CalendarDays className="h-3.5 w-3.5 text-[#002E1E] absolute right-3 bottom-3.5 pointer-events-none" />
+                    </div>
+                  </div>
+                  <div
+                    className="p-3 relative cursor-pointer"
+                    tabIndex={0}
+                    onBlur={(e) => {
+                      if (!e.currentTarget.contains(e.relatedTarget)) {
+                        setShowGuestDropdown(false);
+                      }
+                    }}
+                  >
+                    <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1 tracking-wider">Guests Limit</label>
+                    <div
+                      onClick={() => setShowGuestDropdown(!showGuestDropdown)}
+                      className="text-[13px] font-bold text-[#002E1E] w-full flex justify-between items-center"
+                    >
+                      <span>
+                        {guestSelection === 0 ? 'Select guests' : `${guestSelection} guest${guestSelection > 1 ? 's' : ''}`}
+                      </span>
+                      <ChevronDown className={`w-4 h-4 text-[#002E1E] transition-transform duration-200 ${showGuestDropdown ? 'rotate-180' : ''}`} />
+                    </div>
 
- <div className="mt-2 flex justify-between font-sans tracking-tight text-2xl font-bold text-[#002E1E]">
- <span>Total</span>
- <span>₹{grandTotal.toLocaleString('en-IN')}</span>
- </div>
- </>
- )}
+                    {showGuestDropdown && (
+                      <div className="absolute top-full left-0 w-full bg-white border border-gray-100 shadow-xl z-50 max-h-60 overflow-y-auto mt-2 rounded-xl">
+                        {[...Array(farm.guests || 6)].map((_, i) => (
+                          <div
+                            key={i + 1}
+                            onClick={() => {
+                              setGuestSelection(i + 1);
+                              setShowGuestDropdown(false);
+                            }}
+                            className={`px-4 py-3 text-[13px] font-bold cursor-pointer transition-colors ${guestSelection === i + 1 ? 'bg-[#e6f4ea] text-[#002E1E]' : 'text-[#002E1E] hover:bg-gray-50'}`}
+                          >
+                            {i + 1} guest{i > 0 ? 's' : ''}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
 
- {/* Need Help Section */}
- <div className="mt-8 border-t border-gray-100 pt-6">
- <h4 className="font-sans text-[13px] font-bold text-[#002E1E] mb-4 uppercase tracking-wider">Need Help?</h4>
- <div className="space-y-3">
- <a href="tel:+918780493615"className="flex items-center gap-4 w-full p-4 bg-white border border-gray-100 rounded-xl hover:border-[#002E1E] transition-colors group hover:shadow-sm">
- <Phone className="h-5 w-5 text-[#829e92] group-hover:scale-110 transition-transform"/>
- <span className="text-[13px] font-bold text-gray-700">Call us: +91 8780493615</span>
- </a>
- <a href="https://wa.me/918780493615"target="_blank"rel="noopener noreferrer"className="flex items-center gap-4 w-full p-4 bg-white border border-gray-100 rounded-xl hover:border-[#002E1E] transition-colors group hover:shadow-sm">
- <MessageCircle className="h-5 w-5 text-[#829e92] group-hover:scale-110 transition-transform"/>
- <span className="text-[13px] font-bold text-gray-700">WhatsApp Support</span>
- </a>
- </div>
- </div>
+                {/* Alert Banners */}
+                {hasConflict && (
+                  <div className="mb-6 p-4 bg-red-50 text-red-800 text-xs font-bold flex items-start gap-2 border border-red-200 rounded-xl">
+                    <span>This FarmHouse is already reserved for the selected dates.</span>
+                  </div>
+                )}
+                {isInvalidDates && (
+                  <div className="mb-6 p-4 bg-amber-50 text-amber-800 text-xs font-bold flex items-start gap-2 border border-amber-200 rounded-xl">
+                    <span>Checkout date must be after check-in date.</span>
+                  </div>
+                )}
 
- </div>
- </div>
+                {/* Security Deposit Notice */}
+                <div className="mb-6 bg-[#fffaf0] border border-[#f5a623]/60 rounded-xl p-4 flex gap-3">
+                  <div className="shrink-0 pt-0.5">
+                    <Info className="w-[18px] h-[18px] fill-[#f5a623] text-white" />
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <span className="font-bold text-[#333333] text-[14px]">₹2000 Security Deposit</span>
+                      <span className="bg-[#f5a623] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">Pay at Check-in</span>
+                    </div>
+                    <span className="text-[13px] text-gray-500 font-medium">Refunded by host if no damage</span>
+                  </div>
+                </div>
 
- </div>
- </div>
- </main>
+                {/* Booking Actions */}
+                <button
+                  onClick={handleBooking}
+                  disabled={bookingLoading || hasConflict || isInvalidDates || !startDate || !endDate || guestSelection === 0}
+                  className="w-full bg-[#00a877] hover:bg-[#009669] py-3.5 rounded-[10px] text-[15px] font-bold text-white transition-colors active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed mb-4 shadow-sm"
+                >
+                  {bookingLoading ? 'Reserving...' : hasConflict ? 'Dates Unavailable' : 'Book Your Stay'}
+                </button>
 
- {/* Full-screen Photo Gallery Modal */}
- {showAllPhotosModal && (
- <div className="fixed inset-0 z-50 overflow-y-auto bg-[#1B2A22] flex flex-col transition-all duration-300">
- <div className="sticky top-0 z-10 flex items-center justify-between bg-[#1B2A22]/95 backdrop-blur-md px-6 py-4 border-b border-white/10 text-white">
- <h2 className="font-sans text-sm font-semibold tracking-widest uppercase">{farm.title}</h2>
- <button 
- onClick={() => setShowAllPhotosModal(false)}
- className="p-2 bg-white/5 hover:bg-white/10 text-white transition-colors focus:outline-none"
- aria-label="Close photo gallery"
- >
- <X className="h-5 w-5"/>
- </button>
- </div>
+                <div className="text-center text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-6">
+                  No payment charged yet
+                </div>
 
- <div className="max-w-[1280px] w-full mx-auto px-6 py-16 flex-1">
- <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
- {farm.images?.map((imgUrl, index) => (
- <div key={index} className="overflow-hidden aspect-[4/3] bg-black/20 border border-white/5 group relative cursor-pointer" onClick={() => setLightboxIndex(index)}>
- <img 
- src={imgUrl} 
- alt={`${farm.title} photo ${index + 1}`} 
- className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
- />
- <div className="absolute bottom-6 left-6 text-white px-4 py-2 text-sm font-bold drop-shadow-lg">
- {index + 1} / {farm.images.length}
- </div>
- </div>
- ))}
- </div>
- </div>
- </div>
- )}
+                {/* Price Breakdown */}
+                {hasValidDates && diffNights > 0 && (
+                  <>
+                    <div className="space-y-4 border-t border-gray-100 pt-6 pb-6 text-xs font-bold text-gray-500 tracking-wider">
+                      {priceBreakdown.map((item, index) => (
+                        <div key={index} className="flex justify-between">
+                          <span>{item.label}</span>
+                          <span className="text-[#002E1E]">₹{item.value.toLocaleString('en-IN')}</span>
+                        </div>
+                      ))}
+                    </div>
 
- {/* Fullscreen Lightbox */}
- {lightboxIndex !== null && farm.images && farm.images.length > 0 && (
-  <div className="fixed inset-0 z-[60] bg-black/95 flex flex-col transition-all duration-300">
-    <div className="absolute top-0 right-0 z-[70] p-6">
-      <button 
-      onClick={() => setLightboxIndex(null)}
-      className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors focus:outline-none backdrop-blur-md"
-      aria-label="Close lightbox"
-      >
-        <X className="h-6 w-6"/>
-      </button>
+                    <div className="mt-2 flex justify-between font-sans tracking-tight text-2xl font-bold text-[#002E1E]">
+                      <span>Total</span>
+                      <span>₹{grandTotal.toLocaleString('en-IN')}</span>
+                    </div>
+                  </>
+                )}
+
+                {/* Need Help Section */}
+                <div className="mt-8 border-t border-gray-100 pt-6">
+                  <h4 className="font-sans text-[13px] font-bold text-[#002E1E] mb-4 uppercase tracking-wider">Need Help?</h4>
+                  <div className="space-y-3">
+                    <a href="tel:+918780493615" className="flex items-center gap-4 w-full p-4 bg-white border border-gray-100 rounded-xl hover:border-[#002E1E] transition-colors group hover:shadow-sm">
+                      <Phone className="h-5 w-5 text-[#829e92] group-hover:scale-110 transition-transform" />
+                      <span className="text-[13px] font-bold text-gray-700">Call us: +91 8780493615</span>
+                    </a>
+                    <a href="https://wa.me/918780493615" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 w-full p-4 bg-white border border-gray-100 rounded-xl hover:border-[#002E1E] transition-colors group hover:shadow-sm">
+                      <MessageCircle className="h-5 w-5 text-[#829e92] group-hover:scale-110 transition-transform" />
+                      <span className="text-[13px] font-bold text-gray-700">WhatsApp Support</span>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </main>
+
+      {/* Full-screen Photo Gallery Modal */}
+      {showAllPhotosModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-[#1B2A22] flex flex-col transition-all duration-300">
+          <div className="sticky top-0 z-10 flex items-center justify-between bg-[#1B2A22]/95 backdrop-blur-md px-6 py-4 border-b border-white/10 text-white">
+            <h2 className="font-sans text-sm font-semibold tracking-widest uppercase">{farm.title}</h2>
+            <button
+              onClick={() => setShowAllPhotosModal(false)}
+              className="p-2 bg-white/5 hover:bg-white/10 text-white transition-colors focus:outline-none"
+              aria-label="Close photo gallery"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          <div className="max-w-[1280px] w-full mx-auto px-6 py-16 flex-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {farm.images?.map((imgUrl, index) => (
+                <div key={index} className="overflow-hidden aspect-[4/3] bg-black/20 border border-white/5 group relative cursor-pointer" onClick={() => setLightboxIndex(index)}>
+                  <img
+                    src={imgUrl}
+                    alt={`${farm.title} photo ${index + 1}`}
+                    className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
+                  />
+                  <div className="absolute bottom-6 left-6 text-white px-4 py-2 text-sm font-bold drop-shadow-lg">
+                    {index + 1} / {farm.images.length}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Fullscreen Lightbox */}
+      {lightboxIndex !== null && farm.images && farm.images.length > 0 && (
+        <div className="fixed inset-0 z-[60] bg-black/95 flex flex-col transition-all duration-300">
+          <div className="absolute top-0 right-0 z-[70] p-6">
+            <button
+              onClick={() => setLightboxIndex(null)}
+              className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors focus:outline-none backdrop-blur-md"
+              aria-label="Close lightbox"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+
+          <div className="absolute top-1/2 left-6 z-[70] -translate-y-1/2">
+            <button
+              onClick={(e) => { e.stopPropagation(); setLightboxIndex((prev) => (prev! - 1 + farm.images!.length) % farm.images!.length); }}
+              className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors focus:outline-none backdrop-blur-md"
+              aria-label="Previous photo"
+            >
+              <ChevronLeft className="h-8 w-8" />
+            </button>
+          </div>
+
+          <div className="absolute top-1/2 right-6 z-[70] -translate-y-1/2">
+            <button
+              onClick={(e) => { e.stopPropagation(); setLightboxIndex((prev) => (prev! + 1) % farm.images!.length); }}
+              className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors focus:outline-none backdrop-blur-md"
+              aria-label="Next photo"
+            >
+              <ChevronRight className="h-8 w-8" />
+            </button>
+          </div>
+
+          <div className="flex-1 w-full h-full flex items-center justify-center p-4 md:p-12" onClick={() => setLightboxIndex(null)}>
+            <img
+              src={farm.images[lightboxIndex]}
+              alt={`${farm.title} photo ${lightboxIndex + 1}`}
+              className="max-w-full max-h-full object-contain select-none"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-sm font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-md">
+            {lightboxIndex + 1} / {farm.images.length}
+          </div>
+        </div>
+      )}
+
     </div>
-    
-    <div className="absolute top-1/2 left-6 z-[70] -translate-y-1/2">
-      <button 
-      onClick={(e) => { e.stopPropagation(); setLightboxIndex((prev) => (prev! - 1 + farm.images!.length) % farm.images!.length); }}
-      className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors focus:outline-none backdrop-blur-md"
-      aria-label="Previous photo"
-      >
-        <ChevronLeft className="h-8 w-8"/>
-      </button>
-    </div>
-
-    <div className="absolute top-1/2 right-6 z-[70] -translate-y-1/2">
-      <button 
-      onClick={(e) => { e.stopPropagation(); setLightboxIndex((prev) => (prev! + 1) % farm.images!.length); }}
-      className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors focus:outline-none backdrop-blur-md"
-      aria-label="Next photo"
-      >
-        <ChevronRight className="h-8 w-8"/>
-      </button>
-    </div>
-
-    <div className="flex-1 w-full h-full flex items-center justify-center p-4 md:p-12" onClick={() => setLightboxIndex(null)}>
-      <img 
-      src={farm.images[lightboxIndex]} 
-      alt={`${farm.title} photo ${lightboxIndex + 1}`} 
-      className="max-w-full max-h-full object-contain select-none"
-      onClick={(e) => e.stopPropagation()}
-      />
-    </div>
-
-    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-sm font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-md">
-      {lightboxIndex + 1} / {farm.images.length}
-    </div>
-  </div>
-  )}
-
- </div>
- );
+  );
 }

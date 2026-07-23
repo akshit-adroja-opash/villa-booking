@@ -545,8 +545,7 @@ export default function AdminDashboard() {
                     .filter(b => {
                       const q = bookingSearch.toLowerCase();
                       const matchSearch = !q || (b.farmId?.title || '').toLowerCase().includes(q) || (b.userId?.name || '').toLowerCase().includes(q);
-                      const s = b.paymentStatus?.toLowerCase() || 'pending';
-                      const isConfirmed = s === 'paid' || s === 'confirmed';
+                      const isConfirmed = !!b.adminConfirmed;
                       const matchStatus = bookingStatusFilter === 'all' || (bookingStatusFilter === 'confirmed' ? isConfirmed : !isConfirmed);
                       return matchSearch && matchStatus;
                     })
@@ -603,13 +602,11 @@ export default function AdminDashboard() {
                       <td className="px-6 py-5 font-sans tracking-tight font-bold">₹{amount.toLocaleString('en-IN')}</td>
                       <td className="px-6 md:px-8 py-5 text-right">
                         <span className={`inline-block px-3 py-1 text-[11px] font-bold rounded-full tracking-wide ${
-                          status.toLowerCase() === 'paid' || status.toLowerCase() === 'confirmed' || status.toLowerCase() === 'completed'
+                          booking.adminConfirmed
                             ? 'bg-[#e6f4ea] text-[#00a877]'
-                            : status.toLowerCase() === 'pending'
-                            ? 'bg-amber-50 text-amber-600'
-                            : 'bg-gray-100 text-gray-500'
+                            : 'bg-amber-50 text-amber-600'
                         }`}>
-                          {status.toLowerCase() === 'paid' ? 'confirmed' : status.toLowerCase()}
+                          {booking.adminConfirmed ? 'confirmed' : 'pending'}
                         </span>
                       </td>
                     </tr>

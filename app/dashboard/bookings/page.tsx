@@ -167,7 +167,7 @@ export default function BookingsDashboardPage() {
  <title>Enjoy Farm Receipt - ${booking._id.slice(-6).toUpperCase()}</title>
  <style>
  body {
- font-family: 'Georgia', serif;
+ font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
  color: #1B2A22;
  margin: 20px;
  line-height: 1.6;
@@ -605,7 +605,7 @@ export default function BookingsDashboardPage() {
  
  <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-8">
  <div>
- <h3 className="font-serif text-2xl text-[#1B2A22] mb-3">
+ <h3 className="font-sans text-[19px] text-[#1B2A22] font-bold mb-3 leading-snug group-hover:text-[#00a877] transition-colors">
  {farm.title}
  </h3>
  <p className="text-sm font-medium font-bold text-[#1B2A22]/60 flex items-center gap-2">

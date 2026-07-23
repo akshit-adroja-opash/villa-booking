@@ -80,7 +80,7 @@ export default function ContactPage() {
       {/* Main Content */}
       <section className="max-w-[1280px] mx-auto px-6 pb-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-          
+
           {/* Contact Details */}
           <div className="lg:col-span-5 space-y-12 order-1 lg:order-1">
             <div>
@@ -90,7 +90,7 @@ export default function ContactPage() {
               </p>
 
               <div className="space-y-8">
-                
+
                 {/* Phone */}
                 <div className="flex items-start gap-5 group">
                   <div className="w-12 h-12 bg-[#e6f4ea] rounded-full flex items-center justify-center shrink-0 transition-transform group-hover:scale-110">
@@ -138,7 +138,7 @@ export default function ContactPage() {
                     <h3 className="font-serif text-[20px] text-[#002E1E] font-bold mb-1">Business Hours</h3>
                     <p className="text-gray-400 text-[13px] font-bold mb-2">We are here to help</p>
                     <p className="text-[#1B2A22] font-semibold text-[14px] leading-relaxed">
-                      Mon - Fri: 9:00 AM - 7:00 PM<br/>
+                      Mon - Fri: 9:00 AM - 7:00 PM<br />
                       Sat - Sun: 10:00 AM - 6:00 PM
                     </p>
                   </div>
@@ -152,12 +152,12 @@ export default function ContactPage() {
           <div id="contact-form" className="lg:col-span-7 bg-white p-8 md:p-10 rounded-3xl border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] order-2 lg:order-2">
             <h2 className="font-serif text-[28px] text-[#002E1E] font-bold mb-8">Send us a Message</h2>
             <form className="space-y-5" onSubmit={handleSubmit} noValidate>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-1.5">
                   <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Name <span className="text-red-500">*</span></label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -169,13 +169,13 @@ export default function ContactPage() {
 
                 <div className="space-y-1.5">
                   <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Email Address <span className="text-red-500">*</span></label>
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className={`w-full bg-gray-50 border rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium ${errors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#00a877]'}`}
-                    placeholder="your.email@example.com"
+                    placeholder="Enter Your Email"
                   />
                   {errors.email && <p className="text-[11px] font-bold text-red-500">{errors.email}</p>}
                 </div>
@@ -184,8 +184,8 @@ export default function ContactPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-1.5">
                   <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Phone number <span className="text-red-500">*</span></label>
-                  <input 
-                    type="tel" 
+                  <input
+                    type="tel"
                     required
                     value={formData.phone}
                     className={`w-full bg-gray-50 border rounded-xl px-4 py-3 text-[14px] font-semibold text-[#1B2A22] focus:bg-white focus:outline-none transition-all placeholder:text-gray-400 placeholder:font-medium ${errors.phone ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#00a877]'}`}
@@ -200,8 +200,8 @@ export default function ContactPage() {
 
                 <div className="space-y-1.5">
                   <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Subject <span className="text-red-500">*</span></label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     required
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
@@ -214,7 +214,7 @@ export default function ContactPage() {
 
               <div className="space-y-1.5 pt-2">
                 <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Comment <span className="text-red-500">*</span></label>
-                <textarea 
+                <textarea
                   required
                   rows={5}
                   value={formData.comment}
@@ -225,7 +225,7 @@ export default function ContactPage() {
                 {errors.comment && <p className="text-[11px] font-bold text-red-500">{errors.comment}</p>}
               </div>
 
-              <button 
+              <button
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full bg-[#00a877] text-white py-3.5 rounded-xl text-[14px] font-bold hover:bg-[#009669] transition-colors mt-2 active:scale-[0.99] shadow-sm flex items-center justify-center gap-2 disabled:opacity-70"
