@@ -207,26 +207,26 @@ export default function AdminPropertiesPage() {
  <h3 className="font-sans text-[22px] font-medium text-[#1B2A22] mt-3">{farm.title}</h3>
  
  <div className="flex items-center gap-6 flex-wrap mt-5 text-[13px] font-bold text-gray-400">
- <span className="flex items-center gap-2">
- <Users className="h-4 w-4 text-gray-300"/>
- {farm.guests || 0} Guests
- </span>
- <span className="flex items-center gap-2">
- <BedDouble className="h-4 w-4 text-gray-300"/>
- {farm.bedrooms || 0} Beds
- </span>
- {(farm.acRooms || farm.nonAcRooms) ? (
-   <>
-      <span className="flex items-center gap-2">
-        <Snowflake className="h-4 w-4 text-gray-300"/>
-        {farm.acRooms || 0} AC Bedrooms
-      </span>
-      <span className="flex items-center gap-2">
-        <Flame className="h-4 w-4 text-gray-300"/>
-        {farm.nonAcRooms || 0} Non-AC Bedrooms
-      </span>
-   </>
- ) : null}
+  <span className="flex items-center gap-2">
+  <BedDouble className="h-4 w-4 text-gray-300"/>
+  {farm.bedrooms || 0} Beds
+  </span>
+  {(farm.acRooms || farm.nonAcRooms) ? (
+    <>
+       <span className="flex items-center gap-2">
+         <Snowflake className="h-4 w-4 text-gray-300"/>
+         {farm.acRooms || 0} AC
+       </span>
+       <span className="flex items-center gap-2">
+         <Flame className="h-4 w-4 text-gray-300"/>
+         {farm.nonAcRooms || 0} Non-AC
+       </span>
+    </>
+  ) : null}
+  <span className="flex items-center gap-2">
+  <Users className="h-4 w-4 text-gray-300"/>
+  {farm.guests || 0} Guests
+  </span>
  <span className="flex items-center gap-1.5 text-[#00a877]">
  <ShieldCheck className="h-4 w-4"/>
  Verified
