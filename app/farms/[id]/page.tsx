@@ -202,6 +202,11 @@ export default function FarmDetailPage() {
     const dates: Date[] = [];
     existingBookings.forEach((b: any) => {
       if (b.paymentStatus === 'Failed') return;
+      
+      const isConfirmed = !!b.adminConfirmed;
+      const isExpired = !isConfirmed && (Date.now() - new Date(b.createdAt).getTime() > 60 * 60 * 1000);
+      if (isExpired) return;
+
       const bStart = new Date(b.startDate);
       const bEnd = new Date(b.endDate);
       let curr = new Date(bStart);

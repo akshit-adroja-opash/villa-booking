@@ -25,14 +25,20 @@ export async function POST(req: Request) {
     }
 
     // Check if the farm is already booked for these dates (excluding Failed payments)
-    const overlappingBooking = await Booking.findOne({
+    const overlappingBookings = await Booking.find({
       farmId,
       paymentStatus: { $ne: 'Failed' },
       startDate: { $lt: end },
       endDate: { $gt: start }
     });
 
-    if (overlappingBooking) {
+    const activeOverlappingBooking = overlappingBookings.find(b => {
+      const isConfirmed = !!b.adminConfirmed;
+      const isWithinOneHour = (Date.now() - new Date(b.createdAt).getTime()) <= 60 * 60 * 1000;
+      return isConfirmed || isWithinOneHour;
+    });
+
+    if (activeOverlappingBooking) {
       return NextResponse.json({ error: 'This farmhouse is already booked for the selected dates.' }, { status: 400 });
     }
 

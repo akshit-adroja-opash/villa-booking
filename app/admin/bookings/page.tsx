@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { CalendarDays, Download, Search, ChevronDown, CheckCircle2, IndianRupee } from 'lucide-react';
+import { CalendarDays, Download, Search, ChevronDown, CheckCircle2, IndianRupee, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 type Booking = {
@@ -66,36 +66,84 @@ function getInitials(name?: string) {
 export default function AdminReservationsPage() {
  const [bookings, setBookings] = useState<Booking[]>([]);
  const [loading, setLoading] = useState(true);
- const [updatingId, setUpdatingId] = useState<string | null>(null);
- const [query, setQuery] = useState('');
- const [currentPage, setCurrentPage] = useState(1);
- const itemsPerPage = 8;
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [query, setQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
   const [sortFilter, setSortFilter] = useState('newest');
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   const [sortColumn, setSortColumn] = useState<SortColumn>('createdAt');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
- const toggleConfirm = async (id: string, currentStatus: boolean) => {
-   try {
-     setUpdatingId(id);
-     const res = await fetch(`/api/bookings/${id}`, {
-       method: 'PATCH',
-       headers: { 'Content-Type': 'application/json' },
-       body: JSON.stringify({ adminConfirmed: !currentStatus })
-     });
-     if (res.ok) {
-       toast.success(currentStatus ? 'Booking unconfirmed' : 'Booking confirmed');
-       setBookings(prev => prev.map(b => b._id === id ? { ...b, adminConfirmed: !currentStatus } : b));
-     } else {
-       toast.error('Failed to update status');
-     }
-   } catch (error) {
-     toast.error('Could not update status.');
-   } finally {
-     setUpdatingId(null);
-   }
- };
+  const toggleConfirm = async (id: string, currentStatus: boolean) => {
+    try {
+      setUpdatingId(id);
+      const res = await fetch(`/api/bookings/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminConfirmed: !currentStatus })
+      });
+      if (res.ok) {
+        toast.success(currentStatus ? 'Booking unconfirmed' : 'Booking confirmed');
+        setBookings(prev => prev.map(b => b._id === id ? { ...b, adminConfirmed: !currentStatus } : b));
+      } else {
+        toast.error('Failed to update status');
+      }
+    } catch (error) {
+      toast.error('Could not update status.');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
+  const handleDeleteBooking = (id: string) => {
+    toast((t) => (
+      <div className="flex flex-col gap-2 p-1">
+        <p className="text-[13px] font-semibold text-[#1B2A22]">Are you sure you want to delete this booking?</p>
+        <div className="flex gap-2 justify-end">
+          <button
+            onClick={() => {
+              toast.dismiss(t.id);
+              executeDelete(id);
+            }}
+            className="bg-red-500 text-white px-3 py-1 rounded text-xs font-bold hover:bg-red-600 transition-colors cursor-pointer"
+          >
+            Delete
+          </button>
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="bg-gray-100 text-[#1B2A22] px-3 py-1 rounded text-xs font-bold hover:bg-gray-200 transition-colors cursor-pointer"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    ), {
+      duration: 6000,
+      position: 'bottom-center'
+    });
+  };
+
+  const executeDelete = async (id: string) => {
+    try {
+      setDeletingId(id);
+      const res = await fetch(`/api/bookings/${id}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        toast.success('Booking deleted successfully');
+        setBookings(prev => prev.filter(b => b._id !== id));
+      } else {
+        toast.error('Failed to delete booking');
+      }
+    } catch (error) {
+      toast.error('Could not delete booking.');
+    } finally {
+      setDeletingId(null);
+    }
+  };
  
  useEffect(() => {
  async function loadBookings() {
@@ -431,22 +479,37 @@ export default function AdminReservationsPage() {
  </span>
  </td>
  <td className="px-6 py-5">
-  <button 
-    onClick={() => toggleConfirm(booking._id, !!booking.adminConfirmed)}
-    disabled={updatingId === booking._id}
-    className={`px-4 py-1.5 text-[11px] font-bold rounded-lg transition-colors flex items-center justify-center min-w-[70px] ${
-      booking.adminConfirmed 
-      ? 'bg-red-50 text-red-600 hover:bg-red-100' 
-      : 'bg-[#00a877] text-white hover:bg-[#009669]'
-    } ${updatingId === booking._id ? 'opacity-70 cursor-not-allowed' : ''}`}
-  >
-    {updatingId === booking._id ? (
-      <div className="h-3.5 w-3.5 animate-spin border-2 border-current border-t-transparent rounded-full"></div>
-    ) : (
-      booking.adminConfirmed ? 'Cancel' : 'Confirm'
-    )}
-  </button>
- </td>
+    <div className="flex items-center gap-3">
+       <button 
+         onClick={() => toggleConfirm(booking._id, !!booking.adminConfirmed)}
+         disabled={updatingId === booking._id || deletingId === booking._id}
+         className={`px-4 py-1.5 text-[11px] font-bold rounded-lg transition-colors flex items-center justify-center min-w-[70px] ${
+           booking.adminConfirmed 
+           ? 'bg-red-50 text-red-600 hover:bg-red-100' 
+           : 'bg-[#00a877] text-white hover:bg-[#009669]'
+         } ${updatingId === booking._id ? 'opacity-70 cursor-not-allowed' : ''}`}
+       >
+         {updatingId === booking._id ? (
+           <div className="h-3.5 w-3.5 animate-spin border-2 border-current border-t-transparent rounded-full"></div>
+         ) : (
+           booking.adminConfirmed ? 'Cancel' : 'Confirm'
+         )}
+       </button>
+       
+       <button
+         onClick={() => handleDeleteBooking(booking._id)}
+         disabled={updatingId === booking._id || deletingId === booking._id}
+         className="text-gray-400 hover:text-red-500 transition-colors disabled:opacity-50 flex items-center justify-center p-1.5 cursor-pointer"
+         title="Delete Booking"
+       >
+         {deletingId === booking._id ? (
+           <div className="h-3.5 w-3.5 animate-spin border-2 border-current border-t-transparent rounded-full"></div>
+         ) : (
+           <Trash2 className="h-4 w-4" />
+         )}
+       </button>
+    </div>
+  </td>
  </tr>
  );
  })

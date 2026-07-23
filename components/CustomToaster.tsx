@@ -15,7 +15,11 @@ export default function CustomToaster() {
         <div
           style={{
             opacity: t.visible ? 1 : 0,
-            transform: t.visible ? 'translateX(0)' : 'translateX(200%)',
+            transform: t.visible 
+              ? 'translate(0, 0)' 
+              : t.position?.includes('bottom') 
+                ? 'translateY(200%)' 
+                : 'translateX(200%)',
             transition: 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease',
           }}
         >

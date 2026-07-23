@@ -182,6 +182,14 @@ body {
   }
 }
 
+.animate-slide-up-custom {
+  animation: slideInUpCustom 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-down-custom {
+  animation: slideOutDownCustom 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* Custom Scrollbar Styles */
 ::-webkit-scrollbar {
   width: 8px;
