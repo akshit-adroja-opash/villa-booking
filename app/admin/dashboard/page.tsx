@@ -77,6 +77,69 @@ export default function AdminDashboard() {
     return `${percentage}%`;
   }, [bookings, farms]);
 
+  // Percentage Growth Calculations (comparing last 30 days vs 30-60 days ago)
+  const growthStats = useMemo(() => {
+    const getPercentageChange = (curr: number, prev: number) => {
+      if (prev === 0) return curr > 0 ? '+100%' : '0%';
+      const change = ((curr - prev) / prev) * 100;
+      const formatted = change.toFixed(0);
+      return change >= 0 ? `+${formatted}%` : `${formatted}%`;
+    };
+
+    const now = new Date();
+    const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
+
+    // 1. Revenue
+    const revCurr = bookings
+      .filter(b => b.adminConfirmed && new Date(b.createdAt || b.startDate) >= thirtyDaysAgo)
+      .reduce((sum, b) => sum + (b.totalPrice || 0), 0);
+    const revPrev = bookings
+      .filter(b => b.adminConfirmed && new Date(b.createdAt || b.startDate) >= sixtyDaysAgo && new Date(b.createdAt || b.startDate) < thirtyDaysAgo)
+      .reduce((sum, b) => sum + (b.totalPrice || 0), 0);
+    const revenueGrowth = getPercentageChange(revCurr, revPrev);
+
+    // 2. Bookings
+    const bookCurr = bookings
+      .filter(b => b.adminConfirmed && new Date(b.createdAt || b.startDate) >= thirtyDaysAgo)
+      .length;
+    const bookPrev = bookings
+      .filter(b => b.adminConfirmed && new Date(b.createdAt || b.startDate) >= sixtyDaysAgo && new Date(b.createdAt || b.startDate) < thirtyDaysAgo)
+      .length;
+    const bookingsGrowth = getPercentageChange(bookCurr, bookPrev);
+
+    // 3. Active Users
+    const usersCurr = users
+      .filter(u => new Date(u.createdAt) >= thirtyDaysAgo)
+      .length;
+    const usersPrev = users
+      .filter(u => new Date(u.createdAt) >= sixtyDaysAgo && new Date(u.createdAt) < thirtyDaysAgo)
+      .length;
+    const usersGrowth = getPercentageChange(usersCurr, usersPrev);
+
+    // 4. Occupancy Growth (using confirmed bookings count)
+    const occupancyGrowth = getPercentageChange(bookCurr, bookPrev);
+
+    return {
+      revenue: revenueGrowth,
+      bookings: bookingsGrowth,
+      users: usersGrowth,
+      occupancy: occupancyGrowth
+    };
+  }, [bookings, users]);
+
+  const renderGrowthBadge = (changeStr: string) => {
+    const isNegative = changeStr.startsWith('-');
+    const colorClass = isNegative 
+      ? 'text-red-600 bg-red-50' 
+      : 'text-[#00a877] bg-[#e6f4ea]';
+    return (
+      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${colorClass}`}>
+        {changeStr}
+      </span>
+    );
+  };
+
   // Generate dynamic chart data based on time range
   const chartData = useMemo(() => {
     const now = new Date();
@@ -286,9 +349,7 @@ export default function AdminDashboard() {
               </div>
             </div>
             <div className="flex justify-end">
-              <span className="text-[10px] font-bold text-[#00a877] bg-[#e6f4ea] px-2 py-0.5 rounded-full">
-                +24%
-              </span>
+              {renderGrowthBadge(growthStats.revenue)}
             </div>
           </div>
 
@@ -304,9 +365,7 @@ export default function AdminDashboard() {
               </div>
             </div>
             <div className="flex justify-end">
-              <span className="text-[10px] font-bold text-[#00a877] bg-[#e6f4ea] px-2 py-0.5 rounded-full">
-                +18%
-              </span>
+              {renderGrowthBadge(growthStats.bookings)}
             </div>
           </div>
 
@@ -322,9 +381,7 @@ export default function AdminDashboard() {
               </div>
             </div>
             <div className="flex justify-end">
-              <span className="text-[10px] font-bold text-[#00a877] bg-[#e6f4ea] px-2 py-0.5 rounded-full">
-                +32%
-              </span>
+              {renderGrowthBadge(growthStats.users)}
             </div>
           </div>
 
@@ -340,9 +397,7 @@ export default function AdminDashboard() {
               </div>
             </div>
             <div className="flex justify-end">
-              <span className="text-[10px] font-bold text-[#00a877] bg-[#e6f4ea] px-2 py-0.5 rounded-full">
-                +5%
-              </span>
+              {renderGrowthBadge(growthStats.occupancy)}
             </div>
           </div>
 

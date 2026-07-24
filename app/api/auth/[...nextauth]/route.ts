@@ -27,7 +27,7 @@ export const authOptions: AuthOptions = {
           await user.save();
         }
 
-        return { id: user._id.toString(), name: user.name, email: user.email, role: user.role };
+        return { id: user._id.toString(), name: user.name, email: user.email, role: user.role, image: user.image };
       }
     })
   ],
@@ -36,6 +36,7 @@ export const authOptions: AuthOptions = {
       if (user) {
         token.id = user.id;
         token.role = (user as any).role;
+        token.picture = (user as any).image;
       }
       if (trigger === "update" && session) {
         if (session.name) token.name = session.name;
