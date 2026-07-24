@@ -304,8 +304,7 @@ export default function AdminFinancialsPage() {
  </tr>
  ) : (
  paginatedTransactions.map((booking) => {
- const status = booking.paymentStatus?.toLowerCase() || 'pending';
- const isPaid = status === 'paid' || status === 'confirmed';
+ const isPaid = !!booking.adminConfirmed;
 
  return (
  <tr key={booking._id} className="hover:bg-[#fafafa] transition-colors">

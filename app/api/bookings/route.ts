@@ -48,14 +48,14 @@ export async function POST(req: Request) {
       startDate,
       endDate,
       totalPrice,
-      paymentStatus: 'Paid' 
+      paymentStatus: 'Paid'
     });
 
     const farm = await Farm.findById(farmId);
     const user = await User.findById(userId);
 
     // Email will be sent upon admin confirmation
-    
+
     const confirmationText = `Hello ${user.name}, your stay at ${farm.title} from ${startDate} to ${endDate} is confirmed! Total: ₹${totalPrice}`;
     await sendWhatsAppNotification(process.env.ADMIN_PHONE_NUMBER!, `New Admin Alert: ${user.name} booked ${farm.title}.`);
 
@@ -95,4 +95,3 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Failed to fetch bookings' }, { status: 500 });
   }
 }
-// hi

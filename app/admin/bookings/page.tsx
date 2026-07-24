@@ -424,21 +424,19 @@ export default function AdminReservationsPage() {
  <th className="px-8 py-5 w-[25%]">{renderSortHeader('guest', 'Guest')}</th>
  <th className="px-6 py-5 w-[25%]">{renderSortHeader('property', 'Property')}</th>
  <th className="px-6 py-5 w-[20%]">{renderSortHeader('dates', 'Dates')}</th>
- <th className="px-6 py-5 w-[10%]">{renderSortHeader('total', 'Total')}</th>
- <th className="px-6 py-5 w-[10%]">{renderSortHeader('status', 'Status')}</th>
- <th className="px-9 py-5 w-[10%]">Action</th>
+ <th className="px-6 py-5 w-[15%]">{renderSortHeader('total', 'Total')}</th>
+ <th className="px-9 py-5 w-[15%]">Action</th>
  </tr>
  </thead>
  <tbody className="divide-y divide-gray-50 text-[13px] font-semibold text-[#1B2A22]">
  {filteredBookings.length === 0 ? (
  <tr>
- <td colSpan={6} className="px-8 py-12 text-center text-gray-400 font-medium">
+ <td colSpan={5} className="px-8 py-12 text-center text-gray-400 font-medium">
  No bookings found.
  </td>
  </tr>
  ) : (
  paginatedBookings.map((booking) => {
- const isConfirmed = !!booking.adminConfirmed;
  
  return (
  <tr key={booking._id} className="hover:bg-[#fafafa] transition-colors">
@@ -468,15 +466,6 @@ export default function AdminReservationsPage() {
  </td>
  <td className="px-6 py-5 font-sans tracking-tight font-bold text-[14px] text-[#1B2A22]">
  ₹{(booking.totalPrice || 0).toLocaleString('en-IN')}
- </td>
- <td className="px-6 py-5">
- <span className={`inline-block px-3 py-1 text-[10px] font-bold rounded-full tracking-wide ${
- isConfirmed
- ? 'bg-[#e6f4ea] text-[#00a877]'
- : 'bg-orange-50 text-orange-500'
- }`}>
- {isConfirmed ? 'confirmed' : 'pending'}
- </span>
  </td>
  <td className="px-6 py-5">
     <div className="flex items-center gap-6">

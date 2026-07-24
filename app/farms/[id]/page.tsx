@@ -789,7 +789,7 @@ export default function FarmDetailPage() {
                             {isOwner && (
                               <button
                                 onClick={() => deleteReview(rev._id)}
-                                className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors"
+                                className="text-gray-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-md transition-colors"
                                 title="Delete review"
                               >
                                 <Trash2 className="h-4 w-4" />
