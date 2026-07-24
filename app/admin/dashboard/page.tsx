@@ -168,31 +168,47 @@ export default function AdminDashboard() {
 
     if (filteredBookings.length === 0) {
       return [
-        { label: 'Start', value: 0, farmName: '', guestName: '' },
-        { label: 'End', value: 0, farmName: '', guestName: '' }
+        { label: 'Start', value: 0, bookings: [] },
+        { label: 'End', value: 0, bookings: [] }
       ];
     }
 
-    if (filteredBookings.length === 1) {
-      const b = filteredBookings[0];
-      const bDate = new Date(b.startDate);
-      const prevDate = new Date(bDate.getTime() - 24 * 60 * 60 * 1000);
-      return [
-        { label: prevDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }), value: 0, farmName: '', guestName: '' },
-        { label: bDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }), value: b.totalPrice || 0, farmName: b.farmId?.title || 'Deleted Property', guestName: b.userId?.name || 'Guest' }
-      ];
-    }
+    const groups: { [key: string]: { label: string, value: number, bookings: any[] } } = {};
 
-    return filteredBookings.map((b) => {
+    filteredBookings.forEach((b) => {
       const bDate = new Date(b.startDate);
       const label = bDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-      return {
-        label,
-        value: b.totalPrice || 0,
+      
+      if (!groups[label]) {
+        groups[label] = {
+          label,
+          value: 0,
+          bookings: []
+        };
+      }
+      
+      groups[label].value += b.totalPrice || 0;
+      groups[label].bookings.push({
         farmName: b.farmId?.title || 'Deleted Property',
-        guestName: b.userId?.name || 'Guest'
-      };
+        guestName: b.userId?.name || 'Guest',
+        price: b.totalPrice || 0
+      });
     });
+
+    const result = Object.values(groups);
+
+    if (result.length === 1) {
+      const label = result[0].label;
+      const parts = label.split(' ');
+      const day = parseInt(parts[0], 10);
+      const prevDateLabel = `${day - 1} ${parts[1] || ''}`.trim();
+      return [
+        { label: prevDateLabel, value: 0, bookings: [] },
+        result[0]
+      ];
+    }
+
+    return result;
   }, [bookings, revenueTimeRange]);
 
   const maxRevenue = useMemo(() => {
@@ -419,9 +435,11 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-center mb-8">
               <h3 className="font-serif text-[22px] font-bold text-[#1B2A22]">Revenue Trends</h3>
               <div className="relative">
-                <button 
+                 <button 
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-white border border-gray-200 rounded-xl px-4 py-2 hover:border-[#00a877] focus:outline-none focus:border-[#00a877] transition-all shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] min-w-[130px]"
+                  className={`flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-white border rounded-xl px-4 py-2 focus:outline-none transition-all shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] min-w-[130px] ${
+                    isDropdownOpen ? 'border-[#00a877]' : 'border-gray-200 hover:border-[#00a877]'
+                  }`}
                 >
                   <span>{timeRangeOptions.find(opt => opt.value === revenueTimeRange)?.label}</span>
                   <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-gray-50 text-gray-500'}`}>
@@ -530,23 +548,44 @@ export default function AdminDashboard() {
                 const topPercent = (pt.y / 200) * 100;
                 return (
                   <div
-                    className="absolute bg-white/95 backdrop-blur-md text-[#1B2A22] p-3 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] text-[11px] font-sans pointer-events-none z-30 transition-all duration-150 -translate-x-1/2 -translate-y-[115%] border border-gray-100 min-w-[150px]"
+                    className="absolute bg-white/95 backdrop-blur-md text-[#1B2A22] p-3 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] text-[11px] font-sans pointer-events-none z-30 transition-all duration-150 -translate-x-1/2 -translate-y-[115%] border border-gray-100 min-w-[200px]"
                     style={{ left: `${leftPercent}%`, top: `${topPercent}%` }}
                   >
-                    <div className="flex justify-between items-center gap-3 mb-1.5">
+                    <div className="flex justify-between items-center gap-3 mb-2 pb-1.5 border-b border-gray-100">
                       <span className="text-[9px] text-gray-400 font-bold tracking-wider uppercase">{pt.label}</span>
-                      {pt.guestName && (
-                        <span className="text-[9px] bg-[#e6f4ea] text-[#00a877] px-2 py-0.5 rounded-full font-bold">
-                          {pt.guestName}
+                      <span className="text-[10px] text-gray-400 font-bold">
+                        {pt.bookings.length} {pt.bookings.length === 1 ? 'Booking' : 'Bookings'}
+                      </span>
+                    </div>
+
+                    <div className="space-y-2 mb-2 max-h-[120px] overflow-y-auto pr-1">
+                      {pt.bookings.map((b: any, index: number) => (
+                        <div key={index} className="flex flex-col gap-0.5">
+                          <div className="flex justify-between items-center gap-2">
+                            <span className="font-bold text-[12px] text-[#00a877]">
+                              ₹{b.price.toLocaleString('en-IN')}
+                            </span>
+                            {b.guestName && (
+                              <span className="text-[8px] bg-[#e6f4ea] text-[#00a877] px-1.5 py-0.5 rounded font-semibold truncate max-w-[80px]">
+                                {b.guestName}
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-gray-500 text-[9px] font-medium truncate max-w-[180px]">
+                            {b.farmName}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {pt.bookings.length > 1 && (
+                      <div className="flex justify-between items-center border-t border-gray-100 pt-2 mt-1">
+                        <span className="text-[9px] font-bold text-gray-400 uppercase">Total Revenue</span>
+                        <span className="text-[13px] font-bold text-[#1B2A22]">
+                          ₹{pt.value.toLocaleString('en-IN')}
                         </span>
-                      )}
-                    </div>
-                    <div className="text-[16px] font-sans font-bold text-[#00a877] leading-none mb-1.5">
-                      ₹{pt.value.toLocaleString('en-IN')}
-                    </div>
-                    <div className="text-gray-500 text-[10px] font-medium border-t border-gray-50 pt-1.5 truncate max-w-[190px]">
-                      {pt.farmName}
-                    </div>
+                      </div>
+                    )}
                   </div>
                 );
               })()}
@@ -630,7 +669,14 @@ export default function AdminDashboard() {
                 <input value={bookingSearch} onChange={(e) => setBookingSearch(e.target.value)} placeholder="Search bookings..." className="w-full bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400" />
               </div>
               <div className="relative min-w-[130px]">
-                <button onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)} className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none transition-all w-full">
+                <button 
+                  onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)} 
+                  className={`flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] rounded-xl px-4 h-11 focus:outline-none transition-all w-full border ${
+                    isStatusDropdownOpen 
+                      ? 'border-[#00a877] bg-white' 
+                      : 'border-transparent bg-[#f9fafb] hover:bg-gray-100 hover:border-[#00a877]/30'
+                  }`}
+                >
                   <span>{bookingStatusFilter === 'all' ? 'All Status' : bookingStatusFilter === 'confirmed' ? 'Confirmed' : 'Pending'}</span>
                   <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isStatusDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}><ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isStatusDropdownOpen ? 'rotate-180' : ''}`} /></div>
                 </button>
@@ -644,7 +690,14 @@ export default function AdminDashboard() {
                 </>)}
               </div>
               <div className="relative min-w-[150px]">
-                <button onClick={() => setIsBookingSortDropdownOpen(!isBookingSortDropdownOpen)} className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none transition-all w-full">
+                <button 
+                  onClick={() => setIsBookingSortDropdownOpen(!isBookingSortDropdownOpen)} 
+                  className={`flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] rounded-xl px-4 h-11 focus:outline-none transition-all w-full border ${
+                    isBookingSortDropdownOpen 
+                      ? 'border-[#00a877] bg-white' 
+                      : 'border-transparent bg-[#f9fafb] hover:bg-gray-100 hover:border-[#00a877]/30'
+                  }`}
+                >
                   <span>{bookingSortFilter === 'newest' ? 'Newest First' : bookingSortFilter === 'oldest' ? 'Oldest First' : bookingSortFilter === 'amount-high' ? 'Amount (High)' : 'Amount (Low)'}</span>
                   <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isBookingSortDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}><ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isBookingSortDropdownOpen ? 'rotate-180' : ''}`} /></div>
                 </button>

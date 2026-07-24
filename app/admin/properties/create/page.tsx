@@ -13,8 +13,7 @@ import {
  Upload,
  Sparkles,
  Home,
- Building,
- Tent
+ Building
 } from 'lucide-react';
 import CustomSelect from '@/components/CustomSelect';
 
@@ -51,7 +50,8 @@ export default function AddPropertyWizardPage() {
  { number: 1, label: 'Basics', active: currentStep === 1 },
  { number: 2, label: 'Pricing', active: currentStep === 2 },
  { number: 3, label: 'Amenities', active: currentStep === 3 },
- { number: 4, label: 'Photos', active: currentStep === 4 },
+ { number: 4, label: 'Policies', active: currentStep === 4 },
+ { number: 5, label: 'Photos', active: currentStep === 5 },
  ];
 
  const handleAmenityChange = (amenity: string) => {
@@ -107,7 +107,7 @@ export default function AddPropertyWizardPage() {
      return;
    }
  }
- if (currentStep < 4) {
+ if (currentStep < 5) {
  setCurrentStep(prev => prev + 1);
  }
  };
@@ -298,8 +298,7 @@ export default function AddPropertyWizardPage() {
     onChange={(val) => setPropertyType(val)}
     options={[
       { value: 'farmhouse', label: 'Farmhouse', description: 'Cozy countryside farmhouse stay', icon: Home },
-      { value: 'villa', label: 'Villa', description: 'Luxurious retreat with premium amenities', icon: Building },
-      { value: 'cabin', label: 'Cabin', description: 'Rustic wooden cabin surrounded by nature', icon: Tent }
+      { value: 'villa', label: 'Villa', description: 'Luxurious retreat with premium amenities', icon: Building }
     ]}
   />
   </div>
@@ -483,8 +482,45 @@ export default function AddPropertyWizardPage() {
  </div>
  )}
 
- {/* STEP 4: PHOTOS */}
+ {/* STEP 4: POLICIES */}
  {currentStep === 4 && (
+    <div className="space-y-6">
+      <h3 className="font-serif text-2xl text-[#1B2A22] pb-4 border-b border-gray-100 mb-8">
+        Policies & House Rules
+      </h3>
+
+      <div className="space-y-2">
+        <label htmlFor="houseRules" className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
+          House Rules <span className="text-gray-400 font-normal">(One rule per line)</span>
+        </label>
+        <textarea 
+          id="houseRules"
+          rows={5}
+          value={houseRules}
+          onChange={(e) => setHouseRules(e.target.value)}
+          placeholder="e.g.&#10;Check-in: 6 PM | Checkout: 5 PM&#10;No Alcohol Party&#10;No Smoking"
+          className="w-full resize-none rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <label htmlFor="cancellationPolicy" className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
+          Cancellation Policy
+        </label>
+        <textarea 
+          id="cancellationPolicy"
+          rows={5}
+          value={cancellationPolicy}
+          onChange={(e) => setCancellationPolicy(e.target.value)}
+          placeholder="Describe your cancellation policy..."
+          className="w-full resize-none rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
+        />
+      </div>
+    </div>
+  )}
+
+ {/* STEP 5: PHOTOS */}
+ {currentStep === 5 && (
  <div className="space-y-6">
  <div className="pb-2 border-b border-[#bfc9c3]/30 flex justify-between items-center mb-6">
  <h3 className="font-serif text-xl text-[#1a1b22]">
@@ -574,7 +610,7 @@ export default function AddPropertyWizardPage() {
  >
  {currentStep > 1 ? 'Back' : 'Cancel'}
  </button>
- {currentStep < 4 ? (
+ {currentStep < 5 ? (
  <button 
  type="submit"
  className="flex items-center gap-2 rounded-xl bg-[#00a877] px-6 py-3 text-[13px] font-bold text-white transition-colors hover:bg-[#009669]"

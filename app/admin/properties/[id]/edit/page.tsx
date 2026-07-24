@@ -50,10 +50,11 @@ export default function EditPropertyWizardPage() {
  const [saving, setSaving] = useState(false);
 
  const wizardSteps = [
- { number: 1, label: 'Basics', active: currentStep === 1 },
- { number: 2, label: 'Pricing', active: currentStep === 2 },
- { number: 3, label: 'Amenities', active: currentStep === 3 },
- { number: 4, label: 'Photos', active: currentStep === 4 },
+  { number: 1, label: 'Basics', active: currentStep === 1 },
+  { number: 2, label: 'Pricing', active: currentStep === 2 },
+  { number: 3, label: 'Amenities', active: currentStep === 3 },
+  { number: 4, label: 'Policies', active: currentStep === 4 },
+  { number: 5, label: 'Photos', active: currentStep === 5 },
  ];
 
  useEffect(() => {
@@ -161,7 +162,7 @@ export default function EditPropertyWizardPage() {
      return;
    }
  }
- if (currentStep < 4) {
+ if (currentStep < 5) {
  setCurrentStep(prev => prev + 1);
  }
  };
@@ -364,35 +365,6 @@ export default function EditPropertyWizardPage() {
   />
   </div>
  </div>
- 
-
- <div className="mt-8 border-t border-gray-100 pt-8 space-y-6">
-    <h3 className="font-serif text-2xl text-[#1B2A22] pb-4 border-b border-gray-100 mb-4">
-        Policies
-    </h3>
-    <div className="space-y-4">
-        <div>
-            <label className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">House Rules</label>
-            <textarea 
-                rows={4}
-                value={houseRules}
-                onChange={(e) => setHouseRules(e.target.value)}
-                placeholder="e.g. No Smoking\nNo Pets Allowed"
-                className="w-full rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white resize-none"
-            />
-        </div>
-        <div>
-            <label className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">Cancellation Policy</label>
-            <textarea 
-                rows={4}
-                value={cancellationPolicy}
-                onChange={(e) => setCancellationPolicy(e.target.value)}
-                placeholder="e.g. Free cancellation within 48 hours..."
-                className="w-full rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white resize-none"
-            />
-        </div>
-    </div>
- </div>
  </div>
  )}
 
@@ -570,8 +542,45 @@ export default function EditPropertyWizardPage() {
  </div>
  )}
 
- {/* STEP 4: PHOTOS */}
+ {/* STEP 4: POLICIES */}
  {currentStep === 4 && (
+   <div className="space-y-6">
+     <h3 className="font-serif text-2xl text-[#1B2A22] pb-4 border-b border-gray-100 mb-8">
+       Policies & House Rules
+     </h3>
+
+     <div className="space-y-2">
+       <label htmlFor="houseRules" className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
+         House Rules <span className="text-gray-400 font-normal">(One rule per line)</span>
+       </label>
+       <textarea 
+         id="houseRules"
+         rows={5}
+         value={houseRules}
+         onChange={(e) => setHouseRules(e.target.value)}
+         placeholder="e.g.&#10;Check-in: 6 PM | Checkout: 5 PM&#10;No Alcohol Party&#10;No Smoking"
+         className="w-full resize-none rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
+       />
+     </div>
+
+     <div className="space-y-2">
+       <label htmlFor="cancellationPolicy" className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
+         Cancellation Policy
+       </label>
+       <textarea 
+         id="cancellationPolicy"
+         rows={5}
+         value={cancellationPolicy}
+         onChange={(e) => setCancellationPolicy(e.target.value)}
+         placeholder="Describe your cancellation policy..."
+         className="w-full resize-none rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
+       />
+     </div>
+   </div>
+ )}
+
+ {/* STEP 5: PHOTOS */}
+ {currentStep === 5 && (
  <div className="space-y-6">
  <div className="pb-2 border-b border-[#bfc9c3]/30 flex justify-between items-center mb-6">
  <h3 className="font-serif text-xl text-[#1a1b22]">
@@ -661,7 +670,7 @@ export default function EditPropertyWizardPage() {
  >
  {currentStep > 1 ? 'Back' : 'Cancel'}
  </button>
- {currentStep < 4 ? (
+ {currentStep < 5 ? (
  <button 
  type="submit"
  className="flex items-center gap-2 rounded-xl bg-[#00a877] px-6 py-3 text-[13px] font-bold text-white transition-colors hover:bg-[#009669]"
