@@ -18,6 +18,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [revenueTimeRange, setRevenueTimeRange] = useState('all');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [bookingSearch, setBookingSearch] = useState('');
   const [bookingStatusFilter, setBookingStatusFilter] = useState('all');
   const [bookingSortFilter, setBookingSortFilter] = useState('newest');
@@ -140,51 +141,58 @@ export default function AdminDashboard() {
     );
   };
 
-  // Generate dynamic chart data based on time range
+  // Generate dynamic chart data based on time range showing stock market style price ups and downs
   const chartData = useMemo(() => {
     const now = new Date();
-    let dataPoints: { label: string, value: number, start: Date, end: Date }[] = [];
-    const monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+    let startDateLimit = new Date(0); // Default to all time
 
     if (revenueTimeRange === '1m') {
-      for (let i = 3; i >= 0; i--) {
-        const end = new Date(now);
-        end.setDate(now.getDate() - i * 7);
-        const start = new Date(now);
-        start.setDate(now.getDate() - (i + 1) * 7);
-        dataPoints.push({ label: `W${4 - i}`, value: 0, start, end });
-      }
+      startDateLimit = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    } else if (revenueTimeRange === '3m') {
+      startDateLimit = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+    } else if (revenueTimeRange === '6m') {
+      startDateLimit = new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000);
+    } else if (revenueTimeRange === '1y') {
+      startDateLimit = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
     } else if (revenueTimeRange === '5y') {
-      for (let i = 4; i >= 0; i--) {
-        const year = now.getFullYear() - i;
-        const start = new Date(year, 0, 1);
-        const end = new Date(year, 11, 31, 23, 59, 59);
-        dataPoints.push({ label: String(year), value: 0, start, end });
-      }
-    } else {
-      const numMonths = revenueTimeRange === '3m' ? 3 : revenueTimeRange === '6m' ? 6 : 12;
-      for (let i = numMonths - 1; i >= 0; i--) {
-        const d = new Date(now);
-        d.setMonth(now.getMonth() - i);
-        const start = new Date(d.getFullYear(), d.getMonth(), 1);
-        const end = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59);
-        dataPoints.push({ label: monthNames[d.getMonth()], value: 0, start, end });
-      }
+      startDateLimit = new Date(now.getTime() - 5 * 365 * 24 * 60 * 60 * 1000);
     }
 
-    bookings.forEach(b => {
-      const bDate = new Date(b.startDate);
-      if (!isNaN(bDate.getTime())) {
-        for (let point of dataPoints) {
-          if (bDate >= point.start && bDate <= point.end) {
-            point.value += b.totalPrice || 0;
-            break;
-          }
-        }
-      }
-    });
+    const filteredBookings = bookings
+      .filter(b => b.adminConfirmed)
+      .filter(b => {
+        const bDate = new Date(b.startDate);
+        return !isNaN(bDate.getTime()) && bDate >= startDateLimit;
+      })
+      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
 
-    return dataPoints;
+    if (filteredBookings.length === 0) {
+      return [
+        { label: 'Start', value: 0, farmName: '', guestName: '' },
+        { label: 'End', value: 0, farmName: '', guestName: '' }
+      ];
+    }
+
+    if (filteredBookings.length === 1) {
+      const b = filteredBookings[0];
+      const bDate = new Date(b.startDate);
+      const prevDate = new Date(bDate.getTime() - 24 * 60 * 60 * 1000);
+      return [
+        { label: prevDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }), value: 0, farmName: '', guestName: '' },
+        { label: bDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }), value: b.totalPrice || 0, farmName: b.farmId?.title || 'Deleted Property', guestName: b.userId?.name || 'Guest' }
+      ];
+    }
+
+    return filteredBookings.map((b) => {
+      const bDate = new Date(b.startDate);
+      const label = bDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+      return {
+        label,
+        value: b.totalPrice || 0,
+        farmName: b.farmId?.title || 'Deleted Property',
+        guestName: b.userId?.name || 'Guest'
+      };
+    });
   }, [bookings, revenueTimeRange]);
 
   const maxRevenue = useMemo(() => {
@@ -197,10 +205,10 @@ export default function AdminDashboard() {
       const step = chartData.length > 1 ? 500 / (chartData.length - 1) : 500;
       const x = idx * step;
       const y = 170 - (d.value / maxRevenue) * 140;
-      return { x, y };
+      return { x, y, ...d };
     });
 
-    if (points.length === 0) return { lineD: '', fillD: '' };
+    if (points.length === 0) return { lineD: '', fillD: '', points: [] };
 
     let lineD = `M ${points[0].x} ${points[0].y}`;
     for (let i = 1; i < points.length; i++) {
@@ -213,7 +221,7 @@ export default function AdminDashboard() {
       lineD += ` C ${cpX1} ${cpY1}, ${cpX2} ${cpY2}, ${curr.x} ${curr.y}`;
     }
     const fillD = `${lineD} L ${points[points.length - 1].x} 200 L 0 200 Z`;
-    return { lineD, fillD };
+    return { lineD, fillD, points };
   }, [chartData, maxRevenue]);
 
   const popularDestinations = useMemo(() => {
@@ -480,13 +488,85 @@ export default function AdminDashboard() {
                     strokeLinecap="round"
                   />
                 )}
+
+                {/* Interactive dots on hover */}
+                {chartPathData.points && chartPathData.points.map((pt: any, idx: number) => {
+                  if (pt.label === 'Start' || pt.label === 'End' || (pt.value === 0 && chartPathData.points.length <= 2)) return null;
+
+                  const isHovered = hoveredIdx === idx;
+
+                  return (
+                    <g key={idx}>
+                      <circle
+                        cx={pt.x}
+                        cy={pt.y}
+                        r={isHovered ? 6 : 3.5}
+                        fill={isHovered ? '#00a877' : '#ffffff'}
+                        stroke="#00a877"
+                        strokeWidth={isHovered ? 2.5 : 2}
+                        className="transition-all duration-150 cursor-pointer"
+                        onMouseEnter={() => setHoveredIdx(idx)}
+                        onMouseLeave={() => setHoveredIdx(null)}
+                      />
+                      <circle
+                        cx={pt.x}
+                        cy={pt.y}
+                        r="12"
+                        fill="transparent"
+                        className="cursor-pointer"
+                        onMouseEnter={() => setHoveredIdx(idx)}
+                        onMouseLeave={() => setHoveredIdx(null)}
+                      />
+                    </g>
+                  );
+                })}
               </svg>
+
+              {/* Hover Tooltip */}
+              {hoveredIdx !== null && chartPathData.points && chartPathData.points[hoveredIdx] && (() => {
+                const pt = chartPathData.points[hoveredIdx];
+                if (!pt || pt.value === 0) return null;
+                const leftPercent = (pt.x / 500) * 100;
+                const topPercent = (pt.y / 200) * 100;
+                return (
+                  <div
+                    className="absolute bg-white/95 backdrop-blur-md text-[#1B2A22] p-3 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] text-[11px] font-sans pointer-events-none z-30 transition-all duration-150 -translate-x-1/2 -translate-y-[115%] border border-gray-100 min-w-[150px]"
+                    style={{ left: `${leftPercent}%`, top: `${topPercent}%` }}
+                  >
+                    <div className="flex justify-between items-center gap-3 mb-1.5">
+                      <span className="text-[9px] text-gray-400 font-bold tracking-wider uppercase">{pt.label}</span>
+                      {pt.guestName && (
+                        <span className="text-[9px] bg-[#e6f4ea] text-[#00a877] px-2 py-0.5 rounded-full font-bold">
+                          {pt.guestName}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-[16px] font-sans font-bold text-[#00a877] leading-none mb-1.5">
+                      ₹{pt.value.toLocaleString('en-IN')}
+                    </div>
+                    <div className="text-gray-500 text-[10px] font-medium border-t border-gray-50 pt-1.5 truncate max-w-[190px]">
+                      {pt.farmName}
+                    </div>
+                  </div>
+                );
+              })()}
 
               {/* Dynamic Labels */}
               <div className="flex justify-between items-center text-[10px] font-bold text-gray-400 mt-4 px-1">
-                {chartData.map((d, idx) => (
-                  <span key={idx}>{d.label}</span>
-                ))}
+                {chartData.map((d, idx) => {
+                  const total = chartData.length;
+                  const showLabel = 
+                    idx === 0 || 
+                    idx === total - 1 || 
+                    (total > 2 && idx === Math.floor(total / 2)) ||
+                    (total > 4 && idx === Math.floor(total / 4)) ||
+                    (total > 4 && idx === Math.floor(3 * total / 4));
+                  return (
+                    <span key={idx} className={showLabel ? '' : 'invisible h-0 w-0 absolute'}>
+                      {d.label}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           </div>
