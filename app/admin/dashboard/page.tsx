@@ -546,9 +546,15 @@ export default function AdminDashboard() {
                 if (!pt || pt.value === 0) return null;
                 const leftPercent = (pt.x / 500) * 100;
                 const topPercent = (pt.y / 200) * 100;
+                let translateX = '-translate-x-1/2';
+                if (leftPercent < 15) {
+                  translateX = '-translate-x-[10%]';
+                } else if (leftPercent > 85) {
+                  translateX = '-translate-x-[90%]';
+                }
                 return (
                   <div
-                    className="absolute bg-white/95 backdrop-blur-md text-[#1B2A22] p-3 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] text-[11px] font-sans pointer-events-none z-30 transition-all duration-150 -translate-x-1/2 -translate-y-[115%] border border-gray-100 min-w-[200px]"
+                    className={`absolute bg-white/95 backdrop-blur-md text-[#1B2A22] p-3 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] text-[11px] font-sans pointer-events-none z-30 transition-all duration-150 ${translateX} -translate-y-[115%] border border-gray-100 min-w-[200px]`}
                     style={{ left: `${leftPercent}%`, top: `${topPercent}%` }}
                   >
                     <div className="flex justify-between items-center gap-3 mb-2 pb-1.5 border-b border-gray-100">
@@ -565,11 +571,6 @@ export default function AdminDashboard() {
                             <span className="font-bold text-[12px] text-[#00a877]">
                               ₹{b.price.toLocaleString('en-IN')}
                             </span>
-                            {b.guestName && (
-                              <span className="text-[8px] bg-[#e6f4ea] text-[#00a877] px-1.5 py-0.5 rounded font-semibold truncate max-w-[80px]">
-                                {b.guestName}
-                              </span>
-                            )}
                           </div>
                           <div className="text-gray-500 text-[9px] font-medium truncate max-w-[180px]">
                             {b.farmName}

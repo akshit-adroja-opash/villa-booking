@@ -433,7 +433,7 @@ export default function BookingsDashboardPage() {
             <button
               onClick={() => setActiveTab('upcoming')}
               className={`text-sm font-medium pb-4 transition-all whitespace-nowrap ${activeTab === 'upcoming'
-                  ? 'text-[#1B2A22] border-b-2 border-[#1B2A22]'
+                  ? 'text-[#1B2A22] border-b-2 border-[#00a877]'
                   : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
                 }`}
             >
@@ -442,7 +442,7 @@ export default function BookingsDashboardPage() {
             <button
               onClick={() => setActiveTab('past')}
               className={`text-sm font-medium pb-4 transition-all whitespace-nowrap ${activeTab === 'past'
-                  ? 'text-[#1B2A22] border-b-2 border-[#1B2A22]'
+                  ? 'text-[#1B2A22] border-b-2 border-[#00a877]'
                   : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
                 }`}
             >
@@ -451,7 +451,7 @@ export default function BookingsDashboardPage() {
             <button
               onClick={() => setActiveTab('saved')}
               className={`text-sm font-medium pb-4 transition-all whitespace-nowrap ${activeTab === 'saved'
-                  ? 'text-[#1B2A22] border-b-2 border-[#1B2A22]'
+                  ? 'text-[#1B2A22] border-b-2 border-[#00a877]'
                   : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
                 }`}
             >
