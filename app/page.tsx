@@ -5,295 +5,295 @@ import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { 
- ArrowRight,
- Heart,
- Star,
- MapPin,
- ChevronRight,
- PhoneCall,
- ArrowUpRight,
- Wind,
- Coffee,
- ShieldCheck
+import {
+  ArrowRight,
+  Heart,
+  Star,
+  MapPin,
+  ChevronRight,
+  PhoneCall,
+  ArrowUpRight,
+  Wind,
+  Coffee,
+  ShieldCheck
 } from 'lucide-react';
 
 export default function Home() {
- const { data: session } = useSession() || {};
- const router = useRouter();
- const [farms, setFarms] = useState<any[]>([]);
- const [loading, setLoading] = useState(true);
- const [favorites, setFavorites] = useState<string[]>([]);
- const [currentSlide, setCurrentSlide] = useState(0);
+  const { data: session } = useSession() || {};
+  const router = useRouter();
+  const [farms, setFarms] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
- const heroImages = farms.length > 0 
- ? farms.filter(f => f.images && f.images.length > 0).map(f => f.images[0]).slice(0, 5)
- : [
- "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80",
- "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80",
- "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=1920&q=80"
- ];
+  const heroImages = farms.length > 0
+    ? farms.filter(f => f.images && f.images.length > 0).map(f => f.images[0]).slice(0, 5)
+    : [
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80",
+      "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=1920&q=80"
+    ];
 
- useEffect(() => {
- const timer = setInterval(() => {
- setCurrentSlide((prev) => (prev >= heroImages.length - 1 ? 0 : prev + 1));
- }, 6000);
- return () => clearInterval(timer);
- }, [heroImages.length]);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev >= heroImages.length - 1 ? 0 : prev + 1));
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [heroImages.length]);
 
- useEffect(() => {
- async function fetchFarms() {
- try {
- const res = await fetch('/api/farms?trending=true');
- if (res.ok) {
- const data = await res.json();
- const activeData = data.filter((f: any) => f.isActive !== false);
- const formatted = activeData.map((farm: any) => ({
-  ...farm,
-  rating: Number(farm.rating || 4.5).toFixed(1)
- }));
- setFarms(formatted);
- }
- } catch (err) {
- console.error('Failed to fetch from API:', err);
- } finally {
- setLoading(false);
- }
- }
- fetchFarms();
- }, []);
+  useEffect(() => {
+    async function fetchFarms() {
+      try {
+        const res = await fetch('/api/farms?trending=true');
+        if (res.ok) {
+          const data = await res.json();
+          const activeData = data.filter((f: any) => f.isActive !== false);
+          const formatted = activeData.map((farm: any) => ({
+            ...farm,
+            rating: Number(farm.rating || 4.5).toFixed(1)
+          }));
+          setFarms(formatted);
+        }
+      } catch (err) {
+        console.error('Failed to fetch from API:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchFarms();
+  }, []);
 
- useEffect(() => {
- async function fetchFavorites() {
- if (session?.user) {
- try {
- const userId = (session.user as any).id;
- const res = await fetch(`/api/users/favorites?userId=${userId}`);
- if (res.ok) {
- const data = await res.json();
- setFavorites(data.map((fav: any) => fav._id));
- }
- } catch (err) {
- console.error('Failed to fetch favorites:', err);
- }
- }
- }
- fetchFavorites();
- }, [session]);
+  useEffect(() => {
+    async function fetchFavorites() {
+      if (session?.user) {
+        try {
+          const userId = (session.user as any).id;
+          const res = await fetch(`/api/users/favorites?userId=${userId}`);
+          if (res.ok) {
+            const data = await res.json();
+            setFavorites(data.map((fav: any) => fav._id));
+          }
+        } catch (err) {
+          console.error('Failed to fetch favorites:', err);
+        }
+      }
+    }
+    fetchFavorites();
+  }, [session]);
 
- const toggleFavorite = async (id: string, e: React.MouseEvent) => {
- e.preventDefault();
- e.stopPropagation();
- if (!session?.user) {
- toast.error('Please sign in to save farmhouses to your collection.');
- router.push('/login');
- return;
- }
- try {
- const userId = (session.user as any).id;
- const res = await fetch('/api/users/favorites', {
- method: 'POST',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({ userId, farmId: id })
- });
- if (res.ok) {
- const data = await res.json();
- setFavorites(data.favorites);
- if (data.favorites.includes(id)) {
-   toast.success('Farmhouse saved to your collection!');
- } else {
-   toast.success('Farmhouse removed from your collection.');
- }
- } else {
- toast.error('Failed to toggle favorite.');
- }
- } catch (err) {
- toast.error('Failed to update favorites.');
- }
- };
+  const toggleFavorite = async (id: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!session?.user) {
+      toast.error('Please sign in to save farmhouses to your collection.');
+      router.push('/login');
+      return;
+    }
+    try {
+      const userId = (session.user as any).id;
+      const res = await fetch('/api/users/favorites', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, farmId: id })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setFavorites(data.favorites);
+        if (data.favorites.includes(id)) {
+          toast.success('Farmhouse saved to your collection!');
+        } else {
+          toast.success('Farmhouse removed from your collection.');
+        }
+      } else {
+        toast.error('Failed to toggle favorite.');
+      }
+    } catch (err) {
+      toast.error('Failed to update favorites.');
+    }
+  };
 
- return (
- <div className="bg-[#FAF9F6] text-[#1B2A22] min-h-screen">
- 
- {/* Hero Section */}
- <section className="relative h-[65vh] min-h-[450px] md:h-[70vh] md:min-h-[500px] lg:h-[75vh] lg:min-h-[600px] flex items-center justify-center overflow-hidden">
-  <div className="absolute inset-0 z-0">
-    {heroImages.map((src, idx) => (
-      <div 
-        key={idx} 
-        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${currentSlide === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-      >
-        <img
-          alt={`Farmhouse View ${idx + 1}`}
-          className={`w-full h-full object-cover brightness-[0.6] transition-transform duration-[6000ms] ease-out ${currentSlide === idx ? 'scale-100' : 'scale-105'}`}
-          src={src}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1B2A22]/80 via-transparent to-transparent"></div>
-      </div>
-    ))}
-  </div>
+  return (
+    <div className="bg-[#FAF9F6] text-[#1B2A22] min-h-screen">
 
- {/* Hero Content */}
- <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center mt-12 md:mt-20">
- <span className="text-[11px] md:text-sm font-medium tracking-[0.3em] font-bold text-white/90 mb-4 md:mb-6 animate-fade-in uppercase">
-LUXURY & NATURE
- </span>
- <h1 className="font-serif text-5xl md:text-7xl lg:text-7xl font-normal text-white leading-tight mb-8 drop-shadow-lg">
- Explore Farmhouse
- </h1>
- <Link 
- href="/farms"
- className="group relative px-8 py-4 bg-white text-[#1B2A22] text-sm font-bold rounded-full shadow-xl shadow-black/20 overflow-hidden transition-all duration-300 hover:bg-[#00a877] hover:text-white hover:shadow-2xl hover:-translate-y-1 active:scale-[0.98]"
- >
- <span className="relative z-10 flex items-center gap-2">
- View Farmhouses <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5"/>
- </span>
- </Link>
- </div>
+      {/* Hero Section */}
+      <section className="relative h-[65vh] min-h-[450px] md:h-[70vh] md:min-h-[500px] lg:h-[75vh] lg:min-h-[600px] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          {heroImages.map((src, idx) => (
+            <div
+              key={idx}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${currentSlide === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+            >
+              <img
+                alt={`Farmhouse View ${idx + 1}`}
+                className={`w-full h-full object-cover brightness-[0.6] transition-transform duration-[6000ms] ease-out ${currentSlide === idx ? 'scale-100' : 'scale-105'}`}
+                src={src}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1B2A22]/80 via-transparent to-transparent"></div>
+            </div>
+          ))}
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center mt-12 md:mt-20">
+          <span className="text-[11px] md:text-sm font-medium tracking-[0.3em] font-bold text-white/90 mb-4 md:mb-6 animate-fade-in uppercase">
+            LUXURY & NATURE
+          </span>
+          <h1 className="font-serif text-5xl md:text-7xl lg:text-7xl font-normal text-white leading-tight mb-8 drop-shadow-lg">
+            Explore Farmhouse
+          </h1>
+          <Link
+            href="/farms"
+            className="group relative px-8 py-4 bg-white text-[#1B2A22] text-sm font-bold rounded-full shadow-xl shadow-black/20 overflow-hidden transition-all duration-300 hover:bg-[#00a877] hover:text-white hover:shadow-2xl hover:-translate-y-1 active:scale-[0.98]"
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              View Farmhouses <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+            </span>
+          </Link>
+        </div>
 
 
- </section>
+      </section>
 
- {/* The Collection (Editorial Layout) */}
- <section className="py-12 md:py-20 bg-white">
- <div className="max-w-[1280px] mx-auto px-6 md:px-16">
- <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 md:mb-8 gap-6">
- <div className="w-full md:w-auto text-center md:text-left">
- <h2 className="font-sans text-3xl md:text-4xl text-[#1B2A22]">Our Farmhouses</h2>
- </div>
- <div className="w-full md:w-auto flex justify-end mt-2 md:mt-0">
- <Link href="/farms"className="text-sm font-medium text-[#1B2A22] flex items-center gap-2 hover:text-[#1B2A22] transition-colors border-b border-[#1B2A22] hover:border-[#1B2A22] pb-1">
- View All Farmhouses <ArrowRight className="h-3 w-3"/>
- </Link>
- </div>
- </div>
+      {/* The Collection (Editorial Layout) */}
+      <section className="py-12 md:py-20 bg-white">
+        <div className="max-w-[1280px] mx-auto px-6 md:px-16">
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 md:mb-8 gap-6">
+            <div className="w-full md:w-auto text-center md:text-left">
+              <h2 className="font-sans text-3xl md:text-4xl text-[#1B2A22]">Our Farmhouses</h2>
+            </div>
+            <div className="w-full md:w-auto flex justify-end mt-2 md:mt-0">
+              <Link href="/farms" className="text-sm font-medium text-[#1B2A22] flex items-center gap-2 hover:text-[#1B2A22] transition-colors border-b border-[#1B2A22] hover:border-[#1B2A22] pb-1">
+                View All Farmhouses <ArrowRight className="h-3 w-3" />
+              </Link>
+            </div>
+          </div>
 
- {loading ? (
- <div className="flex flex-col items-center justify-center py-32 gap-4">
- <div className="h-10 w-10 animate-spin border-t-2 border-[#1B2A22] rounded-full"></div>
- <p className="text-sm font-medium text-[#1B2A22]/60 font-bold">Loading Farmhouses...</p>
- </div>
- ) : (
- <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
- {farms.slice(0, 4).map((farm, index) => {
- const isFav = favorites.includes(farm._id);
- return (
- <Link
- key={farm._id}
- href={`/farms/${farm._id}`}
- className={`group flex-col cursor-pointer bg-white rounded-xl border border-[#eeedf7] hover:shadow-md transition-shadow overflow-hidden ${index === 3 ? 'hidden md:flex lg:hidden' : 'flex'}`}
- >
- 
- {/* Photo & Badge Overlay */}
- <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
- <img
- src={farm.images?.[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'}
- alt={farm.title}
- className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
- onError={(e) => {
- (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80';
- }}
- />
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-32 gap-4">
+              <div className="h-10 w-10 animate-spin border-t-2 border-[#1B2A22] rounded-full"></div>
+              <p className="text-sm font-medium text-[#1B2A22]/60 font-bold">Loading Farmhouses...</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {farms.slice(0, 4).map((farm, index) => {
+                const isFav = favorites.includes(farm._id);
+                return (
+                  <Link
+                    key={farm._id}
+                    href={`/farms/${farm._id}`}
+                    className={`group flex-col cursor-pointer bg-white rounded-xl border border-[#eeedf7] hover:shadow-md transition-shadow overflow-hidden ${index === 3 ? 'hidden md:flex lg:hidden' : 'flex'}`}
+                  >
 
- {/* Rating Badge */}
- <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm text-[12px] font-bold text-[#1B2A22]">
- <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
- {farm.rating || 4.5}
- </div>
+                    {/* Photo & Badge Overlay */}
+                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
+                      <img
+                        src={farm.images?.[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'}
+                        alt={farm.title}
+                        className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80';
+                        }}
+                      />
 
- {/* Favorite Button */}
- <button 
- onClick={(e) => toggleFavorite(farm._id, e)}
- className="absolute top-4 right-4 text-white drop-shadow-md hover:scale-110 transition-transform active:scale-95 cursor-pointer z-10"
- >
- <Heart className={`h-6 w-6 ${isFav ? 'fill-red-500 text-red-500' : 'fill-black/20'}`} />
- </button>
- </div>
+                      {/* Rating Badge */}
+                      <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm text-[12px] font-bold text-[#1B2A22]">
+                        <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                        {farm.rating || 4.5}
+                      </div>
 
- {/* Farmhouse details */}
- <div className="flex flex-col flex-grow p-5">
- {/* Location */}
- <div className="flex items-center gap-1.5 text-xs text-[#1B2A22]/50 font-medium mb-3">
- <MapPin className="h-3.5 w-3.5"/>
- <span>{farm.location?.startsWith('http') ? 'Map Link Available' : farm.location}</span>
- </div>
+                      {/* Favorite Button */}
+                      <button
+                        onClick={(e) => toggleFavorite(farm._id, e)}
+                        className="absolute top-4 right-4 text-white drop-shadow-md hover:scale-110 transition-transform active:scale-95 cursor-pointer z-10"
+                      >
+                        <Heart className={`h-6 w-6 ${isFav ? 'fill-red-500 text-red-500' : 'fill-black/20'}`} />
+                      </button>
+                    </div>
 
- {/* Title */}
- <h3 className="font-sans text-[19px] text-[#1B2A22] font-bold mb-4 leading-snug group-hover:text-[#00a877] transition-colors">
- {farm.title}
- </h3>
- 
- {/* Amenities Tags */}
- <div className="flex flex-wrap gap-2 mb-5">
- {farm.amenities && farm.amenities.length > 0 ? (
-   farm.amenities.slice(0, 5).map((amenity: string, index: number) => (
-     <span key={index} className="bg-[#fbf8ff] border border-[#eeedf7] text-[#1B2A22]/70 text-xs font-medium px-2 py-0.5 rounded-md whitespace-nowrap">
-       {amenity}
-     </span>
-   ))
- ) : (
-   <span className="text-xs text-gray-400 italic">No amenities listed</span>
- )}
- </div>
+                    {/* Farmhouse details */}
+                    <div className="flex flex-col flex-grow p-5">
+                      {/* Location */}
+                      <div className="flex items-center gap-1.5 text-xs text-[#1B2A22]/50 font-medium mb-3">
+                        <MapPin className="h-3.5 w-3.5" />
+                        <span>{farm.location?.startsWith('http') ? 'Map Link Available' : farm.location}</span>
+                      </div>
 
- {/* Divider */}
- <div className="border-t border-[#eeedf7] my-2"></div>
+                      {/* Title */}
+                      <h3 className="font-sans text-[19px] text-[#1B2A22] font-bold mb-4 leading-snug group-hover:text-[#00a877] transition-colors">
+                        {farm.title}
+                      </h3>
 
- {/* Footer: Price & Guests */}
- <div className="flex items-center justify-between mt-auto pt-3">
- <div className="text-[#1B2A22]">
- <span className="text-lg font-bold">
- {farm.pricePerNight ? `₹${farm.pricePerNight.toLocaleString('en-IN')}` : 'Price N/A'}
- </span>
- <span className="text-sm font-medium text-[#1B2A22]/50 font-medium ml-1">/ night</span>
- </div>
- <div className="bg-[#fbf8ff] text-[#1B2A22]/70 text-sm font-medium font-bold px-3 py-1.5 rounded-md border border-[#eeedf7]">
- {farm.guests || 6} guests
- </div>
- </div>
- </div>
- </Link>
- );
- })}
- </div>
- )}
- </div>
- </section>
+                      {/* Amenities Tags */}
+                      <div className="flex flex-wrap gap-2 mb-5">
+                        {farm.amenities && farm.amenities.length > 0 ? (
+                          farm.amenities.slice(0, 5).map((amenity: string, index: number) => (
+                            <span key={index} className="bg-[#fbf8ff] border border-[#eeedf7] text-[#1B2A22]/70 text-xs font-medium px-2 py-0.5 rounded-md whitespace-nowrap">
+                              {amenity}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-xs text-gray-400 italic">No amenities listed</span>
+                        )}
+                      </div>
 
- {/* Footer CTA */}
- <section className="py-0">
- <div className="bg-white border-t border-[#1B2A22]/10 py-32 px-6 relative overflow-hidden text-center flex flex-col items-center gap-8">
- <div className="absolute inset-0 z-0 opacity-[0.03]"style={{ backgroundImage: 'radial-gradient(circle at center, #1B2A22 0%, transparent 70%)' }}></div>
- 
- <div className="relative z-10">
- <span className="text-sm font-medium text-[#00a877] mb-6 block">
- Contact Us
- </span>
- <h2 className="font-sans text-4xl md:text-5xl text-[#1B2A22] font-bold leading-tight mb-6">
- Begin Your Journey
- </h2>
- <p className="text-[#1B2A22]/70 font-sans text-lg max-w-md mx-auto mb-10">
- Speak with our support team to arrange your private viewing or secure your booking.
- </p>
+                      {/* Divider */}
+                      <div className="border-t border-[#eeedf7] my-2"></div>
 
- <div className="flex flex-col sm:flex-row gap-6 justify-center">
- <Link 
- href="/farms"
- className="bg-[#00a877] text-white hover:bg-[#009669] px-10 py-4 text-sm font-semibold rounded-xl shadow-lg shadow-[#00a877]/25 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] transition-all duration-300"
- >
- View Farmhouses
- </Link>
- <Link 
- href="/contact"
- className="bg-white border border-[#1B2A22]/10 hover:border-[#1B2A22]/30 text-[#1B2A22] px-10 py-4 text-sm font-semibold rounded-xl shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300"
- >
- Contact Support
- </Link>
- </div>
- </div>
- </div>
- </section>
+                      {/* Footer: Price & Guests */}
+                      <div className="flex items-center justify-between mt-auto pt-3">
+                        <div className="text-[#1B2A22]">
+                          <span className="text-lg font-bold">
+                            {farm.pricePerNight ? `₹${farm.pricePerNight.toLocaleString('en-IN')}` : 'Price N/A'}
+                          </span>
+                          <span className="text-sm font-medium text-[#1B2A22]/50 font-medium ml-1">/ night</span>
+                        </div>
+                        <div className="bg-[#fbf8ff] text-[#1B2A22]/70 text-sm font-medium font-bold px-3 py-1.5 rounded-md border border-[#eeedf7]">
+                          {farm.guests || 6} guests
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </section>
 
- </div>
- );
+      {/* Footer CTA */}
+      <section className="py-0">
+        <div className="bg-white border-t border-[#1B2A22]/10 py-32 px-6 relative overflow-hidden text-center flex flex-col items-center gap-8">
+          <div className="absolute inset-0 z-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at center, #1B2A22 0%, transparent 70%)' }}></div>
+
+          <div className="relative z-10">
+            <span className="text-sm font-medium text-[#00a877] mb-6 block">
+              Contact Us
+            </span>
+            <h2 className="font-sans text-4xl md:text-5xl text-[#1B2A22] font-bold leading-tight mb-6">
+              Begin Your Journey
+            </h2>
+            <p className="text-[#1B2A22]/70 font-sans text-lg max-w-md mx-auto mb-10">
+              Speak with our support team to arrange your private viewing or secure your booking.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link
+                href="/farms"
+                className="bg-[#00a877] text-white hover:bg-[#009669] px-10 py-4 text-sm font-semibold rounded-xl shadow-lg shadow-[#00a877]/25 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] transition-all duration-300"
+              >
+                View Farmhouses
+              </Link>
+              <Link
+                href="/contact"
+                className="bg-white border border-[#1B2A22]/10 hover:border-[#1B2A22]/30 text-[#1B2A22] px-10 py-4 text-sm font-semibold rounded-xl shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300"
+              >
+                Contact Support
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  );
 }

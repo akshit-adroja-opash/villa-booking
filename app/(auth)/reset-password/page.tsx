@@ -132,7 +132,7 @@ function ResetPasswordContent() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 p-1 hover:bg-[#1B2A22]/5 rounded-full transition-colors"
                 >
-                  {showPassword ? <Eye className="h-4 w-4 text-[#1B2A22]/50"/> : <EyeOff className="h-4 w-4 text-[#1B2A22]/50"/>}
+                  {showPassword ? <Eye className="h-4 w-4 text-[#1B2A22]/50" /> : <EyeOff className="h-4 w-4 text-[#1B2A22]/50" />}
                 </button>
               </div>
             </div>
@@ -162,7 +162,7 @@ function ResetPasswordContent() {
             >
               {loading ? 'Resetting...' : 'Reset Password'}
             </button>
-            
+
           </form>
         )}
       </div>

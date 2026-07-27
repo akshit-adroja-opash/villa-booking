@@ -47,11 +47,10 @@ export default function CustomSelect({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex w-full items-center justify-between rounded-xl border bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] outline-none transition-all cursor-pointer ${
-          isOpen 
-            ? 'border-[#00a877] bg-white' 
-            : 'border-gray-200 hover:border-gray-300 focus:border-[#00a877] focus:bg-white'
-        }`}
+        className={`flex w-full items-center justify-between rounded-xl border bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] outline-none transition-all cursor-pointer ${isOpen
+          ? 'border-[#00a877] bg-white'
+          : 'border-gray-200 hover:border-gray-300 focus:border-[#00a877] focus:bg-white'
+          }`}
       >
         <div className="flex items-center gap-2.5">
           {SelectedIcon && (
@@ -60,9 +59,8 @@ export default function CustomSelect({
           <span>{selectedOption ? selectedOption.label : placeholder}</span>
         </div>
         <ChevronDown
-          className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${
-            isOpen ? 'rotate-180 text-[#00a877]' : ''
-          }`}
+          className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180 text-[#00a877]' : ''
+            }`}
         />
       </button>
 
@@ -81,11 +79,10 @@ export default function CustomSelect({
                     onChange(option.value);
                     setIsOpen(false);
                   }}
-                  className={`flex w-full items-center justify-between rounded-lg px-3.5 py-2.5 text-left transition-all ${
-                    isSelected
-                      ? 'bg-[#00a877]/10 text-[#0b513d]'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
+                  className={`flex w-full items-center justify-between rounded-lg px-3.5 py-2.5 text-left transition-all ${isSelected
+                    ? 'bg-[#00a877]/10 text-[#0b513d]'
+                    : 'text-gray-700 hover:bg-gray-50'
+                    }`}
                 >
                   <div className="flex items-center gap-2.5">
                     {OptionIcon && (

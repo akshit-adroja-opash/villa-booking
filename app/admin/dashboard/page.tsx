@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
- Users, 
- ClipboardList, 
- Activity, 
- TrendingUp,
- Banknote,
- Home,
- ChevronDown
+import {
+  Users,
+  ClipboardList,
+  Activity,
+  TrendingUp,
+  Banknote,
+  Home,
+  ChevronDown
 } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -131,8 +131,8 @@ export default function AdminDashboard() {
 
   const renderGrowthBadge = (changeStr: string) => {
     const isNegative = changeStr.startsWith('-');
-    const colorClass = isNegative 
-      ? 'text-red-600 bg-red-50' 
+    const colorClass = isNegative
+      ? 'text-red-600 bg-red-50'
       : 'text-[#00a877] bg-[#e6f4ea]';
     return (
       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${colorClass}`}>
@@ -178,7 +178,7 @@ export default function AdminDashboard() {
     filteredBookings.forEach((b) => {
       const bDate = new Date(b.startDate);
       const label = bDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-      
+
       if (!groups[label]) {
         groups[label] = {
           label,
@@ -186,7 +186,7 @@ export default function AdminDashboard() {
           bookings: []
         };
       }
-      
+
       groups[label].value += b.totalPrice || 0;
       groups[label].bookings.push({
         farmName: b.farmId?.title || 'Deleted Property',
@@ -282,20 +282,20 @@ export default function AdminDashboard() {
   useEffect(() => {
     let startTime: number;
     const duration = 1500; // 1.5 seconds for the donut chart to fill
-    
+
     const animate = (time: number) => {
       if (!startTime) startTime = time;
       const progress = Math.min((time - startTime) / duration, 1);
-      
+
       // easeOutQuart for a smooth decelerating curve
       const easeProgress = 1 - Math.pow(1 - progress, 4);
       setAnimationProgress(easeProgress);
-      
+
       if (progress < 1) {
         requestAnimationFrame(animate);
       }
     };
-    
+
     const rafId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafId);
   }, []);
@@ -325,15 +325,15 @@ export default function AdminDashboard() {
     const colors = ['#10b981', '#f59e0b', '#3b82f6', '#8b5cf6', '#ec4899'];
     let currentOffset = 0;
     const totalPercentage = popularDestinations.reduce((sum, d) => sum + d.percentage, 0);
-    
+
     return popularDestinations.map((dest, idx) => {
       const fullPercentage = totalPercentage > 0 ? Math.round((dest.percentage / totalPercentage) * 100) : 0;
       const percentage = fullPercentage * animationProgress;
-      
+
       const strokeDasharray = `${percentage} ${100 - percentage}`;
       const strokeDashoffset = String(-currentOffset);
       currentOffset += percentage;
-      
+
       return {
         name: dest.name,
         percentage: fullPercentage,
@@ -347,7 +347,7 @@ export default function AdminDashboard() {
   return (
     <main className="p-6 md:p-10 bg-[#FAF9F6]">
       <div className="w-full mx-auto space-y-8">
-        
+
         {/* Title Block */}
         <div>
           <h1 className="font-serif text-3xl font-bold text-[#1a1f1c]">
@@ -360,7 +360,7 @@ export default function AdminDashboard() {
 
         {/* 4 Stat Metrics Grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          
+
           {/* Revenue */}
           <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] p-6 relative flex flex-col justify-between h-[130px]">
             <div className="flex justify-between items-start">
@@ -429,17 +429,16 @@ export default function AdminDashboard() {
 
         {/* Interactive Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          
+
           {/* Revenue Trends Chart (3/5) */}
           <div className="lg:col-span-3 bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] p-6 md:p-8">
             <div className="flex justify-between items-center mb-8">
               <h3 className="font-serif text-[22px] font-bold text-[#1B2A22]">Revenue Trends</h3>
               <div className="relative">
-                 <button 
+                <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className={`flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-white border rounded-xl px-4 py-2 focus:outline-none transition-all shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] min-w-[130px] ${
-                    isDropdownOpen ? 'border-[#00a877]' : 'border-gray-200 hover:border-[#00a877]'
-                  }`}
+                  className={`flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-white border rounded-xl px-4 py-2 focus:outline-none transition-all shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] min-w-[130px] ${isDropdownOpen ? 'border-[#00a877]' : 'border-gray-200 hover:border-[#00a877]'
+                    }`}
                 >
                   <span>{timeRangeOptions.find(opt => opt.value === revenueTimeRange)?.label}</span>
                   <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-gray-50 text-gray-500'}`}>
@@ -449,7 +448,7 @@ export default function AdminDashboard() {
 
                 {isDropdownOpen && (
                   <>
-                    <div 
+                    <div
                       className="fixed inset-0 z-40"
                       onClick={() => setIsDropdownOpen(false)}
                     ></div>
@@ -461,11 +460,10 @@ export default function AdminDashboard() {
                             setRevenueTimeRange(opt.value);
                             setIsDropdownOpen(false);
                           }}
-                          className={`w-full text-left px-4 py-1.5 text-[13px] font-semibold transition-colors ${
-                            revenueTimeRange === opt.value
-                              ? 'bg-[#e6f4ea] text-[#00a877]'
-                              : 'text-gray-600 hover:bg-gray-50'
-                          }`}
+                          className={`w-full text-left px-4 py-1.5 text-[13px] font-semibold transition-colors ${revenueTimeRange === opt.value
+                            ? 'bg-[#e6f4ea] text-[#00a877]'
+                            : 'text-gray-600 hover:bg-gray-50'
+                            }`}
                         >
                           {opt.label}
                         </button>
@@ -480,26 +478,26 @@ export default function AdminDashboard() {
               <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 500 200">
                 <defs>
                   <linearGradient id="chartGrad" x1="0%" x2="0%" y1="0%" y2="100%">
-                    <stop offset="0%" stopColor="#00a877" stopOpacity="0.15"/>
-                    <stop offset="100%" stopColor="#00a877" stopOpacity="0"/>
+                    <stop offset="0%" stopColor="#00a877" stopOpacity="0.15" />
+                    <stop offset="100%" stopColor="#00a877" stopOpacity="0" />
                   </linearGradient>
                 </defs>
-                
+
                 {/* Horizontal Guide Lines */}
-                <line x1="0" y1="50" x2="500" y2="50" stroke="#f3f4f6" strokeWidth="1"/>
-                <line x1="0" y1="100" x2="500" y2="100" stroke="#f3f4f6" strokeWidth="1"/>
-                <line x1="0" y1="150" x2="500" y2="150" stroke="#f3f4f6" strokeWidth="1"/>
-                
+                <line x1="0" y1="50" x2="500" y2="50" stroke="#f3f4f6" strokeWidth="1" />
+                <line x1="0" y1="100" x2="500" y2="100" stroke="#f3f4f6" strokeWidth="1" />
+                <line x1="0" y1="150" x2="500" y2="150" stroke="#f3f4f6" strokeWidth="1" />
+
                 {/* Wavy Graph Path */}
                 {chartPathData.fillD && (
-                  <path 
-                    d={chartPathData.fillD} 
+                  <path
+                    d={chartPathData.fillD}
                     fill="url(#chartGrad)"
                   />
                 )}
                 {chartPathData.lineD && (
-                  <path 
-                    d={chartPathData.lineD} 
+                  <path
+                    d={chartPathData.lineD}
                     fill="none"
                     stroke="#00a877"
                     strokeWidth="3"
@@ -595,9 +593,9 @@ export default function AdminDashboard() {
               <div className="flex justify-between items-center text-[10px] font-bold text-gray-400 mt-4 px-1">
                 {chartData.map((d, idx) => {
                   const total = chartData.length;
-                  const showLabel = 
-                    idx === 0 || 
-                    idx === total - 1 || 
+                  const showLabel =
+                    idx === 0 ||
+                    idx === total - 1 ||
                     (total > 2 && idx === Math.floor(total / 2)) ||
                     (total > 4 && idx === Math.floor(total / 4)) ||
                     (total > 4 && idx === Math.floor(3 * total / 4));
@@ -614,26 +612,26 @@ export default function AdminDashboard() {
           {/* Popular Destinations Donut (2/5) */}
           <div className="lg:col-span-2 bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] p-6 md:p-8 flex flex-col">
             <h3 className="font-serif text-[22px] font-bold text-[#1B2A22] mb-8">Popular Destinations</h3>
-            
+
             {/* Donut SVG Rendering */}
             <div className="relative flex-1 flex items-center justify-center min-h-[160px] py-4">
               <div className="relative w-44 h-44">
                 <svg className="w-full h-full transform -rotate-90 drop-shadow-sm" viewBox="0 0 36 36">
                   {/* Background Track */}
                   <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f8f9fa" strokeWidth="3.5" />
-                  
+
                   {donutSegments.map((segment, idx) => (
-                    <circle 
+                    <circle
                       key={idx}
                       cx="18"
                       cy="18"
                       r="15.915"
                       fill="none"
-                      stroke={segment.color} 
+                      stroke={segment.color}
                       strokeWidth="3.5"
                       strokeLinecap="round"
-                      strokeDasharray={segment.strokeDasharray} 
-                      strokeDashoffset={segment.strokeDashoffset} 
+                      strokeDasharray={segment.strokeDasharray}
+                      strokeDashoffset={segment.strokeDashoffset}
                       className="transition-all duration-1000 ease-out cursor-pointer hover:stroke-[4]"
                     />
                   ))}
@@ -666,17 +664,16 @@ export default function AdminDashboard() {
             <h3 className="font-serif text-[22px] font-bold text-[#1B2A22] shrink-0">Recent Bookings</h3>
             <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
               <div className="flex items-center gap-2 bg-[#f9fafb] rounded-xl border border-transparent px-4 h-11 focus-within:border-[#00a877] focus-within:bg-white transition-all flex-1 sm:min-w-[180px]">
-                <svg className="h-4 w-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <svg className="h-4 w-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
                 <input value={bookingSearch} onChange={(e) => setBookingSearch(e.target.value)} placeholder="Search bookings..." className="w-full bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400" />
               </div>
               <div className="relative min-w-[130px]">
-                <button 
-                  onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)} 
-                  className={`flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] rounded-xl px-4 h-11 focus:outline-none transition-all w-full border ${
-                    isStatusDropdownOpen 
-                      ? 'border-[#00a877] bg-white' 
-                      : 'border-transparent bg-[#f9fafb] hover:bg-gray-100 hover:border-[#00a877]/30'
-                  }`}
+                <button
+                  onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
+                  className={`flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] rounded-xl px-4 h-11 focus:outline-none transition-all w-full border ${isStatusDropdownOpen
+                    ? 'border-[#00a877] bg-white'
+                    : 'border-transparent bg-[#f9fafb] hover:bg-gray-100 hover:border-[#00a877]/30'
+                    }`}
                 >
                   <span>{bookingStatusFilter === 'all' ? 'All Status' : bookingStatusFilter === 'confirmed' ? 'Confirmed' : 'Pending'}</span>
                   <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isStatusDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}><ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isStatusDropdownOpen ? 'rotate-180' : ''}`} /></div>
@@ -691,13 +688,12 @@ export default function AdminDashboard() {
                 </>)}
               </div>
               <div className="relative min-w-[150px]">
-                <button 
-                  onClick={() => setIsBookingSortDropdownOpen(!isBookingSortDropdownOpen)} 
-                  className={`flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] rounded-xl px-4 h-11 focus:outline-none transition-all w-full border ${
-                    isBookingSortDropdownOpen 
-                      ? 'border-[#00a877] bg-white' 
-                      : 'border-transparent bg-[#f9fafb] hover:bg-gray-100 hover:border-[#00a877]/30'
-                  }`}
+                <button
+                  onClick={() => setIsBookingSortDropdownOpen(!isBookingSortDropdownOpen)}
+                  className={`flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] rounded-xl px-4 h-11 focus:outline-none transition-all w-full border ${isBookingSortDropdownOpen
+                    ? 'border-[#00a877] bg-white'
+                    : 'border-transparent bg-[#f9fafb] hover:bg-gray-100 hover:border-[#00a877]/30'
+                    }`}
                 >
                   <span>{bookingSortFilter === 'newest' ? 'Newest First' : bookingSortFilter === 'oldest' ? 'Oldest First' : bookingSortFilter === 'amount-high' ? 'Amount (High)' : 'Amount (Low)'}</span>
                   <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isBookingSortDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}><ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isBookingSortDropdownOpen ? 'rotate-180' : ''}`} /></div>
@@ -760,46 +756,45 @@ export default function AdminDashboard() {
                     .slice(0, 5);
                   if (filtered.length === 0) return <tr><td colSpan={6} className="px-8 py-8 text-center text-gray-400 font-medium">No bookings found.</td></tr>;
                   return filtered.map((booking, index) => {
-                  const farmTitle = booking.farmId?.title || 'Deleted Property';
-                  const guestName = booking.userId?.name || 'Guest';
-                  
-                  let dateRangeDisplay = 'N/A';
-                  if (booking.startDate && booking.endDate) {
-                    try {
-                      const sDate = new Date(booking.startDate);
-                      const eDate = new Date(booking.endDate);
-                      if (!isNaN(sDate.getTime()) && !isNaN(eDate.getTime())) {
-                        const sStr = sDate.toISOString().substring(0, 10);
-                        const eStr = eDate.toISOString().substring(0, 10);
-                        dateRangeDisplay = `${sStr} – ${eStr}`;
+                    const farmTitle = booking.farmId?.title || 'Deleted Property';
+                    const guestName = booking.userId?.name || 'Guest';
+
+                    let dateRangeDisplay = 'N/A';
+                    if (booking.startDate && booking.endDate) {
+                      try {
+                        const sDate = new Date(booking.startDate);
+                        const eDate = new Date(booking.endDate);
+                        if (!isNaN(sDate.getTime()) && !isNaN(eDate.getTime())) {
+                          const sStr = sDate.toISOString().substring(0, 10);
+                          const eStr = eDate.toISOString().substring(0, 10);
+                          dateRangeDisplay = `${sStr} – ${eStr}`;
+                        }
+                      } catch (e) {
+                        dateRangeDisplay = `${booking.startDate} – ${booking.endDate}`;
                       }
-                    } catch (e) {
-                      dateRangeDisplay = `${booking.startDate} – ${booking.endDate}`;
                     }
-                  }
-                  
-                  const status = booking.paymentStatus || 'Pending';
-                  const amount = booking.totalPrice || 0;
-                  const idDisplay = String(index + 1).padStart(2, '0');
-                  
-                  return (
-                    <tr key={booking._id} className="hover:bg-[#fafafa] transition-colors">
-                      <td className="px-6 md:px-8 py-5 text-gray-400">{idDisplay}</td>
-                      <td className="px-6 py-5 font-bold text-[#1B2A22]">{farmTitle}</td>
-                      <td className="px-6 py-5 text-gray-500">{guestName}</td>
-                      <td className="px-6 py-5 text-gray-500">{dateRangeDisplay}</td>
-                      <td className="px-6 py-5 font-sans tracking-tight font-bold">₹{amount.toLocaleString('en-IN')}</td>
-                      <td className="px-6 md:px-8 py-5 text-right">
-                        <span className={`inline-block px-3 py-1 text-[11px] font-bold rounded-full tracking-wide ${
-                          booking.adminConfirmed
+
+                    const status = booking.paymentStatus || 'Pending';
+                    const amount = booking.totalPrice || 0;
+                    const idDisplay = String(index + 1).padStart(2, '0');
+
+                    return (
+                      <tr key={booking._id} className="hover:bg-[#fafafa] transition-colors">
+                        <td className="px-6 md:px-8 py-5 text-gray-400">{idDisplay}</td>
+                        <td className="px-6 py-5 font-bold text-[#1B2A22]">{farmTitle}</td>
+                        <td className="px-6 py-5 text-gray-500">{guestName}</td>
+                        <td className="px-6 py-5 text-gray-500">{dateRangeDisplay}</td>
+                        <td className="px-6 py-5 font-sans tracking-tight font-bold">₹{amount.toLocaleString('en-IN')}</td>
+                        <td className="px-6 md:px-8 py-5 text-right">
+                          <span className={`inline-block px-3 py-1 text-[11px] font-bold rounded-full tracking-wide ${booking.adminConfirmed
                             ? 'bg-[#e6f4ea] text-[#00a877]'
                             : 'bg-amber-50 text-amber-600'
-                        }`}>
-                          {booking.adminConfirmed ? 'confirmed' : 'pending'}
-                        </span>
-                      </td>
-                    </tr>
-                  );
+                            }`}>
+                            {booking.adminConfirmed ? 'confirmed' : 'pending'}
+                          </span>
+                        </td>
+                      </tr>
+                    );
                   });
                 })()}
               </tbody>

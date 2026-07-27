@@ -106,7 +106,7 @@ export default function ForgotPasswordPage() {
             >
               {loading ? 'Sending...' : 'Send Reset Link'}
             </button>
-            
+
             <div className="mt-8 text-center text-sm font-medium text-[#1B2A22]/50 pt-4">
               <Link href="/login" className="inline-flex items-center gap-2 text-[#1B2A22] hover:text-[#00a877] font-semibold transition-colors">
                 <ArrowLeft className="w-4 h-4" />

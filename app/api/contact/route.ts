@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     }
 
     await connectDB();
-    
+
     // Save to DB
     const newContact = await Contact.create({
       name,

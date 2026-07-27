@@ -433,8 +433,8 @@ export default function BookingsDashboardPage() {
             <button
               onClick={() => setActiveTab('upcoming')}
               className={`text-sm font-medium pb-4 transition-all whitespace-nowrap ${activeTab === 'upcoming'
-                  ? 'text-[#1B2A22] border-b-2 border-[#00a877]'
-                  : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
+                ? 'text-[#1B2A22] border-b-2 border-[#00a877]'
+                : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
                 }`}
             >
               My Bookings
@@ -442,8 +442,8 @@ export default function BookingsDashboardPage() {
             <button
               onClick={() => setActiveTab('past')}
               className={`text-sm font-medium pb-4 transition-all whitespace-nowrap ${activeTab === 'past'
-                  ? 'text-[#1B2A22] border-b-2 border-[#00a877]'
-                  : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
+                ? 'text-[#1B2A22] border-b-2 border-[#00a877]'
+                : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
                 }`}
             >
               Past Bookings
@@ -451,8 +451,8 @@ export default function BookingsDashboardPage() {
             <button
               onClick={() => setActiveTab('saved')}
               className={`text-sm font-medium pb-4 transition-all whitespace-nowrap ${activeTab === 'saved'
-                  ? 'text-[#1B2A22] border-b-2 border-[#00a877]'
-                  : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
+                ? 'text-[#1B2A22] border-b-2 border-[#00a877]'
+                : 'text-[#1B2A22]/40 hover:text-[#1B2A22]/80'
                 }`}
             >
               Saved Farmhouses
@@ -613,8 +613,8 @@ export default function BookingsDashboardPage() {
 
                           <span
                             className={`inline-block px-3 py-1.5 text-sm font-medium border ${booking.adminConfirmed
-                                ? 'border-[#00a877]/20 text-[#00a877] bg-[#e6f4ea]'
-                                : 'border-[#1B2A22]/50 text-[#1B2A22] bg-[#1B2A22]/5'
+                              ? 'border-[#00a877]/20 text-[#00a877] bg-[#e6f4ea]'
+                              : 'border-[#1B2A22]/50 text-[#1B2A22] bg-[#1B2A22]/5'
                               }`}
                           >
                             {booking.adminConfirmed ? 'Confirmed' : 'Pending'}
