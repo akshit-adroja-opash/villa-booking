@@ -74,9 +74,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                     {/* Sidebar Title & Toggle */}
                     <div className={`w-full flex items-center mb-6 py-2 ${isSidebarOpen ? 'justify-between px-3' : 'justify-center px-0'}`}>
-                        {isSidebarOpen && <h2 className="text-sm font-medium text-[#1B2A22] whitespace-nowrap overflow-hidden">Admin Portal</h2>}
-                        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-1.5 hover:bg-gray-100 rounded-md text-gray-500 transition-colors shrink-0">
-                            {isSidebarOpen ? <ChevronLeft className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
+                        {isSidebarOpen && <h2 className="text-xs font-semibold text-[#1B2A22]/40 tracking-wider uppercase">Admin Portal</h2>}
+                        <button
+                            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                            className="p-1 hover:bg-[#1B2A22]/5 text-[#1B2A22]/50 hover:text-[#1B2A22] rounded-lg transition-colors shrink-0 cursor-pointer"
+                        >
+                            {isSidebarOpen ? <ChevronLeft className="h-[18px] w-[18px]" /> : <ChevronRight className="h-[18px] w-[18px]" />}
                         </button>
                     </div>
 

@@ -330,7 +330,7 @@ export default function BookingsDashboardPage() {
  </div>
  <div class="value"style="font-family: sans-serif; font-size: 13px; opacity: 0.8; line-height: 1.6;">
  ${session?.user?.email || ''}<br>
- Ph: +91-9876543210
+ Ph: +91-8780493615
  </div>
  </div>
  <div class="card">
@@ -384,7 +384,7 @@ export default function BookingsDashboardPage() {
 
  <div class="footer">
  We look forward to welcoming you. If you need any special arrangements before you arrive, <br>
- please contact us at support@enjoyfarm.com.
+ please contact us at info@enjoyfarm.in
  </div>
  </div>
  <script>
