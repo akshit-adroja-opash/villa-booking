@@ -612,11 +612,17 @@ export default function BookingsDashboardPage() {
                           </div>
 
                           <span
-                            className={`inline-block px-3 py-1.5 text-sm font-medium border ${booking.adminConfirmed
-                              ? 'border-[#00a877]/20 text-[#00a877] bg-[#e6f4ea]'
-                              : 'border-[#1B2A22]/50 text-[#1B2A22] bg-[#1B2A22]/5'
+                            className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full border shadow-sm backdrop-blur-sm transition-all duration-300 ${booking.adminConfirmed
+                              ? 'border-emerald-500/20 text-emerald-700 bg-emerald-50/80'
+                              : 'border-amber-500/20 text-amber-700 bg-amber-50/80'
                               }`}
                           >
+                            <span
+                              className={`h-1.5 w-1.5 rounded-full ${booking.adminConfirmed
+                                ? 'bg-emerald-500 animate-pulse'
+                                : 'bg-amber-500 animate-pulse'
+                                }`}
+                            />
                             {booking.adminConfirmed ? 'Confirmed' : 'Pending'}
                           </span>
                         </div>
@@ -624,7 +630,7 @@ export default function BookingsDashboardPage() {
                         {/* Footer Actions Row */}
                         <div className="flex flex-col xl:flex-row xl:items-end justify-between border-t border-[#1B2A22]/10 pt-6 gap-6">
                           <div>
-                            <p className="text-sm font-medium font-bold text-[#1B2A22]/50 mb-2">
+                            <p className="text-sm font-semibold text-[#1B2A22]/50 mb-2">
                               Total Amount
                             </p>
                             <p className="text-2xl font-serif text-[#1B2A22]">
@@ -636,23 +642,23 @@ export default function BookingsDashboardPage() {
                             {booking.adminConfirmed && (
                               <button
                                 onClick={() => handleDownloadReceipt(booking)}
-                                className="flex items-center justify-center gap-2 px-5 py-3 border border-[#1B2A22] text-sm font-medium text-[#1B2A22] hover:bg-[#00a877] hover:border-[#00a877] hover:text-white transition-colors flex-1 sm:flex-none"
+                                className="flex items-center justify-center gap-2 px-5 py-3 border border-[#1B2A22]/20 rounded-xl text-sm font-semibold text-[#1B2A22] hover:bg-[#00a877]/5 hover:border-[#00a877] hover:text-[#00a877] shadow-sm hover:shadow active:scale-[0.98] transition-all duration-300 flex-1 sm:flex-none"
                               >
-                                <Download className="h-3.5 w-3.5" />
+                                <Download className="h-4 w-4" />
                                 <span>Receipt</span>
                               </button>
                             )}
 
                             <Link
                               href="/support"
-                              className="flex items-center justify-center gap-2 px-5 py-3 text-sm font-medium text-[#1B2A22]/60 hover:text-[#1B2A22] transition-colors flex-1 sm:flex-none border border-transparent sm:border-none"
+                              className="flex items-center justify-center gap-2 px-5 py-3 text-sm font-semibold text-[#1B2A22]/60 hover:text-[#1B2A22] rounded-xl hover:bg-[#1B2A22]/5 active:scale-[0.98] transition-all duration-300 flex-1 sm:flex-none"
                             >
-                              <HelpCircle className="h-3.5 w-3.5" />
+                              <HelpCircle className="h-4 w-4" />
                               <span>Support</span>
                             </Link>
 
                             {booking.paymentStatus !== 'Paid' && (
-                              <button className="bg-[#1B2A22] hover:bg-[#c29f31] text-white px-6 py-3 text-sm font-medium transition-colors w-full sm:w-auto">
+                              <button className="bg-[#1b2a22] hover:bg-[#25392e] text-white px-6 py-3 rounded-xl text-sm font-semibold shadow-md shadow-[#1b2a22]/10 hover:shadow-lg active:scale-[0.98] transition-all duration-300 w-full sm:w-auto">
                                 Make Payment
                               </button>
                             )}
