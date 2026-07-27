@@ -345,7 +345,7 @@ export default function AdminDashboard() {
   }, [popularDestinations, animationProgress]);
 
   return (
-    <main className="p-6 md:p-10 bg-[#FAF9F6]">
+    <main className="p-4 sm:p-6 md:p-8 lg:p-10 bg-[#FAF9F6]">
       <div className="w-full mx-auto space-y-8">
 
         {/* Title Block */}
@@ -659,53 +659,55 @@ export default function AdminDashboard() {
         </div>
 
         {/* Recent Bookings Table View Layout */}
-        <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] overflow-hidden">
-          <div className="p-6 md:p-8 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="w-full max-w-full bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.1)] overflow-hidden">
+          <div className="p-6 md:p-8 border-b border-gray-100 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <h3 className="font-serif text-[22px] font-bold text-[#1B2A22] shrink-0">Recent Bookings</h3>
-            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-              <div className="flex items-center gap-2 bg-[#f9fafb] rounded-xl border border-transparent px-4 h-11 focus-within:border-[#00a877] focus-within:bg-white transition-all flex-1 sm:min-w-[180px]">
+            <div className="flex flex-col lg:flex-row gap-3 w-full lg:w-auto">
+              <div className="flex items-center gap-2 bg-[#f9fafb] rounded-xl border border-transparent px-4 h-11 focus-within:border-[#00a877] focus-within:bg-white transition-all w-full lg:w-64">
                 <svg className="h-4 w-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
                 <input value={bookingSearch} onChange={(e) => setBookingSearch(e.target.value)} placeholder="Search bookings..." className="w-full bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400" />
               </div>
-              <div className="relative min-w-[130px]">
-                <button
-                  onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
-                  className={`flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] rounded-xl px-4 h-11 focus:outline-none transition-all w-full border ${isStatusDropdownOpen
-                    ? 'border-[#00a877] bg-white'
-                    : 'border-transparent bg-[#f9fafb] hover:bg-gray-100 hover:border-[#00a877]/30'
-                    }`}
-                >
-                  <span>{bookingStatusFilter === 'all' ? 'All Status' : bookingStatusFilter === 'confirmed' ? 'Confirmed' : 'Pending'}</span>
-                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isStatusDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}><ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isStatusDropdownOpen ? 'rotate-180' : ''}`} /></div>
-                </button>
-                {isStatusDropdownOpen && (<>
-                  <div className="fixed inset-0 z-40" onClick={() => setIsStatusDropdownOpen(false)} />
-                  <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 w-full min-w-[130px]">
-                    {[{ value: 'all', label: 'All Status' }, { value: 'confirmed', label: 'Confirmed' }, { value: 'pending', label: 'Pending' }].map((opt) => (
-                      <button key={opt.value} onClick={() => { setBookingStatusFilter(opt.value); setIsStatusDropdownOpen(false); }} className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${bookingStatusFilter === opt.value ? 'bg-[#e6f4ea] text-[#00a877]' : 'text-gray-600 hover:bg-gray-50'}`}>{opt.label}</button>
-                    ))}
-                  </div>
-                </>)}
-              </div>
-              <div className="relative min-w-[150px]">
-                <button
-                  onClick={() => setIsBookingSortDropdownOpen(!isBookingSortDropdownOpen)}
-                  className={`flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] rounded-xl px-4 h-11 focus:outline-none transition-all w-full border ${isBookingSortDropdownOpen
-                    ? 'border-[#00a877] bg-white'
-                    : 'border-transparent bg-[#f9fafb] hover:bg-gray-100 hover:border-[#00a877]/30'
-                    }`}
-                >
-                  <span>{bookingSortFilter === 'newest' ? 'Newest First' : bookingSortFilter === 'oldest' ? 'Oldest First' : bookingSortFilter === 'amount-high' ? 'Amount (High)' : 'Amount (Low)'}</span>
-                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isBookingSortDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}><ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isBookingSortDropdownOpen ? 'rotate-180' : ''}`} /></div>
-                </button>
-                {isBookingSortDropdownOpen && (<>
-                  <div className="fixed inset-0 z-40" onClick={() => setIsBookingSortDropdownOpen(false)} />
-                  <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 w-full min-w-[150px]">
-                    {[{ value: 'newest', label: 'Newest First' }, { value: 'oldest', label: 'Oldest First' }, { value: 'amount-high', label: 'Amount (High to Low)' }, { value: 'amount-low', label: 'Amount (Low to High)' }].map((opt) => (
-                      <button key={opt.value} onClick={() => { setBookingSortFilter(opt.value); setIsBookingSortDropdownOpen(false); }} className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${bookingSortFilter === opt.value ? 'bg-[#e6f4ea] text-[#00a877]' : 'text-gray-600 hover:bg-gray-50'}`}>{opt.label}</button>
-                    ))}
-                  </div>
-                </>)}
+              <div className="flex gap-2 w-full lg:w-auto">
+                <div className="relative flex-1 lg:flex-none min-w-[110px] lg:min-w-[130px]">
+                  <button
+                    onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
+                    className={`flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] rounded-xl px-4 h-11 focus:outline-none transition-all w-full border ${isStatusDropdownOpen
+                      ? 'border-[#00a877] bg-white'
+                      : 'border-transparent bg-[#f9fafb] hover:bg-gray-100 hover:border-[#00a877]/30'
+                      }`}
+                  >
+                    <span>{bookingStatusFilter === 'all' ? 'All Status' : bookingStatusFilter === 'confirmed' ? 'Confirmed' : 'Pending'}</span>
+                    <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isStatusDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}><ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isStatusDropdownOpen ? 'rotate-180' : ''}`} /></div>
+                  </button>
+                  {isStatusDropdownOpen && (<>
+                    <div className="fixed inset-0 z-40" onClick={() => setIsStatusDropdownOpen(false)} />
+                    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 w-full min-w-[110px] lg:min-w-[130px]">
+                      {[{ value: 'all', label: 'All Status' }, { value: 'confirmed', label: 'Confirmed' }, { value: 'pending', label: 'Pending' }].map((opt) => (
+                        <button key={opt.value} onClick={() => { setBookingStatusFilter(opt.value); setIsStatusDropdownOpen(false); }} className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${bookingStatusFilter === opt.value ? 'bg-[#e6f4ea] text-[#00a877]' : 'text-gray-600 hover:bg-gray-50'}`}>{opt.label}</button>
+                      ))}
+                    </div>
+                  </>)}
+                </div>
+                <div className="relative flex-1 lg:flex-none min-w-[125px] lg:min-w-[150px]">
+                  <button
+                    onClick={() => setIsBookingSortDropdownOpen(!isBookingSortDropdownOpen)}
+                    className={`flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] rounded-xl px-4 h-11 focus:outline-none transition-all w-full border ${isBookingSortDropdownOpen
+                      ? 'border-[#00a877] bg-white'
+                      : 'border-transparent bg-[#f9fafb] hover:bg-gray-100 hover:border-[#00a877]/30'
+                      }`}
+                  >
+                    <span>{bookingSortFilter === 'newest' ? 'Newest First' : bookingSortFilter === 'oldest' ? 'Oldest First' : bookingSortFilter === 'amount-high' ? 'Amount (High)' : 'Amount (Low)'}</span>
+                    <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isBookingSortDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}><ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isBookingSortDropdownOpen ? 'rotate-180' : ''}`} /></div>
+                  </button>
+                  {isBookingSortDropdownOpen && (<>
+                    <div className="fixed inset-0 z-40" onClick={() => setIsBookingSortDropdownOpen(false)} />
+                    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 w-full min-w-[125px] lg:min-w-[150px]">
+                      {[{ value: 'newest', label: 'Newest First' }, { value: 'oldest', label: 'Oldest First' }, { value: 'amount-high', label: 'Amount (High to Low)' }, { value: 'amount-low', label: 'Amount (Low to High)' }].map((opt) => (
+                        <button key={opt.value} onClick={() => { setBookingSortFilter(opt.value); setIsBookingSortDropdownOpen(false); }} className={`w-full text-left px-5 py-2.5 text-[13px] font-semibold transition-colors ${bookingSortFilter === opt.value ? 'bg-[#e6f4ea] text-[#00a877]' : 'text-gray-600 hover:bg-gray-50'}`}>{opt.label}</button>
+                      ))}
+                    </div>
+                  </>)}
+                </div>
               </div>
             </div>
           </div>

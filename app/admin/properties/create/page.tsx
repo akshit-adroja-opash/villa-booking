@@ -168,9 +168,9 @@ export default function AddPropertyWizardPage() {
   };
 
   return (
-    <div className="p-6 md:p-16 pb-24 selection:bg-[#1B2A22]/10 selection:text-[#0b513d]">
+    <div className="p-4 sm:p-6 md:p-8 lg:p-16 pb-24 selection:bg-[#1B2A22]/10 selection:text-[#0b513d]">
 
-      <header className="mx-auto max-w-3xl mb-12">
+      <header className="mx-auto w-full max-w-3xl mb-12">
         <div className="mb-4 flex items-center gap-2 text-gray-500 hover:text-[#00a877] transition-colors cursor-pointer" onClick={handleBack}>
           <ArrowLeft className="h-4 w-4" />
           <span className="text-xs font-bold tracking-wider">
@@ -181,13 +181,13 @@ export default function AddPropertyWizardPage() {
         <p className="text-sm text-gray-500">Provide the details to list a new Farmhouse on the platform.</p>
       </header>
 
-      <div className="mx-auto max-w-3xl rounded-2xl border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] bg-white p-6 md:p-10">
+      <div className="mx-auto w-full max-w-3xl rounded-2xl border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] bg-white p-6 md:p-10">
 
         {/* Progress Tracker */}
         <div className="relative mb-12 flex items-center justify-between">
           <div className="absolute top-1/2 left-0 -z-10 h-px w-full -translate-y-1/2 bg-gray-100"></div>
           {wizardSteps.map((step) => (
-            <div key={step.number} className="flex flex-col items-center gap-2 bg-white px-3">
+            <div key={step.number} className="flex flex-col items-center gap-1 sm:gap-2 bg-white px-1 sm:px-3">
               <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-colors ${step.active
                 ? 'bg-[#00a877] text-white shadow-md ring-4 ring-[#00a877]/20'
                 : step.number < currentStep
@@ -196,7 +196,7 @@ export default function AddPropertyWizardPage() {
                 }`}>
                 {step.number < currentStep ? <Check className="h-4 w-4 stroke-[3]" /> : step.number}
               </div>
-              <span className={`text-xs font-bold transition-colors ${step.active
+              <span className={`text-xs font-bold transition-colors hidden sm:block ${step.active
                 ? 'text-[#00a877]'
                 : step.number < currentStep
                   ? 'text-[#00a877]'
@@ -436,7 +436,7 @@ export default function AddPropertyWizardPage() {
                 Select Amenities
               </h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {[
                   'Swimming Pool', 'Children\'s Swimming Pool', 'Garden',
                   'Children\'s Playground', 'Gazebo', 'Extra Mattress',

@@ -316,7 +316,7 @@ export default function AdminReservationsPage() {
   }
 
   return (
-    <main className="p-6 md:p-10 bg-[#FAF9F6] min-h-screen">
+    <main className="p-4 sm:p-6 md:p-8 lg:p-10 bg-[#FAF9F6] min-h-screen">
       <div className="w-full mx-auto space-y-8">
 
         {/* Title Block */}
@@ -355,11 +355,11 @@ export default function AdminReservationsPage() {
         </div>
 
         {/* Table Layout Container */}
-        <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
+        <div className="w-full max-w-full bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
 
           {/* Search Row */}
-          <div className="p-6 border-b border-gray-100 flex flex-col md:flex-row gap-4 items-center justify-between">
-            <div className="flex w-full md:w-1/2 items-center gap-3 bg-[#f9fafb] rounded-xl border border-transparent px-4 py-2.5 focus-within:border-gray-200 focus-within:bg-white transition-all">
+          <div className="p-6 border-b border-gray-100 flex flex-col lg:flex-row gap-4 items-center justify-between">
+            <div className="flex w-full lg:w-1/2 items-center gap-3 bg-[#f9fafb] rounded-xl border border-transparent px-4 py-2.5 focus-within:border-gray-200 focus-within:bg-white transition-all">
               <Search className="h-4 w-4 text-gray-400" />
               <input
                 value={query}
@@ -373,7 +373,7 @@ export default function AdminReservationsPage() {
             </div>
 
             {/* Sort selector dropdown */}
-            <div className="w-full md:w-auto min-w-[200px] relative">
+            <div className="w-full lg:w-auto min-w-[150px] lg:min-w-[200px] relative">
               <div className="relative">
                 <button
                   onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
@@ -388,7 +388,7 @@ export default function AdminReservationsPage() {
                 {isSortDropdownOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setIsSortDropdownOpen(false)}></div>
-                    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[200px]">
+                    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[150px] lg:min-w-[200px]">
                       {[
                         { value: 'newest', label: 'Newest First' },
                         { value: 'oldest', label: 'Oldest First' },

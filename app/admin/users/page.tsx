@@ -316,7 +316,7 @@ export default function UserManagementPage() {
  const totalCustomers = users.filter(u => u.role === 'customer' || u.role === 'user').length;
 
  return (
- <main className="p-6 md:p-10 bg-[#FAF9F6]">
+ <main className="p-4 sm:p-6 md:p-8 lg:p-10 bg-[#FAF9F6]">
  <div className="w-full mx-auto space-y-8">
  
  {/* Header Block */}
@@ -355,9 +355,9 @@ export default function UserManagementPage() {
  </div>
 
  {/* Filter and Search Bar Row */}
- <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-4 flex flex-col md:flex-row gap-4 items-center justify-between">
+ <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 p-4 flex flex-col lg:flex-row gap-4 items-center justify-between">
  {/* Search bar */}
- <div className="w-full md:flex-1 relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white transition-all">
+ <div className="w-full lg:flex-1 relative flex items-center bg-[#f9fafb] rounded-xl border border-transparent focus-within:border-[#00a877] focus-within:bg-white transition-all">
  <Search className="absolute left-4 h-4 w-4 text-gray-400"/>
  <input 
  type="text"
@@ -371,9 +371,9 @@ export default function UserManagementPage() {
  />
  </div>
 
-  <div className="flex w-full md:w-auto items-center gap-4">
+  <div className="flex w-full lg:w-auto items-center gap-3">
     {/* Role selector dropdown */}
-    <div className="flex-1 md:flex-none md:w-auto min-w-[140px] md:min-w-[160px] relative">
+    <div className="flex-1 lg:flex-none lg:w-auto min-w-[110px] md:min-w-[125px] lg:min-w-[150px] relative">
     <div className="relative">
     <button 
     onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
@@ -395,7 +395,7 @@ export default function UserManagementPage() {
     className="fixed inset-0 z-40"
     onClick={() => setIsRoleDropdownOpen(false)}
     ></div>
-    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[160px]">
+    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[150px]">
     {[
     { value: 'all', label: 'All Roles' },
     { value: 'admin', label: 'Administrators' },
@@ -424,7 +424,7 @@ export default function UserManagementPage() {
     </div>
 
     {/* Sort selector dropdown */}
-    <div className="flex-1 md:flex-none md:w-auto min-w-[140px] md:min-w-[160px] relative">
+    <div className="flex-1 lg:flex-none lg:w-auto min-w-[110px] md:min-w-[125px] lg:min-w-[150px] relative">
     <div className="relative">
     <button 
     onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
@@ -442,7 +442,7 @@ export default function UserManagementPage() {
     className="fixed inset-0 z-40"
     onClick={() => setIsSortDropdownOpen(false)}
     ></div>
-    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[160px]">
+    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[150px]">
     {[
     { value: 'newest', label: 'Newest First' },
     { value: 'oldest', label: 'Oldest First' },
@@ -473,7 +473,7 @@ export default function UserManagementPage() {
  </div>
 
  {/* Table View Layout */}
- <div className="bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
+ <div className="w-full max-w-full bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
  <div className="overflow-x-auto">
  <table className="w-full text-left border-collapse min-w-[900px]">
  <thead>
