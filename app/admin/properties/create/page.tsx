@@ -442,7 +442,7 @@ export default function AddPropertyWizardPage() {
                   'Children\'s Playground', 'Gazebo', 'Extra Mattress',
                   'WiFi', 'Air Conditioning', 'CCTV', 'Parking',
                   'Indoor Fireplace', 'Home Theater', 'Outdoor Kitchen', 'Sound System',
-                  'Cricket Box', 'Online Food Delivery (Zomato/Swiggy)'
+                  'Cricket Box', 'Online Food Delivery (Zomato/Swiggy)', 'Inverter'
                 ].map((amenity) => (
                   <div key={amenity} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#fbf8ff] p-4 rounded-lg border border-[#eeedf7] transition-all hover:bg-[#e3e1ec]/30 min-h-[56px]">
                     <div className="flex items-start gap-3 flex-grow">

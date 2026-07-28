@@ -1,15 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
-import {
-  Users,
-  ClipboardList,
-  Activity,
-  TrendingUp,
-  Banknote,
-  Home,
-  ChevronDown
-} from 'lucide-react';
+import {  useState, useEffect, useMemo  } from 'react';
+import { Users, ClipboardList, Banknote, Home, ChevronDown } from 'lucide-react';
 
 export default function AdminDashboard() {
   const [bookings, setBookings] = useState<any[]>([]);

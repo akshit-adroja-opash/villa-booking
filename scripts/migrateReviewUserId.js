@@ -15,11 +15,9 @@ const User = require('../models/User').default;
 async function migrateReviews() {
   try {
     await dbConnect();
-    console.log('Connected to database');
 
     // Get all reviews without userId
     const reviewsWithoutUserId = await Review.find({ userId: null });
-    console.log(`Found ${reviewsWithoutUserId.length} reviews without userId`);
 
     // For each review, try to find the user by name
     for (const review of reviewsWithoutUserId) {
@@ -31,13 +29,9 @@ async function migrateReviews() {
       if (user) {
         review.userId = user._id;
         await review.save();
-        console.log(`Updated review "${review.text?.substring(0, 30)}" with userId for user "${user.name}"`);
-      } else {
-        console.log(`No user found for review by "${review.name}"`);
       }
     }
 
-    console.log('Migration completed!');
     process.exit(0);
   } catch (error) {
     console.error('Migration failed:', error);

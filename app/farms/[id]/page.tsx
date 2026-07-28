@@ -11,12 +11,10 @@ import {
   Grid,
   Wifi,
   Snowflake,
-  Wind,
   Flame,
   Trees,
   ChefHat,
   Waves,
-  ShieldCheck,
   Loader2,
   Compass,
   Sparkles,
@@ -37,8 +35,8 @@ import {
   ChevronRight,
   ChevronDown,
   Star,
-  StarHalf,
-  Trash2
+  Trash2,
+  Zap
 } from 'lucide-react';
 
 interface FarmDetails {
@@ -88,7 +86,8 @@ const AMENITY_ICONS: Record<string, React.ComponentType<any>> = {
   'Fruit Picking': Trees,
   'Beach Access': Compass,
   'Cricket Box': CheckCircle2,
-  'Online Food Delivery (Zomato/Swiggy)': ChefHat
+  'Online Food Delivery (Zomato/Swiggy)': ChefHat,
+  'Inverter': Zap
 };
 
 export default function FarmDetailPage() {

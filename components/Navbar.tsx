@@ -1,20 +1,10 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import {  useState, useEffect, useRef  } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
-import {
-    User,
-    Menu,
-    X,
-    ShieldAlert,
-    ChevronDown,
-    LogOut,
-    Diamond,
-    CalendarDays,
-    Settings
-} from 'lucide-react';
+import { Menu, X, ShieldAlert, ChevronDown, LogOut } from 'lucide-react';
 
 
 

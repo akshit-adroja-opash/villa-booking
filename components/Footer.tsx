@@ -3,13 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-   Phone,
-   Mail,
-   MapPin,
-   Clock,
-   MessageCircle
-} from 'lucide-react';
+import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
 
 
 

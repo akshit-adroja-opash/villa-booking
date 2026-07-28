@@ -5,18 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import {
-  ArrowRight,
-  Heart,
-  Star,
-  MapPin,
-  ChevronRight,
-  PhoneCall,
-  ArrowUpRight,
-  Wind,
-  Coffee,
-  ShieldCheck
-} from 'lucide-react';
+import { ArrowRight, Heart, Star, MapPin } from 'lucide-react';
 
 export default function Home() {
   const { data: session } = useSession() || {};

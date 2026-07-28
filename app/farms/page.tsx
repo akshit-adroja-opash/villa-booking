@@ -5,20 +5,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import {
-  MapPin,
-  Users,
-  Heart,
-  Bed,
-  Compass,
-  ArrowRight,
-  Search,
-  ChevronDown,
-  SlidersHorizontal,
-  Star,
-  Snowflake,
-  Flame
-} from 'lucide-react';
+import { MapPin, Users, Heart, Bed, Compass, ArrowRight, Search, ChevronDown, Star, Snowflake, Flame } from 'lucide-react';
 
 function StaysList() {
   const searchParams = useSearchParams();

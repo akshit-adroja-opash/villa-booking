@@ -3,14 +3,7 @@ import toast from 'react-hot-toast';
 
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import {
-    User,
-    Mail,
-    Phone,
-    MapPin,
-    Camera,
-    Loader2
-} from 'lucide-react';
+import { User, Mail, Phone, MapPin, Camera, Loader2 } from 'lucide-react';
 
 export default function SettingsPage() {
     const { data: session, update } = useSession() || {};

@@ -6,17 +6,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Navbar from '@/components/Navbar';
-import {
-    LayoutDashboard,
-    Users,
-    Home,
-    CalendarDays,
-    CreditCard,
-    Settings,
-    ShieldAlert,
-    ChevronLeft,
-    ChevronRight
-} from 'lucide-react';
+import { LayoutDashboard, Users, Home, CalendarDays, CreditCard, Settings, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();

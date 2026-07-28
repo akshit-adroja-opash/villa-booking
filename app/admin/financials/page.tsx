@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import {  useEffect, useMemo, useState  } from 'react';
 import { Download, IndianRupee, WalletCards, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 

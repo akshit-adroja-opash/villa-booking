@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import {  useEffect, useMemo, useState  } from 'react';
 import Link from 'next/link';
 import { BedDouble, Home, MapPin, Plus, Search, Users, Trash2, ShieldCheck, Snowflake, Flame } from 'lucide-react';
 import toast from 'react-hot-toast';

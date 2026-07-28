@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import {  useEffect, useMemo, useState  } from 'react';
 import { CalendarDays, Download, Search, ChevronDown, CheckCircle2, IndianRupee, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 

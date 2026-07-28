@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 
 const BookingSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
