@@ -638,7 +638,7 @@ export default function BookingsDashboardPage() {
                             </p>
                           </div>
 
-                          <div className="flex flex-row flex-wrap items-center gap-3 md:gap-4 w-full xl:w-auto">
+                          <div className="flex flex-row flex-wrap items-center justify-end gap-3 md:gap-4 w-full xl:w-auto">
                             {booking.adminConfirmed && (
                               <button
                                 onClick={() => handleDownloadReceipt(booking)}

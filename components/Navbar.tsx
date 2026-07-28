@@ -1,6 +1,6 @@
 'use client';
 
-import {  useState, useEffect, useRef  } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
@@ -33,6 +33,17 @@ export default function Navbar() {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
+
+    useEffect(() => {
+        if (mobileMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [mobileMenuOpen]);
 
     if (pathname === '/login' || pathname === '/register') {
         return null;
@@ -177,23 +188,23 @@ export default function Navbar() {
                 </div>
 
                 <div className="flex flex-col flex-grow text-left overflow-y-auto hide-scrollbar">
-                    <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+                    <Link className={`text-lg font-medium py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname === '/' ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
                     <Link className={`text-lg font-medium py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/farms') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/farms" onClick={() => setMobileMenuOpen(false)}>Farmhouses</Link>
                     {!isAdmin && (
-                        <Link className="text-lg font-medium text-[#1B2A22] py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href={session ? "/dashboard/bookings" : "/login"} onClick={() => setMobileMenuOpen(false)}>My Bookings</Link>
+                        <Link className={`text-lg font-medium py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/dashboard/bookings') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href={session ? "/dashboard/bookings" : "/login"} onClick={() => setMobileMenuOpen(false)}>My Bookings</Link>
                     )}
 
                     <Link className={`text-lg font-medium py-4 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/contact') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact Us</Link>
 
                     {isAdmin && (
                         <div className="flex flex-col mt-6">
-                            <span className="text-xs font-bold text-[#00a877] uppercase tracking-widest mb-2">Admin Portal</span>
-                            <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/dashboard" onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
-                            <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/users" onClick={() => setMobileMenuOpen(false)}>Guests</Link>
-                            <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/properties" onClick={() => setMobileMenuOpen(false)}>Farmhouses</Link>
-                            <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/bookings" onClick={() => setMobileMenuOpen(false)}>Bookings</Link>
-                            <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/financials" onClick={() => setMobileMenuOpen(false)}>Revenue</Link>
-                            <Link className="text-base font-medium text-[#1B2A22] py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors" href="/admin/settings" onClick={() => setMobileMenuOpen(false)}>My Profile</Link>
+                            <span className="text-xs font-bold text-[#1B2A22]/40 uppercase tracking-widest mb-2 mt-2">Admin Portal</span>
+                            <Link className={`text-base font-medium py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname === '/admin/dashboard' ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/admin/dashboard" onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
+                            <Link className={`text-base font-medium py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/admin/users') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/admin/users" onClick={() => setMobileMenuOpen(false)}>User Management</Link>
+                            <Link className={`text-base font-medium py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/admin/properties') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/admin/properties" onClick={() => setMobileMenuOpen(false)}>Farmhouses</Link>
+                            <Link className={`text-base font-medium py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/admin/bookings') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/admin/bookings" onClick={() => setMobileMenuOpen(false)}>Bookings</Link>
+                            <Link className={`text-base font-medium py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/admin/financials') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/admin/financials" onClick={() => setMobileMenuOpen(false)}>Revenue</Link>
+                            <Link className={`text-base font-medium py-3 border-b border-[#1B2A22]/5 hover:text-[#00a877] transition-colors ${pathname.startsWith('/admin/settings') ? 'text-[#00a877]' : 'text-[#1B2A22]'}`} href="/admin/settings" onClick={() => setMobileMenuOpen(false)}>My Profile</Link>
                         </div>
                     )}
 

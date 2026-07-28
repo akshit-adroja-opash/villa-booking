@@ -1080,7 +1080,7 @@ export default function FarmDetailPage() {
 
       {/* Full-screen Video Modal */}
       {showVideoModal && farm.videos && farm.videos.length > 0 && (
-        <div 
+        <div
           className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/95 p-4 md:p-10"
           onClick={() => setShowVideoModal(false)}
         >
@@ -1107,13 +1107,12 @@ export default function FarmDetailPage() {
               </button>
             </>
           )}
-          
-          <div 
-            className={`relative w-full bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10 transition-all duration-300 ${
-              farm.videos[activeVideoIdx].includes('/shorts/') || farm.videos[activeVideoIdx].includes('instagram.com')
-                ? 'max-w-[350px] sm:max-w-[380px] aspect-[9/16]' 
+
+          <div
+            className={`relative w-full bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10 transition-all duration-300 ${farm.videos[activeVideoIdx].includes('/shorts/') || farm.videos[activeVideoIdx].includes('instagram.com')
+                ? 'max-w-[350px] sm:max-w-[380px] aspect-[9/16]'
                 : 'max-w-5xl aspect-video'
-            }`}
+              }`}
             onClick={(e) => e.stopPropagation()}
           >
             {(() => {

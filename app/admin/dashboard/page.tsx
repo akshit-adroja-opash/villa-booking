@@ -582,7 +582,7 @@ export default function AdminDashboard() {
               })()}
 
               {/* Dynamic Labels */}
-              <div className="flex justify-between items-center text-[10px] font-bold text-gray-400 mt-4 px-1">
+              <div className="flex justify-between items-center text-[10px] font-bold text-gray-400 mt-2 px-1">
                 {chartData.map((d, idx) => {
                   const total = chartData.length;
                   const showLabel =

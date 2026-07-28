@@ -52,6 +52,17 @@ export default function UserManagementPage() {
  const [showPassword, setShowPassword] = useState(false);
  const [errors, setErrors] = useState<{name?: string; email?: string; password?: string;}>({});
 
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showModal]);
+
  const fetchUsers = async () => {
  try {
  const res = await fetch('/api/users');
@@ -597,7 +608,7 @@ export default function UserManagementPage() {
 
  {/* Add User Modal */}
  {showModal && (
- <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm sm:p-4">
+ <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/50 backdrop-blur-md sm:p-4">
  <div className="bg-white w-full h-full sm:h-auto sm:max-w-[480px] sm:rounded-2xl shadow-xl p-6 sm:p-8 relative animate-fade-in flex flex-col justify-center">
  
  <button 
@@ -684,7 +695,7 @@ export default function UserManagementPage() {
     onClick={() => setShowPassword(!showPassword)}
     className="absolute right-4 text-gray-400 hover:text-[#00a877] transition-colors focus:outline-none"
   >
-    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+    {showPassword ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
   </button>
   </div>
   {errors.password && <p className="text-red-500 text-[11px] font-bold mt-1">{errors.password}</p>}
