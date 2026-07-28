@@ -672,7 +672,7 @@ export default function FarmDetailPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button
                   onClick={() => setOpenPolicy(openPolicy === 'rules' ? null : 'rules')}
-                  className={`flex items-center justify-center gap-2.5 p-3.5 rounded-xl border-2 transition-all font-bold shadow-sm active:scale-[0.98] ${openPolicy === 'rules'
+                  className={`flex items-center justify-center gap-2.5 p-3.5 rounded-xl border transition-all font-bold shadow-sm active:scale-[0.98] ${openPolicy === 'rules'
                     ? 'border-[#00a877] bg-[#e6f4ea] text-[#00a877]'
                     : 'border-gray-100 bg-gray-50 text-gray-600 hover:border-[#00a877]/30 hover:bg-white hover:shadow-md'
                     }`}
@@ -683,7 +683,7 @@ export default function FarmDetailPage() {
 
                 <button
                   onClick={() => setOpenPolicy(openPolicy === 'cancellation' ? null : 'cancellation')}
-                  className={`flex items-center justify-center gap-2.5 p-3.5 rounded-xl border-2 transition-all font-bold shadow-sm active:scale-[0.98] ${openPolicy === 'cancellation'
+                  className={`flex items-center justify-center gap-2.5 p-3.5 rounded-xl border transition-all font-bold shadow-sm active:scale-[0.98] ${openPolicy === 'cancellation'
                     ? 'border-red-500 bg-red-50 text-red-500'
                     : 'border-gray-100 bg-gray-50 text-gray-600 hover:border-red-300 hover:bg-white hover:shadow-md'
                     }`}
