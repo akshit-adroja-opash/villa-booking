@@ -13,7 +13,8 @@ import {
   Upload,
   Sparkles,
   Home,
-  Building
+  Building,
+  Video
 } from 'lucide-react';
 import CustomSelect from '@/components/CustomSelect';
 
@@ -46,6 +47,9 @@ export default function EditPropertyWizardPage() {
   const [cancellationPolicy, setCancellationPolicy] = useState('');
 
   const [images, setImages] = useState<string[]>([]);
+  const [videos, setVideos] = useState<string[]>([]);
+  const [videoInput, setVideoInput] = useState('');
+  const [videoUploading, setVideoUploading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -94,6 +98,7 @@ export default function EditPropertyWizardPage() {
           setSelectedAmenities(baseAmenities);
 
           setImages(data.images || []);
+          setVideos(data.videos || (data.video ? [data.video] : []));
         } else {
           toast.error('Farmhouse not found');
           router.push('/admin/properties');
@@ -154,6 +159,43 @@ export default function EditPropertyWizardPage() {
     }
   };
 
+  const handleVideoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setVideoUploading(true);
+    try {
+      const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || '';
+      const UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || '';
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', UPLOAD_PRESET);
+
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/video/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setVideos(prev => [...prev, data.secure_url]);
+        toast.success('Video uploaded successfully!');
+      } else {
+        toast.error('Failed to upload video to Cloudinary.');
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('Could not upload video.');
+    } finally {
+      setVideoUploading(false);
+    }
+  };
+
+  const addVideoLink = () => {
+    if (!videoInput.trim()) return;
+    setVideos(prev => [...prev, videoInput.trim()]);
+    setVideoInput('');
+  };
+
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     if (currentStep === 2) {
@@ -181,6 +223,11 @@ export default function EditPropertyWizardPage() {
       setCurrentStep(2);
       return;
     }
+    const finalVideos = [...videos];
+    if (videoInput.trim() && !finalVideos.includes(videoInput.trim())) {
+      finalVideos.push(videoInput.trim());
+    }
+
     setSaving(true);
     try {
       const res = await fetch(`/api/farms/${id}`, {
@@ -204,6 +251,8 @@ export default function EditPropertyWizardPage() {
           cancellationPolicy,
           amenities: selectedAmenities.map(a => a === 'Extra Mattress' ? `Extra Mattress: ${extraMattressCount}` : a),
           images: images.length > 0 ? images : ['https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1200&q=80'],
+          video: finalVideos[0] || undefined,
+          videos: finalVideos,
         }),
       });
 
@@ -655,6 +704,73 @@ export default function EditPropertyWizardPage() {
                 )}
               </div>
 
+              <div className="space-y-2 mt-6">
+                <label className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
+                  Farmhouse Videos
+                </label>
+                
+                <div className="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center">
+                  <input
+                    type="text"
+                    value={videoInput}
+                    onChange={(e) => setVideoInput(e.target.value)}
+                    placeholder="Paste YouTube, Vimeo, Instagram, Facebook or video URL"
+                    className="w-full flex-grow rounded-xl border border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all focus:border-[#00a877] focus:bg-white"
+                  />
+                  <div className="flex gap-2 shrink-0">
+                    <button
+                      type="button"
+                      onClick={addVideoLink}
+                      className="flex-1 lg:flex-initial bg-[#00a877] text-white px-5 py-3 rounded-xl text-sm font-semibold hover:bg-[#009669] transition-colors whitespace-nowrap"
+                    >
+                      Add Link
+                    </button>
+                    <input
+                      type="file"
+                      accept="video/*"
+                      onChange={handleVideoFileChange}
+                      className="hidden"
+                      id="upload-video-input"
+                      disabled={videoUploading}
+                    />
+                    <label
+                      htmlFor="upload-video-input"
+                      className="flex-1 lg:flex-initial flex items-center justify-center gap-2 bg-[#002e1e] text-white px-5 py-3 rounded-xl text-sm font-semibold cursor-pointer hover:bg-[#001f14] transition-colors text-center shadow-sm whitespace-nowrap"
+                    >
+                      {videoUploading ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          <span>Uploading...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="h-4 w-4" />
+                          <span>Upload Video</span>
+                        </>
+                      )}
+                    </label>
+                  </div>
+                </div>
+                {videos.length > 0 && (
+                  <div className="space-y-2 mt-4">
+                    {videos.map((vidUrl, idx) => (
+                      <div key={idx} className="p-4 bg-gray-50 border border-gray-100 rounded-xl flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-3 overflow-hidden">
+                          <Video className="h-5 w-5 text-[#00a877] shrink-0" />
+                          <span className="text-xs text-gray-500 font-bold truncate">Video {idx + 1}: {vidUrl}</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setVideos(prev => prev.filter((_, i) => i !== idx))}
+                          className="text-xs font-bold text-red-600 hover:text-red-800 transition-colors shrink-0"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
 
             </div>
           )}

@@ -36,12 +36,15 @@ import {
   ChevronDown,
   Star,
   Trash2,
-  Zap
+  Zap,
+  Video
 } from 'lucide-react';
 
 interface FarmDetails {
   _id?: string;
   id?: string;
+  video?: string;
+  videos?: string[];
   title: string;
   location: string;
   mapLink?: string;
@@ -90,6 +93,48 @@ const AMENITY_ICONS: Record<string, React.ComponentType<any>> = {
   'Inverter': Zap
 };
 
+function getEmbedUrl(url: string) {
+  if (!url) return '';
+  const cleanUrl = url.trim();
+
+  // youtu.be/ID
+  const youtudeBeMatch = cleanUrl.match(/youtu\.be\/([^"&?\/\s]{11})/i);
+  if (youtudeBeMatch && youtudeBeMatch[1]) {
+    return `https://www.youtube.com/embed/${youtudeBeMatch[1]}?autoplay=1`;
+  }
+
+  // youtube.com/watch?v=ID
+  const watchMatch = cleanUrl.match(/[?&]v=([^"&?\/\s]{11})/i);
+  if (watchMatch && watchMatch[1]) {
+    return `https://www.youtube.com/embed/${watchMatch[1]}?autoplay=1`;
+  }
+
+  // youtube.com/embed/ID or youtube.com/shorts/ID
+  const pathMatch = cleanUrl.match(/youtube\.com\/(?:embed|shorts|v)\/([^"&?\/\s]{11})/i);
+  if (pathMatch && pathMatch[1]) {
+    return `https://www.youtube.com/embed/${pathMatch[1]}?autoplay=1`;
+  }
+
+  const vimeoMatch = cleanUrl.match(/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(\d+)/i);
+  if (vimeoMatch && vimeoMatch[1]) {
+    return `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1`;
+  }
+
+  // Instagram Reel/Post/TV
+  const instaMatch = cleanUrl.match(/instagram\.com\/(?:p|reel|tv)\/([^"&?\/\s]+)/i);
+  if (instaMatch && instaMatch[1]) {
+    const shortcode = instaMatch[1].split('/')[0];
+    return `https://www.instagram.com/reel/${shortcode}/embed/`;
+  }
+
+  // Facebook Video
+  if (cleanUrl.includes('facebook.com') || cleanUrl.includes('fb.watch')) {
+    return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(cleanUrl)}&show_text=0&autoplay=1`;
+  }
+
+  return '';
+}
+
 export default function FarmDetailPage() {
   const { id } = useParams() || {};
   const { data: session } = useSession() || {};
@@ -107,7 +152,9 @@ export default function FarmDetailPage() {
   const [existingBookings, setExistingBookings] = useState<any[]>([]);
   const [showAllPhotosModal, setShowAllPhotosModal] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [openPolicy, setOpenPolicy] = useState<'rules' | 'cancellation' | null>(null);
+  const [openPolicy, setOpenPolicy] = useState<'rules' | 'cancellation' | null>('rules');
+  const [showVideoModal, setShowVideoModal] = useState(false);
+  const [activeVideoIdx, setActiveVideoIdx] = useState(0);
   const [reviews, setReviews] = useState<any[]>([]);
   const [reviewText, setReviewText] = useState('');
   const [reviewRating, setReviewRating] = useState(0);
@@ -128,6 +175,8 @@ export default function FarmDetailPage() {
 
           setFarm({
             _id: data._id,
+            video: data.video,
+            videos: data.videos || (data.video ? [data.video] : []),
             title: data.title,
             location: data.location,
             mapLink: data.mapLink,
@@ -201,7 +250,7 @@ export default function FarmDetailPage() {
     const dates: Date[] = [];
     existingBookings.forEach((b: any) => {
       if (b.paymentStatus === 'Failed') return;
-      
+
       const isConfirmed = !!b.adminConfirmed;
       const isExpired = !isConfirmed && (Date.now() - new Date(b.createdAt).getTime() > 60 * 60 * 1000);
       if (isExpired) return;
@@ -299,20 +348,24 @@ export default function FarmDetailPage() {
   }, [existingBookings]);
 
   useEffect(() => {
-    if (showAllPhotosModal || lightboxIndex !== null) {
+    if (showAllPhotosModal || lightboxIndex !== null || showVideoModal) {
       document.body.style.overflow = 'hidden';
+      if (showVideoModal) {
+        setActiveVideoIdx(0);
+      }
     } else {
       document.body.style.overflow = '';
     }
     return () => {
       document.body.style.overflow = '';
     };
-  }, [showAllPhotosModal, lightboxIndex]);
+  }, [showAllPhotosModal, lightboxIndex, showVideoModal]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         if (lightboxIndex !== null) setLightboxIndex(null);
+        else if (showVideoModal) setShowVideoModal(false);
         else setShowAllPhotosModal(false);
       } else if (e.key === 'ArrowRight' && lightboxIndex !== null) {
         setLightboxIndex((prev) => (prev! + 1) % (farm?.images?.length || 1));
@@ -322,7 +375,7 @@ export default function FarmDetailPage() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [lightboxIndex, farm?.images?.length]);
+  }, [lightboxIndex, showVideoModal, farm?.images?.length]);
 
   if (loading) {
     return (
@@ -509,13 +562,31 @@ export default function FarmDetailPage() {
               alt="Main stay view"
               className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
             />
+            {farm.videos && farm.videos.length > 0 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); setShowVideoModal(true); }}
+                className="md:hidden absolute bottom-3 left-3 flex items-center space-x-1.5 bg-white/45 backdrop-blur-md px-3 py-1.5 text-[11px] font-bold text-[#1B2A22] transition-all hover:bg-white hover:scale-105 rounded-lg shadow-sm whitespace-nowrap"
+              >
+                <Video className="h-3.5 w-3.5" />
+                <span>Watch Video</span>
+              </button>
+            )}
           </div>
-          <div className="hidden overflow-hidden md:block cursor-pointer md:col-span-1 lg:col-span-1" onClick={() => setLightboxIndex(1)}>
+          <div className="relative hidden overflow-hidden md:block cursor-pointer md:col-span-1 lg:col-span-1" onClick={() => setLightboxIndex(1)}>
             <img
               src={farm.images?.[1] || farm.images?.[0]}
               alt="Alternative exterior view"
               className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
             />
+            {farm.videos && farm.videos.length > 0 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); setShowVideoModal(true); }}
+                className="hidden md:flex absolute bottom-3 right-3 items-center space-x-1.5 bg-white/45 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 text-[11px] md:text-xs font-bold text-[#1B2A22] transition-all hover:bg-white hover:scale-105 rounded-lg shadow-sm whitespace-nowrap"
+              >
+                <Video className="h-3.5 w-3.5" />
+                <span>Watch Video</span>
+              </button>
+            )}
           </div>
           <div className="relative hidden overflow-hidden md:block cursor-pointer md:col-span-1 lg:col-span-1" onClick={() => setLightboxIndex(2)}>
             <img
@@ -528,9 +599,9 @@ export default function FarmDetailPage() {
           {farm.images && farm.images.length > 3 && (
             <button
               onClick={() => setShowAllPhotosModal(true)}
-              className="absolute bottom-4 right-4 md:bottom-6 md:right-6 flex items-center space-x-2 bg-white/40 backdrop-blur-md px-4 py-2 md:px-6 md:py-3 text-[12px] md:text-sm font-bold text-[#1B2A22] transition-all hover:bg-white hover:scale-105 rounded-lg shadow-sm"
+              className="absolute bottom-3 right-3 flex items-center space-x-1.5 bg-white/45 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 text-[11px] md:text-xs font-bold text-[#1B2A22] transition-all hover:bg-white hover:scale-105 rounded-lg shadow-sm"
             >
-              <Grid className="h-4 w-4" />
+              <Grid className="h-3.5 w-3.5" />
               <span>View All</span>
             </button>
           )}
@@ -563,7 +634,6 @@ export default function FarmDetailPage() {
             </div>
 
             <div className="border-t border-gray-100 my-8"></div>
-
             {/* About Home description */}
             <div className="mb-8">
               <h3 className="font-serif text-[22px] font-bold text-[#002E1E] mb-4">About this farmhouse stay</h3>
@@ -957,11 +1027,11 @@ export default function FarmDetailPage() {
                 <div className="mt-8 border-t border-gray-100 pt-6">
                   <h4 className="font-sans text-[13px] font-bold text-[#002E1E] mb-4 uppercase tracking-wider">Need Help?</h4>
                   <div className="space-y-3">
-                    <a href="tel:+918780493615" className="flex items-center gap-4 w-full p-4 bg-white border border-gray-100 rounded-xl hover:border-[#002E1E] transition-colors group hover:shadow-sm">
+                    <a href="tel:+918780493615" className="flex items-center gap-4 w-full p-4 bg-white border border-gray-100 rounded-xl hover:border-[#00a877] transition-colors group hover:shadow-sm">
                       <Phone className="h-5 w-5 text-[#829e92] group-hover:scale-110 transition-transform" />
                       <span className="text-[13px] font-bold text-gray-700">Call us: +91 8780493615</span>
                     </a>
-                    <a href="https://wa.me/918780493615" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 w-full p-4 bg-white border border-gray-100 rounded-xl hover:border-[#002E1E] transition-colors group hover:shadow-sm">
+                    <a href="https://wa.me/918780493615" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 w-full p-4 bg-white border border-gray-100 rounded-xl hover:border-[#00a877] transition-colors group hover:shadow-sm">
                       <MessageCircle className="h-5 w-5 text-[#829e92] group-hover:scale-110 transition-transform" />
                       <span className="text-[13px] font-bold text-gray-700">WhatsApp Support</span>
                     </a>
@@ -977,80 +1047,142 @@ export default function FarmDetailPage() {
 
       {/* Full-screen Photo Gallery Modal */}
       {showAllPhotosModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-[#1B2A22] flex flex-col transition-all duration-300">
+        <div className="fixed inset-0 z-[100000] overflow-y-auto bg-[#1B2A22] flex flex-col transition-all duration-300">
           <div className="sticky top-0 z-10 flex items-center justify-between bg-[#1B2A22]/95 backdrop-blur-md px-6 py-4 border-b border-white/10 text-white">
             <h2 className="font-sans text-sm font-semibold tracking-widest uppercase">{farm.title}</h2>
             <button
               onClick={() => setShowAllPhotosModal(false)}
               className="p-2 bg-white/5 hover:bg-white/10 text-white transition-colors focus:outline-none"
-              aria-label="Close photo gallery"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
-
-          <div className="max-w-[1280px] w-full mx-auto px-6 py-16 flex-1">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {farm.images?.map((imgUrl, index) => (
-                <div key={index} className="overflow-hidden aspect-[4/3] bg-black/20 border border-white/5 group relative cursor-pointer" onClick={() => setLightboxIndex(index)}>
-                  <img
-                    src={imgUrl}
-                    alt={`${farm.title} photo ${index + 1}`}
-                    className="h-full w-full object-cover transition-transform duration-[2s] hover:scale-105"
-                  />
-                  <div className="absolute bottom-6 left-6 text-white px-4 py-2 text-sm font-bold drop-shadow-lg">
-                    {index + 1} / {farm.images.length}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Fullscreen Lightbox */}
-      {lightboxIndex !== null && farm.images && farm.images.length > 0 && (
-        <div className="fixed inset-0 z-[60] bg-black/95 flex flex-col transition-all duration-300">
-          <div className="absolute top-0 right-0 z-[70] p-6">
-            <button
-              onClick={() => setLightboxIndex(null)}
-              className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors focus:outline-none backdrop-blur-md"
-              aria-label="Close lightbox"
             >
               <X className="h-6 w-6" />
             </button>
           </div>
+          <div className="mx-auto max-w-7xl px-6 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {farm.images?.map((imgUrl, index) => (
+              <div
+                key={index}
+                onClick={() => setLightboxIndex(index)}
+                className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-white/10 shadow-lg cursor-pointer group"
+              >
+                <img
+                  src={imgUrl}
+                  alt={`${farm.title} gallery image ${index + 1}`}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <span className="absolute bottom-4 right-4 bg-black/60 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+                  {index + 1} / {farm.images.length}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
-          <div className="absolute top-1/2 left-6 z-[70] -translate-y-1/2">
+      {/* Full-screen Video Modal */}
+      {showVideoModal && farm.videos && farm.videos.length > 0 && (
+        <div 
+          className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/95 p-4 md:p-10"
+          onClick={() => setShowVideoModal(false)}
+        >
+          <button
+            onClick={() => setShowVideoModal(false)}
+            className="absolute top-6 right-6 p-2 bg-white/5 hover:bg-white/10 text-white rounded-full transition-colors border border-white/10 focus:outline-none backdrop-blur-md z-30"
+          >
+            <X className="h-6 w-6" />
+          </button>
+
+          {farm.videos.length > 1 && (
+            <>
+              <button
+                onClick={(e) => { e.stopPropagation(); setActiveVideoIdx((prev) => (prev - 1 + farm.videos!.length) % farm.videos!.length); }}
+                className="absolute left-4 md:left-8 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-md z-30 border border-white/10"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); setActiveVideoIdx((prev) => (prev + 1) % farm.videos!.length); }}
+                className="absolute right-4 md:right-8 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-md z-30 border border-white/10"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </>
+          )}
+          
+          <div 
+            className={`relative w-full bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/10 transition-all duration-300 ${
+              farm.videos[activeVideoIdx].includes('/shorts/') || farm.videos[activeVideoIdx].includes('instagram.com')
+                ? 'max-w-[350px] sm:max-w-[380px] aspect-[9/16]' 
+                : 'max-w-5xl aspect-video'
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {(() => {
+              const embedUrl = getEmbedUrl(farm.videos[activeVideoIdx]);
+              if (embedUrl) {
+                return (
+                  <iframe
+                    key={activeVideoIdx}
+                    src={embedUrl}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                );
+              } else {
+                return (
+                  <video
+                    key={activeVideoIdx}
+                    src={farm.videos[activeVideoIdx]}
+                    controls
+                    autoPlay
+                    className="w-full h-full"
+                  />
+                );
+              }
+            })()}
+          </div>
+
+          {farm.videos.length > 1 && (
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-xs font-bold bg-black/60 px-4 py-2 rounded-full backdrop-blur-sm z-30">
+              Video {activeVideoIdx + 1} of {farm.videos.length}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Lightbox Modal */}
+      {lightboxIndex !== null && farm.images && farm.images.length > 0 && (
+        <div className="fixed inset-0 z-[100000] flex flex-col items-center justify-center bg-black/95 p-4" onClick={() => setLightboxIndex(null)}>
+          <button
+            onClick={() => setLightboxIndex(null)}
+            className="absolute top-6 right-6 p-2 bg-white/5 hover:bg-white/10 text-white transition-colors focus:outline-none rounded-full"
+          >
+            <X className="h-6 w-6" />
+          </button>
+
+          <div className="relative flex items-center justify-center w-full max-w-5xl aspect-[4/3] rounded-xl overflow-hidden">
             <button
               onClick={(e) => { e.stopPropagation(); setLightboxIndex((prev) => (prev! - 1 + farm.images!.length) % farm.images!.length); }}
-              className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors focus:outline-none backdrop-blur-md"
-              aria-label="Previous photo"
+              className="absolute left-4 p-3 bg-black/55 text-white hover:bg-black/75 transition-colors rounded-full"
             >
-              <ChevronLeft className="h-8 w-8" />
+              <ChevronLeft className="h-6 w-6" />
             </button>
-          </div>
 
-          <div className="absolute top-1/2 right-6 z-[70] -translate-y-1/2">
             <button
               onClick={(e) => { e.stopPropagation(); setLightboxIndex((prev) => (prev! + 1) % farm.images!.length); }}
-              className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors focus:outline-none backdrop-blur-md"
-              aria-label="Next photo"
+              className="absolute right-4 p-3 bg-black/55 text-white hover:bg-black/75 transition-colors rounded-full"
             >
-              <ChevronRight className="h-8 w-8" />
+              <ChevronRight className="h-6 w-6" />
             </button>
-          </div>
 
-          <div className="flex-1 w-full h-full flex items-center justify-center p-4 md:p-12" onClick={() => setLightboxIndex(null)}>
             <img
               src={farm.images[lightboxIndex]}
-              alt={`${farm.title} photo ${lightboxIndex + 1}`}
-              className="max-w-full max-h-full object-contain select-none"
-              onClick={(e) => e.stopPropagation()}
+              alt={`Gallery view ${lightboxIndex + 1}`}
+              className="w-full h-full object-contain"
             />
           </div>
 
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-sm font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-md">
+          <div className="mt-4 text-white text-sm font-bold">
             {lightboxIndex + 1} / {farm.images.length}
           </div>
         </div>

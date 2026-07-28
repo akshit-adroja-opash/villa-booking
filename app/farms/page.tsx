@@ -5,7 +5,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { MapPin, Users, Heart, Bed, Compass, ArrowRight, Search, ChevronDown, Star, Snowflake, Flame } from 'lucide-react';
+import { MapPin, Users, Heart, Bed, Compass, ArrowRight, Search, ChevronDown, Star, Snowflake, Wind } from 'lucide-react';
 
 function StaysList() {
   const searchParams = useSearchParams();
@@ -284,7 +284,7 @@ function StaysList() {
                       {(farm.acRooms || farm.nonAcRooms) ? (
                         <>
                           <span className="flex items-center gap-1.5"><Snowflake className="w-4 h-4" /> {farm.acRooms || 0} AC</span>
-                          <span className="flex items-center gap-1.5"><Flame className="w-4 h-4" /> {farm.nonAcRooms || 0} Non-AC</span>
+                          <span className="flex items-center gap-1.5"><Wind className="w-4 h-4" /> {farm.nonAcRooms || 0} Non-AC</span>
                         </>
                       ) : null}
                       <span className="flex items-center gap-1.5"><Users className="w-4 h-4" /> {farm.guests || 6} guests</span>

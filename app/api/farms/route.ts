@@ -79,6 +79,7 @@ export async function GET(req: Request) {
             bookingsCount: { $size: '$bookings' }
           }
         },
+        { $match: { rating: { $gte: 4.0 } } },
         { $sort: { bookingsCount: -1 } },
         { $project: { bookings: 0 } }
       ]);

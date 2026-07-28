@@ -2,7 +2,7 @@
 
 import {  useEffect, useMemo, useState  } from 'react';
 import Link from 'next/link';
-import { BedDouble, Home, MapPin, Plus, Search, Users, Trash2, ShieldCheck, Snowflake, Flame } from 'lucide-react';
+import { BedDouble, Home, MapPin, Plus, Search, Users, Trash2, ShieldCheck, Snowflake, Wind } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 type Farm = {
@@ -224,7 +224,7 @@ export default function AdminPropertiesPage() {
                             {farm.acRooms || 0} AC
                           </span>
                           <span className="flex items-center gap-2">
-                            <Flame className="h-4 w-4 text-gray-300" />
+                            <Wind className="h-4 w-4 text-gray-300" />
                             {farm.nonAcRooms || 0} Non-AC
                           </span>
                         </>

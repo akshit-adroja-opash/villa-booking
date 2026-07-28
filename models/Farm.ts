@@ -19,6 +19,8 @@ const FarmSchema = new Schema({
   isActive: { type: Boolean, default: true },
   houseRules: [{ type: String }],
   cancellationPolicy: { type: String },
+  video: { type: String },
+  videos: [{ type: String }],
 }, { timestamps: true });
 
 const Farm = models.Farm || model('Farm', FarmSchema);
