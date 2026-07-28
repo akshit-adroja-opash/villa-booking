@@ -44,7 +44,9 @@ export default function EditPropertyWizardPage() {
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [extraMattressCount, setExtraMattressCount] = useState<number>(1);
   const [houseRules, setHouseRules] = useState('');
+  const [newRule, setNewRule] = useState('');
   const [cancellationPolicy, setCancellationPolicy] = useState('');
+  const [newPolicy, setNewPolicy] = useState('');
 
   const [images, setImages] = useState<string[]>([]);
   const [videos, setVideos] = useState<string[]>([]);
@@ -194,6 +196,30 @@ export default function EditPropertyWizardPage() {
     if (!videoInput.trim()) return;
     setVideos(prev => [...prev, videoInput.trim()]);
     setVideoInput('');
+  };
+
+  const addRule = () => {
+    if (!newRule.trim()) return;
+    setHouseRules(prev => prev ? `${prev}\n${newRule.trim()}` : newRule.trim());
+    setNewRule('');
+  };
+
+  const removeRule = (idx: number) => {
+    const arr = houseRules.split('\n').filter(Boolean);
+    arr.splice(idx, 1);
+    setHouseRules(arr.join('\n'));
+  };
+
+  const addPolicy = () => {
+    if (!newPolicy.trim()) return;
+    setCancellationPolicy(prev => prev ? `${prev}\n${newPolicy.trim()}` : newPolicy.trim());
+    setNewPolicy('');
+  };
+
+  const removePolicy = (idx: number) => {
+    const arr = cancellationPolicy.split('\n').filter(Boolean);
+    arr.splice(idx, 1);
+    setCancellationPolicy(arr.join('\n'));
   };
 
   const handleNext = (e: React.FormEvent) => {
@@ -591,37 +617,97 @@ export default function EditPropertyWizardPage() {
 
           {/* STEP 4: POLICIES */}
           {currentStep === 4 && (
-            <div className="space-y-6">
+            <div className="space-y-8">
               <h3 className="font-serif text-2xl text-[#1B2A22] pb-4 border-b border-gray-100 mb-8">
                 Policies & House Rules
               </h3>
 
-              <div className="space-y-2">
-                <label htmlFor="houseRules" className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
-                  House Rules <span className="text-gray-400 font-normal">(One rule per line)</span>
+              {/* House Rules */}
+              <div className="space-y-4">
+                <label className="block text-[14px] font-bold text-[#1B2A22]">
+                  House Rules
                 </label>
-                <textarea
-                  id="houseRules"
-                  rows={5}
-                  value={houseRules}
-                  onChange={(e) => setHouseRules(e.target.value)}
-                  placeholder="e.g.&#10;Check-in: 6 PM | Checkout: 5 PM&#10;No Alcohol Party&#10;No Smoking"
-                  className="w-full resize-none rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
-                />
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newRule}
+                    onChange={(e) => setNewRule(e.target.value)}
+                    placeholder="e.g. No Smoking, Check-in: 6 PM"
+                    className="flex-grow rounded-xl border border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all focus:border-[#00a877] focus:bg-white"
+                  />
+                  <button
+                    type="button"
+                    onClick={addRule}
+                    className="bg-[#00a877] text-white px-5 py-3 rounded-xl text-sm font-semibold hover:bg-[#009669] transition-colors whitespace-nowrap"
+                  >
+                    Add Rule
+                  </button>
+                </div>
+
+                <div className="space-y-2 mt-4 max-h-[250px] overflow-y-auto pr-1">
+                  {houseRules.split('\n').filter(Boolean).map((rule, idx) => (
+                    <div key={idx} className="p-3.5 bg-gray-50 border border-gray-100 rounded-xl flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3 overflow-hidden">
+                        <div className="w-2 h-2 rounded-full bg-[#00a877] shrink-0" />
+                        <span className="text-sm font-semibold text-gray-700 truncate">{rule}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeRule(idx)}
+                        className="text-xs font-bold text-red-600 hover:text-red-800 transition-colors shrink-0"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                  {houseRules.split('\n').filter(Boolean).length === 0 && (
+                    <p className="text-xs text-gray-400 italic">No house rules added yet.</p>
+                  )}
+                </div>
               </div>
 
-              <div className="space-y-2">
-                <label htmlFor="cancellationPolicy" className="block text-[13px] font-bold text-[#1B2A22] mb-1.5">
-                  Cancellation Policy
+              {/* Cancellation Policy */}
+              <div className="space-y-4 pt-4 border-t border-gray-100">
+                <label className="block text-[14px] font-bold text-[#1B2A22]">
+                  Cancellation Policy Items
                 </label>
-                <textarea
-                  id="cancellationPolicy"
-                  rows={5}
-                  value={cancellationPolicy}
-                  onChange={(e) => setCancellationPolicy(e.target.value)}
-                  placeholder="Describe your cancellation policy..."
-                  className="w-full resize-none rounded-xl border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all border focus:border-[#00a877] focus:bg-white"
-                />
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newPolicy}
+                    onChange={(e) => setNewPolicy(e.target.value)}
+                    placeholder="e.g. Refund Processing: Processed within 7 working days"
+                    className="flex-grow rounded-xl border border-gray-200 bg-[#f9fafb] px-4 py-3 text-sm text-[#1B2A22] placeholder:text-gray-400 outline-none transition-all focus:border-[#00a877] focus:bg-white"
+                  />
+                  <button
+                    type="button"
+                    onClick={addPolicy}
+                    className="bg-[#00a877] text-white px-5 py-3 rounded-xl text-sm font-semibold hover:bg-[#009669] transition-colors whitespace-nowrap"
+                  >
+                    Add Item
+                  </button>
+                </div>
+
+                <div className="space-y-2 mt-4 max-h-[250px] overflow-y-auto pr-1">
+                  {cancellationPolicy.split('\n').filter(Boolean).map((policy, idx) => (
+                    <div key={idx} className="p-3.5 bg-red-50/20 border border-red-100/50 rounded-xl flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3 overflow-hidden">
+                        <div className="w-2 h-2 rounded-full bg-red-400 shrink-0" />
+                        <span className="text-sm font-semibold text-gray-700 truncate">{policy}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removePolicy(idx)}
+                        className="text-xs font-bold text-red-600 hover:text-red-800 transition-colors shrink-0"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                  {cancellationPolicy.split('\n').filter(Boolean).length === 0 && (
+                    <p className="text-xs text-gray-400 italic">No cancellation policy items added yet.</p>
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -735,7 +821,7 @@ export default function EditPropertyWizardPage() {
                     />
                     <label
                       htmlFor="upload-video-input"
-                      className="flex-1 lg:flex-initial flex items-center justify-center gap-2 bg-[#002e1e] text-white px-5 py-3 rounded-xl text-sm font-semibold cursor-pointer hover:bg-[#001f14] transition-colors text-center shadow-sm whitespace-nowrap"
+                      className="flex-1 lg:flex-initial flex items-center justify-center gap-2 bg-[#00a877] text-white px-5 py-3 rounded-xl text-sm font-semibold cursor-pointer hover:bg-[#009669] transition-colors text-center shadow-sm whitespace-nowrap"
                     >
                       {videoUploading ? (
                         <>
