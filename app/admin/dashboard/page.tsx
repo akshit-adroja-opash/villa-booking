@@ -1,6 +1,6 @@
 'use client';
 
-import {  useState, useEffect, useMemo  } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Users, ClipboardList, Banknote, Home, ChevronDown } from 'lucide-react';
 
 export default function AdminDashboard() {

@@ -330,7 +330,7 @@ export default function BookingsDashboardPage() {
  </div>
  <div class="value"style="font-family: sans-serif; font-size: 13px; opacity: 0.8; line-height: 1.6;">
  ${session?.user?.email || ''}<br>
- Ph: +91-8780493615
+ Mo: +91-8780493615
  </div>
  </div>
  <div class="card">

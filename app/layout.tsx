@@ -23,6 +23,7 @@ export const metadata: Metadata = {
 };
 
 import CustomToaster from '@/components/CustomToaster';
+import SmoothScrollProvider from '@/components/SmoothScrollProvider';
 
 export default function RootLayout({
   children,
@@ -32,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${roboto.variable} h-full antialiased`}
+      className={`${roboto.variable} antialiased`}
     >
       <head>
         <link
@@ -42,12 +43,14 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <Providers>
-          <Navbar />
-          <div className="flex-grow flex flex-col">
-            {children}
-          </div>
-          <Footer />
-          <CustomToaster />
+          <SmoothScrollProvider>
+            <Navbar />
+            <div className="flex-grow flex flex-col">
+              {children}
+            </div>
+            <Footer />
+            <CustomToaster />
+          </SmoothScrollProvider>
         </Providers>
       </body>
     </html>
