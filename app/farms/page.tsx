@@ -142,57 +142,55 @@ function StaysList() {
 
         {/* Header & Search */}
         <div className="mb-8">
-          <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
-            <div className="flex-1 relative flex items-center w-full">
-              <Search className="w-5 h-5 text-gray-400 absolute left-4" />
+          <div className="flex flex-row items-center gap-2 mb-4">
+            <div className="flex-grow relative flex items-center">
+              <Search className="w-4 h-4 text-gray-400 absolute left-3.5" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by location, city, or name..."
-                className="w-full h-[52px] pl-12 pr-4 rounded-lg border border-gray-200 focus:outline-none focus:border-[#002E1E]/30 text-sm bg-white"
+                placeholder="Search stay..."
+                className="w-full h-[52px] pl-10 pr-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#002E1E]/30 text-xs sm:text-sm bg-white"
               />
             </div>
-            <div className="flex items-center gap-4 w-full md:w-auto">
-              <div className="relative w-full">
-                <button
-                  onClick={() => setIsSortOpen(!isSortOpen)}
-                  className="flex h-[52px] items-center justify-between w-full bg-white border border-gray-200 rounded-xl px-5 text-[14px] font-bold text-[#002E1E] focus:outline-none focus:border-[#00a877] cursor-pointer min-w-[190px] shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] transition-all hover:border-gray-300 group"
-                >
-                  <span>{sortOption}</span>
-                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${isSortOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-gray-50 text-gray-500 group-hover:bg-[#e6f4ea] group-hover:text-[#00a877]'}`}>
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isSortOpen ? 'rotate-180' : ''}`} />
-                  </div>
-                </button>
+            <div className="relative shrink-0">
+              <button
+                onClick={() => setIsSortOpen(!isSortOpen)}
+                className="flex h-[52px] items-center justify-between bg-white border border-gray-200 rounded-xl px-3 sm:px-5 text-[12px] sm:text-[14px] font-bold text-[#002E1E] focus:outline-none focus:border-[#00a877] cursor-pointer min-w-[130px] sm:min-w-[190px] shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] transition-all hover:border-gray-300 group"
+              >
+                <span className="truncate">{sortOption}</span>
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ml-1.5 shrink-0 ${isSortOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-gray-50 text-gray-500 group-hover:bg-[#e6f4ea] group-hover:text-[#00a877]'}`}>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isSortOpen ? 'rotate-180' : ''}`} />
+                </div>
+              </button>
 
-                {isSortOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden">
-                    {sortOptions.map((option) => (
-                      <button
-                        key={option}
-                        onClick={() => {
-                          setSortOption(option);
-                          setIsSortOpen(false);
-                        }}
-                        className={`w-full text-left px-5 py-2.5 text-[14px] font-semibold transition-colors ${sortOption === option
-                            ? 'bg-[#e6f4ea] text-[#00a877]'
-                            : 'text-gray-600 hover:bg-gray-50'
-                          }`}
-                      >
-                        {option}
-                      </button>
-                    ))}
-                  </div>
-                )}
+              {isSortOpen && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden min-w-[150px]">
+                  {sortOptions.map((option) => (
+                    <button
+                      key={option}
+                      onClick={() => {
+                        setSortOption(option);
+                        setIsSortOpen(false);
+                      }}
+                      className={`w-full text-left px-5 py-2.5 text-[13px] sm:text-[14px] font-semibold transition-colors ${sortOption === option
+                          ? 'bg-[#e6f4ea] text-[#00a877]'
+                          : 'text-gray-600 hover:bg-gray-50'
+                        }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              )}
 
-                {/* Overlay to close dropdown when clicking outside */}
-                {isSortOpen && (
-                  <div
-                    className="fixed inset-0 z-40"
-                    onClick={() => setIsSortOpen(false)}
-                  ></div>
-                )}
-              </div>
+              {/* Overlay to close dropdown when clicking outside */}
+              {isSortOpen && (
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setIsSortOpen(false)}
+                ></div>
+              )}
             </div>
           </div>
           <p className="text-sm text-gray-500 font-medium">{filteredFarms.length} farmhouses found</p>

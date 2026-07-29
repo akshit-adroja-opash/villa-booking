@@ -356,39 +356,38 @@ export default function AdminReservationsPage() {
 
         {/* Table Layout Container */}
         <div className="w-full max-w-full bg-white rounded-2xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
-
           {/* Search Row */}
-          <div className="p-6 border-b border-gray-100 flex flex-col lg:flex-row gap-4 items-center justify-between">
-            <div className="flex w-full lg:w-1/2 items-center gap-3 bg-[#f9fafb] rounded-xl border border-transparent px-4 py-2.5 focus-within:border-gray-200 focus-within:bg-white transition-all">
-              <Search className="h-4 w-4 text-gray-400" />
+          <div className="p-4 sm:p-6 border-b border-gray-100 flex flex-row gap-2 items-center justify-between w-full">
+            <div className="flex-grow flex items-center gap-2 bg-[#f9fafb] rounded-xl border border-transparent px-3 py-2.5 focus-within:border-gray-200 focus-within:bg-white transition-all">
+              <Search className="h-4 w-4 text-gray-400 shrink-0" />
               <input
                 value={query}
                 onChange={(event) => {
                   setQuery(event.target.value);
                   setCurrentPage(1);
                 }}
-                placeholder="Search Bookings..."
+                placeholder="Search..."
                 className="w-full bg-transparent text-[13px] font-semibold text-[#1B2A22] outline-none border-none placeholder:text-gray-400"
               />
             </div>
 
             {/* Sort selector dropdown */}
-            <div className="w-full lg:w-auto min-w-[150px] lg:min-w-[200px] relative">
+            <div className="shrink-0 relative min-w-[130px] sm:min-w-[200px]">
               <div className="relative">
                 <button
                   onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-                  className="flex items-center justify-between gap-2 text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none focus:border-[#00a877] transition-all w-full"
+                  className="flex items-center justify-between gap-2 text-[12px] sm:text-[13px] font-bold text-[#1B2A22] bg-[#f9fafb] border border-transparent rounded-xl px-3 sm:px-4 h-11 hover:bg-gray-100 hover:border-[#00a877]/30 focus:outline-none focus:border-[#00a877] transition-all w-full"
                 >
-                  <span>{getSortLabel()}</span>
-                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${isSortDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}>
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isSortDropdownOpen ? 'rotate-180' : ''}`} />
+                  <span className="truncate">{getSortLabel()}</span>
+                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ml-1.5 shrink-0 ${isSortDropdownOpen ? 'bg-[#e6f4ea] text-[#00a877]' : 'bg-transparent text-gray-500'}`}>
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isSortDropdownOpen ? 'rotate-180' : ''}`} />
                   </div>
                 </button>
 
                 {isSortDropdownOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setIsSortDropdownOpen(false)}></div>
-                    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[150px] lg:min-w-[200px]">
+                    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 z-50 overflow-hidden w-full min-w-[140px] sm:min-w-[200px]">
                       {[
                         { value: 'newest', label: 'Newest First' },
                         { value: 'oldest', label: 'Oldest First' },
